@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp, Target, Globe } from "lucide-react";
 
@@ -15,19 +14,17 @@ export const HeroSection = () => {
         <div className="flex justify-center mb-6">
           <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
             <TrendingUp className="w-4 h-4 text-emerald-400" />
-            <span className="text-sm font-medium text-white">AI-Powered Trend Detection</span>
+            <span className="text-sm font-medium text-white">AI-Powered Product Research</span>
           </div>
         </div>
         
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-          Spot The Next
-          <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Big Thing</span>
-          <br />Before Your Competition
+          Spot Your Next
+          <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Winning Product</span>
         </h1>
         
         <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-          Our AI analyzes millions of data points across platforms and regions to predict which products 
-          will trend next. Stay ahead of the curve and maximize your retail opportunities.
+          Spot The Next Big Thing Before Your Competition. Our AI analyzes millions of data points across platforms and regions to predict which products will trend next. Stay ahead of the curve and maximize your retail opportunities.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
@@ -35,7 +32,7 @@ export const HeroSection = () => {
             size="lg" 
             className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
           >
-            Try Free Demo
+            See it in Action
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
           
