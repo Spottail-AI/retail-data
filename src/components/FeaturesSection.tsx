@@ -5,13 +5,13 @@ export const FeaturesSection = () => {
   const features = [
     {
       icon: Globe,
-      title: "Global Market Intelligence",
-      description: "Monitor trends across 50+ countries and regions with real-time data analysis from multiple platforms and marketplaces."
+      title: "Retail Market Intelligence",
+      description: "Monitor retail trends across 50+ countries and regions with real-time data analysis from multiple platforms and marketplaces."
     },
     {
       icon: Target,
       title: "Niche-Specific Insights",
-      description: "Drill down into specific product categories, demographics, and market segments to find opportunities tailored to your business."
+      description: "Drill down into specific retail product categories, demographics, and market segments to find opportunities tailored to your business."
     },
     {
       icon: BarChart3,
@@ -21,7 +21,7 @@ export const FeaturesSection = () => {
     {
       icon: Zap,
       title: "Early Warning System",
-      description: "Get alerts 2-4 weeks before products peak, giving you the competitive advantage to stock up and capitalize first."
+      description: "Get alerts weeks or months before products peak, giving you the competitive advantage to stock up and capitalize first."
     },
     {
       icon: Shield,
@@ -40,12 +40,11 @@ export const FeaturesSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
-            Everything You Need to
-            <span className="bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent"> Stay Ahead</span>
+            Stay Ahead of Your
+            <span className="bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent"> Competitors</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Our comprehensive AI platform gives you the tools and insights to make data-driven decisions 
-            and capture market opportunities before anyone else.
+            Make data-driven decisions and capture market opportunities before anyone else.
           </p>
         </div>
         

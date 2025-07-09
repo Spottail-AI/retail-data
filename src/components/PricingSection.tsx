@@ -62,11 +62,11 @@ export const PricingSection = () => {
     <section className="py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
             Choose Your
             <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Success Plan</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-black max-w-3xl mx-auto">
             Start with our free trial, then choose the plan that fits your business needs. 
             All plans include our core AI trend detection technology.
           </p>
@@ -92,17 +92,17 @@ export const PricingSection = () => {
                 <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <plan.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                <p className="text-gray-300 mb-4">{plan.description}</p>
-                <div className="text-4xl font-bold text-white mb-2">
+                <h3 className="text-2xl font-bold text-black mb-2">{plan.name}</h3>
+                <p className="text-black mb-4">{plan.description}</p>
+                <div className="text-4xl font-bold text-black mb-2">
                   {plan.price}
-                  <span className="text-lg text-gray-400 font-normal">{plan.period}</span>
+                  <span className="text-lg text-gray-600 font-normal">{plan.period}</span>
                 </div>
               </div>
 
               <ul className="space-y-4 mb-8">
                 {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center text-gray-300">
+                  <li key={featureIndex} className="flex items-center text-black">
                     <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
                     {feature}
                   </li>
@@ -110,11 +110,7 @@ export const PricingSection = () => {
               </ul>
 
               <Button 
-                className={`w-full py-4 text-lg font-semibold rounded-full transition-all duration-300 ${
-                  plan.popular 
-                    ? 'bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white' 
-                    : 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
-                }`}
+                className="w-full py-4 text-lg font-semibold rounded-full transition-all duration-300 bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white"
               >
                 {plan.name === "Enterprise" ? "Contact Sales" : "Start Free Trial"}
               </Button>
@@ -123,11 +119,11 @@ export const PricingSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-gray-300 mb-4">
+          <p className="text-black mb-4">
             All plans include a <span className="text-emerald-400 font-semibold">14-day free trial</span>. 
             No credit card required.
           </p>
-          <div className="flex justify-center space-x-8 text-sm text-gray-400">
+          <div className="flex justify-center space-x-8 text-sm text-gray-600">
             <span>✓ Cancel anytime</span>
             <span>✓ 30-day money back guarantee</span>
             <span>✓ 24/7 customer support</span>

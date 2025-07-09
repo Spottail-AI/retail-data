@@ -33,7 +33,7 @@ export const TestimonialsSection = () => {
     <section className="py-24 px-4 relative">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
             Trusted by
             <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Industry Leaders</span>
           </h2>

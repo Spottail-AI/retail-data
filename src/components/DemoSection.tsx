@@ -38,7 +38,7 @@ export const DemoSection = () => {
   ];
 
   return (
-    <section className="py-24 px-4 relative bg-gradient-to-br from-slate-100 to-blue-50">
+    <section id="demo-section" className="py-24 px-4 relative bg-gradient-to-br from-slate-100 to-blue-50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
@@ -46,7 +46,7 @@ export const DemoSection = () => {
             <span className="bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent"> Action</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-12">
-            Try our AI trend detector right now. Select your target market and see which products 
+            Try our AI trend detector for retail right now. Select your target market, Niche, Platform, and see which products 
             are about to explode in popularity.
           </p>
         </div>
@@ -92,7 +92,12 @@ export const DemoSection = () => {
                   <SelectValue placeholder="Choose platform" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Platforms</SelectItem>
+                  <SelectItem value="all">
+                    <div className="flex items-center justify-between w-full">
+                      <span>All Platforms</span>
+                      <span className="text-xs text-emerald-600 font-medium bg-emerald-50 px-2 py-1 rounded ml-2">Recommended</span>
+                    </div>
+                  </SelectItem>
                   <SelectItem value="amazon">Amazon</SelectItem>
                   <SelectItem value="instagram">Instagram</SelectItem>
                   <SelectItem value="tiktok">TikTok</SelectItem>
@@ -114,7 +119,7 @@ export const DemoSection = () => {
 
           {/* Demo Results */}
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-slate-800 mb-6">Trending Products (Next 4 Weeks)</h3>
+            <h3 className="text-xl font-semibold text-slate-800 mb-6">Trending Products (Sample)</h3>
             {demoResults.map((result, index) => (
               <Card key={index} className="bg-slate-50/50 border-slate-200 p-6">
                 <div className="flex items-center justify-between">

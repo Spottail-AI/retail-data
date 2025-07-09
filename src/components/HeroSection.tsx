@@ -3,6 +3,13 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp } from "lucide-react";
 
 export const HeroSection = () => {
+  const scrollToDemo = () => {
+    const demoSection = document.getElementById('demo-section');
+    if (demoSection) {
+      demoSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
       {/* Background decoration */}
@@ -26,13 +33,14 @@ export const HeroSection = () => {
         </h1>
         
         <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-          Spot The Next Big Thing Before Your Competition. Our AI analyzes millions of data points across platforms and regions to predict which products will trend next. Stay ahead of the curve and maximize your retail opportunities.
+          Our AI analyzes millions of data points across platforms and regions to predict which retail products will trend next. Stay ahead of the curve and maximize your opportunities.
         </p>
         
         <div className="flex justify-center items-center mb-16">
           <Button 
             size="lg" 
             className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
+            onClick={scrollToDemo}
           >
             See it in Action
             <ArrowRight className="ml-2 w-5 h-5" />
