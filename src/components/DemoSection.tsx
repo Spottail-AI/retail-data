@@ -38,25 +38,25 @@ export const DemoSection = () => {
   ];
 
   return (
-    <section className="py-24 px-4 relative">
+    <section className="py-24 px-4 relative bg-gradient-to-br from-slate-100 to-blue-50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
             See It In
-            <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Action</span>
+            <span className="bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent"> Action</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-12">
             Try our AI trend detector right now. Select your target market and see which products 
             are about to explode in popularity.
           </p>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 mb-12">
+        <div className="bg-white/80 backdrop-blur-sm border border-slate-200/50 rounded-3xl p-8 mb-12 shadow-xl">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div>
-              <label className="block text-white font-medium mb-3">Select Country/Region</label>
+              <label className="block text-slate-700 font-medium mb-3">Select Country/Region</label>
               <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                <SelectTrigger className="bg-slate-50 border-slate-300 text-slate-700">
                   <SelectValue placeholder="Choose location" />
                 </SelectTrigger>
                 <SelectContent>
@@ -70,9 +70,9 @@ export const DemoSection = () => {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-3">Select Niche</label>
+              <label className="block text-slate-700 font-medium mb-3">Select Niche</label>
               <Select value={selectedNiche} onValueChange={setSelectedNiche}>
-                <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                <SelectTrigger className="bg-slate-50 border-slate-300 text-slate-700">
                   <SelectValue placeholder="Choose category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -86,9 +86,9 @@ export const DemoSection = () => {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-3">Select Platform</label>
+              <label className="block text-slate-700 font-medium mb-3">Select Platform</label>
               <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
-                <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                <SelectTrigger className="bg-slate-50 border-slate-300 text-slate-700">
                   <SelectValue placeholder="Choose platform" />
                 </SelectTrigger>
                 <SelectContent>
@@ -114,13 +114,13 @@ export const DemoSection = () => {
 
           {/* Demo Results */}
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-white mb-6">Trending Products (Next 4 Weeks)</h3>
+            <h3 className="text-xl font-semibold text-slate-800 mb-6">Trending Products (Next 4 Weeks)</h3>
             {demoResults.map((result, index) => (
-              <Card key={index} className="bg-white/10 border-white/20 p-6">
+              <Card key={index} className="bg-slate-50/50 border-slate-200 p-6">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-white mb-2">{result.product}</h4>
-                    <div className="flex items-center space-x-4 text-sm text-gray-300">
+                    <h4 className="text-lg font-semibold text-slate-800 mb-2">{result.product}</h4>
+                    <div className="flex items-center space-x-4 text-sm text-slate-600">
                       <span className="flex items-center">
                         <Clock className="w-4 h-4 mr-1" />
                         {result.timeframe}
@@ -130,11 +130,11 @@ export const DemoSection = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="flex items-center text-emerald-400 font-semibold text-lg mb-1">
+                    <div className="flex items-center text-emerald-600 font-semibold text-lg mb-1">
                       <ArrowUp className="w-5 h-5 mr-1" />
                       {result.trend}
                     </div>
-                    <div className="flex items-center text-yellow-400 text-sm">
+                    <div className="flex items-center text-yellow-600 text-sm">
                       <Star className="w-4 h-4 mr-1" />
                       {result.confidence}% confidence
                     </div>

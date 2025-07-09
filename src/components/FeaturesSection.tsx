@@ -36,14 +36,14 @@ export const FeaturesSection = () => {
   ];
 
   return (
-    <section className="py-24 px-4 relative">
+    <section className="py-24 px-4 relative bg-white/50 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
             Everything You Need to
-            <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Stay Ahead</span>
+            <span className="bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent"> Stay Ahead</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Our comprehensive AI platform gives you the tools and insights to make data-driven decisions 
             and capture market opportunities before anyone else.
           </p>
@@ -53,13 +53,13 @@ export const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              className="bg-white/80 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-8 hover:bg-white/90 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
             >
               <div className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
                 <feature.icon className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-4">{feature.title}</h3>
-              <p className="text-gray-300 leading-relaxed">{feature.description}</p>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">{feature.title}</h3>
+              <p className="text-slate-600 leading-relaxed">{feature.description}</p>
             </div>
           ))}
         </div>
