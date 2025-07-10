@@ -12,6 +12,14 @@ export const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
+      {/* Company Logo */}
+      <div className="absolute top-8 left-8 z-20">
+        <div className="flex items-center space-x-2">
+          <TrendingUp className="w-8 h-8 text-emerald-500" />
+          <span className="text-2xl font-bold text-slate-800">Spottail</span>
+        </div>
+      </div>
+
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-400/30 rounded-full blur-3xl"></div>

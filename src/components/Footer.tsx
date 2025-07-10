@@ -3,6 +3,20 @@ import { Button } from "@/components/ui/button";
 import { TrendingUp, Mail, Phone, MapPin, Twitter, Linkedin, Facebook } from "lucide-react";
 
 export const Footer = () => {
+  const scrollToDemo = () => {
+    const demoSection = document.getElementById('demo-section');
+    if (demoSection) {
+      demoSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById('pricing-section');
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className="bg-black/50 backdrop-blur-sm border-t border-white/10 py-16 px-4">
       <div className="max-w-7xl mx-auto">
@@ -18,6 +32,7 @@ export const Footer = () => {
           <Button 
             size="lg" 
             className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
+            onClick={scrollToDemo}
           >
             Start Free Trial
           </Button>
@@ -28,7 +43,7 @@ export const Footer = () => {
           <div>
             <div className="flex items-center mb-6">
               <TrendingUp className="w-8 h-8 text-emerald-400 mr-3" />
-              <span className="text-xl font-bold text-white">TrendSpotter AI</span>
+              <span className="text-xl font-bold text-white">Spottail</span>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               The most advanced AI platform for predicting retail trends and identifying profitable opportunities before they peak.
@@ -50,7 +65,7 @@ export const Footer = () => {
             <h4 className="text-white font-semibold mb-6">Product</h4>
             <ul className="space-y-3 text-gray-300">
               <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
+              <li><button onClick={scrollToPricing} className="hover:text-white transition-colors">Pricing</button></li>
               <li><a href="#" className="hover:text-white transition-colors">API Documentation</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Changelog</a></li>
@@ -73,7 +88,7 @@ export const Footer = () => {
             <div className="space-y-4 text-gray-300">
               <div className="flex items-center">
                 <Mail className="w-5 h-5 mr-3 text-emerald-400" />
-                <span>hello@trendspotter.ai</span>
+                <span>hello@spottail.ai</span>
               </div>
               <div className="flex items-center">
                 <Phone className="w-5 h-5 mr-3 text-emerald-400" />
@@ -90,7 +105,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-400 mb-4 md:mb-0">
-            © 2024 TrendSpotter AI. All rights reserved.
+            © 2024 Spottail. All rights reserved.
           </div>
           <div className="flex space-x-6 text-gray-400 text-sm">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>

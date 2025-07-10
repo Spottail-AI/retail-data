@@ -3,12 +3,97 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { TrendingUp, ArrowUp, Star, Clock } from "lucide-react";
 
 export const DemoSection = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedNiche, setSelectedNiche] = useState("");
   const [selectedPlatform, setSelectedPlatform] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const topCountries = [
+    { value: "us", label: "United States" },
+    { value: "uk", label: "United Kingdom" },
+    { value: "de", label: "Germany" },
+    { value: "jp", label: "Japan" },
+    { value: "au", label: "Australia" }
+  ];
+
+  const allCountries = [
+    ...topCountries,
+    { value: "ar", label: "Argentina" },
+    { value: "at", label: "Austria" },
+    { value: "be", label: "Belgium" },
+    { value: "br", label: "Brazil" },
+    { value: "ca", label: "Canada" },
+    { value: "cl", label: "Chile" },
+    { value: "cn", label: "China" },
+    { value: "co", label: "Colombia" },
+    { value: "cz", label: "Czech Republic" },
+    { value: "dk", label: "Denmark" },
+    { value: "eg", label: "Egypt" },
+    { value: "fi", label: "Finland" },
+    { value: "fr", label: "France" },
+    { value: "gr", label: "Greece" },
+    { value: "hk", label: "Hong Kong" },
+    { value: "hu", label: "Hungary" },
+    { value: "in", label: "India" },
+    { value: "id", label: "Indonesia" },
+    { value: "ie", label: "Ireland" },
+    { value: "il", label: "Israel" },
+    { value: "it", label: "Italy" },
+    { value: "kr", label: "South Korea" },
+    { value: "mx", label: "Mexico" },
+    { value: "my", label: "Malaysia" },
+    { value: "nl", label: "Netherlands" },
+    { value: "no", label: "Norway" },
+    { value: "nz", label: "New Zealand" },
+    { value: "pe", label: "Peru" },
+    { value: "ph", label: "Philippines" },
+    { value: "pl", label: "Poland" },
+    { value: "pt", label: "Portugal" },
+    { value: "ro", label: "Romania" },
+    { value: "ru", label: "Russia" },
+    { value: "sa", label: "Saudi Arabia" },
+    { value: "sg", label: "Singapore" },
+    { value: "za", label: "South Africa" },
+    { value: "es", label: "Spain" },
+    { value: "se", label: "Sweden" },
+    { value: "ch", label: "Switzerland" },
+    { value: "th", label: "Thailand" },
+    { value: "tr", label: "Turkey" },
+    { value: "ae", label: "United Arab Emirates" },
+    { value: "vn", label: "Vietnam" }
+  ];
+
+  const niches = [
+    { value: "automotive", label: "Automotive" },
+    { value: "beauty", label: "Beauty & Personal Care" },
+    { value: "books", label: "Books & Literature" },
+    { value: "clothing", label: "Clothing & Apparel" },
+    { value: "electronics", label: "Electronics" },
+    { value: "fashion", label: "Fashion" },
+    { value: "fitness", label: "Fitness & Sports" },
+    { value: "food", label: "Food & Beverages" },
+    { value: "gaming", label: "Gaming" },
+    { value: "health", label: "Health & Wellness" },
+    { value: "home", label: "Home & Garden" },
+    { value: "jewelry", label: "Jewelry & Accessories" },
+    { value: "kids", label: "Kids & Baby" },
+    { value: "music", label: "Music & Instruments" },
+    { value: "outdoors", label: "Outdoors & Recreation" },
+    { value: "pets", label: "Pet Supplies" },
+    { value: "tech", label: "Technology" },
+    { value: "toys", label: "Toys & Games" },
+    { value: "travel", label: "Travel & Luggage" },
+    { value: "watches", label: "Watches & Timepieces" }
+  ];
 
   const demoResults = [
     {
@@ -30,12 +115,22 @@ export const DemoSection = () => {
     {
       product: "AI Writing Tools",
       trend: "+456%",
-      platform: "Google Trends",
+      platform: "TikTok",
       timeframe: "1-2 weeks",
       confidence: 97,
       risk: "Low"
     }
   ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted:', { firstName, lastName, email });
+    setIsDialogOpen(false);
+    // Reset form
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+  };
 
   return (
     <section id="demo-section" className="py-24 px-4 relative bg-gradient-to-br from-slate-100 to-blue-50">
@@ -60,11 +155,11 @@ export const DemoSection = () => {
                   <SelectValue placeholder="Choose location" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="us">United States</SelectItem>
-                  <SelectItem value="uk">United Kingdom</SelectItem>
-                  <SelectItem value="de">Germany</SelectItem>
-                  <SelectItem value="jp">Japan</SelectItem>
-                  <SelectItem value="au">Australia</SelectItem>
+                  {allCountries.map(country => (
+                    <SelectItem key={country.value} value={country.value}>
+                      {country.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -76,11 +171,11 @@ export const DemoSection = () => {
                   <SelectValue placeholder="Choose category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="tech">Technology</SelectItem>
-                  <SelectItem value="fashion">Fashion</SelectItem>
-                  <SelectItem value="home">Home & Garden</SelectItem>
-                  <SelectItem value="health">Health & Wellness</SelectItem>
-                  <SelectItem value="sports">Sports & Outdoors</SelectItem>
+                  {niches.map(niche => (
+                    <SelectItem key={niche.value} value={niche.value}>
+                      {niche.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -101,20 +196,71 @@ export const DemoSection = () => {
                   <SelectItem value="amazon">Amazon</SelectItem>
                   <SelectItem value="instagram">Instagram</SelectItem>
                   <SelectItem value="tiktok">TikTok</SelectItem>
-                  <SelectItem value="google">Google Trends</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div className="text-center mb-8">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold rounded-full"
-            >
-              <TrendingUp className="mr-2 w-5 h-5" />
-              Analyze Trends
-            </Button>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold rounded-full"
+                >
+                  <TrendingUp className="mr-2 w-5 h-5" />
+                  Analyze Trends
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 border-0">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold text-center text-slate-800 mb-2">
+                    We'll be live soon. Receive the results directly in your email
+                  </DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="firstName" className="text-slate-700 font-medium">First Name</Label>
+                      <Input
+                        id="firstName"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        className="bg-white/80 border-slate-200"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="lastName" className="text-slate-700 font-medium">Last Name</Label>
+                      <Input
+                        id="lastName"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="bg-white/80 border-slate-200"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="text-slate-700 font-medium">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="bg-white/80 border-slate-200"
+                      required
+                    />
+                  </div>
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white py-3 text-lg font-semibold rounded-full"
+                  >
+                    Send me Trends
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Demo Results */}

@@ -37,7 +37,7 @@ export const TestimonialsSection = () => {
             Trusted by
             <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Industry Leaders</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-black max-w-3xl mx-auto">
             Join thousands of retailers who are already using our AI to stay ahead of market trends 
             and maximize their profits.
           </p>
@@ -57,7 +57,7 @@ export const TestimonialsSection = () => {
               
               <Quote className="w-8 h-8 text-emerald-400 mb-4" />
               
-              <p className="text-gray-300 mb-6 leading-relaxed">
+              <p className="text-black mb-6 leading-relaxed">
                 "{testimonial.content}"
               </p>
               
@@ -66,9 +66,9 @@ export const TestimonialsSection = () => {
                   {testimonial.avatar}
                 </div>
                 <div>
-                  <div className="text-white font-semibold">{testimonial.name}</div>
-                  <div className="text-gray-400 text-sm">{testimonial.role}</div>
-                  <div className="text-gray-400 text-sm">{testimonial.company}</div>
+                  <div className="text-black font-semibold">{testimonial.name}</div>
+                  <div className="text-black text-sm">{testimonial.role}</div>
+                  <div className="text-black text-sm">{testimonial.company}</div>
                 </div>
               </div>
             </div>
