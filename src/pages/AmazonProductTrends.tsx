@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, TrendingUp, CheckCircle, Target, BarChart3, Gauge, Eye } from "lucide-react";
 import { useState } from "react";
+import { DemoSection } from "@/components/DemoSection";
 
 const AmazonProductTrends = () => {
   const [firstName, setFirstName] = useState("");
@@ -20,6 +21,13 @@ const AmazonProductTrends = () => {
     setFirstName("");
     setLastName("");
     setEmail("");
+  };
+
+  const scrollToDemo = () => {
+    const demoSection = document.getElementById('demo-section');
+    if (demoSection) {
+      demoSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const features = [
@@ -98,67 +106,19 @@ const AmazonProductTrends = () => {
             Don't waste time chasing yesterday's bestsellers. Our tool helps you discover Amazon product trends in real time — so you can stock up, advertise smarter, and outsell your competition.
           </p>
           
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-xl font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
-              >
-                Start Tracking Trends Free
-                <ArrowRight className="ml-2 w-6 h-6" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 border-0">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-center text-slate-800 mb-2">
-                  We'll be live soon. Receive the results directly in your email
-                </DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="firstName" className="text-slate-700 font-medium">First Name</Label>
-                    <Input
-                      id="firstName"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      className="bg-white/80 border-slate-200"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="lastName" className="text-slate-700 font-medium">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      className="bg-white/80 border-slate-200"
-                      required
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="email" className="text-slate-700 font-medium">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/80 border-slate-200"
-                    required
-                  />
-                </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white py-3 text-lg font-semibold rounded-full"
-                >
-                  Send me Trends
-                </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
+          <Button 
+            onClick={scrollToDemo}
+            size="lg" 
+            className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-xl font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
+          >
+            Start Tracking Trends Free
+            <ArrowRight className="ml-2 w-6 h-6" />
+          </Button>
         </div>
       </section>
+
+      {/* Demo Section */}
+      <DemoSection />
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-white/50">
@@ -249,16 +209,13 @@ const AmazonProductTrends = () => {
             <span>✅ No Risk</span>
             <span>✅ Predict the Next Bestseller</span>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button 
-                size="lg" 
-                className="bg-white text-emerald-600 hover:bg-gray-100 px-12 py-4 text-lg font-semibold rounded-full"
-              >
-                Start Tracking Trends Free
-              </Button>
-            </DialogTrigger>
-          </Dialog>
+          <Button 
+            onClick={scrollToDemo}
+            size="lg" 
+            className="bg-white text-emerald-600 hover:bg-gray-100 px-12 py-4 text-lg font-semibold rounded-full"
+          >
+            Start Tracking Trends Free
+          </Button>
         </div>
       </section>
     </div>

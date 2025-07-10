@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, TrendingUp, CheckCircle, Users, Target, BarChart3, Gauge } from "lucide-react";
 import { useState } from "react";
+import { DemoSection } from "@/components/DemoSection";
 
 const AmazonAnalytics = () => {
   const [firstName, setFirstName] = useState("");
@@ -21,6 +22,13 @@ const AmazonAnalytics = () => {
     setFirstName("");
     setLastName("");
     setEmail("");
+  };
+
+  const scrollToDemo = () => {
+    const demoSection = document.getElementById('demo-section');
+    if (demoSection) {
+      demoSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const features = [
@@ -95,67 +103,19 @@ const AmazonAnalytics = () => {
             Tired of chasing trends after they peak? Our Amazon Analytics Tool helps retailers spot products that are gaining traction, so you can act fast and stay ahead of the competition.
           </p>
           
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-xl font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
-              >
-                Get Started Free
-                <ArrowRight className="ml-2 w-6 h-6" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 border-0">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-center text-slate-800 mb-2">
-                  We'll be live soon. Receive the results directly in your email
-                </DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="firstName" className="text-slate-700 font-medium">First Name</Label>
-                    <Input
-                      id="firstName"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      className="bg-white/80 border-slate-200"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="lastName" className="text-slate-700 font-medium">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      className="bg-white/80 border-slate-200"
-                      required
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="email" className="text-slate-700 font-medium">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/80 border-slate-200"
-                    required
-                  />
-                </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white py-3 text-lg font-semibold rounded-full"
-                >
-                  Send me Trends
-                </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
+          <Button 
+            onClick={scrollToDemo}
+            size="lg" 
+            className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-xl font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
+          >
+            Get Started Free
+            <ArrowRight className="ml-2 w-6 h-6" />
+          </Button>
         </div>
       </section>
+
+      {/* Demo Section */}
+      <DemoSection />
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-white/50">
@@ -246,16 +206,13 @@ const AmazonAnalytics = () => {
             <span>✅ No Risk</span>
             <span>✅ Get Ahead of Trends</span>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button 
-                size="lg" 
-                className="bg-white text-emerald-600 hover:bg-gray-100 px-12 py-4 text-lg font-semibold rounded-full"
-              >
-                Get Started Free
-              </Button>
-            </DialogTrigger>
-          </Dialog>
+          <Button 
+            onClick={scrollToDemo}
+            size="lg" 
+            className="bg-white text-emerald-600 hover:bg-gray-100 px-12 py-4 text-lg font-semibold rounded-full"
+          >
+            Get Started Free
+          </Button>
         </div>
       </section>
     </div>
