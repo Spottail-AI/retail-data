@@ -21,8 +21,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/amazon-analytics" element={<AmazonAnalytics />} />
-          <Route path="/tiktok-shop-analytics" element={<TikTokShopAnalytics />} />
+          <Route path="/amazon-analytics-tool" element={<AmazonAnalytics />} />
+          <Route path="/tiktok-shop-analytics-tool" element={<TikTokShopAnalytics />} />
           <Route path="/amazon-product-trends" element={<AmazonProductTrends />} />
           <Route path="/tiktok-shop-product-trends" element={<TikTokShopProductTrends />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
