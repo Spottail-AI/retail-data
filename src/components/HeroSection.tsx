@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp } from "lucide-react";
 
@@ -15,8 +14,11 @@ export const HeroSection = () => {
       {/* Company Logo */}
       <div className="absolute top-8 left-8 z-20">
         <div className="flex items-center space-x-2">
-          <TrendingUp className="w-8 h-8 text-emerald-500" />
-          <span className="text-2xl font-bold text-slate-800">Spottail</span>
+          <img 
+            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png" 
+            alt="Spottail" 
+            className="h-8"
+          />
         </div>
       </div>
 

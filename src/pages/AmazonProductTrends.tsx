@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -85,8 +84,11 @@ const AmazonProductTrends = () => {
       <header className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex items-center">
           <div className="flex items-center space-x-2">
-            <TrendingUp className="w-8 h-8 text-emerald-500" />
-            <span className="text-2xl font-bold text-slate-800">Spottail</span>
+            <img 
+              src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png" 
+              alt="Spottail" 
+              className="h-8"
+            />
           </div>
         </div>
       </header>
