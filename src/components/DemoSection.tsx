@@ -222,6 +222,7 @@ export const DemoSection = () => {
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button 
+                  id="analyze_trends_button_click"
                   size="lg" 
                   className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold rounded-full"
                 >
