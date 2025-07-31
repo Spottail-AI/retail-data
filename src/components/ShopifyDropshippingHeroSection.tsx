@@ -43,7 +43,7 @@ export const ShopifyDropshippingHeroSection = () => {
         </h1>
         
         <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-          Stay ahead of the curve. Discover trending products that are already winning on Shopify.
+          Stay ahead of the curve. Discover trending products that are about to win on Shopify.
         </p>
         
         <div className="flex justify-center items-center mb-16">
@@ -52,7 +52,7 @@ export const ShopifyDropshippingHeroSection = () => {
             className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
             onClick={scrollToDemo}
           >
-            See it in Action
+            Start Researching Products Free
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
         </div>
