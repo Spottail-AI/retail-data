@@ -9,6 +9,7 @@ import AmazonAnalytics from "./pages/AmazonAnalytics";
 import TikTokShopAnalytics from "./pages/TikTokShopAnalytics";
 import AmazonProductTrends from "./pages/AmazonProductTrends";
 import TikTokShopProductTrends from "./pages/TikTokShopProductTrends";
+import EcommerceProductTrends from "./pages/EcommerceProductTrends";
 import ShopifyDropshippingProductResearch from "./pages/ShopifyDropshippingProductResearch";
 import EbayProductResearchTool from "./pages/EbayProductResearchTool";
 import EcommerceProductResearchTool from "./pages/EcommerceProductResearchTool";
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/tiktok-shop-analytics-tool" element={<TikTokShopAnalytics />} />
           <Route path="/amazon-product-trends" element={<AmazonProductTrends />} />
           <Route path="/tiktok-shop-product-trends" element={<TikTokShopProductTrends />} />
+          <Route path="/ecommerce-product-trends" element={<EcommerceProductTrends />} />
           <Route path="/product-research-tool-shopify-dropshipping" element={<ShopifyDropshippingProductResearch />} />
           <Route path="/ebay-product-research-tool" element={<EbayProductResearchTool />} />
           <Route path="/ecommerce-product-research-tool" element={<EcommerceProductResearchTool />} />
