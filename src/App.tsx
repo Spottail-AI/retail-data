@@ -11,6 +11,7 @@ import AmazonProductTrends from "./pages/AmazonProductTrends";
 import TikTokShopProductTrends from "./pages/TikTokShopProductTrends";
 import ShopifyDropshippingProductResearch from "./pages/ShopifyDropshippingProductResearch";
 import EbayProductResearchTool from "./pages/EbayProductResearchTool";
+import EcommerceProductResearchTool from "./pages/EcommerceProductResearchTool";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/tiktok-shop-product-trends" element={<TikTokShopProductTrends />} />
           <Route path="/product-research-tool-shopify-dropshipping" element={<ShopifyDropshippingProductResearch />} />
           <Route path="/ebay-product-research-tool" element={<EbayProductResearchTool />} />
+          <Route path="/ecommerce-product-research-tool" element={<EcommerceProductResearchTool />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
