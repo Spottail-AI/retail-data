@@ -13,6 +13,7 @@ import EcommerceProductTrends from "./pages/EcommerceProductTrends";
 import ShopifyDropshippingProductResearch from "./pages/ShopifyDropshippingProductResearch";
 import EbayProductResearchTool from "./pages/EbayProductResearchTool";
 import EcommerceProductResearchTool from "./pages/EcommerceProductResearchTool";
+import FacebookMarketplaceProductResearchTool from "./pages/FacebookMarketplaceProductResearchTool";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/product-research-tool-shopify-dropshipping" element={<ShopifyDropshippingProductResearch />} />
           <Route path="/ebay-product-research-tool" element={<EbayProductResearchTool />} />
           <Route path="/ecommerce-product-research-tool" element={<EcommerceProductResearchTool />} />
+          <Route path="/facebook-marketplace-product-research-tool" element={<FacebookMarketplaceProductResearchTool />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
