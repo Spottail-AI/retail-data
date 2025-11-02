@@ -14,6 +14,27 @@ import ShopifyDropshippingProductResearch from "./pages/ShopifyDropshippingProdu
 import EbayProductResearchTool from "./pages/EbayProductResearchTool";
 import EcommerceProductResearchTool from "./pages/EcommerceProductResearchTool";
 import FacebookMarketplaceProductResearchTool from "./pages/FacebookMarketplaceProductResearchTool";
+import FacebookMarketplaceAnalyticsTool from "./pages/FacebookMarketplaceAnalyticsTool";
+import EbayAnalyticsTool from "./pages/EbayAnalyticsTool";
+import EcommerceAnalyticsTool from "./pages/EcommerceAnalyticsTool";
+import WalmartMarketplaceAnalyticsTool from "./pages/WalmartMarketplaceAnalyticsTool";
+import EbayProductTrends from "./pages/EbayProductTrends";
+import EtsyProductTrends from "./pages/EtsyProductTrends";
+import WalmartMarketplaceProductTrends from "./pages/WalmartMarketplaceProductTrends";
+import EtsyProductResearchTool from "./pages/EtsyProductResearchTool";
+import TikTokShopProductResearchTool from "./pages/TikTokShopProductResearchTool";
+import VintedProductResearchTool from "./pages/VintedProductResearchTool";
+import WalmartMarketplaceProductResearchTool from "./pages/WalmartMarketplaceProductResearchTool";
+import TrendingBeautyProductsUS from "./pages/TrendingBeautyProductsUS";
+import TrendingElectronicProductsUS from "./pages/TrendingElectronicProductsUS";
+import TrendingFashionProductsUS from "./pages/TrendingFashionProductsUS";
+import TrendingHealthProductsUS from "./pages/TrendingHealthProductsUS";
+import TrendingAutomobileProductsUS from "./pages/TrendingAutomobileProductsUS";
+import TrendingOfficeProductsUS from "./pages/TrendingOfficeProductsUS";
+import TrendingChildrenToysProductsUS from "./pages/TrendingChildrenToysProductsUS";
+import TrendingFoodProductsUS from "./pages/TrendingFoodProductsUS";
+import TrendingFurnitureHomeProductsUS from "./pages/TrendingFurnitureHomeProductsUS";
+import TrendingEcommerceProductsUS from "./pages/TrendingEcommerceProductsUS";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +56,27 @@ const App = () => (
           <Route path="/ebay-product-research-tool" element={<EbayProductResearchTool />} />
           <Route path="/ecommerce-product-research-tool" element={<EcommerceProductResearchTool />} />
           <Route path="/facebook-marketplace-product-research-tool" element={<FacebookMarketplaceProductResearchTool />} />
+          <Route path="/facebook-marketplace-analytics-tool" element={<FacebookMarketplaceAnalyticsTool />} />
+          <Route path="/ebay-analytics-tool" element={<EbayAnalyticsTool />} />
+          <Route path="/ecommerce-analytics-tool" element={<EcommerceAnalyticsTool />} />
+          <Route path="/walmart-marketplace-analytics-tool" element={<WalmartMarketplaceAnalyticsTool />} />
+          <Route path="/ebay-product-trends" element={<EbayProductTrends />} />
+          <Route path="/etsy-product-trends" element={<EtsyProductTrends />} />
+          <Route path="/walmart-marketplace-product-trends" element={<WalmartMarketplaceProductTrends />} />
+          <Route path="/etsy-product-research-tool" element={<EtsyProductResearchTool />} />
+          <Route path="/tiktok-shop-product-research-tool" element={<TikTokShopProductResearchTool />} />
+          <Route path="/vinted-product-research-tool" element={<VintedProductResearchTool />} />
+          <Route path="/walmart-marketplace-product-research-tool" element={<WalmartMarketplaceProductResearchTool />} />
+          <Route path="/trending-beauty-products-us" element={<TrendingBeautyProductsUS />} />
+          <Route path="/trending-electronic-products-us" element={<TrendingElectronicProductsUS />} />
+          <Route path="/trending-fashion-products-us" element={<TrendingFashionProductsUS />} />
+          <Route path="/trending-health-products-us" element={<TrendingHealthProductsUS />} />
+          <Route path="/trending-automobile-products-us" element={<TrendingAutomobileProductsUS />} />
+          <Route path="/trending-office-products-us" element={<TrendingOfficeProductsUS />} />
+          <Route path="/trending-children-toys-products-us" element={<TrendingChildrenToysProductsUS />} />
+          <Route path="/trending-food-products-us" element={<TrendingFoodProductsUS />} />
+          <Route path="/trending-furniture-home-products-us" element={<TrendingFurnitureHomeProductsUS />} />
+          <Route path="/trending-ecommerce-products-us" element={<TrendingEcommerceProductsUS />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
