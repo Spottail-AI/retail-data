@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { TrendingUp, Mail, Phone, MapPin, Twitter, Linkedin, Facebook } from "lucide-react";
+import { TrendingUp, Mail, Twitter, Linkedin, Facebook } from "lucide-react";
 
 export const Footer = () => {
   const scrollToDemo = () => {
@@ -90,14 +90,6 @@ export const Footer = () => {
                 <Mail className="w-5 h-5 mr-3 text-emerald-400" />
                 <span>hello@spottail.ai</span>
               </div>
-              <div className="flex items-center">
-                <Phone className="w-5 h-5 mr-3 text-emerald-400" />
-                <span>+1 (555) 123-4567</span>
-              </div>
-              <div className="flex items-center">
-                <MapPin className="w-5 h-5 mr-3 text-emerald-400" />
-                <span>San Francisco, CA</span>
-              </div>
             </div>
           </div>
         </div>
@@ -105,7 +97,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-400 mb-4 md:mb-0">
-            © 2024 Spottail. All rights reserved.
+            © 2025 Spottail. All rights reserved.
           </div>
           <div className="flex space-x-6 text-gray-400 text-sm">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
