@@ -4,7 +4,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
+import Auth from "./pages/Auth";
+import Results from "./pages/Results";
 import AmazonAnalytics from "./pages/AmazonAnalytics";
 import TikTokShopAnalytics from "./pages/TikTokShopAnalytics";
 import AmazonProductTrends from "./pages/AmazonProductTrends";
@@ -45,41 +48,45 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/amazon-analytics-tool" element={<AmazonAnalytics />} />
-          <Route path="/tiktok-shop-analytics-tool" element={<TikTokShopAnalytics />} />
-          <Route path="/amazon-product-trends" element={<AmazonProductTrends />} />
-          <Route path="/tiktok-shop-product-trends" element={<TikTokShopProductTrends />} />
-          <Route path="/ecommerce-product-trends" element={<EcommerceProductTrends />} />
-          <Route path="/product-research-tool-shopify-dropshipping" element={<ShopifyDropshippingProductResearch />} />
-          <Route path="/ebay-product-research-tool" element={<EbayProductResearchTool />} />
-          <Route path="/ecommerce-product-research-tool" element={<EcommerceProductResearchTool />} />
-          <Route path="/facebook-marketplace-product-research-tool" element={<FacebookMarketplaceProductResearchTool />} />
-          <Route path="/facebook-marketplace-analytics-tool" element={<FacebookMarketplaceAnalyticsTool />} />
-          <Route path="/ebay-analytics-tool" element={<EbayAnalyticsTool />} />
-          <Route path="/ecommerce-analytics-tool" element={<EcommerceAnalyticsTool />} />
-          <Route path="/walmart-marketplace-analytics-tool" element={<WalmartMarketplaceAnalyticsTool />} />
-          <Route path="/ebay-product-trends" element={<EbayProductTrends />} />
-          <Route path="/etsy-product-trends" element={<EtsyProductTrends />} />
-          <Route path="/walmart-marketplace-product-trends" element={<WalmartMarketplaceProductTrends />} />
-          <Route path="/etsy-product-research-tool" element={<EtsyProductResearchTool />} />
-          <Route path="/tiktok-shop-product-research-tool" element={<TikTokShopProductResearchTool />} />
-          <Route path="/vinted-product-research-tool" element={<VintedProductResearchTool />} />
-          <Route path="/walmart-marketplace-product-research-tool" element={<WalmartMarketplaceProductResearchTool />} />
-          <Route path="/trending-beauty-products-us" element={<TrendingBeautyProductsUS />} />
-          <Route path="/trending-electronic-products-us" element={<TrendingElectronicProductsUS />} />
-          <Route path="/trending-fashion-products-us" element={<TrendingFashionProductsUS />} />
-          <Route path="/trending-health-products-us" element={<TrendingHealthProductsUS />} />
-          <Route path="/trending-automobile-products-us" element={<TrendingAutomobileProductsUS />} />
-          <Route path="/trending-office-products-us" element={<TrendingOfficeProductsUS />} />
-          <Route path="/trending-children-toys-products-us" element={<TrendingChildrenToysProductsUS />} />
-          <Route path="/trending-food-products-us" element={<TrendingFoodProductsUS />} />
-          <Route path="/trending-furniture-home-products-us" element={<TrendingFurnitureHomeProductsUS />} />
-          <Route path="/trending-ecommerce-products-us" element={<TrendingEcommerceProductsUS />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/amazon-analytics-tool" element={<AmazonAnalytics />} />
+            <Route path="/tiktok-shop-analytics-tool" element={<TikTokShopAnalytics />} />
+            <Route path="/amazon-product-trends" element={<AmazonProductTrends />} />
+            <Route path="/tiktok-shop-product-trends" element={<TikTokShopProductTrends />} />
+            <Route path="/ecommerce-product-trends" element={<EcommerceProductTrends />} />
+            <Route path="/product-research-tool-shopify-dropshipping" element={<ShopifyDropshippingProductResearch />} />
+            <Route path="/ebay-product-research-tool" element={<EbayProductResearchTool />} />
+            <Route path="/ecommerce-product-research-tool" element={<EcommerceProductResearchTool />} />
+            <Route path="/facebook-marketplace-product-research-tool" element={<FacebookMarketplaceProductResearchTool />} />
+            <Route path="/facebook-marketplace-analytics-tool" element={<FacebookMarketplaceAnalyticsTool />} />
+            <Route path="/ebay-analytics-tool" element={<EbayAnalyticsTool />} />
+            <Route path="/ecommerce-analytics-tool" element={<EcommerceAnalyticsTool />} />
+            <Route path="/walmart-marketplace-analytics-tool" element={<WalmartMarketplaceAnalyticsTool />} />
+            <Route path="/ebay-product-trends" element={<EbayProductTrends />} />
+            <Route path="/etsy-product-trends" element={<EtsyProductTrends />} />
+            <Route path="/walmart-marketplace-product-trends" element={<WalmartMarketplaceProductTrends />} />
+            <Route path="/etsy-product-research-tool" element={<EtsyProductResearchTool />} />
+            <Route path="/tiktok-shop-product-research-tool" element={<TikTokShopProductResearchTool />} />
+            <Route path="/vinted-product-research-tool" element={<VintedProductResearchTool />} />
+            <Route path="/walmart-marketplace-product-research-tool" element={<WalmartMarketplaceProductResearchTool />} />
+            <Route path="/trending-beauty-products-us" element={<TrendingBeautyProductsUS />} />
+            <Route path="/trending-electronic-products-us" element={<TrendingElectronicProductsUS />} />
+            <Route path="/trending-fashion-products-us" element={<TrendingFashionProductsUS />} />
+            <Route path="/trending-health-products-us" element={<TrendingHealthProductsUS />} />
+            <Route path="/trending-automobile-products-us" element={<TrendingAutomobileProductsUS />} />
+            <Route path="/trending-office-products-us" element={<TrendingOfficeProductsUS />} />
+            <Route path="/trending-children-toys-products-us" element={<TrendingChildrenToysProductsUS />} />
+            <Route path="/trending-food-products-us" element={<TrendingFoodProductsUS />} />
+            <Route path="/trending-furniture-home-products-us" element={<TrendingFurnitureHomeProductsUS />} />
+            <Route path="/trending-ecommerce-products-us" element={<TrendingEcommerceProductsUS />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

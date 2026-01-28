@@ -1,32 +1,26 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { TrendingUp, ArrowUp, Star, Clock, CheckCircle } from "lucide-react";
+import { TrendingUp, ArrowUp, Star, Clock, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export const DemoSection = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedNiche, setSelectedNiche] = useState("");
   const [selectedPlatform, setSelectedPlatform] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const topCountries = [
+  const allCountries = [
     { value: "us", label: "United States" },
     { value: "uk", label: "United Kingdom" },
     { value: "de", label: "Germany" },
     { value: "jp", label: "Japan" },
-    { value: "au", label: "Australia" }
-  ];
-
-  const allCountries = [
-    ...topCountries,
+    { value: "au", label: "Australia" },
     { value: "ar", label: "Argentina" },
     { value: "at", label: "Austria" },
     { value: "be", label: "Belgium" },
@@ -122,31 +116,57 @@ export const DemoSection = () => {
     }
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', { firstName, lastName, email });
-    
-    // Save the information (in a real app, this would be sent to a backend)
-    localStorage.setItem('userTrendRequest', JSON.stringify({
-      firstName,
-      lastName,
-      email,
-      country: selectedCountry,
-      niche: selectedNiche,
-      platform: selectedPlatform,
-      timestamp: new Date().toISOString()
-    }));
-    
-    setIsSubmitted(true);
-    
-    // Reset form after a delay
-    setTimeout(() => {
-      setIsDialogOpen(false);
-      setIsSubmitted(false);
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-    }, 2000);
+  const handleAnalyzeTrends = async () => {
+    if (!selectedCountry || !selectedNiche || !selectedPlatform) {
+      toast({
+        title: "Missing selections",
+        description: "Please select a country, niche, and platform to analyze.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsAnalyzing(true);
+
+    // Generate a unique session ID
+    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    try {
+      const countryLabel = allCountries.find(c => c.value === selectedCountry)?.label || selectedCountry;
+      const nicheLabel = niches.find(n => n.value === selectedNiche)?.label || selectedNiche;
+
+      const { data, error } = await supabase.functions.invoke("generate-trends", {
+        body: {
+          country: countryLabel,
+          niche: nicheLabel,
+          platform: selectedPlatform,
+          sessionId,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data?.results) {
+        // Store results in localStorage for quick access
+        localStorage.setItem(`trends_${sessionId}`, JSON.stringify(data.results));
+        
+        // Navigate to results page
+        navigate(`/results?session_id=${sessionId}`);
+      } else {
+        throw new Error("No results received");
+      }
+    } catch (error) {
+      console.error("Error generating trends:", error);
+      toast({
+        title: "Analysis failed",
+        description: "Could not generate trend analysis. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -219,75 +239,30 @@ export const DemoSection = () => {
           </div>
 
           <div className="text-center mb-8">
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button 
-                  id="analyze_trends_button_click"
-                  size="lg" 
-                  className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold rounded-full"
-                >
+            <Button 
+              id="analyze_trends_button_click"
+              size="lg" 
+              className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold rounded-full"
+              onClick={handleAnalyzeTrends}
+              disabled={isAnalyzing}
+            >
+              {isAnalyzing ? (
+                <>
+                  <Loader2 className="mr-2 w-5 h-5 animate-spin" />
+                  Analyzing Trends...
+                </>
+              ) : (
+                <>
                   <TrendingUp className="mr-2 w-5 h-5" />
                   Analyze Trends
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 border-0">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-bold text-center text-slate-800 mb-2">
-                    We'll be live soon. Receive the results directly in your email
-                  </DialogTitle>
-                </DialogHeader>
-                
-                {isSubmitted ? (
-                  <div className="text-center py-8">
-                    <CheckCircle className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-slate-800 mb-2">We'll be in touch!</h3>
-                    <p className="text-slate-600">Thank you for your interest. We'll send you the trends analysis soon.</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="firstName" className="text-slate-700 font-medium">First Name</Label>
-                        <Input
-                          id="firstName"
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
-                          className="bg-white/80 border-slate-200"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="lastName" className="text-slate-700 font-medium">Last Name</Label>
-                        <Input
-                          id="lastName"
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
-                          className="bg-white/80 border-slate-200"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="email" className="text-slate-700 font-medium">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="bg-white/80 border-slate-200"
-                        required
-                      />
-                    </div>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white py-3 text-lg font-semibold rounded-full"
-                    >
-                      Send me Trends
-                    </Button>
-                  </form>
-                )}
-              </DialogContent>
-            </Dialog>
+                </>
+              )}
+            </Button>
+            {isAnalyzing && (
+              <p className="text-slate-500 text-sm mt-3">
+                Our AI is analyzing millions of data points. This may take a moment...
+              </p>
+            )}
           </div>
 
           {/* Demo Results */}
