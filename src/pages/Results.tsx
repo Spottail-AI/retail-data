@@ -45,39 +45,54 @@ const Results = () => {
   // Number of results to show for free users
   const FREE_PREVIEW_COUNT = 2;
 
+  // Handle payment success - stop polling when hasPaid becomes true
   useEffect(() => {
-    if (paymentStatus === "success") {
+    if (hasPaid && paymentStatus === "success") {
+      toast({
+        title: "Results unlocked!",
+        description: "You now have full access to all trend results.",
+      });
+      // Clean up URL params
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete("payment");
+      window.history.replaceState({}, "", newUrl.toString());
+    }
+  }, [hasPaid, paymentStatus, toast]);
+
+  useEffect(() => {
+    if (paymentStatus === "success" && !hasPaid) {
       toast({
         title: "Payment successful!",
         description: "Unlocking your full results...",
       });
       
-      // Poll for subscription status (Stripe webhook may have slight delay)
-      const pollPaymentStatus = async () => {
-        let attempts = 0;
-        const maxAttempts = 10;
-        
-        const checkStatus = async () => {
-          await checkPaymentStatus();
-          attempts++;
-          
-          if (!hasPaid && attempts < maxAttempts) {
-            setTimeout(checkStatus, 2000); // Check every 2 seconds
-          }
-        };
-        
-        await checkStatus();
-      };
+      // Poll for subscription status (Stripe may have slight delay)
+      let attempts = 0;
+      const maxAttempts = 10;
       
-      pollPaymentStatus();
+      const pollInterval = setInterval(async () => {
+        attempts++;
+        await checkPaymentStatus();
+        
+        if (attempts >= maxAttempts) {
+          clearInterval(pollInterval);
+        }
+      }, 2000);
+      
+      // Cleanup on unmount
+      return () => clearInterval(pollInterval);
     } else if (paymentStatus === "cancelled") {
       toast({
         title: "Payment cancelled",
         description: "You can try again when you're ready.",
         variant: "destructive",
       });
+      // Clean up URL params
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete("payment");
+      window.history.replaceState({}, "", newUrl.toString());
     }
-  }, [paymentStatus]);
+  }, [paymentStatus, checkPaymentStatus, toast, hasPaid]);
 
   useEffect(() => {
     const loadResults = async () => {
