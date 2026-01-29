@@ -58,7 +58,25 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     logStep("Found customer", { customerId });
 
-    // Check for successful payments
+    // Check for active subscriptions
+    const subscriptions = await stripe.subscriptions.list({
+      customer: customerId,
+      status: "active",
+      limit: 1,
+    });
+
+    const hasActiveSubscription = subscriptions.data.length > 0;
+    let subscriptionEnd = null;
+
+    if (hasActiveSubscription) {
+      const subscription = subscriptions.data[0];
+      subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
+      logStep("Active subscription found", { subscriptionId: subscription.id, endDate: subscriptionEnd });
+    } else {
+      logStep("No active subscription found");
+    }
+
+    // Also check for one-time payments (legacy support)
     const paymentIntents = await stripe.paymentIntents.list({
       customer: customerId,
       limit: 100,
@@ -68,9 +86,9 @@ serve(async (req) => {
       (pi) => pi.status === "succeeded"
     );
 
-    logStep("Payment check complete", { hasSuccessfulPayment });
+    logStep("Payment check complete", { hasActiveSubscription, hasSuccessfulPayment });
 
-    // Also check our local database
+    // Check local database as well
     const { data: localPayments } = await supabaseClient
       .from("payments")
       .select("*")
@@ -78,25 +96,27 @@ serve(async (req) => {
       .eq("status", "succeeded")
       .limit(1);
 
-    const hasPaid = hasSuccessfulPayment || (localPayments && localPayments.length > 0);
+    const hasPaid = hasActiveSubscription || hasSuccessfulPayment || (localPayments && localPayments.length > 0);
 
-    // If Stripe has payment but local doesn't, sync it
-    if (hasSuccessfulPayment && (!localPayments || localPayments.length === 0)) {
-      const successfulPayment = paymentIntents.data.find(pi => pi.status === "succeeded");
-      if (successfulPayment) {
-        await supabaseClient.from("payments").insert({
-          user_id: user.id,
-          stripe_customer_id: customerId,
-          stripe_payment_intent_id: successfulPayment.id,
-          amount: successfulPayment.amount,
-          currency: successfulPayment.currency,
-          status: "succeeded",
-        });
-        logStep("Synced payment to local database");
-      }
+    // Sync subscription to local database if needed
+    if (hasActiveSubscription && (!localPayments || localPayments.length === 0)) {
+      const subscription = subscriptions.data[0];
+      await supabaseClient.from("payments").insert({
+        user_id: user.id,
+        stripe_customer_id: customerId,
+        stripe_payment_intent_id: subscription.id,
+        amount: subscription.items.data[0]?.price?.unit_amount || 2000,
+        currency: subscription.currency,
+        status: "succeeded",
+      });
+      logStep("Synced subscription to local database");
     }
 
-    return new Response(JSON.stringify({ hasPaid }), {
+    return new Response(JSON.stringify({ 
+      hasPaid,
+      subscriptionEnd,
+      hasActiveSubscription 
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
