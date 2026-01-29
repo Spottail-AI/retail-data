@@ -49,10 +49,27 @@ const Results = () => {
     if (paymentStatus === "success") {
       toast({
         title: "Payment successful!",
-        description: "You now have full access to all trend results.",
+        description: "Unlocking your full results...",
       });
-      // Refresh payment status
-      checkPaymentStatus();
+      
+      // Poll for subscription status (Stripe webhook may have slight delay)
+      const pollPaymentStatus = async () => {
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        const checkStatus = async () => {
+          await checkPaymentStatus();
+          attempts++;
+          
+          if (!hasPaid && attempts < maxAttempts) {
+            setTimeout(checkStatus, 2000); // Check every 2 seconds
+          }
+        };
+        
+        await checkStatus();
+      };
+      
+      pollPaymentStatus();
     } else if (paymentStatus === "cancelled") {
       toast({
         title: "Payment cancelled",
