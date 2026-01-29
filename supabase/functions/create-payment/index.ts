@@ -57,24 +57,17 @@ serve(async (req) => {
 
     const origin = req.headers.get("origin") || "http://localhost:3000";
 
-    // Create checkout session for one-time payment
+    // Create checkout session for subscription
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Trend Analysis - Full Access",
-              description: "Unlock full access to all trending product insights and analysis",
-            },
-            unit_amount: 2000, // $20.00
-          },
+          price: "price_1SugzNRxa8lvsm4OJE2yv5RU",
           quantity: 1,
         },
       ],
-      mode: "payment",
+      mode: "subscription",
       success_url: `${origin}/results?session_id=${sessionId}&payment=success`,
       cancel_url: `${origin}/results?session_id=${sessionId}&payment=cancelled`,
       metadata: {

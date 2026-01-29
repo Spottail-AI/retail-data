@@ -312,7 +312,7 @@ const Results = () => {
                   Get full access to detailed trend analysis, competition insights, and timing predictions.
                 </p>
                 <div className="text-3xl font-bold text-slate-800 mb-4">
-                  $20 <span className="text-base font-normal text-slate-500">one-time</span>
+                  $20 <span className="text-base font-normal text-slate-500">monthly</span>
                 </div>
                 
                 {!user ? (
