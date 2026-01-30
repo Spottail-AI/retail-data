@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -10,13 +10,14 @@ import {
   Star, 
   Clock, 
   Lock, 
-  Loader2, 
   CheckCircle,
   Eye,
   EyeOff,
-  CreditCard
+  CreditCard,
+  Loader2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ResultsSkeleton } from "@/components/ResultsSkeleton";
 
 interface TrendResult {
   product: string;
@@ -33,13 +34,15 @@ interface TrendResult {
 const Results = () => {
   const [searchParams] = useSearchParams();
   const [results, setResults] = useState<TrendResult[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [resultsLoading, setResultsLoading] = useState(true);
   const [processingPayment, setProcessingPayment] = useState(false);
-  const { user, session, hasPaid, checkPaymentStatus, checkingPayment } = useAuth();
+  const [verifyingCheckout, setVerifyingCheckout] = useState(false);
+  const { user, session, loading: authLoading, hasPaid, checkPaymentStatus, checkingPayment } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const hasShownSuccessToast = useRef(false);
+  const hasStartedVerification = useRef(false);
 
   const sessionId = searchParams.get("session_id");
   const paymentStatus = searchParams.get("payment");
@@ -58,30 +61,55 @@ const Results = () => {
 
   // Handle payment success - verify with checkout_session_id
   useEffect(() => {
+    // Prevent multiple verification attempts
+    if (hasStartedVerification.current) return;
+    
     if (paymentStatus === "success" && checkoutSessionId && !hasPaid) {
+      hasStartedVerification.current = true;
+      setVerifyingCheckout(true);
+      
       toast({
         title: "Payment successful!",
         description: "Verifying your subscription...",
       });
       
       // Verify payment with the checkout session ID
-      checkPaymentStatus(checkoutSessionId);
-      
-      // Poll for subscription status (Stripe may have slight delay)
-      let attempts = 0;
-      const maxAttempts = 10;
-      
-      pollIntervalRef.current = setInterval(async () => {
-        attempts++;
-        await checkPaymentStatus(checkoutSessionId);
+      const verifyPayment = async () => {
+        let attempts = 0;
+        const maxAttempts = 10;
         
-        if (attempts >= maxAttempts) {
-          if (pollIntervalRef.current) {
-            clearInterval(pollIntervalRef.current);
-            pollIntervalRef.current = null;
+        const poll = async () => {
+          attempts++;
+          const paid = await checkPaymentStatus(checkoutSessionId);
+          
+          if (paid) {
+            setVerifyingCheckout(false);
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current);
+              pollIntervalRef.current = null;
+            }
+            return;
           }
+          
+          if (attempts >= maxAttempts) {
+            setVerifyingCheckout(false);
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current);
+              pollIntervalRef.current = null;
+            }
+          }
+        };
+        
+        // Initial check
+        await poll();
+        
+        // Continue polling if not paid yet
+        if (!hasPaid && attempts < maxAttempts) {
+          pollIntervalRef.current = setInterval(poll, 2000);
         }
-      }, 2000);
+      };
+      
+      verifyPayment();
     } else if (paymentStatus === "cancelled") {
       toast({
         title: "Payment cancelled",
@@ -150,7 +178,7 @@ const Results = () => {
         const storedResults = localStorage.getItem(`trends_${sessionId}`);
         if (storedResults) {
           setResults(JSON.parse(storedResults));
-          setLoading(false);
+          setResultsLoading(false);
           return;
         }
 
@@ -186,7 +214,7 @@ const Results = () => {
         console.error("Error:", error);
         navigate("/");
       } finally {
-        setLoading(false);
+        setResultsLoading(false);
       }
     };
 
@@ -231,17 +259,20 @@ const Results = () => {
     }
   };
 
+  // Compute stable view state - determines what to show
   const canViewFullResults = hasPaid;
+  
+  // Determine if we're in a loading/verification state that should block content
+  const isVerifying = authLoading || checkingPayment || verifyingCheckout;
+  const isLoadingResults = resultsLoading;
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-emerald-500 mx-auto mb-4" />
-          <p className="text-slate-600">Loading your trend analysis...</p>
-        </div>
-      </div>
-    );
+  // STATE 1: Show skeleton while loading results or verifying payment
+  // This prevents any flash of preview/full content
+  if (isLoadingResults || isVerifying) {
+    const message = isVerifying 
+      ? "Verifying your subscription..." 
+      : "Loading your trend analysis...";
+    return <ResultsSkeleton message={message} />;
   }
 
   return (
@@ -276,7 +307,7 @@ const Results = () => {
           </p>
         </div>
 
-        {/* Payment status indicator */}
+        {/* Payment status indicator - only shows stable states now */}
         {user && (
           <div className="flex justify-center mb-6">
             <div className={`flex items-center space-x-2 px-4 py-2 rounded-full ${
@@ -284,12 +315,7 @@ const Results = () => {
                 ? "bg-emerald-100 text-emerald-700" 
                 : "bg-amber-100 text-amber-700"
             }`}>
-              {checkingPayment ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm font-medium">Verifying subscription...</span>
-                </>
-              ) : hasPaid ? (
+              {hasPaid ? (
                 <>
                   <CheckCircle className="w-4 h-4" />
                   <span className="text-sm font-medium">Full Access Unlocked</span>
