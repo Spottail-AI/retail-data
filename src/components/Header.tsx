@@ -1,9 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { LayoutDashboard, LogIn, UserPlus, LogOut, Loader2 } from "lucide-react";
 
-export const Header = () => {
+interface HeaderProps {
+  inline?: boolean;
+}
+
+export const Header = ({ inline = false }: HeaderProps) => {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -12,16 +16,20 @@ export const Header = () => {
     navigate("/");
   };
 
+  const containerClass = inline
+    ? "flex items-center gap-3"
+    : "absolute top-8 right-8 z-20 flex items-center gap-3";
+
   if (loading) {
     return (
-      <div className="absolute top-8 right-8 z-20">
+      <div className={containerClass}>
         <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
       </div>
     );
   }
 
   return (
-    <div className="absolute top-8 right-8 z-20 flex items-center gap-3">
+    <div className={containerClass}>
       {user ? (
         <>
           <Button

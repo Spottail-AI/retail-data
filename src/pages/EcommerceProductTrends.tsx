@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, TrendingUp, CheckCircle, Target, BarChart3, Gauge, Eye } from "lucide-react";
 import { useState } from "react";
 import { DemoSection } from "@/components/DemoSection";
+import { Header } from "@/components/Header";
 
 const EcommerceProductTrends = () => {
   const [firstName, setFirstName] = useState("");
@@ -81,15 +82,12 @@ const EcommerceProductTrends = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Header */}
-      <header className="py-8 px-4">
-        <div className="max-w-6xl mx-auto flex items-center">
+      <header className="py-8 px-4 relative">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <img 
-              src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png" 
-              alt="Spottail" 
-              className="h-8"
-            />
+            <img src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png" alt="Spottail" className="h-8" />
           </div>
+          <Header inline />
         </div>
       </header>
 
