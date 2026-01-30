@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp } from "lucide-react";
+import { Header } from "@/components/Header";
 
 export const TrendingBeautyProductsUSHeroSection = () => {
   const scrollToDemo = () => {
@@ -21,6 +22,9 @@ export const TrendingBeautyProductsUSHeroSection = () => {
           />
         </div>
       </div>
+
+      {/* Auth buttons */}
+      <Header />
 
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
