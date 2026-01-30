@@ -11,6 +11,7 @@ interface TrendRequest {
   niche: string;
   platform: string;
   sessionId: string;
+  userId?: string;
 }
 
 interface TrendResult {
@@ -31,7 +32,7 @@ serve(async (req) => {
   }
 
   try {
-    const { country, niche, platform, sessionId }: TrendRequest = await req.json();
+    const { country, niche, platform, sessionId, userId }: TrendRequest = await req.json();
 
     if (!country || !niche || !platform || !sessionId) {
       throw new Error("Missing required fields: country, niche, platform, sessionId");
@@ -118,8 +119,9 @@ Consider current market conditions, seasonal trends, and emerging consumer behav
       .from("trend_results")
       .insert({
         session_id: sessionId,
-        category: niche,
+        category: `${niche} in ${country}`,
         results: results,
+        user_id: userId || null,
       });
 
     if (insertError) {

@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { TrendingUp, ArrowUp, Star, Clock, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const DemoSection = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -14,6 +15,7 @@ export const DemoSection = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const allCountries = [
     { value: "us", label: "United States" },
@@ -141,6 +143,7 @@ export const DemoSection = () => {
           niche: nicheLabel,
           platform: selectedPlatform,
           sessionId,
+          userId: user?.id,
         },
       });
 

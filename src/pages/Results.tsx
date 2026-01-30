@@ -94,6 +94,26 @@ const Results = () => {
     }
   }, [paymentStatus, checkPaymentStatus, toast, hasPaid]);
 
+  // Associate search with user if they're logged in
+  useEffect(() => {
+    const associateSearchWithUser = async () => {
+      if (!user || !sessionId) return;
+
+      try {
+        // Update the trend_results record to associate with this user if not already
+        await supabase
+          .from("trend_results")
+          .update({ user_id: user.id })
+          .eq("session_id", sessionId)
+          .is("user_id", null);
+      } catch (error) {
+        console.error("Error associating search with user:", error);
+      }
+    };
+
+    associateSearchWithUser();
+  }, [user, sessionId]);
+
   useEffect(() => {
     const loadResults = async () => {
       if (!sessionId) {
@@ -147,7 +167,7 @@ const Results = () => {
     };
 
     loadResults();
-  }, [sessionId, navigate]);
+  }, [sessionId, navigate, toast]);
 
   const handlePayment = async () => {
     if (!user || !session) {
