@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -11,7 +11,7 @@ interface AuthContextType {
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
-  checkPaymentStatus: () => Promise<void>;
+  checkPaymentStatus: (checkoutSessionId?: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [hasPaid, setHasPaid] = useState(false);
   const [checkingPayment, setCheckingPayment] = useState(false);
 
-  const checkPaymentStatus = async () => {
+  const checkPaymentStatus = useCallback(async (checkoutSessionId?: string) => {
     if (!session) {
       setHasPaid(false);
       return;
@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
+        body: checkoutSessionId ? { checkout_session_id: checkoutSessionId } : {},
       });
 
       if (error) {
@@ -49,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setCheckingPayment(false);
     }
-  };
+  }, [session]);
 
   useEffect(() => {
     // Set up auth state listener BEFORE checking session
@@ -61,7 +62,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // Check payment status when user logs in
         if (event === "SIGNED_IN" && newSession) {
-          setTimeout(() => checkPaymentStatus(), 0);
+          // Use setTimeout to avoid blocking the auth state change
+          setTimeout(() => {
+            checkPaymentStatus();
+          }, 0);
         }
         
         if (event === "SIGNED_OUT") {
@@ -82,7 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [checkPaymentStatus]);
 
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
