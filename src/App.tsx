@@ -38,6 +38,7 @@ import TrendingChildrenToysProductsUS from "./pages/TrendingChildrenToysProducts
 import TrendingFoodProductsUS from "./pages/TrendingFoodProductsUS";
 import TrendingFurnitureHomeProductsUS from "./pages/TrendingFurnitureHomeProductsUS";
 import TrendingEcommerceProductsUS from "./pages/TrendingEcommerceProductsUS";
+import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/results" element={<Results />} />
             <Route path="/amazon-analytics-tool" element={<AmazonAnalytics />} />
             <Route path="/tiktok-shop-analytics-tool" element={<TikTokShopAnalytics />} />
