@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -38,61 +38,86 @@ const Results = () => {
   const { user, session, hasPaid, checkPaymentStatus, checkingPayment } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const hasShownSuccessToast = useRef(false);
 
   const sessionId = searchParams.get("session_id");
   const paymentStatus = searchParams.get("payment");
+  const checkoutSessionId = searchParams.get("checkout_session_id");
 
   // Number of results to show for free users
   const FREE_PREVIEW_COUNT = 2;
 
-  // Handle payment success - stop polling when hasPaid becomes true
-  useEffect(() => {
-    if (hasPaid && paymentStatus === "success") {
-      toast({
-        title: "Results unlocked!",
-        description: "You now have full access to all trend results.",
-      });
-      // Clean up URL params
-      const newUrl = new URL(window.location.href);
-      newUrl.searchParams.delete("payment");
-      window.history.replaceState({}, "", newUrl.toString());
-    }
-  }, [hasPaid, paymentStatus, toast]);
+  // Clean up URL params helper
+  const cleanUpUrlParams = () => {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.delete("payment");
+    newUrl.searchParams.delete("checkout_session_id");
+    window.history.replaceState({}, "", newUrl.toString());
+  };
 
+  // Handle payment success - verify with checkout_session_id
   useEffect(() => {
-    if (paymentStatus === "success" && !hasPaid) {
+    if (paymentStatus === "success" && checkoutSessionId && !hasPaid) {
       toast({
         title: "Payment successful!",
-        description: "Unlocking your full results...",
+        description: "Verifying your subscription...",
       });
+      
+      // Verify payment with the checkout session ID
+      checkPaymentStatus(checkoutSessionId);
       
       // Poll for subscription status (Stripe may have slight delay)
       let attempts = 0;
       const maxAttempts = 10;
       
-      const pollInterval = setInterval(async () => {
+      pollIntervalRef.current = setInterval(async () => {
         attempts++;
-        await checkPaymentStatus();
+        await checkPaymentStatus(checkoutSessionId);
         
         if (attempts >= maxAttempts) {
-          clearInterval(pollInterval);
+          if (pollIntervalRef.current) {
+            clearInterval(pollIntervalRef.current);
+            pollIntervalRef.current = null;
+          }
         }
       }, 2000);
-      
-      // Cleanup on unmount
-      return () => clearInterval(pollInterval);
     } else if (paymentStatus === "cancelled") {
       toast({
         title: "Payment cancelled",
         description: "You can try again when you're ready.",
         variant: "destructive",
       });
-      // Clean up URL params
-      const newUrl = new URL(window.location.href);
-      newUrl.searchParams.delete("payment");
-      window.history.replaceState({}, "", newUrl.toString());
+      cleanUpUrlParams();
     }
-  }, [paymentStatus, checkPaymentStatus, toast, hasPaid]);
+
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+        pollIntervalRef.current = null;
+      }
+    };
+  }, [paymentStatus, checkoutSessionId, checkPaymentStatus, toast, hasPaid]);
+
+  // Show success toast when hasPaid becomes true after payment
+  useEffect(() => {
+    if (hasPaid && paymentStatus === "success" && !hasShownSuccessToast.current) {
+      hasShownSuccessToast.current = true;
+      
+      // Clear polling interval
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+        pollIntervalRef.current = null;
+      }
+      
+      toast({
+        title: "Results unlocked!",
+        description: "You now have full access to all trend results.",
+      });
+      
+      cleanUpUrlParams();
+    }
+  }, [hasPaid, paymentStatus, toast]);
 
   // Associate search with user if they're logged in
   useEffect(() => {
@@ -100,7 +125,6 @@ const Results = () => {
       if (!user || !sessionId) return;
 
       try {
-        // Update the trend_results record to associate with this user if not already
         await supabase
           .from("trend_results")
           .update({ user_id: user.id })
@@ -171,7 +195,6 @@ const Results = () => {
 
   const handlePayment = async () => {
     if (!user || !session) {
-      // Redirect to auth with return URL
       navigate(`/auth?redirect=/results?session_id=${sessionId}`);
       return;
     }
@@ -190,6 +213,10 @@ const Results = () => {
       }
 
       if (data?.url) {
+        // Store the Stripe session ID for verification after redirect
+        if (data.sessionId) {
+          localStorage.setItem("pending_checkout_session_id", data.sessionId);
+        }
         window.location.href = data.url;
       }
     } catch (error) {
@@ -260,7 +287,7 @@ const Results = () => {
               {checkingPayment ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm font-medium">Checking payment status...</span>
+                  <span className="text-sm font-medium">Verifying subscription...</span>
                 </>
               ) : hasPaid ? (
                 <>
