@@ -23,9 +23,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [hasPaid, setHasPaid] = useState(false);
   const [checkingPayment, setCheckingPayment] = useState(false);
   
-  // Prevent overlapping payment checks
+  // Guards to prevent unnecessary re-verification
   const isCheckingRef = useRef(false);
-  const initialCheckDoneRef = useRef(false);
+  const hasCheckedPaymentRef = useRef(false);
+  const lastUserIdRef = useRef<string | null>(null);
 
   const checkPaymentStatus = useCallback(async (checkoutSessionId?: string): Promise<boolean> => {
     // Get the current session directly to avoid stale closure
@@ -36,9 +37,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     }
 
-    // Prevent overlapping checks (except for explicit checkout verification)
-    if (isCheckingRef.current && !checkoutSessionId) {
-      return hasPaid;
+    // If we have a checkout session ID, always verify (explicit payment completion)
+    // Otherwise, only check if we haven't already checked for this user
+    if (!checkoutSessionId) {
+      if (hasCheckedPaymentRef.current && lastUserIdRef.current === currentSession.user.id) {
+        // Already checked for this user, return cached state
+        return hasPaid;
+      }
+      
+      // Prevent overlapping checks
+      if (isCheckingRef.current) {
+        return hasPaid;
+      }
     }
 
     isCheckingRef.current = true;
@@ -59,6 +69,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else {
         const paid = data?.hasPaid ?? false;
         setHasPaid(paid);
+        // Mark as checked for this user
+        hasCheckedPaymentRef.current = true;
+        lastUserIdRef.current = currentSession.user.id;
         return paid;
       }
     } catch (error) {
@@ -86,6 +99,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // If user is logged in, check payment status BEFORE setting loading to false
         if (initialSession?.user) {
+          lastUserIdRef.current = initialSession.user.id;
           setCheckingPayment(true);
           try {
             const { data, error } = await supabase.functions.invoke("check-payment", {
@@ -102,6 +116,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             } else {
               setHasPaid(false);
             }
+            // Mark initial check as complete
+            hasCheckedPaymentRef.current = true;
           } catch (error) {
             console.error("Error checking initial payment:", error);
             if (isMounted) setHasPaid(false);
@@ -109,8 +125,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (isMounted) setCheckingPayment(false);
           }
         }
-
-        initialCheckDoneRef.current = true;
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -121,18 +135,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       async (event, newSession) => {
         if (!isMounted) return;
         
+        // Only react to actual auth state changes, not token refreshes or tab focus
+        // TOKEN_REFRESHED and INITIAL_SESSION should not trigger re-verification
+        if (event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION") {
+          // Just update session if needed, but don't re-verify payment
+          setSession(newSession);
+          setUser(newSession?.user ?? null);
+          return;
+        }
+        
         setSession(newSession);
         setUser(newSession?.user ?? null);
 
-        // Only check payment on SIGNED_IN after initial load is complete
-        if (event === "SIGNED_IN" && newSession && initialCheckDoneRef.current) {
-          // Don't block the auth state change, but do check payment
-          checkPaymentStatus();
+        // Only check payment on actual SIGNED_IN with a different user
+        if (event === "SIGNED_IN" && newSession) {
+          const isNewUser = lastUserIdRef.current !== newSession.user.id;
+          if (isNewUser) {
+            // Reset verification state for new user
+            hasCheckedPaymentRef.current = false;
+            lastUserIdRef.current = newSession.user.id;
+            checkPaymentStatus();
+          }
         }
         
         if (event === "SIGNED_OUT") {
           setHasPaid(false);
           setCheckingPayment(false);
+          // Reset verification state on sign out
+          hasCheckedPaymentRef.current = false;
+          lastUserIdRef.current = null;
         }
       }
     );
