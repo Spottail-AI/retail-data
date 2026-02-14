@@ -23,7 +23,7 @@ export const Header = ({ inline = false }: HeaderProps) => {
   if (loading) {
     return (
       <div className={containerClass}>
-        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -36,7 +36,7 @@ export const Header = ({ inline = false }: HeaderProps) => {
             variant="outline"
             size="sm"
             onClick={() => navigate("/dashboard")}
-            className="border-slate-300 text-slate-700 hover:bg-slate-100"
+            className="border-border text-foreground hover:bg-accent"
           >
             <LayoutDashboard className="w-4 h-4 mr-2" />
             Dashboard
@@ -45,7 +45,7 @@ export const Header = ({ inline = false }: HeaderProps) => {
             variant="ghost"
             size="sm"
             onClick={handleSignOut}
-            className="text-slate-600 hover:text-slate-800 hover:bg-slate-100"
+            className="text-muted-foreground hover:text-foreground hover:bg-accent"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Sign Out
@@ -57,7 +57,7 @@ export const Header = ({ inline = false }: HeaderProps) => {
             variant="ghost"
             size="sm"
             onClick={() => navigate("/auth")}
-            className="text-slate-700 hover:bg-slate-100"
+            className="text-muted-foreground hover:text-foreground hover:bg-accent"
           >
             <LogIn className="w-4 h-4 mr-2" />
             Sign In
@@ -65,7 +65,7 @@ export const Header = ({ inline = false }: HeaderProps) => {
           <Button
             size="sm"
             onClick={() => navigate("/auth?mode=signup")}
-            className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             <UserPlus className="w-4 h-4 mr-2" />
             Sign Up

@@ -28,32 +28,33 @@ export const HeroSection = () => {
 
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-400/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-400/30 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-success/8 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"></div>
       </div>
       
       <div className="relative z-10 max-w-6xl mx-auto text-center">
-        <div className="flex justify-center mb-6">
-          <div className="flex items-center space-x-2 bg-slate-800/80 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-700/50">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
-            <span className="text-sm font-medium text-white">AI-Powered Retail Product Research</span>
+        <div className="flex justify-center mb-8">
+          <div className="flex items-center space-x-2 bg-navy-surface/80 backdrop-blur-sm px-5 py-2.5 rounded-full border border-border">
+            <TrendingUp className="w-4 h-4 text-success" />
+            <span className="text-sm font-medium text-foreground">AI-Powered Retail Product Research</span>
           </div>
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-bold text-slate-800 mb-6 leading-tight">
+        <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-8 leading-tight tracking-tight">
           Spot Your Next
           <br />
-          <span className="bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent">Winning Product</span>
+          <span className="text-primary">Winning Product</span>
         </h1>
         
-        <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-lg md:text-xl text-muted-foreground mb-14 max-w-3xl mx-auto leading-relaxed">
           Our AI analyzes millions of data points across platforms and regions to predict which retail products will trend next. Stay ahead of the curve and maximize your opportunities.
         </p>
         
-        <div className="flex justify-center items-center mb-16">
+        <div className="flex justify-center items-center mb-20">
           <Button 
             size="lg" 
-            className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-105"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-5 text-lg font-semibold rounded-lg shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
             onClick={scrollToDemo}
           >
             See it in Action
@@ -63,17 +64,17 @@ export const HeroSection = () => {
         
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">98%</div>
-            <div className="text-slate-600">Prediction Accuracy</div>
+          <div className="text-center p-6 rounded-xl bg-navy-surface/50 border border-border">
+            <div className="text-3xl md:text-4xl font-bold text-foreground mb-2">98%</div>
+            <div className="text-muted-foreground text-sm">Prediction Accuracy</div>
           </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">50+</div>
-            <div className="text-slate-600">Countries Covered</div>
+          <div className="text-center p-6 rounded-xl bg-navy-surface/50 border border-border">
+            <div className="text-3xl md:text-4xl font-bold text-foreground mb-2">50+</div>
+            <div className="text-muted-foreground text-sm">Countries Covered</div>
           </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">24/7</div>
-            <div className="text-slate-600">Real-time Monitoring</div>
+          <div className="text-center p-6 rounded-xl bg-navy-surface/50 border border-border">
+            <div className="text-3xl md:text-4xl font-bold text-foreground mb-2">24/7</div>
+            <div className="text-muted-foreground text-sm">Real-time Monitoring</div>
           </div>
         </div>
       </div>

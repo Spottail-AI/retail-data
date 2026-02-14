@@ -25,7 +25,6 @@ export const PricingSection = () => {
     e.preventDefault();
     console.log('Contact form submitted:', { firstName, lastName, email, message });
     setIsDialogOpen(false);
-    // Reset form
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -88,51 +87,52 @@ export const PricingSection = () => {
   ];
 
   return (
-    <section id="pricing-section" className="py-24 px-4 relative">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
+    <section id="pricing-section" className="py-28 px-4 relative">
+      <div className="absolute inset-0 bg-navy-surface/50"></div>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">
             Choose Your
-            <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Success Plan</span>
+            <span className="text-primary"> Success Plan</span>
           </h2>
-          <p className="text-xl text-black max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Start with our free trial, then choose the plan that fits your business needs. 
             All plans include our core AI trend detection technology.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {plans.map((plan, index) => (
             <div 
               key={index}
-              className={`relative bg-white/5 backdrop-blur-sm border rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 hover:scale-105 ${
-                plan.popular ? 'border-emerald-500 ring-2 ring-emerald-500/50' : 'border-white/10'
+              className={`relative bg-card border rounded-2xl p-8 transition-all duration-300 ${
+                plan.popular ? 'border-primary ring-1 ring-primary/30' : 'border-border hover:border-primary/30'
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-emerald-500 to-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold">
+                <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-primary text-primary-foreground px-5 py-1.5 rounded-full text-xs font-semibold">
                     Most Popular
                   </div>
                 </div>
               )}
 
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <plan.icon className="w-8 h-8 text-white" />
+              <div className="text-center mb-8 pt-2">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <plan.icon className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-black mb-2">{plan.name}</h3>
-                <p className="text-black mb-4">{plan.description}</p>
-                <div className="text-4xl font-bold text-black mb-2">
+                <h3 className="text-xl font-bold text-foreground mb-2">{plan.name}</h3>
+                <p className="text-muted-foreground text-sm mb-4">{plan.description}</p>
+                <div className="text-4xl font-bold text-foreground mb-1">
                   {plan.price}
-                  <span className="text-lg text-gray-600 font-normal">{plan.period}</span>
+                  <span className="text-base text-muted-foreground font-normal">{plan.period}</span>
                 </div>
               </div>
 
-              <ul className="space-y-4 mb-8">
+              <ul className="space-y-3 mb-8">
                 {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center text-black">
-                    <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                  <li key={featureIndex} className="flex items-center text-muted-foreground text-sm">
+                    <Check className="w-4 h-4 text-success mr-3 flex-shrink-0" />
                     {feature}
                   </li>
                 ))}
@@ -141,64 +141,64 @@ export const PricingSection = () => {
               {plan.name === "Enterprise" ? (
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button className="w-full py-4 text-lg font-semibold rounded-full transition-all duration-300 bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white">
+                    <Button className="w-full py-3 font-semibold rounded-lg transition-all duration-300 bg-primary hover:bg-primary/90 text-primary-foreground">
                       Contact Sales
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-md bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 border-0">
+                  <DialogContent className="sm:max-w-md bg-card border-border">
                     <DialogHeader>
-                      <DialogTitle className="text-2xl font-bold text-center text-slate-800 mb-2">
+                      <DialogTitle className="text-xl font-bold text-center text-foreground mb-2">
                         Contact Sales
                       </DialogTitle>
                     </DialogHeader>
                     <form onSubmit={handleContactSubmit} className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label htmlFor="contactFirstName" className="text-slate-700 font-medium">First Name</Label>
+                          <Label htmlFor="contactFirstName" className="text-foreground font-medium text-sm">First Name</Label>
                           <Input
                             id="contactFirstName"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="bg-white/80 border-slate-200"
+                            className="bg-background border-border"
                             required
                           />
                         </div>
                         <div>
-                          <Label htmlFor="contactLastName" className="text-slate-700 font-medium">Last Name</Label>
+                          <Label htmlFor="contactLastName" className="text-foreground font-medium text-sm">Last Name</Label>
                           <Input
                             id="contactLastName"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            className="bg-white/80 border-slate-200"
+                            className="bg-background border-border"
                             required
                           />
                         </div>
                       </div>
                       <div>
-                        <Label htmlFor="contactEmail" className="text-slate-700 font-medium">Email</Label>
+                        <Label htmlFor="contactEmail" className="text-foreground font-medium text-sm">Email</Label>
                         <Input
                           id="contactEmail"
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="bg-white/80 border-slate-200"
+                          className="bg-background border-border"
                           required
                         />
                       </div>
                       <div>
-                        <Label htmlFor="message" className="text-slate-700 font-medium">Tell Us More...</Label>
+                        <Label htmlFor="message" className="text-foreground font-medium text-sm">Tell Us More...</Label>
                         <Textarea
                           id="message"
                           value={message}
                           onChange={(e) => setMessage(e.target.value)}
-                          className="bg-white/80 border-slate-200 min-h-[120px]"
+                          className="bg-background border-border min-h-[120px]"
                           placeholder="Tell us about your business needs..."
                           required
                         />
                       </div>
                       <Button 
                         type="submit" 
-                        className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white py-3 text-lg font-semibold rounded-full"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 font-semibold rounded-lg"
                       >
                         Contact Sales
                       </Button>
@@ -207,7 +207,11 @@ export const PricingSection = () => {
                 </Dialog>
               ) : (
                 <Button 
-                  className="w-full py-4 text-lg font-semibold rounded-full transition-all duration-300 bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white"
+                  className={`w-full py-3 font-semibold rounded-lg transition-all duration-300 ${
+                    plan.popular 
+                      ? "bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20" 
+                      : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
+                  }`}
                   onClick={scrollToDemo}
                 >
                   Start now - Free
@@ -218,7 +222,7 @@ export const PricingSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <div className="flex justify-center space-x-8 text-sm text-gray-600">
+          <div className="flex justify-center space-x-8 text-sm text-muted-foreground">
             <span>✓ Cancel anytime</span>
             <span>✓ 24/7 customer support</span>
           </div>

@@ -173,25 +173,26 @@ export const DemoSection = () => {
   };
 
   return (
-    <section id="demo-section" className="py-24 px-4 relative bg-gradient-to-br from-slate-100 to-blue-50">
-      <div className="max-w-6xl mx-auto">
+    <section id="demo-section" className="py-28 px-4 relative">
+      <div className="absolute inset-0 bg-navy-surface/50"></div>
+      <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">
             See It In
-            <span className="bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent"> Action</span>
+            <span className="text-primary"> Action</span>
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-12">
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12">
             Try our AI trend detector for retail right now. Select your target market, Niche, Platform, and see which products 
             are about to explode in popularity.
           </p>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-sm border border-slate-200/50 rounded-3xl p-8 mb-12 shadow-xl">
+        <div className="bg-card border border-border rounded-2xl p-8 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div>
-              <label className="block text-slate-700 font-medium mb-3">Select Country/Region</label>
+              <label className="block text-foreground font-medium mb-3 text-sm">Select Country/Region</label>
               <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                <SelectTrigger className="bg-slate-50 border-slate-300 text-slate-700">
+                <SelectTrigger className="bg-background border-border text-foreground">
                   <SelectValue placeholder="Choose location" />
                 </SelectTrigger>
                 <SelectContent>
@@ -205,9 +206,9 @@ export const DemoSection = () => {
             </div>
 
             <div>
-              <label className="block text-slate-700 font-medium mb-3">Select Niche</label>
+              <label className="block text-foreground font-medium mb-3 text-sm">Select Niche</label>
               <Select value={selectedNiche} onValueChange={setSelectedNiche}>
-                <SelectTrigger className="bg-slate-50 border-slate-300 text-slate-700">
+                <SelectTrigger className="bg-background border-border text-foreground">
                   <SelectValue placeholder="Choose category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -221,16 +222,16 @@ export const DemoSection = () => {
             </div>
 
             <div>
-              <label className="block text-slate-700 font-medium mb-3">Select Platform</label>
+              <label className="block text-foreground font-medium mb-3 text-sm">Select Platform</label>
               <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
-                <SelectTrigger className="bg-slate-50 border-slate-300 text-slate-700">
+                <SelectTrigger className="bg-background border-border text-foreground">
                   <SelectValue placeholder="Choose platform" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">
                     <div className="flex items-center justify-between w-full">
                       <span>All Platforms</span>
-                      <span className="text-xs text-emerald-600 font-medium bg-emerald-50 px-2 py-1 rounded ml-2">Recommended</span>
+                      <span className="text-xs text-success font-medium bg-success/10 px-2 py-0.5 rounded ml-2">Recommended</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="amazon">Amazon</SelectItem>
@@ -245,7 +246,7 @@ export const DemoSection = () => {
             <Button 
               id="analyze_trends_button_click"
               size="lg" 
-              className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold rounded-full"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-4 text-lg font-semibold rounded-lg shadow-lg shadow-primary/20"
               onClick={handleAnalyzeTrends}
               disabled={isAnalyzing}
             >
@@ -262,41 +263,41 @@ export const DemoSection = () => {
               )}
             </Button>
             {isAnalyzing && (
-              <p className="text-slate-500 text-sm mt-3">
+              <p className="text-muted-foreground text-sm mt-3">
                 Our AI is analyzing millions of data points. This may take a moment...
               </p>
             )}
           </div>
 
           {/* Demo Results */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-slate-800 mb-6">Trending Products (Sample)</h3>
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Trending Products (Sample)</h3>
             {demoResults.map((result, index) => (
-              <Card key={index} className="bg-slate-50/50 border-slate-200 p-6">
+              <div key={index} className="bg-background border border-border rounded-xl p-5">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-slate-800 mb-2">{result.product}</h4>
-                    <div className="flex items-center space-x-4 text-sm text-slate-600">
+                    <h4 className="text-base font-semibold text-foreground mb-2">{result.product}</h4>
+                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                       <span className="flex items-center">
-                        <Clock className="w-4 h-4 mr-1" />
+                        <Clock className="w-3.5 h-3.5 mr-1" />
                         {result.timeframe}
                       </span>
                       <span>Platform: {result.platform}</span>
-                      <span>Risk: {result.risk}</span>
+                      <span>Risk: <span className={result.risk === "Low" ? "text-success" : "text-warning"}>{result.risk}</span></span>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="flex items-center text-emerald-600 font-semibold text-lg mb-1">
-                      <ArrowUp className="w-5 h-5 mr-1" />
+                    <div className="flex items-center text-success font-semibold text-lg mb-1">
+                      <ArrowUp className="w-4 h-4 mr-1" />
                       {result.trend}
                     </div>
-                    <div className="flex items-center text-yellow-600 text-sm">
-                      <Star className="w-4 h-4 mr-1" />
-                      {result.confidence}% confidence
+                    <div className="flex items-center text-warning text-sm">
+                      <Star className="w-3.5 h-3.5 mr-1" />
+                      {result.confidence}%
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
