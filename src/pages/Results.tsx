@@ -48,10 +48,8 @@ const Results = () => {
   const paymentStatus = searchParams.get("payment");
   const checkoutSessionId = searchParams.get("checkout_session_id");
 
-  // Number of results to show for free users
   const FREE_PREVIEW_COUNT = 2;
 
-  // Clean up URL params helper
   const cleanUpUrlParams = () => {
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.delete("payment");
@@ -59,21 +57,15 @@ const Results = () => {
     window.history.replaceState({}, "", newUrl.toString());
   };
 
-  // Handle payment success - verify with checkout_session_id
   useEffect(() => {
-    // Prevent multiple verification attempts
     if (hasStartedVerification.current) return;
     
     if (paymentStatus === "success" && checkoutSessionId && !hasPaid) {
       hasStartedVerification.current = true;
       setVerifyingCheckout(true);
       
-      toast({
-        title: "Payment successful!",
-        description: "Verifying your subscription...",
-      });
+      toast({ title: "Payment successful!", description: "Verifying your subscription..." });
       
-      // Verify payment with the checkout session ID
       const verifyPayment = async () => {
         let attempts = 0;
         const maxAttempts = 10;
@@ -100,10 +92,8 @@ const Results = () => {
           }
         };
         
-        // Initial check
         await poll();
         
-        // Continue polling if not paid yet
         if (!hasPaid && attempts < maxAttempts) {
           pollIntervalRef.current = setInterval(poll, 2000);
         }
@@ -111,11 +101,7 @@ const Results = () => {
       
       verifyPayment();
     } else if (paymentStatus === "cancelled") {
-      toast({
-        title: "Payment cancelled",
-        description: "You can try again when you're ready.",
-        variant: "destructive",
-      });
+      toast({ title: "Payment cancelled", description: "You can try again when you're ready.", variant: "destructive" });
       cleanUpUrlParams();
     }
 
@@ -127,31 +113,21 @@ const Results = () => {
     };
   }, [paymentStatus, checkoutSessionId, checkPaymentStatus, toast, hasPaid]);
 
-  // Show success toast when hasPaid becomes true after payment
   useEffect(() => {
     if (hasPaid && paymentStatus === "success" && !hasShownSuccessToast.current) {
       hasShownSuccessToast.current = true;
-      
-      // Clear polling interval
       if (pollIntervalRef.current) {
         clearInterval(pollIntervalRef.current);
         pollIntervalRef.current = null;
       }
-      
-      toast({
-        title: "Results unlocked!",
-        description: "You now have full access to all trend results.",
-      });
-      
+      toast({ title: "Results unlocked!", description: "You now have full access to all trend results." });
       cleanUpUrlParams();
     }
   }, [hasPaid, paymentStatus, toast]);
 
-  // Associate search with user if they're logged in
   useEffect(() => {
     const associateSearchWithUser = async () => {
       if (!user || !sessionId) return;
-
       try {
         await supabase
           .from("trend_results")
@@ -162,27 +138,19 @@ const Results = () => {
         console.error("Error associating search with user:", error);
       }
     };
-
     associateSearchWithUser();
   }, [user, sessionId]);
 
   useEffect(() => {
     const loadResults = async () => {
-      if (!sessionId) {
-        navigate("/");
-        return;
-      }
-
+      if (!sessionId) { navigate("/"); return; }
       try {
-        // Try to get results from localStorage first
         const storedResults = localStorage.getItem(`trends_${sessionId}`);
         if (storedResults) {
           setResults(JSON.parse(storedResults));
           setResultsLoading(false);
           return;
         }
-
-        // If not in localStorage, try database
         const { data, error } = await supabase
           .from("trend_results")
           .select("results")
@@ -191,23 +159,14 @@ const Results = () => {
 
         if (error) {
           console.error("Error fetching results:", error);
-          toast({
-            title: "Error loading results",
-            description: "Could not load your trend analysis. Please try again.",
-            variant: "destructive",
-          });
+          toast({ title: "Error loading results", description: "Could not load your trend analysis. Please try again.", variant: "destructive" });
           navigate("/");
           return;
         }
-
         if (data?.results) {
           setResults(data.results as unknown as TrendResult[]);
         } else {
-          toast({
-            title: "No results found",
-            description: "Could not find your trend analysis. Please generate a new one.",
-            variant: "destructive",
-          });
+          toast({ title: "No results found", description: "Could not find your trend analysis. Please generate a new one.", variant: "destructive" });
           navigate("/");
         }
       } catch (error) {
@@ -217,7 +176,6 @@ const Results = () => {
         setResultsLoading(false);
       }
     };
-
     loadResults();
   }, [sessionId, navigate, toast]);
 
@@ -226,22 +184,14 @@ const Results = () => {
       navigate(`/auth?redirect=/results?session_id=${sessionId}`);
       return;
     }
-
     setProcessingPayment(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-payment", {
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
+        headers: { Authorization: `Bearer ${session.access_token}` },
         body: { sessionId },
       });
-
-      if (error) {
-        throw error;
-      }
-
+      if (error) throw error;
       if (data?.url) {
-        // Store the Stripe session ID for verification after redirect
         if (data.sessionId) {
           localStorage.setItem("pending_checkout_session_id", data.sessionId);
         }
@@ -249,25 +199,16 @@ const Results = () => {
       }
     } catch (error) {
       console.error("Payment error:", error);
-      toast({
-        title: "Payment failed",
-        description: "Could not initiate payment. Please try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Payment failed", description: "Could not initiate payment. Please try again.", variant: "destructive" });
     } finally {
       setProcessingPayment(false);
     }
   };
 
-  // Compute stable view state - determines what to show
   const canViewFullResults = hasPaid;
-  
-  // Determine if we're in a loading/verification state that should block content
   const isVerifying = authLoading || checkingPayment || verifyingCheckout;
   const isLoadingResults = resultsLoading;
 
-  // STATE 1: Show skeleton while loading results or verifying payment
-  // This prevents any flash of preview/full content
   if (isLoadingResults || isVerifying) {
     const message = isVerifying 
       ? "Verifying your subscription..." 
@@ -276,8 +217,7 @@ const Results = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4 py-8">
-      {/* Logo */}
+    <div className="min-h-screen bg-background px-4 py-8">
       <Link to="/" className="absolute top-8 left-8 z-20">
         <div className="flex items-center space-x-2">
           <img 
@@ -289,82 +229,79 @@ const Results = () => {
       </Link>
 
       <div className="max-w-4xl mx-auto pt-16">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className="flex items-center space-x-2 bg-slate-800/80 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-700/50">
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
-              <span className="text-sm font-medium text-white">Trend Analysis Results</span>
+            <div className="flex items-center space-x-2 bg-card px-4 py-2 rounded-full border border-border">
+              <TrendingUp className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-foreground">Trend Analysis Results</span>
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
             Your Trending Products
           </h1>
-          <p className="text-slate-600">
+          <p className="text-muted-foreground text-sm">
             {canViewFullResults 
               ? `Showing all ${results.length} trending products`
               : `Previewing ${FREE_PREVIEW_COUNT} of ${results.length} results`}
           </p>
         </div>
 
-        {/* Payment status indicator - only shows stable states now */}
         {user && (
           <div className="flex justify-center mb-6">
-            <div className={`flex items-center space-x-2 px-4 py-2 rounded-full ${
+            <div className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium ${
               hasPaid 
-                ? "bg-emerald-100 text-emerald-700" 
-                : "bg-amber-100 text-amber-700"
+                ? "bg-success/10 text-success" 
+                : "bg-warning/10 text-warning"
             }`}>
               {hasPaid ? (
                 <>
                   <CheckCircle className="w-4 h-4" />
-                  <span className="text-sm font-medium">Full Access Unlocked</span>
+                  <span>Full Access Unlocked</span>
                 </>
               ) : (
                 <>
                   <Lock className="w-4 h-4" />
-                  <span className="text-sm font-medium">Limited Preview</span>
+                  <span>Limited Preview</span>
                 </>
               )}
             </div>
           </div>
         )}
 
-        {/* Results */}
-        <div className="space-y-4 mb-8">
+        <div className="space-y-3 mb-8">
           {results.slice(0, canViewFullResults ? results.length : FREE_PREVIEW_COUNT).map((result, index) => (
-            <Card key={index} className="bg-white/80 backdrop-blur-sm border-slate-200/50 p-6 shadow-lg">
+            <Card key={index} className="bg-card border-border p-5">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-2">
-                    <span className="bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
+                    <span className="bg-primary/10 text-primary text-xs font-semibold px-2 py-0.5 rounded">
                       #{index + 1}
                     </span>
-                    <h3 className="text-lg font-semibold text-slate-800">{result.product}</h3>
+                    <h3 className="text-base font-semibold text-foreground">{result.product}</h3>
                   </div>
-                  <p className="text-slate-600 text-sm mb-3">{result.description}</p>
-                  <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+                  <p className="text-muted-foreground text-sm mb-3">{result.description}</p>
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                     <span className="flex items-center">
-                      <Clock className="w-4 h-4 mr-1" />
+                      <Clock className="w-3.5 h-3.5 mr-1" />
                       {result.timeframe}
                     </span>
                     <span>Platform: {result.platform}</span>
                     <span>Risk: <span className={
-                      result.risk === "Low" ? "text-emerald-600" :
-                      result.risk === "Medium" ? "text-amber-600" : "text-red-600"
+                      result.risk === "Low" ? "text-success" :
+                      result.risk === "Medium" ? "text-warning" : "text-destructive"
                     }>{result.risk}</span></span>
                     <span>Volume: {result.searchVolume}</span>
                     <span>Competition: {result.competitionLevel}</span>
                   </div>
                 </div>
                 <div className="text-right ml-4">
-                  <div className="flex items-center text-emerald-600 font-bold text-xl mb-1">
-                    <ArrowUp className="w-5 h-5 mr-1" />
+                  <div className="flex items-center text-success font-bold text-lg mb-1">
+                    <ArrowUp className="w-4 h-4 mr-1" />
                     {result.trend}
                   </div>
-                  <div className="flex items-center justify-end text-amber-600 text-sm">
-                    <Star className="w-4 h-4 mr-1" />
-                    {result.confidence}% confidence
+                  <div className="flex items-center justify-end text-warning text-xs">
+                    <Star className="w-3.5 h-3.5 mr-1" />
+                    {result.confidence}%
                   </div>
                 </div>
               </div>
@@ -372,26 +309,24 @@ const Results = () => {
           ))}
         </div>
 
-        {/* Locked results preview */}
         {!canViewFullResults && results.length > FREE_PREVIEW_COUNT && (
           <div className="relative mb-8">
-            {/* Blurred preview of remaining results */}
-            <div className="space-y-4 filter blur-sm pointer-events-none select-none">
+            <div className="space-y-3 filter blur-sm pointer-events-none select-none">
               {results.slice(FREE_PREVIEW_COUNT, FREE_PREVIEW_COUNT + 2).map((result, index) => (
-                <Card key={index} className="bg-white/80 backdrop-blur-sm border-slate-200/50 p-6 shadow-lg">
+                <Card key={index} className="bg-card border-border p-5">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <span className="bg-slate-100 text-slate-500 text-xs font-semibold px-2 py-1 rounded">
+                        <span className="bg-muted text-muted-foreground text-xs font-semibold px-2 py-0.5 rounded">
                           #{FREE_PREVIEW_COUNT + index + 1}
                         </span>
-                        <h3 className="text-lg font-semibold text-slate-800">{result.product}</h3>
+                        <h3 className="text-base font-semibold text-foreground">{result.product}</h3>
                       </div>
-                      <p className="text-slate-600 text-sm mb-3">{result.description}</p>
+                      <p className="text-muted-foreground text-sm mb-3">{result.description}</p>
                     </div>
                     <div className="text-right ml-4">
-                      <div className="flex items-center text-emerald-600 font-bold text-xl">
-                        <ArrowUp className="w-5 h-5 mr-1" />
+                      <div className="flex items-center text-success font-bold text-lg">
+                        <ArrowUp className="w-4 h-4 mr-1" />
                         {result.trend}
                       </div>
                     </div>
@@ -400,30 +335,29 @@ const Results = () => {
               ))}
             </div>
 
-            {/* Overlay with unlock CTA */}
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-slate-50/90 via-slate-50/70 to-transparent">
-              <Card className="bg-white shadow-2xl border-0 p-8 max-w-md text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-background/95 via-background/80 to-transparent">
+              <Card className="bg-card border-border p-8 max-w-md text-center">
+                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                   {canViewFullResults ? (
-                    <Eye className="w-8 h-8 text-white" />
+                    <Eye className="w-7 h-7 text-primary" />
                   ) : (
-                    <EyeOff className="w-8 h-8 text-white" />
+                    <EyeOff className="w-7 h-7 text-primary" />
                   )}
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">
+                <h3 className="text-lg font-bold text-foreground mb-2">
                   Unlock All {results.length} Trending Products
                 </h3>
-                <p className="text-slate-600 mb-6">
+                <p className="text-muted-foreground text-sm mb-6">
                   Get full access to detailed trend analysis, competition insights, and timing predictions.
                 </p>
-                <div className="text-3xl font-bold text-slate-800 mb-4">
-                  $20 <span className="text-base font-normal text-slate-500">monthly</span>
+                <div className="text-3xl font-bold text-foreground mb-4">
+                  $20 <span className="text-base font-normal text-muted-foreground">monthly</span>
                 </div>
                 
                 {!user ? (
                   <Button
                     onClick={() => navigate(`/auth?redirect=/results?session_id=${sessionId}`)}
-                    className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white font-semibold py-3"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3"
                   >
                     Sign Up to Unlock
                   </Button>
@@ -431,7 +365,7 @@ const Results = () => {
                   <Button
                     onClick={handlePayment}
                     disabled={processingPayment}
-                    className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white font-semibold py-3"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3"
                   >
                     {processingPayment ? (
                       <>
@@ -451,12 +385,11 @@ const Results = () => {
           </div>
         )}
 
-        {/* Generate new analysis button */}
         <div className="text-center">
           <Button
             variant="outline"
             onClick={() => navigate("/")}
-            className="border-slate-300 text-slate-700 hover:bg-slate-100"
+            className="border-border text-foreground hover:bg-accent"
           >
             Generate New Analysis
           </Button>

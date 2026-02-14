@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 
 const TrendingChildrenToysProductsUS = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 font-inter">
+    <div className="min-h-screen bg-background font-inter">
       <TrendingChildrenToysProductsUSHeroSection />
       <DemoSection />
       <FeaturesSection />

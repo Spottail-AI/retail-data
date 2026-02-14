@@ -31,25 +31,21 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Redirect if not authenticated
   useEffect(() => {
     if (!authLoading && !user) {
       navigate("/auth?redirect=/dashboard");
     }
   }, [user, authLoading, navigate]);
 
-  // Check payment status on mount
   useEffect(() => {
     if (user) {
       checkPaymentStatus();
     }
   }, [user, checkPaymentStatus]);
 
-  // Load past searches
   useEffect(() => {
     const loadSearches = async () => {
       if (!user) return;
-
       try {
         const { data, error } = await supabase
           .from("trend_results")
@@ -60,7 +56,6 @@ const Dashboard = () => {
         if (error) {
           console.error("Error loading searches:", error);
         } else if (data) {
-          // Cast the results to the expected type
           const typedSearches: SavedSearch[] = data.map((item) => ({
             ...item,
             results: Array.isArray(item.results) ? item.results : [],
@@ -91,10 +86,10 @@ const Dashboard = () => {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-emerald-500 mx-auto mb-4" />
-          <p className="text-slate-600">Loading your dashboard...</p>
+          <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground text-sm">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -105,7 +100,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4 py-8">
+    <div className="min-h-screen bg-background px-4 py-8">
       {/* Header */}
       <div className="flex items-center justify-between max-w-4xl mx-auto mb-8">
         <Link to="/" className="flex items-center space-x-2">
@@ -120,7 +115,7 @@ const Dashboard = () => {
             variant="outline"
             size="sm"
             onClick={() => navigate("/")}
-            className="border-slate-300 text-slate-700 hover:bg-slate-100"
+            className="border-border text-foreground hover:bg-accent"
           >
             <Search className="w-4 h-4 mr-2" />
             New Search
@@ -129,7 +124,7 @@ const Dashboard = () => {
             variant="ghost"
             size="sm"
             onClick={handleSignOut}
-            className="text-slate-600 hover:text-slate-800 hover:bg-slate-100"
+            className="text-muted-foreground hover:text-foreground hover:bg-accent"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Sign Out
@@ -138,38 +133,35 @@ const Dashboard = () => {
       </div>
 
       <div className="max-w-4xl mx-auto">
-        {/* Page Title */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className="flex items-center space-x-2 bg-slate-800/80 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-700/50">
-              <LayoutDashboard className="w-4 h-4 text-emerald-400" />
-              <span className="text-sm font-medium text-white">Your Dashboard</span>
+            <div className="flex items-center space-x-2 bg-card px-4 py-2 rounded-full border border-border">
+              <LayoutDashboard className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-foreground">Your Dashboard</span>
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
             Past Trend Searches
           </h1>
-          <p className="text-slate-600">
-            {user.email}
-          </p>
+          <p className="text-muted-foreground text-sm">{user.email}</p>
         </div>
 
         {/* Subscription Status */}
         <div className="flex justify-center mb-8">
-          <div className={`flex items-center space-x-2 px-4 py-2 rounded-full ${
+          <div className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium ${
             hasPaid 
-              ? "bg-emerald-100 text-emerald-700" 
-              : "bg-amber-100 text-amber-700"
+              ? "bg-success/10 text-success" 
+              : "bg-warning/10 text-warning"
           }`}>
             {hasPaid ? (
               <>
                 <Unlock className="w-4 h-4" />
-                <span className="text-sm font-medium">Full Access - All results unlocked</span>
+                <span>Full Access - All results unlocked</span>
               </>
             ) : (
               <>
                 <Lock className="w-4 h-4" />
-                <span className="text-sm font-medium">Preview Mode - Subscribe to unlock all results</span>
+                <span>Preview Mode - Subscribe to unlock all results</span>
               </>
             )}
           </div>
@@ -177,42 +169,42 @@ const Dashboard = () => {
 
         {/* Searches List */}
         {searches.length === 0 ? (
-          <Card className="bg-white/80 backdrop-blur-sm border-slate-200/50 p-12 text-center">
-            <Search className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-slate-800 mb-2">No searches yet</h2>
-            <p className="text-slate-600 mb-6">
+          <Card className="bg-card border-border p-12 text-center">
+            <Search className="w-10 h-10 text-muted-foreground mx-auto mb-4" />
+            <h2 className="text-lg font-semibold text-foreground mb-2">No searches yet</h2>
+            <p className="text-muted-foreground text-sm mb-6">
               Start analyzing trends to see your search history here.
             </p>
             <Button
               onClick={() => navigate("/")}
-              className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <TrendingUp className="w-4 h-4 mr-2" />
               Start Your First Search
             </Button>
           </Card>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {searches.map((search) => {
               const resultCount = Array.isArray(search.results) ? search.results.length : 0;
               
               return (
                 <Card 
                   key={search.id} 
-                  className="bg-white/80 backdrop-blur-sm border-slate-200/50 p-6 shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                  className="bg-card border-border p-5 hover:border-primary/30 transition-all cursor-pointer"
                   onClick={() => handleViewSearch(search.session_id)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
-                        <TrendingUp className="w-5 h-5 text-emerald-600" />
-                        <h3 className="text-lg font-semibold text-slate-800">
+                        <TrendingUp className="w-4 h-4 text-success" />
+                        <h3 className="text-base font-semibold text-foreground">
                           {search.category}
                         </h3>
-                        <span className={`text-xs font-semibold px-2 py-1 rounded ${
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded ${
                           hasPaid 
-                            ? "bg-emerald-100 text-emerald-700" 
-                            : "bg-amber-100 text-amber-700"
+                            ? "bg-success/10 text-success" 
+                            : "bg-warning/10 text-warning"
                         }`}>
                           {hasPaid ? (
                             <span className="flex items-center gap-1">
@@ -227,9 +219,9 @@ const Dashboard = () => {
                           )}
                         </span>
                       </div>
-                      <div className="flex items-center space-x-4 text-sm text-slate-500">
+                      <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                         <span className="flex items-center">
-                          <Calendar className="w-4 h-4 mr-1" />
+                          <Calendar className="w-3.5 h-3.5 mr-1" />
                           {format(new Date(search.created_at), "MMM d, yyyy 'at' h:mm a")}
                         </span>
                         <span>
@@ -237,8 +229,8 @@ const Dashboard = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center text-slate-400">
-                      <ArrowRight className="w-5 h-5" />
+                    <div className="flex items-center text-muted-foreground">
+                      <ArrowRight className="w-4 h-4" />
                     </div>
                   </div>
                 </Card>

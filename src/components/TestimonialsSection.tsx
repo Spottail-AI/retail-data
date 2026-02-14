@@ -30,45 +30,44 @@ export const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-24 px-4 relative">
+    <section className="py-28 px-4 relative">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">
             Trusted by
-            <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent"> Industry Leaders</span>
+            <span className="text-primary"> Industry Leaders</span>
           </h2>
-          <p className="text-xl text-black max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Join thousands of retailers who are already using our AI to stay ahead of market trends 
             and maximize their profits.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
             <div 
               key={index}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:scale-105"
+              className="bg-card border border-border rounded-xl p-8 hover:border-primary/30 transition-all duration-300"
             >
-              <div className="flex items-center mb-6">
+              <div className="flex items-center mb-5">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  <Star key={i} className="w-4 h-4 text-warning fill-current" />
                 ))}
               </div>
               
-              <Quote className="w-8 h-8 text-emerald-400 mb-4" />
+              <Quote className="w-7 h-7 text-primary/40 mb-4" />
               
-              <p className="text-black mb-6 leading-relaxed">
+              <p className="text-muted-foreground mb-6 leading-relaxed text-sm">
                 "{testimonial.content}"
               </p>
               
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold mr-4">
+              <div className="flex items-center pt-4 border-t border-border">
+                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-semibold text-sm mr-3">
                   {testimonial.avatar}
                 </div>
                 <div>
-                  <div className="text-black font-semibold">{testimonial.name}</div>
-                  <div className="text-black text-sm">{testimonial.role}</div>
-                  <div className="text-black text-sm">{testimonial.company}</div>
+                  <div className="text-foreground font-medium text-sm">{testimonial.name}</div>
+                  <div className="text-muted-foreground text-xs">{testimonial.role}, {testimonial.company}</div>
                 </div>
               </div>
             </div>

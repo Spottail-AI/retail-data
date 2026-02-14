@@ -36,29 +36,29 @@ export const FeaturesSection = () => {
   ];
 
   return (
-    <section className="py-24 px-4 relative bg-white/50 backdrop-blur-sm">
+    <section className="py-28 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">
             Stay Ahead of Your
-            <span className="bg-gradient-to-r from-emerald-500 to-blue-600 bg-clip-text text-transparent"> Competitors</span>
+            <span className="text-primary"> Competitors</span>
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Make data-driven decisions and capture market opportunities before anyone else.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="bg-white/80 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-8 hover:bg-white/90 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              className="bg-card border border-border rounded-xl p-8 hover:border-primary/30 transition-all duration-300 group"
             >
-              <div className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
-                <feature.icon className="w-7 h-7 text-white" />
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/15 transition-colors">
+                <feature.icon className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">{feature.title}</h3>
-              <p className="text-slate-600 leading-relaxed">{feature.description}</p>
+              <h3 className="text-lg font-semibold text-foreground mb-3">{feature.title}</h3>
+              <p className="text-muted-foreground leading-relaxed text-sm">{feature.description}</p>
             </div>
           ))}
         </div>
