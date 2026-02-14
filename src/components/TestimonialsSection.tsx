@@ -30,10 +30,10 @@ export const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-28 px-4 relative">
+    <section id="testimonials-section" className="py-36 px-4 relative">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">
+        <div className="text-center mb-24">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-8 tracking-wide">
             Trusted by
             <span className="text-primary"> Industry Leaders</span>
           </h2>
@@ -47,7 +47,7 @@ export const TestimonialsSection = () => {
           {testimonials.map((testimonial, index) => (
             <div 
               key={index}
-              className="bg-card border border-border rounded-xl p-8 hover:border-primary/30 transition-all duration-300"
+              className="bg-card border border-[hsl(var(--card-border))] rounded-xl p-8 hover:border-primary/30 transition-all duration-300"
             >
               <div className="flex items-center mb-5">
                 {[...Array(testimonial.rating)].map((_, i) => (

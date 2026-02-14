@@ -87,11 +87,11 @@ export const PricingSection = () => {
   ];
 
   return (
-    <section id="pricing-section" className="py-28 px-4 relative">
+    <section id="pricing-section" className="py-36 px-4 relative">
       <div className="absolute inset-0 bg-navy-surface/50"></div>
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">
+        <div className="text-center mb-24">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-8 tracking-wide">
             Choose Your
             <span className="text-primary"> Success Plan</span>
           </h2>
@@ -106,7 +106,7 @@ export const PricingSection = () => {
             <div 
               key={index}
               className={`relative bg-card border rounded-2xl p-8 transition-all duration-300 ${
-                plan.popular ? 'border-primary ring-1 ring-primary/30' : 'border-border hover:border-primary/30'
+                plan.popular ? 'border-primary ring-1 ring-primary/30' : 'border-[hsl(var(--card-border))] hover:border-primary/30'
               }`}
             >
               {plan.popular && (
@@ -141,7 +141,7 @@ export const PricingSection = () => {
               {plan.name === "Enterprise" ? (
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button className="w-full py-3 font-semibold rounded-lg transition-all duration-300 bg-primary hover:bg-primary/90 text-primary-foreground">
+                    <Button className="w-full py-3 font-semibold rounded-lg transition-all duration-300 bg-cta hover:bg-cta/90 text-cta-foreground">
                       Contact Sales
                     </Button>
                   </DialogTrigger>
@@ -209,7 +209,7 @@ export const PricingSection = () => {
                 <Button 
                   className={`w-full py-3 font-semibold rounded-lg transition-all duration-300 ${
                     plan.popular 
-                      ? "bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20" 
+                      ? "bg-cta hover:bg-cta/90 text-cta-foreground shadow-lg shadow-cta/20" 
                       : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                   }`}
                   onClick={scrollToDemo}

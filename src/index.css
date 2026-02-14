@@ -34,6 +34,13 @@
 
     --radius: 0.625rem;
 
+    /* CTA accent — lime green #ADFF2F */
+    --cta: 83 100% 59%;
+    --cta-foreground: 0 0% 0%;
+
+    /* Card border */
+    --card-border: 0 0% 100% / 0.1;
+
     --sidebar-background: 216 54% 8.4%;
     --sidebar-foreground: 210 29% 92.5%;
     --sidebar-primary: 217 100% 65.5%;

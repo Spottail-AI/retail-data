@@ -36,10 +36,10 @@ export const FeaturesSection = () => {
   ];
 
   return (
-    <section className="py-28 px-4 relative">
+    <section id="features-section" className="py-36 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">
+        <div className="text-center mb-24">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-8 tracking-wide">
             Stay Ahead of Your
             <span className="text-primary"> Competitors</span>
           </h2>
@@ -52,7 +52,7 @@ export const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="bg-card border border-border rounded-xl p-8 hover:border-primary/30 transition-all duration-300 group"
+              className="bg-card border border-[hsl(var(--card-border))] rounded-xl p-8 hover:border-primary/30 transition-all duration-300 group"
             >
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/15 transition-colors">
                 <feature.icon className="w-6 h-6 text-primary" />
