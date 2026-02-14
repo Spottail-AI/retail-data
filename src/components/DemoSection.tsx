@@ -173,21 +173,21 @@ export const DemoSection = () => {
   };
 
   return (
-    <section id="demo-section" className="py-28 px-4 relative">
+    <section id="demo-section" className="py-36 px-4 relative">
       <div className="absolute inset-0 bg-navy-surface/50"></div>
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-8 tracking-wide">
             See It In
             <span className="text-primary"> Action</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12">
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-14">
             Try our AI trend detector for retail right now. Select your target market, Niche, Platform, and see which products 
             are about to explode in popularity.
           </p>
         </div>
 
-        <div className="bg-card border border-border rounded-2xl p-8 mb-12">
+        <div className="bg-card border border-[hsl(var(--card-border))] rounded-2xl p-8 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div>
               <label className="block text-foreground font-medium mb-3 text-sm">Select Country/Region</label>
@@ -246,7 +246,7 @@ export const DemoSection = () => {
             <Button 
               id="analyze_trends_button_click"
               size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-4 text-lg font-semibold rounded-lg shadow-lg shadow-primary/20"
+              className="bg-cta hover:bg-cta/90 text-cta-foreground px-12 py-4 text-lg font-semibold rounded-lg shadow-lg shadow-cta/20"
               onClick={handleAnalyzeTrends}
               disabled={isAnalyzing}
             >

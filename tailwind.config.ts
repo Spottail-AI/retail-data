@@ -75,10 +75,14 @@ export default {
 					DEFAULT: 'hsl(var(--warning))',
 					foreground: 'hsl(var(--warning-foreground))'
 				},
-				navy: {
+			navy: {
 					deep: 'hsl(var(--navy-deep))',
 					surface: 'hsl(var(--navy-surface))',
 					elevated: 'hsl(var(--navy-elevated))',
+				},
+				cta: {
+					DEFAULT: 'hsl(var(--cta))',
+					foreground: 'hsl(var(--cta-foreground))',
 				}
 			},
 			borderRadius: {
