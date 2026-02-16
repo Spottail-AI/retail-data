@@ -40,6 +40,16 @@ import TrendingFurnitureHomeProductsUS from "./pages/TrendingFurnitureHomeProduc
 import TrendingEcommerceProductsUS from "./pages/TrendingEcommerceProductsUS";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import Helium10Alternative from "./pages/Helium10Alternative";
+import JungleScoutAlternative from "./pages/JungleScoutAlternative";
+import SellTheTrendAlternative from "./pages/SellTheTrendAlternative";
+import PexdaAlternative from "./pages/PexdaAlternative";
+import ExplodingTopicsAlternative from "./pages/ExplodingTopicsAlternative";
+import AlgopixAlternative from "./pages/AlgopixAlternative";
+import TrendHunterAlternative from "./pages/TrendHunterAlternative";
+import EcomhuntAlternative from "./pages/EcomhuntAlternative";
+import DropshipSpyAlternative from "./pages/DropshipSpyAlternative";
+import GlimpseAlternative from "./pages/GlimpseAlternative";
 
 const queryClient = new QueryClient();
 
@@ -85,6 +95,16 @@ const App = () => (
             <Route path="/trending-food-products-us" element={<TrendingFoodProductsUS />} />
             <Route path="/trending-furniture-home-products-us" element={<TrendingFurnitureHomeProductsUS />} />
             <Route path="/trending-ecommerce-products-us" element={<TrendingEcommerceProductsUS />} />
+            <Route path="/helium10-alternative" element={<Helium10Alternative />} />
+            <Route path="/jungle-scout-alternative" element={<JungleScoutAlternative />} />
+            <Route path="/sell-the-trend-alternative" element={<SellTheTrendAlternative />} />
+            <Route path="/pexda-alternative" element={<PexdaAlternative />} />
+            <Route path="/exploding-topics-alternative" element={<ExplodingTopicsAlternative />} />
+            <Route path="/algopix-alternative" element={<AlgopixAlternative />} />
+            <Route path="/trendhunter-alternative" element={<TrendHunterAlternative />} />
+            <Route path="/ecomhunt-alternative" element={<EcomhuntAlternative />} />
+            <Route path="/dropship-spy-alternative" element={<DropshipSpyAlternative />} />
+            <Route path="/glimpse-alternative" element={<GlimpseAlternative />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
