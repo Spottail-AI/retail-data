@@ -58,7 +58,7 @@ export const CompetitorLandingPage = ({ data }: { data: CompetitorPageData }) =>
   return (
     <div className="min-h-screen bg-background font-inter">
       {/* Hero */}
-      <section className="relative min-h-[80vh] flex items-center justify-center px-4 py-28">
+      <section className="relative min-h-[70vh] flex items-center justify-center px-4 py-20">
         <Header />
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
@@ -84,7 +84,7 @@ export const CompetitorLandingPage = ({ data }: { data: CompetitorPageData }) =>
       </section>
 
       {/* Comparison Table */}
-      <section className="py-24 px-4">
+      <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
             Feature Comparison
@@ -117,47 +117,58 @@ export const CompetitorLandingPage = ({ data }: { data: CompetitorPageData }) =>
         </div>
       </section>
 
-      {/* Why People Look for an Alternative */}
+      {/* Why Switch — merged table */}
       <section className="py-24 px-4 bg-card/30">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            Why People Look for a {data.competitorName} Alternative
+            Why Teams Switch from {data.competitorName} to Spottail
           </h2>
-          <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
-            {data.whyLookForAlternative.map((reason, i) => (
-              <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-                <X className="w-5 h-5 text-destructive mt-0.5 shrink-0" />
-                <span className="text-muted-foreground">{reason}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Spottail is a Stronger Choice */}
-      <section className="py-24 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            Why Spottail Is a Stronger Choice
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            {data.whySpottailBetter.map((point, i) => (
-              <div key={i} className="p-6 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-                <div className="flex items-center gap-2 mb-2">
-                  <Check className="w-5 h-5 text-success shrink-0" />
-                  <h3 className="text-foreground font-semibold">{point.title}</h3>
-                </div>
-                {point.description && (
-                  <p className="text-muted-foreground text-sm pl-7">{point.description}</p>
-                )}
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left py-4 px-4 text-muted-foreground font-medium text-sm uppercase tracking-wider">
+                    {data.competitorName} Limitation
+                  </th>
+                  <th className="text-left py-4 px-4 text-primary font-semibold text-sm uppercase tracking-wider">
+                    How Spottail Solves It
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.whyLookForAlternative.map((reason, i) => (
+                  <tr key={i} className="border-b border-border/50">
+                    <td className="py-4 px-4">
+                      <span className="inline-flex items-start gap-2 text-muted-foreground">
+                        <X className="w-4 h-4 text-destructive mt-1 shrink-0" />
+                        {reason}
+                      </span>
+                    </td>
+                    <td className="py-4 px-4">
+                      {data.whySpottailBetter[i] ? (
+                        <span className="inline-flex items-start gap-2 text-foreground">
+                          <Check className="w-4 h-4 text-success mt-1 shrink-0" />
+                          <span>
+                            <span className="font-medium">{data.whySpottailBetter[i].title}</span>
+                            {data.whySpottailBetter[i].description && (
+                              <span className="text-muted-foreground"> — {data.whySpottailBetter[i].description}</span>
+                            )}
+                          </span>
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
 
       {/* Who Should Use Each Tool */}
-      <section className="py-24 px-4 bg-card/30">
+      <section className="py-24 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
             Who Should Use Each Tool
