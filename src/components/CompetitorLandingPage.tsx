@@ -83,33 +83,6 @@ export const CompetitorLandingPage = ({ data }: { data: CompetitorPageData }) =>
         </div>
       </section>
 
-      {/* Quick Comparison Summary */}
-      <section className="py-24 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 tracking-wide text-center">
-            Quick Comparison
-          </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed text-center max-w-3xl mx-auto">
-            {data.quickSummary}
-          </p>
-        </div>
-      </section>
-
-      {/* CTA Band */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <Link to="/auth">
-            <Button
-              size="lg"
-              className="bg-cta hover:bg-cta/90 text-cta-foreground px-10 py-5 text-lg font-semibold rounded-lg shadow-lg shadow-cta/20 transition-all duration-300"
-            >
-              Try Spottail Free
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
       {/* Comparison Table */}
       <section className="py-24 px-4">
         <div className="max-w-4xl mx-auto">
