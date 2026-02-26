@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
+import { Footer } from "@/components/Footer";
 import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
@@ -67,6 +68,8 @@ const DashboardShell = ({ title, description, children }: DashboardShellProps) =
           </div>
           {children}
         </main>
+
+        <Footer />
       </div>
     </div>
   );

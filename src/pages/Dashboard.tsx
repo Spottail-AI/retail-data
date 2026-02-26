@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
+import { Footer } from "@/components/Footer";
 import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
 import { KpiCards } from "@/components/dashboard/KpiCards";
 import { PriceTrendsSection } from "@/components/dashboard/PriceTrendsSection";
@@ -107,6 +108,8 @@ const Dashboard = () => {
           {/* Trend Discovery */}
           <TrendDiscoverySection />
         </main>
+
+        <Footer />
       </div>
     </div>
   );
