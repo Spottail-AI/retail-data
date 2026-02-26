@@ -24,7 +24,7 @@ interface DashboardSidebarProps {
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { label: "Price Tracking", icon: TrendingUp, path: "/price-tracking" },
-  { label: "Suppliers", icon: Truck, path: "/suppliers" },
+  { label: "Suppliers & Distributors", icon: Truck, path: "/suppliers" },
   { label: "Competitor Analysis", icon: Users, path: "/competitor-analysis" },
   { label: "Trend Discovery", icon: Sparkles, path: "/trend-discovery" },
   { label: "Reports", icon: FileText, path: "/reports" },
