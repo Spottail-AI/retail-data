@@ -28,7 +28,7 @@ export const DashboardTopBar = ({ sidebarCollapsed, onMobileMenuToggle }: Dashbo
 
   return (
     <header
-      className="h-16 border-b border-border bg-card/50 backdrop-blur-sm flex items-center justify-between px-4 md:px-8 sticky top-0 z-20"
+      className="h-16 bg-[hsl(var(--card))] border-b border-[#E6E8EB] flex items-center justify-between px-4 md:px-8 sticky top-0 z-20"
     >
       {/* Left side */}
       <div className="flex items-center gap-4">
@@ -39,7 +39,7 @@ export const DashboardTopBar = ({ sidebarCollapsed, onMobileMenuToggle }: Dashbo
           <Menu className="w-5 h-5" />
         </button>
         <div>
-          <h2 className="text-sm md:text-base font-semibold text-foreground">
+          <h2 className="text-sm md:text-base font-semibold text-[#111111]">
             Welcome back, {firstName}
           </h2>
           <p className="text-xs text-muted-foreground hidden sm:block">
@@ -55,7 +55,7 @@ export const DashboardTopBar = ({ sidebarCollapsed, onMobileMenuToggle }: Dashbo
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Search..."
-            className="pl-9 w-48 lg:w-64 h-9 bg-background border-border text-sm"
+            className="pl-9 w-48 lg:w-64 h-9 bg-[hsl(var(--background))] border-[#E6E8EB] text-sm"
           />
         </div>
 
