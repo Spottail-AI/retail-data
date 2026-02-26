@@ -15,7 +15,7 @@ export const DemoSection = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, session } = useAuth();
 
   const allCountries = [
     { value: "us", label: "United States" },
@@ -128,6 +128,15 @@ export const DemoSection = () => {
       return;
     }
 
+    if (!user || !session) {
+      navigate("/auth?mode=signup");
+      toast({
+        title: "Sign up required",
+        description: "Create a free account to analyze trends.",
+      });
+      return;
+    }
+
     setIsAnalyzing(true);
 
     // Generate a unique session ID
@@ -138,12 +147,14 @@ export const DemoSection = () => {
       const nicheLabel = niches.find(n => n.value === selectedNiche)?.label || selectedNiche;
 
       const { data, error } = await supabase.functions.invoke("generate-trends", {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
         body: {
           country: countryLabel,
           niche: nicheLabel,
           platform: selectedPlatform,
           sessionId,
-          userId: user?.id,
         },
       });
 
