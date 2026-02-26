@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
 import { Header } from "@/components/Header";
+import { useNavigate } from "react-router-dom";
 
 export const HeroSection = () => {
+  const navigate = useNavigate();
   return (
     <section className="relative flex items-center justify-center px-4 pt-32 md:pt-36 pb-10 md:pb-16">
       <Header />
@@ -38,6 +40,7 @@ export const HeroSection = () => {
           <Button 
             size="lg" 
             className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 sm:px-10 py-5 text-base sm:text-lg font-semibold rounded-lg shadow-lg shadow-cta/20 transition-all duration-300 hover:shadow-xl hover:shadow-cta/30 w-full sm:w-auto"
+            onClick={() => navigate("/auth?mode=signup")}
           >
             Get Started
             <ArrowRight className="ml-2 w-5 h-5" />

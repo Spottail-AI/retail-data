@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Check, Zap, Crown, Rocket } from "lucide-react";
 
 export const PricingSection = () => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -212,7 +214,7 @@ export const PricingSection = () => {
                       ? "bg-cta hover:bg-cta/90 text-cta-foreground shadow-lg shadow-cta/20" 
                       : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                   }`}
-                  onClick={scrollToDemo}
+                  onClick={() => navigate("/auth?mode=signup")}
                 >
                   Start now - Free
                 </Button>

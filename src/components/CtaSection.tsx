@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const CtaSection = () => {
+  const navigate = useNavigate();
   return (
     <section className="py-10 md:py-16 px-4 relative">
       <div className="max-w-3xl mx-auto text-center">
@@ -13,6 +15,7 @@ export const CtaSection = () => {
           <Button
             size="lg"
             className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 sm:px-10 py-5 text-base sm:text-lg font-semibold rounded-lg shadow-lg shadow-cta/20 transition-all duration-300 hover:shadow-xl hover:shadow-cta/30 w-full sm:w-auto"
+            onClick={() => navigate("/auth?mode=signup")}
           >
             Start Free Trial
             <ArrowRight className="ml-2 w-5 h-5" />
