@@ -23,7 +23,7 @@ export const HeroSection = () => {
         <div className="flex flex-col items-center gap-3 mb-16 max-w-3xl mx-auto">
           {[
             "Track food and commodity prices.",
-            "Find suppliers of your products in one click.",
+            "Find suppliers and distributors of your products in one click.",
             "Analyze competitors to find your unique edge.",
             "Uncover products about to trend."
           ].map((line, i) => (
