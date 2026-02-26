@@ -23,18 +23,15 @@ export const HeroSection = () => {
         <div className="flex flex-col items-center gap-3 mb-16 max-w-3xl mx-auto">
           {[
             "Track food and commodity prices.",
-            "Find suppliers.",
-            "Analyze competitors.",
+            "Find suppliers of your products in one click.",
+            "Analyze competitors to find your unique edge.",
             "Uncover products about to trend."
           ].map((line, i) => (
-            <div key={i} className="flex items-center gap-2 text-lg md:text-xl text-muted-foreground">
+            <div key={i} className="flex items-center gap-2 text-lg md:text-xl text-foreground">
               <Check className="w-5 h-5 text-cta flex-shrink-0" />
               <span>{line}</span>
             </div>
           ))}
-          <p className="text-lg md:text-xl text-muted-foreground mt-2">
-            All in one real-time intelligence platform.
-          </p>
         </div>
         
         <div className="flex justify-center items-center gap-4 mb-24">
