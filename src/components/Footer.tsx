@@ -10,7 +10,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-border py-12 md:py-16 px-4">
+    <footer className="border-t border-border py-10 md:py-16 px-4">
       <div className="max-w-7xl mx-auto">
 
         {/* Footer Links */}

@@ -25,9 +25,9 @@ export const FeaturesSection = () => {
   ];
 
   return (
-    <section id="features-section" className="py-20 md:py-36 px-4 relative">
+    <section id="features-section" className="py-10 md:py-16 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12 md:mb-24">
+        <div className="text-center mb-8 md:mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 md:mb-8 tracking-wide">
             Built for Retail, E-Commerce,
             <span className="text-primary"> and Enterprise</span>
