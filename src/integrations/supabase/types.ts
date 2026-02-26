@@ -71,6 +71,126 @@ export type Database = {
         }
         Relationships: []
       }
+      suppliers: {
+        Row: {
+          average_price: number | null
+          contact_email: string | null
+          created_at: string
+          id: string
+          location: string | null
+          moq: number | null
+          product_category: string | null
+          region: string | null
+          reliability_score: number | null
+          supplier_name: string
+          user_id: string
+        }
+        Insert: {
+          average_price?: number | null
+          contact_email?: string | null
+          created_at?: string
+          id?: string
+          location?: string | null
+          moq?: number | null
+          product_category?: string | null
+          region?: string | null
+          reliability_score?: number | null
+          supplier_name: string
+          user_id: string
+        }
+        Update: {
+          average_price?: number | null
+          contact_email?: string | null
+          created_at?: string
+          id?: string
+          location?: string | null
+          moq?: number | null
+          product_category?: string | null
+          region?: string | null
+          reliability_score?: number | null
+          supplier_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tracked_competitors: {
+        Row: {
+          category: string | null
+          competitor_name: string
+          created_at: string
+          id: string
+          last_checked: string | null
+          last_price_change: number | null
+          pricing_position: string | null
+          user_id: string
+          website_url: string | null
+        }
+        Insert: {
+          category?: string | null
+          competitor_name: string
+          created_at?: string
+          id?: string
+          last_checked?: string | null
+          last_price_change?: number | null
+          pricing_position?: string | null
+          user_id: string
+          website_url?: string | null
+        }
+        Update: {
+          category?: string | null
+          competitor_name?: string
+          created_at?: string
+          id?: string
+          last_checked?: string | null
+          last_price_change?: number | null
+          pricing_position?: string | null
+          user_id?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      tracked_products: {
+        Row: {
+          category: string | null
+          created_at: string
+          currency: string | null
+          current_price: number | null
+          id: string
+          last_updated: string | null
+          previous_price: number | null
+          price_change_pct: number | null
+          product_name: string
+          region: string | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          currency?: string | null
+          current_price?: number | null
+          id?: string
+          last_updated?: string | null
+          previous_price?: number | null
+          price_change_pct?: number | null
+          product_name: string
+          region?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          currency?: string | null
+          current_price?: number | null
+          id?: string
+          last_updated?: string | null
+          previous_price?: number | null
+          price_change_pct?: number | null
+          product_name?: string
+          region?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       trend_results: {
         Row: {
           category: string
@@ -95,6 +215,33 @@ export type Database = {
           results?: Json
           session_id?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          onboarding_completed: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          onboarding_completed?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          onboarding_completed?: boolean
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
