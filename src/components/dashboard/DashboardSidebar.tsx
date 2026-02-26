@@ -23,12 +23,12 @@ interface DashboardSidebarProps {
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-  { label: "Price Tracking", icon: TrendingUp, path: "/dashboard/prices" },
-  { label: "Suppliers", icon: Truck, path: "/dashboard/suppliers" },
-  { label: "Competitor Analysis", icon: Users, path: "/dashboard/competitors" },
-  { label: "Trend Discovery", icon: Sparkles, path: "/dashboard/trends" },
-  { label: "Reports", icon: FileText, path: "/dashboard/reports" },
-  { label: "Settings", icon: Settings, path: "/dashboard/settings" },
+  { label: "Price Tracking", icon: TrendingUp, path: "/price-tracking" },
+  { label: "Suppliers", icon: Truck, path: "/suppliers" },
+  { label: "Competitor Analysis", icon: Users, path: "/competitor-analysis" },
+  { label: "Trend Discovery", icon: Sparkles, path: "/trend-discovery" },
+  { label: "Reports", icon: FileText, path: "/reports" },
+  { label: "Settings", icon: Settings, path: "/settings" },
 ];
 
 export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps) => {
@@ -38,7 +38,7 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/");
+    navigate("/auth");
   };
 
   return (
@@ -67,8 +67,7 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
       {/* Navigation */}
       <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
-          const isActive = location.pathname === item.path ||
-            (item.path === "/dashboard" && location.pathname === "/dashboard");
+          const isActive = location.pathname === item.path;
           return (
             <button
               key={item.path}
@@ -93,7 +92,7 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
       {/* Bottom section */}
       <div className="p-3 border-t border-[hsl(215,20%,22%)] space-y-2 shrink-0">
         <button
-          onClick={() => {}}
+          onClick={() => navigate("/help")}
           className={cn(
             "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[hsl(214,11%,65.1%)] hover:text-[hsl(210,29%,92.5%)] hover:bg-[hsl(215,30%,18%)] transition-colors"
           )}
@@ -114,7 +113,7 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
         </Button>
         {!collapsed && (
           <Button
-            onClick={() => navigate("/dashboard/settings")}
+            onClick={() => navigate("/pricing")}
             className="w-full bg-cta hover:bg-cta/90 text-cta-foreground font-semibold"
           >
             Upgrade Plan
