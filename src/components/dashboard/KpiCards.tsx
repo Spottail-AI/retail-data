@@ -178,8 +178,8 @@ export const KpiCards = () => {
         error={errorProducts}
         emptyCta="Add Products"
         onRetry={() => refetchProducts()}
-        onClick={() => navigate("/dashboard/prices")}
-        onEmptyCta={() => navigate("/dashboard/prices")}
+        onClick={() => navigate("/price-tracking")}
+        onEmptyCta={() => navigate("/price-tracking")}
       />
       <KpiCard
         title="Suppliers Found"
@@ -192,8 +192,8 @@ export const KpiCards = () => {
         error={errorSuppliers}
         emptyCta="Search Suppliers"
         onRetry={() => refetchSuppliers()}
-        onClick={() => navigate("/dashboard/suppliers")}
-        onEmptyCta={() => navigate("/dashboard/suppliers")}
+        onClick={() => navigate("/suppliers")}
+        onEmptyCta={() => navigate("/suppliers")}
       />
       <KpiCard
         title="Competitor Changes"
@@ -206,8 +206,8 @@ export const KpiCards = () => {
         error={errorCompetitors}
         emptyCta="Add Competitors"
         onRetry={() => refetchCompetitors()}
-        onClick={() => navigate("/dashboard/competitors")}
-        onEmptyCta={() => navigate("/dashboard/competitors")}
+        onClick={() => navigate("/competitor-analysis")}
+        onEmptyCta={() => navigate("/competitor-analysis")}
       />
       <KpiCard
         title="Trend Signals"
@@ -220,8 +220,8 @@ export const KpiCards = () => {
         error={errorTrends}
         emptyCta="Explore Trends"
         onRetry={() => refetchTrends()}
-        onClick={() => navigate("/dashboard/trends")}
-        onEmptyCta={() => navigate("/dashboard/trends")}
+        onClick={() => navigate("/trend-discovery")}
+        onEmptyCta={() => navigate("/trend-discovery")}
       />
     </div>
   );

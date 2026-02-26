@@ -39,6 +39,14 @@ import TrendingFoodProductsUS from "./pages/TrendingFoodProductsUS";
 import TrendingFurnitureHomeProductsUS from "./pages/TrendingFurnitureHomeProductsUS";
 import TrendingEcommerceProductsUS from "./pages/TrendingEcommerceProductsUS";
 import Dashboard from "./pages/Dashboard";
+import PriceTracking from "./pages/PriceTracking";
+import Suppliers from "./pages/Suppliers";
+import CompetitorAnalysis from "./pages/CompetitorAnalysis";
+import TrendDiscovery from "./pages/TrendDiscovery";
+import Reports from "./pages/Reports";
+import SettingsPage from "./pages/Settings";
+import Help from "./pages/Help";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import Helium10Alternative from "./pages/Helium10Alternative";
 import JungleScoutAlternative from "./pages/JungleScoutAlternative";
@@ -64,6 +72,14 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/price-tracking" element={<PriceTracking />} />
+            <Route path="/suppliers" element={<Suppliers />} />
+            <Route path="/competitor-analysis" element={<CompetitorAnalysis />} />
+            <Route path="/trend-discovery" element={<TrendDiscovery />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="/results" element={<Results />} />
             <Route path="/amazon-analytics-tool" element={<AmazonAnalytics />} />
             <Route path="/tiktok-shop-analytics-tool" element={<TikTokShopAnalytics />} />

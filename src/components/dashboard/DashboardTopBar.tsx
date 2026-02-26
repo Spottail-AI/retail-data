@@ -75,7 +75,7 @@ export const DashboardTopBar = ({ sidebarCollapsed, onMobileMenuToggle }: Dashbo
             <DropdownMenuItem className="text-xs text-muted-foreground cursor-default">
               {user?.email}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate("/dashboard/settings")}>
+            <DropdownMenuItem onClick={() => navigate("/settings")}>
               Settings
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleSignOut}>
