@@ -20,23 +20,6 @@ export const Footer = () => {
   return (
     <footer className="border-t border-border py-16 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* CTA Section */}
-        <div className="text-center mb-16 py-16 bg-card rounded-2xl border border-border">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
-            Ready to Stay Ahead of Every Trend?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of successful retailers who never miss an opportunity. 
-            Start your free trial today.
-          </p>
-          <Button 
-            size="lg" 
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-4 text-lg font-semibold rounded-lg shadow-lg shadow-primary/20 transition-all duration-300"
-            onClick={scrollToDemo}
-          >
-            Start Free Trial
-          </Button>
-        </div>
 
         {/* Footer Links */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
