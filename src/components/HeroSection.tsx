@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 
 export const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-24 pb-16 md:py-28">
+    <section className="relative min-h-screen flex items-center justify-center px-4 pt-24 pb-8 md:py-28">
       <Header />
 
       <div className="absolute inset-0 overflow-hidden">

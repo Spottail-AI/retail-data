@@ -173,7 +173,7 @@ export const DemoSection = () => {
   };
 
   return (
-    <section id="demo-section" className="py-36 px-4 relative">
+    <section id="demo-section" className="py-10 md:py-16 px-4 relative">
       <div className="absolute inset-0 bg-navy-surface/50"></div>
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-20">

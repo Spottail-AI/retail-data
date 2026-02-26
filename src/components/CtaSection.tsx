@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 export const CtaSection = () => {
   return (
-    <section className="py-20 md:py-36 px-4 relative">
+    <section className="py-10 md:py-16 px-4 relative">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 md:mb-8 tracking-wide">
           Turn Market Data Into

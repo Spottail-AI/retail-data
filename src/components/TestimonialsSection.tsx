@@ -10,9 +10,9 @@ export const TestimonialsSection = () => {
   ];
 
   return (
-    <section id="testimonials-section" className="py-20 md:py-36 px-4 relative">
+    <section id="testimonials-section" className="py-10 md:py-16 px-4 relative">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-10 md:mb-16">
+        <div className="text-center mb-6 md:mb-10">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 md:mb-8 tracking-wide">
             Why Retail Teams Use
             <span className="text-primary"> Spottail</span>
