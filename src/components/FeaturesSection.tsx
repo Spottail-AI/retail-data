@@ -1,37 +1,26 @@
-
-import { Globe, Target, BarChart3, Zap, Shield, Clock } from "lucide-react";
+import { DollarSign, Search, Truck, Target } from "lucide-react";
 
 export const FeaturesSection = () => {
   const features = [
     {
-      icon: Globe,
-      title: "Retail Market Intelligence",
-      description: "Monitor retail trends across 50+ countries and regions with real-time data analysis from multiple platforms and marketplaces."
+      icon: DollarSign,
+      title: "Cost & Margin Intelligence",
+      description: "Track Consumer Price Index. Monitor commodity prices. Follow raw material fluctuations. Get alerts when input costs threaten margins."
+    },
+    {
+      icon: Search,
+      title: "Product Opportunity Detection",
+      description: "Identify emerging product demand signals. Discover rising market categories. Spot revenue opportunities before competitors."
+    },
+    {
+      icon: Truck,
+      title: "Supplier & Distributor Discovery",
+      description: "Search verified distributors. Find suppliers in one click. Reduce sourcing friction."
     },
     {
       icon: Target,
-      title: "Niche-Specific Insights",
-      description: "Drill down into specific retail product categories, demographics, and market segments to find opportunities tailored to your business."
-    },
-    {
-      icon: BarChart3,
-      title: "Platform Analytics",
-      description: "Track emerging trends across social media, e-commerce platforms, search engines, and retail channels simultaneously."
-    },
-    {
-      icon: Zap,
-      title: "Early Warning System",
-      description: "Get alerts weeks or months before products peak, giving you the competitive advantage to stock up and capitalize first."
-    },
-    {
-      icon: Shield,
-      title: "Risk Assessment",
-      description: "AI-powered risk analysis helps you avoid fads and focus on sustainable trends with long-term profit potential."
-    },
-    {
-      icon: Clock,
-      title: "Real-Time Updates",
-      description: "Continuous monitoring and instant notifications ensure you never miss an emerging opportunity in your market."
+      title: "Competitive Advantage Analysis",
+      description: "Track competitor pricing. Detect feature gaps. Find positioning opportunities using AI insights."
     }
   ];
 
@@ -40,15 +29,15 @@ export const FeaturesSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-24">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-8 tracking-wide">
-            Stay Ahead of Your
-            <span className="text-primary"> Competitors</span>
+            Built for Retail, E-Commerce,
+            <span className="text-primary"> and Enterprise</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Make data-driven decisions and capture market opportunities before anyone else.
+            Data-driven insights that protect margins and unlock new growth opportunities.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {features.map((feature, index) => (
             <div 
               key={index}
