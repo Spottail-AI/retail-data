@@ -58,14 +58,14 @@ const Dashboard = () => {
   const needsOnboarding = !preferences?.onboarding_completed;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen dashboard-light">
       {/* Onboarding Modal */}
       <OnboardingModal
         open={needsOnboarding}
         onComplete={() => refetchPrefs()}
       />
 
-      {/* Sidebar - hidden on mobile unless toggled */}
+      {/* Sidebar - stays dark, outside dashboard-light scope */}
       <div className={cn("hidden md:block", mobileMenuOpen && "!block")}>
         <DashboardSidebar
           collapsed={sidebarCollapsed}
@@ -76,14 +76,14 @@ const Dashboard = () => {
       {/* Mobile overlay */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-20 md:hidden"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-20 md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
       {/* Main content */}
       <div className={cn(
-        "transition-all duration-300",
+        "transition-all duration-300 bg-[hsl(var(--background))]",
         sidebarCollapsed ? "md:ml-16" : "md:ml-60"
       )}>
         <DashboardTopBar
