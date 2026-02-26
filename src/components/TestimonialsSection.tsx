@@ -10,20 +10,20 @@ export const TestimonialsSection = () => {
   ];
 
   return (
-    <section id="testimonials-section" className="py-36 px-4 relative">
+    <section id="testimonials-section" className="py-20 md:py-36 px-4 relative">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-8 tracking-wide">
+        <div className="text-center mb-10 md:mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 md:mb-8 tracking-wide">
             Why Retail Teams Use
             <span className="text-primary"> Spottail</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 max-w-3xl mx-auto">
           {reasons.map((reason, index) => (
             <div
               key={index}
-              className="flex items-start gap-3 p-5 bg-card border border-[hsl(var(--card-border))] rounded-xl"
+              className="flex items-start gap-3 p-4 md:p-5 bg-card border border-[hsl(var(--card-border))] rounded-xl"
             >
               <div className="w-6 h-6 bg-success/15 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Check className="w-3.5 h-3.5 text-success" />
