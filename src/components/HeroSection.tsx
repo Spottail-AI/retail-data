@@ -1,15 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Header } from "@/components/Header";
 
 export const HeroSection = () => {
-  const scrollToDemo = () => {
-    const demoSection = document.getElementById('demo-section');
-    if (demoSection) {
-      demoSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 py-28">
       <Header />
@@ -22,22 +15,32 @@ export const HeroSection = () => {
       
       <div className="relative z-10 max-w-6xl mx-auto text-center">
         <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-10 leading-tight tracking-wide">
-          AI Growth Intelligence
+          AI Growth Partner
           <br />
           <span className="text-primary">for Retail & E-Commerce</span>
         </h1>
         
-        <p className="text-lg md:text-xl text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed">
-          Track costs. Monitor market shifts. Find suppliers. Analyze competitors.
-          <br />
-          All in one real-time intelligence platform.
-        </p>
+        <div className="flex flex-col items-center gap-3 mb-16 max-w-3xl mx-auto">
+          {[
+            "Track food and commodity prices.",
+            "Find suppliers.",
+            "Analyze competitors.",
+            "Uncover products about to trend."
+          ].map((line, i) => (
+            <div key={i} className="flex items-center gap-2 text-lg md:text-xl text-muted-foreground">
+              <Check className="w-5 h-5 text-cta flex-shrink-0" />
+              <span>{line}</span>
+            </div>
+          ))}
+          <p className="text-lg md:text-xl text-muted-foreground mt-2">
+            All in one real-time intelligence platform.
+          </p>
+        </div>
         
         <div className="flex justify-center items-center gap-4 mb-24">
           <Button 
             size="lg" 
             className="bg-cta hover:bg-cta/90 text-cta-foreground px-10 py-5 text-lg font-semibold rounded-lg shadow-lg shadow-cta/20 transition-all duration-300 hover:shadow-xl hover:shadow-cta/30"
-            onClick={scrollToDemo}
           >
             Get Started
             <ArrowRight className="ml-2 w-5 h-5" />
@@ -46,7 +49,6 @@ export const HeroSection = () => {
             size="lg" 
             variant="outline"
             className="px-10 py-5 text-lg font-semibold rounded-lg"
-            onClick={scrollToDemo}
           >
             Request Demo
           </Button>
