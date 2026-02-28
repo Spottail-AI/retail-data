@@ -73,6 +73,7 @@ export type Database = {
       }
       saved_searches: {
         Row: {
+          country: string | null
           created_at: string
           id: string
           product_name: string
@@ -82,6 +83,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          country?: string | null
           created_at?: string
           id?: string
           product_name: string
@@ -91,6 +93,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          country?: string | null
           created_at?: string
           id?: string
           product_name?: string

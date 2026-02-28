@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardShell from "@/components/dashboard/DashboardShell";
@@ -9,15 +9,40 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, ExternalLink, Lock, Clock, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+
+const ALL_COUNTRIES = [
+  "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
+  "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
+  "Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia",
+  "Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica",
+  "Croatia","Cuba","Cyprus","Czech Republic","Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic","East Timor",
+  "Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland",
+  "France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea",
+  "Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq",
+  "Ireland","Israel","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati",
+  "Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein",
+  "Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania",
+  "Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar",
+  "Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia",
+  "Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines",
+  "Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa",
+  "San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
+  "Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
+  "Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad and Tobago","Tunisia",
+  "Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan",
+  "Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
+];
 
 type Result = { name: string; website: string; type: "supplier" | "distributor" };
 type SavedSearch = {
   id: string;
   product_name: string;
   search_selection: string;
+  country?: string;
   results: Result[];
   results_found: number;
   created_at: string;
@@ -27,6 +52,8 @@ const Suppliers = () => {
   const { session, hasPaid } = useAuth();
   const navigate = useNavigate();
   const [product, setProduct] = useState("");
+  const [country, setCountry] = useState("United States");
+  const [countrySearch, setCountrySearch] = useState("");
   const [checkSuppliers, setCheckSuppliers] = useState(true);
   const [checkDistributors, setCheckDistributors] = useState(false);
   const [results, setResults] = useState<Result[]>([]);
@@ -35,7 +62,12 @@ const Suppliers = () => {
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
 
-  // Fetch saved searches on mount
+  const filteredCountries = useMemo(() => {
+    if (!countrySearch) return ALL_COUNTRIES;
+    const q = countrySearch.toLowerCase();
+    return ALL_COUNTRIES.filter((c) => c.toLowerCase().includes(q));
+  }, [countrySearch]);
+
   useEffect(() => {
     const fetchSaved = async () => {
       if (!session?.user?.id) return;
@@ -62,13 +94,12 @@ const Suppliers = () => {
     try {
       const { data, error } = await supabase.functions.invoke("search-suppliers", {
         headers: { Authorization: `Bearer ${session?.access_token}` },
-        body: { product: product.trim(), searchType: types },
+        body: { product: product.trim(), searchType: types, country },
       });
       if (error) throw error;
       const allResults = data?.results || [];
       setResults(allResults);
 
-      // Refresh saved searches
       const { data: saved } = await supabase
         .from("saved_searches")
         .select("*")
@@ -88,6 +119,7 @@ const Suppliers = () => {
     setProduct(search.product_name);
     setResults(search.results);
     setSearched(true);
+    if (search.country) setCountry(search.country);
     const sel = search.search_selection;
     setCheckSuppliers(sel === "supplier" || sel === "both");
     setCheckDistributors(sel === "distributor" || sel === "both");
@@ -109,7 +141,7 @@ const Suppliers = () => {
     <Card className="bg-card border-[#E6E8EB] shadow-sm overflow-hidden">
       <div className="px-6 py-4 border-b border-[#E6E8EB]">
         <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-        <p className="text-xs text-muted-foreground mt-0.5">{items.length} result{items.length !== 1 ? "s" : ""} shown</p>
+        <p className="text-xs text-muted-foreground mt-0.5">{items.length} result{items.length !== 1 ? "s" : ""} shown · {country}</p>
       </div>
       <Table>
         <TableHeader>
@@ -141,7 +173,7 @@ const Suppliers = () => {
         <div className="px-6 py-4 border-t border-[#E6E8EB] bg-muted/50 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Lock className="w-4 h-4" />
-            <span>Upgrade to view {results.length - 2} more suppliers & distributors</span>
+            <span>Upgrade to view more suppliers & distributors in {country}</span>
           </div>
           <Button size="sm" onClick={() => navigate("/pricing")} className="bg-primary hover:bg-primary/90 text-primary-foreground">
             Upgrade Plan
@@ -178,6 +210,38 @@ const Suppliers = () => {
             {loading ? "Searching..." : "Search"}
           </Button>
         </div>
+
+        {/* Country Dropdown */}
+        <div className="mt-4">
+          <label className="text-sm font-semibold text-foreground mb-2 block">
+            Select Country
+          </label>
+          <Select value={country} onValueChange={setCountry}>
+            <SelectTrigger className="w-full sm:w-72">
+              <SelectValue placeholder="Select Country" />
+            </SelectTrigger>
+            <SelectContent>
+              <div className="px-2 pb-2">
+                <Input
+                  placeholder="Search countries..."
+                  value={countrySearch}
+                  onChange={(e) => setCountrySearch(e.target.value)}
+                  className="h-8 text-sm"
+                  onKeyDown={(e) => e.stopPropagation()}
+                />
+              </div>
+              {filteredCountries.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+              {filteredCountries.length === 0 && (
+                <div className="px-2 py-4 text-sm text-muted-foreground text-center">No countries found</div>
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+
         <div className="flex items-center gap-6 mt-4">
           <div className="flex items-center gap-2">
             <Checkbox
@@ -221,7 +285,7 @@ const Suppliers = () => {
       {/* No results */}
       {!loading && searched && results.length === 0 && (
         <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm mt-6">
-          <p className="text-muted-foreground text-sm">No verified suppliers or distributors found. Try refining the product name.</p>
+          <p className="text-muted-foreground text-sm">No verified suppliers or distributors found in {country}. Try another country.</p>
         </Card>
       )}
 
@@ -246,6 +310,7 @@ const Suppliers = () => {
                     <p className="text-sm font-medium text-foreground truncate">{search.product_name}</p>
                     <p className="text-xs text-muted-foreground">
                       {search.search_selection === "both" ? "Suppliers & Distributors" : search.search_selection === "supplier" ? "Suppliers" : "Distributors"}
+                      {search.country ? ` · ${search.country}` : ""}
                       {" · "}{search.results_found} results · {new Date(search.created_at).toLocaleDateString()}
                     </p>
                   </div>

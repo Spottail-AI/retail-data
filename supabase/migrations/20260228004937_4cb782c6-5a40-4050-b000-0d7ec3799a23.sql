@@ -1,0 +1,1 @@
+ALTER TABLE public.saved_searches ADD COLUMN country TEXT DEFAULT 'United States';
