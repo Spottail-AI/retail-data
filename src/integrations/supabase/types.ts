@@ -71,6 +71,36 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_searches: {
+        Row: {
+          created_at: string
+          id: string
+          product_name: string
+          results: Json
+          results_found: number
+          search_selection: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_name: string
+          results?: Json
+          results_found?: number
+          search_selection: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_name?: string
+          results?: Json
+          results_found?: number
+          search_selection?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       suppliers: {
         Row: {
           average_price: number | null
