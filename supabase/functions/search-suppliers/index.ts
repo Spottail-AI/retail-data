@@ -35,16 +35,24 @@ Deno.serve(async (req) => {
     }
 
     const { product, searchType } = await req.json();
-    if (!product || !searchType || searchType.length === 0) {
+    if (!product || typeof product !== "string" || product.trim().length === 0) {
       return new Response(
-        JSON.stringify({ error: "Product and at least one search type required" }),
+        JSON.stringify({ error: "Product name is required" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    if (!searchType || !Array.isArray(searchType) || searchType.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "At least one search type required" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
+    const sanitizedProduct = product.trim().slice(0, 200);
+
     // Check payment status
     const { data: hasPaid } = await supabase.rpc("has_paid", { p_user_id: user.id });
-    const resultCount = hasPaid ? 10 : 2;
+    const resultCount = hasPaid ? 10 : 10; // Always fetch 10, display limited on frontend
 
     const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!lovableApiKey) {
@@ -54,19 +62,45 @@ Deno.serve(async (req) => {
       });
     }
 
-    const types = searchType.join(" and ");
-    const prompt = `Find exactly ${resultCount} real ${types} for the product "${product}". 
-For each result, provide:
-- name: The company name
-- website: Their actual website URL (must be a real URL)
-- type: Either "supplier" or "distributor"
+    const searchSelection = searchType.length === 2 ? "both" : searchType[0];
+    
+    let typeInstruction = "";
+    if (searchSelection === "supplier") {
+      typeInstruction = `Find exactly ${resultCount} SUPPLIERS (manufacturers, wholesalers, factories) for this product. Every result must have type "supplier".`;
+    } else if (searchSelection === "distributor") {
+      typeInstruction = `Find exactly ${resultCount} DISTRIBUTORS (resellers, wholesale distributors, trading companies) for this product. Every result must have type "distributor".`;
+    } else {
+      const half = Math.ceil(resultCount / 2);
+      typeInstruction = `Find ${half} SUPPLIERS (manufacturers, wholesalers, factories) AND ${half} DISTRIBUTORS (resellers, wholesale distributors, trading companies) for this product. Label each with the correct type.`;
+    }
+
+    const prompt = `You are a B2B trade intelligence engine. Your job is to find REAL, VERIFIED companies.
+
+Product: "${sanitizedProduct}"
+
+${typeInstruction}
+
+Search Strategy — you MUST consider ALL of these sources:
+1. Global trade marketplaces: Alibaba, GlobalSources, Made-in-China, IndiaMART, ThomasNet, Kompass
+2. Official manufacturer/brand websites
+3. B2B wholesale directories
+4. Industry association member directories  
+5. Regional trade databases and export directories
+6. Verified corporate websites with active business operations
+
+Use variations of the product name, related keywords, and industry-specific terms to maximize coverage.
+
+STRICT RULES:
+- Every company MUST be a real, currently operating business
+- Every website URL MUST be a real, working URL (not made up)
+- Do NOT include marketplace listing pages (e.g. alibaba.com/product/...), only company websites
+- Include companies from diverse geographic regions when possible
+- Prioritize well-established companies with verifiable online presence
 
 Return ONLY valid JSON in this exact format, no other text:
-{"results": [{"name": "Company Name", "website": "https://example.com", "type": "supplier"}]}
+{"results": [{"name": "Company Name", "website": "https://example.com", "type": "supplier"}]}`;
 
-Make sure all companies and websites are real and currently active. Include a mix if both types are requested (split evenly: ${Math.ceil(resultCount/2)} of each type if both selected).`;
-
-    const aiResponse = await fetch("https://ai.lovable.dev/api/chat", {
+    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,15 +109,33 @@ Make sure all companies and websites are real and currently active. Include a mi
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         messages: [
-          { role: "system", content: "You are a business intelligence assistant. You find real suppliers and distributors. Always return valid JSON only, no markdown." },
+          { 
+            role: "system", 
+            content: "You are a world-class B2B trade intelligence assistant. You have deep knowledge of global supply chains, manufacturers, wholesalers, and distributors across all industries. You ALWAYS find real companies with real websites. You never return empty results unless the product truly does not exist. Always return valid JSON only, no markdown formatting." 
+          },
           { role: "user", content: prompt },
         ],
       }),
     });
 
     if (!aiResponse.ok) {
-      console.error("AI API error:", await aiResponse.text());
-      return new Response(JSON.stringify({ error: "Failed to search" }), {
+      const errorText = await aiResponse.text();
+      console.error("AI API error:", aiResponse.status, errorText);
+      
+      if (aiResponse.status === 429) {
+        return new Response(JSON.stringify({ error: "Search rate limit reached. Please try again in a moment." }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (aiResponse.status === 402) {
+        return new Response(JSON.stringify({ error: "Service temporarily unavailable. Please try again later." }), {
+          status: 402,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      
+      return new Response(JSON.stringify({ error: "Failed to search. Please try again." }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -92,21 +144,41 @@ Make sure all companies and websites are real and currently active. Include a mi
     const aiData = await aiResponse.json();
     const content = aiData.choices?.[0]?.message?.content || "";
     
-    // Parse JSON from response, handling potential markdown code blocks
     let parsed;
     try {
       const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
       parsed = JSON.parse(jsonStr);
     } catch {
       console.error("Failed to parse AI response:", content);
-      return new Response(JSON.stringify({ error: "Failed to parse results" }), {
+      return new Response(JSON.stringify({ error: "Failed to parse results. Please try again." }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
+    const allResults = parsed.results || [];
+    const displayLimit = hasPaid ? 10 : 2;
+
+    // Save full results to saved_searches table
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const adminClient = createClient(supabaseUrl, serviceRoleKey);
+    
+    await adminClient.from("saved_searches").insert({
+      user_id: user.id,
+      product_name: sanitizedProduct,
+      search_selection: searchSelection,
+      results: allResults,
+      results_found: allResults.length,
+    });
+
     return new Response(
-      JSON.stringify({ results: parsed.results, hasPaid, resultCount }),
+      JSON.stringify({ 
+        results: allResults, 
+        hasPaid, 
+        displayLimit,
+        resultsFound: allResults.length,
+        upgradeRequired: !hasPaid && allResults.length > 2,
+      }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
