@@ -34,7 +34,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const { product, searchType } = await req.json();
+    const { product, searchType, country } = await req.json();
     if (!product || typeof product !== "string" || product.trim().length === 0) {
       return new Response(
         JSON.stringify({ error: "Product name is required" }),
@@ -49,6 +49,7 @@ Deno.serve(async (req) => {
     }
 
     const sanitizedProduct = product.trim().slice(0, 200);
+    const selectedCountry = (country && typeof country === "string") ? country.trim().slice(0, 100) : "United States";
 
     // Check payment status
     const { data: hasPaid } = await supabase.rpc("has_paid", { p_user_id: user.id });
@@ -66,17 +67,18 @@ Deno.serve(async (req) => {
     
     let typeInstruction = "";
     if (searchSelection === "supplier") {
-      typeInstruction = `Find exactly ${resultCount} SUPPLIERS (manufacturers, wholesalers, factories) for this product. Every result must have type "supplier".`;
+      typeInstruction = `Find exactly ${resultCount} SUPPLIERS (manufacturers, wholesalers, factories) for this product located in ${selectedCountry}. Every result must have type "supplier". Only include companies operating in ${selectedCountry}.`;
     } else if (searchSelection === "distributor") {
-      typeInstruction = `Find exactly ${resultCount} DISTRIBUTORS (resellers, wholesale distributors, trading companies) for this product. Every result must have type "distributor".`;
+      typeInstruction = `Find exactly ${resultCount} DISTRIBUTORS (resellers, wholesale distributors, trading companies) for this product located in ${selectedCountry}. Every result must have type "distributor". Only include companies operating in ${selectedCountry}.`;
     } else {
       const half = Math.ceil(resultCount / 2);
-      typeInstruction = `Find ${half} SUPPLIERS (manufacturers, wholesalers, factories) AND ${half} DISTRIBUTORS (resellers, wholesale distributors, trading companies) for this product. Label each with the correct type.`;
+      typeInstruction = `Find ${half} SUPPLIERS (manufacturers, wholesalers, factories) AND ${half} DISTRIBUTORS (resellers, wholesale distributors, trading companies) for this product located in ${selectedCountry}. Label each with the correct type. Only include companies operating in ${selectedCountry}.`;
     }
 
-    const prompt = `You are a B2B trade intelligence engine. Your job is to find REAL, VERIFIED companies.
+    const prompt = `You are a B2B trade intelligence engine. Your job is to find REAL, VERIFIED companies in ${selectedCountry}.
 
 Product: "${sanitizedProduct}"
+Country: ${selectedCountry}
 
 ${typeInstruction}
 
@@ -88,13 +90,17 @@ Search Strategy — you MUST consider ALL of these sources:
 5. Regional trade databases and export directories
 6. Verified corporate websites with active business operations
 
-Use variations of the product name, related keywords, and industry-specific terms to maximize coverage.
+Use search queries like:
+- "${sanitizedProduct} supplier in ${selectedCountry}"
+- "${sanitizedProduct} distributor in ${selectedCountry}"
+- "${sanitizedProduct} manufacturer in ${selectedCountry}"
+- "${sanitizedProduct} wholesale ${selectedCountry}"
 
 STRICT RULES:
-- Every company MUST be a real, currently operating business
+- Every company MUST be a real, currently operating business located in ${selectedCountry}
+- Do NOT include companies from other countries
 - Every website URL MUST be a real, working URL (not made up)
 - Do NOT include marketplace listing pages (e.g. alibaba.com/product/...), only company websites
-- Include companies from diverse geographic regions when possible
 - Prioritize well-established companies with verifiable online presence
 
 Return ONLY valid JSON in this exact format, no other text:
@@ -111,7 +117,7 @@ Return ONLY valid JSON in this exact format, no other text:
         messages: [
           { 
             role: "system", 
-            content: "You are a world-class B2B trade intelligence assistant. You have deep knowledge of global supply chains, manufacturers, wholesalers, and distributors across all industries. You ALWAYS find real companies with real websites. You never return empty results unless the product truly does not exist. Always return valid JSON only, no markdown formatting." 
+            content: "You are a world-class B2B trade intelligence assistant. You have deep knowledge of global supply chains, manufacturers, wholesalers, and distributors across all industries. You ALWAYS find real companies with real websites within the specified country. You never return empty results unless the product truly does not exist in that country. Always return valid JSON only, no markdown formatting." 
           },
           { role: "user", content: prompt },
         ],
@@ -167,6 +173,7 @@ Return ONLY valid JSON in this exact format, no other text:
       user_id: user.id,
       product_name: sanitizedProduct,
       search_selection: searchSelection,
+      country: selectedCountry,
       results: allResults,
       results_found: allResults.length,
     });
