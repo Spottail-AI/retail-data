@@ -47,6 +47,53 @@ export type Database = {
         }
         Relationships: []
       }
+      price_history: {
+        Row: {
+          currency: string
+          discount_percent: number | null
+          id: string
+          is_on_sale: boolean | null
+          notes: string | null
+          price: number
+          scraped_at: string
+          stock_status: string | null
+          tracked_price_id: string
+          user_id: string
+        }
+        Insert: {
+          currency?: string
+          discount_percent?: number | null
+          id?: string
+          is_on_sale?: boolean | null
+          notes?: string | null
+          price: number
+          scraped_at?: string
+          stock_status?: string | null
+          tracked_price_id: string
+          user_id: string
+        }
+        Update: {
+          currency?: string
+          discount_percent?: number | null
+          id?: string
+          is_on_sale?: boolean | null
+          notes?: string | null
+          price?: number
+          scraped_at?: string
+          stock_status?: string | null
+          tracked_price_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_history_tracked_price_id_fkey"
+            columns: ["tracked_price_id"]
+            isOneToOne: false
+            referencedRelation: "tracked_prices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -179,6 +226,57 @@ export type Database = {
           pricing_position?: string | null
           user_id?: string
           website_url?: string | null
+        }
+        Relationships: []
+      }
+      tracked_prices: {
+        Row: {
+          created_at: string
+          currency: string | null
+          error_count: number
+          id: string
+          last_checked: string | null
+          last_error: string | null
+          product_label: string
+          product_name: string | null
+          status: string
+          tracking_type: string
+          update_frequency: string
+          updated_at: string
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string | null
+          error_count?: number
+          id?: string
+          last_checked?: string | null
+          last_error?: string | null
+          product_label: string
+          product_name?: string | null
+          status?: string
+          tracking_type?: string
+          update_frequency?: string
+          updated_at?: string
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string | null
+          error_count?: number
+          id?: string
+          last_checked?: string | null
+          last_error?: string | null
+          product_label?: string
+          product_name?: string | null
+          status?: string
+          tracking_type?: string
+          update_frequency?: string
+          updated_at?: string
+          url?: string | null
+          user_id?: string
         }
         Relationships: []
       }
