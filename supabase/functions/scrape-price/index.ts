@@ -70,37 +70,34 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         url: formattedUrl,
-        formats: [
-          "markdown",
-          {
-            type: "json",
-            prompt:
-              "Extract the main product price, currency, product name, stock/availability status, and whether it's on sale with any discount percentage. If there are multiple prices, use the primary selling price (not the original/strikethrough price).",
-            schema: {
-              type: "object",
-              properties: {
-                product_name: { type: "string", description: "The product name/title" },
-                price: { type: "number", description: "The current selling price as a number (no currency symbol)" },
-                currency: { type: "string", description: "Currency code (USD, EUR, GBP, etc.)" },
-                stock_status: {
-                  type: "string",
-                  enum: ["in_stock", "limited", "out_of_stock", "unknown"],
-                  description: "Product availability status",
-                },
-                is_on_sale: { type: "boolean", description: "Whether the product is currently on sale/discounted" },
-                discount_percent: {
-                  type: "number",
-                  description: "Discount percentage if on sale, null otherwise",
-                },
-                original_price: {
-                  type: "number",
-                  description: "Original price before discount, null if not on sale",
-                },
+        formats: ["markdown", "extract"],
+        extract: {
+          prompt:
+            "Extract the main product price, currency, product name, stock/availability status, and whether it's on sale with any discount percentage. If there are multiple prices, use the primary selling price (not the original/strikethrough price).",
+          schema: {
+            type: "object",
+            properties: {
+              product_name: { type: "string", description: "The product name/title" },
+              price: { type: "number", description: "The current selling price as a number (no currency symbol)" },
+              currency: { type: "string", description: "Currency code (USD, EUR, GBP, etc.)" },
+              stock_status: {
+                type: "string",
+                enum: ["in_stock", "limited", "out_of_stock", "unknown"],
+                description: "Product availability status",
               },
-              required: ["price", "currency"],
+              is_on_sale: { type: "boolean", description: "Whether the product is currently on sale/discounted" },
+              discount_percent: {
+                type: "number",
+                description: "Discount percentage if on sale, null otherwise",
+              },
+              original_price: {
+                type: "number",
+                description: "Original price before discount, null if not on sale",
+              },
             },
+            required: ["price", "currency"],
           },
-        ],
+        },
         onlyMainContent: true,
         waitFor: 3000,
       }),
@@ -135,7 +132,7 @@ Deno.serve(async (req) => {
     }
 
     // Extract price data from Firecrawl response
-    const jsonData = scrapeData?.data?.json || scrapeData?.json || {};
+    const jsonData = scrapeData?.data?.extract || scrapeData?.extract || scrapeData?.data?.json || {};
     const metadata = scrapeData?.data?.metadata || scrapeData?.metadata || {};
 
     const priceResult = {
