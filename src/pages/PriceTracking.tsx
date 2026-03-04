@@ -19,7 +19,7 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
+  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, AreaChart,
 } from "recharts";
 import {
   TrendingUp, TrendingDown, Minus, Plus, MoreVertical, ArrowUpRight,
@@ -415,77 +415,115 @@ const PriceTracking = () => {
               <p className="text-sm text-muted-foreground">Price tracking started {new Date(selectedItem.created_at).toLocaleDateString()}.</p>
               <p className="text-xs text-muted-foreground mt-1">More data will appear as prices are updated. Check back tomorrow!</p>
             </div>
-          ) : (
-            <>
-              <div className="h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="date" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} />
-                    <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} domain={["auto", "auto"]} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px", color: "hsl(var(--foreground))" }}
-                      formatter={(value: number) => [formatPrice(value, currency), "Price"]}
-                      labelFormatter={(_, payload) => {
-                        const p = payload?.[0]?.payload;
-                        const label = p?.fullDate || "";
-                        return p?.checksOnDay > 1 ? `${label} (${p.checksOnDay} checks)` : label;
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="price"
-                      stroke={selectedItem.tracking_type === "competitor" ? "hsl(var(--primary))" : "hsl(142,71%,45%)"}
-                      strokeWidth={2.5}
-                      dot={{ r: 4, fill: selectedItem.tracking_type === "competitor" ? "hsl(var(--primary))" : "hsl(142,71%,45%)" }}
-                      activeDot={{ r: 6 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
+          ) : (() => {
+              // Trend color: green if price dropped, red if increased, muted if stable
+              const trendColor = (() => {
+                if (prices.length < 2) return "hsl(var(--primary))";
+                if (currentPrice! < firstPrice!) return "hsl(142,71%,45%)";
+                if (currentPrice! > firstPrice!) return "hsl(var(--destructive))";
+                return "hsl(var(--muted-foreground))";
+              })();
 
-              {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                <div className="p-3 rounded-lg bg-muted/50">
-                  <p className="text-xs text-muted-foreground">Current Price</p>
-                  <p className="text-lg font-bold text-foreground">{currentPrice !== null ? formatPrice(currentPrice, currency) : "—"}</p>
-                </div>
-                <div className="p-3 rounded-lg bg-muted/50">
-                  <p className="text-xs text-muted-foreground">Change</p>
-                  <div className="flex items-center gap-1">
-                    {priceChange !== null && (
-                      <>
-                        {priceChange > 0 ? <TrendingUp className="w-4 h-4 text-[hsl(142,71%,45%)]" /> : priceChange < 0 ? <TrendingDown className="w-4 h-4 text-destructive" /> : <Minus className="w-4 h-4 text-muted-foreground" />}
-                        <span className={`text-lg font-bold ${priceChange > 0 ? "text-[hsl(142,71%,45%)]" : priceChange < 0 ? "text-destructive" : "text-foreground"}`}>
-                          {priceChange > 0 ? "+" : ""}{formatPrice(priceChange, currency)} ({pctChange?.toFixed(1)}%)
-                        </span>
-                      </>
-                    )}
+              // Volatility
+              const volatility = (() => {
+                if (prices.length < 2) return null;
+                const mean = prices.reduce((a, b) => a + b, 0) / prices.length;
+                const variance = prices.reduce((sq, n) => sq + Math.pow(n - mean, 2), 0) / prices.length;
+                return (Math.sqrt(variance) / mean) * 100;
+              })();
+
+              const stabilityInfo = volatility !== null ? (
+                volatility < 0.5 ? { label: "Very Stable", color: "hsl(142,71%,45%)" } :
+                volatility < 2 ? { label: "Stable", color: "hsl(var(--primary))" } :
+                volatility < 5 ? { label: "Moderate", color: "hsl(45,93%,47%)" } :
+                { label: "Volatile", color: "hsl(var(--destructive))" }
+              ) : null;
+
+              return (
+                <>
+                  {stabilityInfo && (
+                    <div className="flex items-center gap-2 mb-3 px-3 py-1.5 rounded-md bg-muted/50 w-fit text-xs font-medium" style={{ borderLeft: `3px solid ${stabilityInfo.color}`, color: stabilityInfo.color }}>
+                      {stabilityInfo.label}
+                    </div>
+                  )}
+                  <div className="h-72">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={chartData}>
+                        <defs>
+                          <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor={trendColor} stopOpacity={0.25} />
+                            <stop offset="95%" stopColor={trendColor} stopOpacity={0.02} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.5} />
+                        <XAxis dataKey="date" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} />
+                        <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} domain={["auto", "auto"]} />
+                        <Tooltip
+                          contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px", color: "hsl(var(--foreground))", boxShadow: "0 4px 12px rgba(0,0,0,0.08)" }}
+                          formatter={(value: number) => [formatPrice(value, currency), "Price"]}
+                          labelFormatter={(_, payload) => {
+                            const p = payload?.[0]?.payload;
+                            const label = p?.fullDate || "";
+                            return p?.checksOnDay > 1 ? `${label} (${p.checksOnDay} checks)` : label;
+                          }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="price"
+                          stroke={trendColor}
+                          strokeWidth={2.5}
+                          fill="url(#priceGradient)"
+                          dot={{ r: 5, fill: trendColor, strokeWidth: 2, stroke: "hsl(var(--card))" }}
+                          activeDot={{ r: 8, fill: trendColor }}
+                          animationDuration={800}
+                          animationEasing="ease-in-out"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
-                </div>
-                <div className="p-3 rounded-lg bg-muted/50">
-                  <p className="text-xs text-muted-foreground">Range</p>
-                  <p className="text-sm font-medium text-foreground">
-                    {minPrice !== null ? `${formatPrice(minPrice, currency)} – ${formatPrice(maxPrice!, currency)}` : "—"}
-                  </p>
-                </div>
-                <div className="p-3 rounded-lg bg-muted/50">
-                  <p className="text-xs text-muted-foreground">Average</p>
-                  <p className="text-lg font-bold text-foreground">{avgPrice !== null ? formatPrice(avgPrice, currency) : "—"}</p>
-                </div>
-              </div>
+                  {/* Stats */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                    <div className="p-3 rounded-lg bg-muted/50">
+                      <p className="text-xs text-muted-foreground">Current Price</p>
+                      <p className="text-lg font-bold text-foreground">{currentPrice !== null ? formatPrice(currentPrice, currency) : "—"}</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-muted/50">
+                      <p className="text-xs text-muted-foreground">Change</p>
+                      <div className="flex items-center gap-1">
+                        {priceChange !== null && (
+                          <>
+                            {priceChange > 0 ? <TrendingUp className="w-4 h-4 text-[hsl(142,71%,45%)]" /> : priceChange < 0 ? <TrendingDown className="w-4 h-4 text-destructive" /> : <Minus className="w-4 h-4 text-muted-foreground" />}
+                            <span className={`text-lg font-bold ${priceChange > 0 ? "text-[hsl(142,71%,45%)]" : priceChange < 0 ? "text-destructive" : "text-foreground"}`}>
+                              {priceChange > 0 ? "+" : ""}{formatPrice(priceChange, currency)} ({pctChange?.toFixed(1)}%)
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-muted/50">
+                      <p className="text-xs text-muted-foreground">Range</p>
+                      <p className="text-sm font-medium text-foreground">
+                        {minPrice !== null ? `${formatPrice(minPrice, currency)} – ${formatPrice(maxPrice!, currency)}` : "—"}
+                      </p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-muted/50">
+                      <p className="text-xs text-muted-foreground">Average</p>
+                      <p className="text-lg font-bold text-foreground">{avgPrice !== null ? formatPrice(avgPrice, currency) : "—"}</p>
+                    </div>
+                  </div>
 
-              <div className="mt-4 flex items-center gap-2">
-                <p className={`text-xs ${freshnessColor(selectedItem.last_checked)}`}>
-                  Last updated: {selectedItem.last_checked ? timeAgo(selectedItem.last_checked) : "Never"}
-                </p>
-                <span className="text-xs text-muted-foreground">•</span>
-                <p className="text-xs text-muted-foreground">
-                  Tracking since {new Date(selectedItem.created_at).toLocaleDateString()} ({Math.ceil((Date.now() - new Date(selectedItem.created_at).getTime()) / 86400000)} days)
-                </p>
-              </div>
-            </>
-          )}
+                  <div className="mt-4 flex items-center gap-2">
+                    <p className={`text-xs ${freshnessColor(selectedItem.last_checked)}`}>
+                      Last updated: {selectedItem.last_checked ? timeAgo(selectedItem.last_checked) : "Never"}
+                    </p>
+                    <span className="text-xs text-muted-foreground">•</span>
+                    <p className="text-xs text-muted-foreground">
+                      Tracking since {new Date(selectedItem.created_at).toLocaleDateString()} ({Math.ceil((Date.now() - new Date(selectedItem.created_at).getTime()) / 86400000)} days)
+                    </p>
+                  </div>
+                </>
+              );
+            })()}
         </Card>
       </DashboardShell>
     );
