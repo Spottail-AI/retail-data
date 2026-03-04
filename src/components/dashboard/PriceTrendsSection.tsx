@@ -89,7 +89,10 @@ export const PriceTrendsSection = () => {
         </div>
       </div>
 
-      <div className="h-64">
+      <div className="h-64 relative">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <span className="text-[1.1rem] font-semibold text-muted-foreground/15 select-none tracking-wide">Spottail.ai</span>
+        </div>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData}>
             <defs>

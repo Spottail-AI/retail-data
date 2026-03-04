@@ -90,7 +90,10 @@ export const CompetitorAnalysisSection = () => {
         )}
       </div>
 
-      <div className="h-48">
+      <div className="h-48 relative">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <span className="text-[1.1rem] font-semibold text-muted-foreground/15 select-none tracking-wide">Spottail.ai</span>
+        </div>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#E6E8EB" />
