@@ -54,7 +54,7 @@ export const Footer = () => {
               <li><a href="#" className="hover:text-foreground transition-colors">Careers</a></li>
               <li><a href="#" className="hover:text-foreground transition-colors">Press Kit</a></li>
               <li><a href="#" className="hover:text-foreground transition-colors">Partners</a></li>
-              <li><a href="#" className="hover:text-foreground transition-colors">Blog</a></li>
+              <li><a href="https://spottail.ai/resources" className="hover:text-foreground transition-colors">Blog</a></li>
             </ul>
           </div>
 
@@ -72,7 +72,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-muted-foreground text-sm">
-            © 2025 Spottail. All rights reserved.
+            © 2026 Spottail. All rights reserved.
           </div>
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-muted-foreground text-sm">
             <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
