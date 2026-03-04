@@ -351,13 +351,26 @@ const PriceTracking = () => {
 
   // ---- Chart View ----
   if (selectedItemId && selectedItem && !editModalOpen) {
-    const chartData = priceHistory.map((p) => ({
-      date: new Date(p.scraped_at).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-      price: Number(p.price),
-      fullDate: new Date(p.scraped_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
-    }));
+    // Deduplicate by date: keep latest price per day
+    const pricesByDate: Record<string, { price: number; scraped_at: string; count: number }> = {};
+    priceHistory.forEach((p) => {
+      const dateKey = new Date(p.scraped_at).toISOString().split("T")[0];
+      if (!pricesByDate[dateKey] || new Date(p.scraped_at) > new Date(pricesByDate[dateKey].scraped_at)) {
+        pricesByDate[dateKey] = { price: Number(p.price), scraped_at: p.scraped_at, count: (pricesByDate[dateKey]?.count || 0) + 1 };
+      } else {
+        pricesByDate[dateKey].count += 1;
+      }
+    });
+    const chartData = Object.entries(pricesByDate)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([dateKey, v]) => ({
+        date: new Date(dateKey + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+        price: v.price,
+        fullDate: new Date(dateKey + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+        checksOnDay: v.count,
+      }));
 
-    const prices = priceHistory.map((p) => Number(p.price));
+    const prices = chartData.map((p) => p.price);
     const currentPrice = prices.length > 0 ? prices[prices.length - 1] : null;
     const firstPrice = prices.length > 0 ? prices[0] : null;
     const minPrice = prices.length > 0 ? Math.min(...prices) : null;
@@ -413,7 +426,11 @@ const PriceTracking = () => {
                     <Tooltip
                       contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px", color: "hsl(var(--foreground))" }}
                       formatter={(value: number) => [formatPrice(value, currency), "Price"]}
-                      labelFormatter={(_, payload) => payload?.[0]?.payload?.fullDate || ""}
+                      labelFormatter={(_, payload) => {
+                        const p = payload?.[0]?.payload;
+                        const label = p?.fullDate || "";
+                        return p?.checksOnDay > 1 ? `${label} (${p.checksOnDay} checks)` : label;
+                      }}
                     />
                     <Line
                       type="monotone"
