@@ -58,6 +58,7 @@ import TrendHunterAlternative from "./pages/TrendHunterAlternative";
 import EcomhuntAlternative from "./pages/EcomhuntAlternative";
 import DropshipSpyAlternative from "./pages/DropshipSpyAlternative";
 import GlimpseAlternative from "./pages/GlimpseAlternative";
+import CompetitorPriceTrackingSoftware from "./pages/CompetitorPriceTrackingSoftware";
 
 const queryClient = new QueryClient();
 
@@ -121,6 +122,7 @@ const App = () => (
             <Route path="/ecomhunt-alternative" element={<EcomhuntAlternative />} />
             <Route path="/dropship-spy-alternative" element={<DropshipSpyAlternative />} />
             <Route path="/glimpse-alternative" element={<GlimpseAlternative />} />
+            <Route path="/competitor-price-tracking-software" element={<CompetitorPriceTrackingSoftware />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
