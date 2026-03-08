@@ -42,6 +42,7 @@ import Dashboard from "./pages/Dashboard";
 import PriceTracking from "./pages/PriceTracking";
 import Suppliers from "./pages/Suppliers";
 import CompetitorAnalysis from "./pages/CompetitorAnalysis";
+import CompetitorDetailPage from "./pages/CompetitorDetailPage";
 import TrendDiscovery from "./pages/TrendDiscovery";
 import Reports from "./pages/Reports";
 import SettingsPage from "./pages/Settings";
@@ -76,6 +77,7 @@ const App = () => (
             <Route path="/price-tracking" element={<PriceTracking />} />
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/competitor-analysis" element={<CompetitorAnalysis />} />
+            <Route path="/competitor-analysis/:id" element={<CompetitorDetailPage />} />
             <Route path="/trend-discovery" element={<TrendDiscovery />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<SettingsPage />} />
