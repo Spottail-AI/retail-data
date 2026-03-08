@@ -15,6 +15,8 @@ const Auth = () => {
   const mode = searchParams.get("mode");
   
   const [isLogin, setIsLogin] = useState(mode !== "signup");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,7 +41,7 @@ const Auth = () => {
           navigate(redirectTo);
         }
       } else {
-        const { error } = await signUp(email, password);
+        const { error } = await signUp(email, password, { first_name: firstName, last_name: lastName });
         if (error) {
           toast({ title: "Signup failed", description: error.message, variant: "destructive" });
         } else {
@@ -104,6 +106,34 @@ const Auth = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName" className="text-foreground text-sm">First Name</Label>
+                  <Input
+                    id="firstName"
+                    type="text"
+                    placeholder="John"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                    className="bg-background border-border"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName" className="text-foreground text-sm">Last Name</Label>
+                  <Input
+                    id="lastName"
+                    type="text"
+                    placeholder="Doe"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                    className="bg-background border-border"
+                  />
+                </div>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-foreground text-sm">Email</Label>
               <Input
