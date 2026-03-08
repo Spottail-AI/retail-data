@@ -77,18 +77,12 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
     }
   };
 
-  const stepIcons = [
-    <Globe className="w-5 h-5" />,
-    <Package className="w-5 h-5" />,
-    <Users className="w-5 h-5" />,
-  ];
-
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent className="bg-card border-border sm:max-w-lg [&>button]:hidden">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
-            {[1, 2, 3].map(s => (
+            {[1, 2].map(s => (
               <div
                 key={s}
                 className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold transition-colors ${
@@ -101,8 +95,7 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
           </div>
           <DialogTitle className="text-foreground">
             {step === 1 && "Select your country"}
-            {step === 2 && "What products do you track?"}
-            {step === 3 && "Add competitors (optional)"}
+            {step === 2 && "Add competitors (optional)"}
           </DialogTitle>
         </DialogHeader>
 
