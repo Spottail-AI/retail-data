@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      competitor_analysis: {
+        Row: {
+          analysis_data: Json
+          competitor_id: string
+          created_at: string
+          id: string
+          last_analyzed_at: string | null
+          migrated: boolean
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analysis_data?: Json
+          competitor_id: string
+          created_at?: string
+          id?: string
+          last_analyzed_at?: string | null
+          migrated?: boolean
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          analysis_data?: Json
+          competitor_id?: string
+          created_at?: string
+          id?: string
+          last_analyzed_at?: string | null
+          migrated?: boolean
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competitor_analysis_competitor_id_fkey"
+            columns: ["competitor_id"]
+            isOneToOne: true
+            referencedRelation: "tracked_competitors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount: number
