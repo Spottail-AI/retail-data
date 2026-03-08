@@ -118,28 +118,8 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
           </div>
         )}
 
-        {/* Step 2: Products */}
+        {/* Step 2: Competitors */}
         {step === 2 && (
-          <div className="flex flex-wrap gap-2 py-2">
-            {PRODUCT_CATEGORIES.map(product => (
-              <button
-                key={product}
-                onClick={() => toggleProduct(product)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                  selectedProducts.includes(product)
-                    ? "bg-primary/10 text-primary border border-primary/30"
-                    : "bg-accent/50 text-foreground hover:bg-accent border border-transparent"
-                }`}
-              >
-                {selectedProducts.includes(product) && <Check className="w-3 h-3 inline mr-1" />}
-                {product}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Step 3: Competitors */}
-        {step === 3 && (
           <div className="space-y-4 py-2">
             <div className="flex gap-2">
               <Input
