@@ -6,19 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Package, Users, Check, X, Loader2 } from "lucide-react";
+import { Globe, Users, Check, X, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const COUNTRIES = [
   "United States", "United Kingdom", "Canada", "Germany", "France",
   "Australia", "India", "Brazil", "Japan", "Nigeria", "South Africa",
   "UAE", "Mexico", "Netherlands", "Singapore",
-];
-
-const PRODUCT_CATEGORIES = [
-  "Electronics", "Fashion & Apparel", "Beauty & Personal Care", "Food & Beverages",
-  "Health & Wellness", "Home & Furniture", "Automotive", "Toys & Games",
-  "Office Supplies", "Sports & Outdoors",
 ];
 
 interface OnboardingModalProps {
@@ -31,16 +25,9 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [competitorName, setCompetitorName] = useState("");
   const [competitors, setCompetitors] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
-
-  const toggleProduct = (product: string) => {
-    setSelectedProducts(prev =>
-      prev.includes(product) ? prev.filter(p => p !== product) : [...prev, product]
-    );
-  };
 
   const addCompetitor = () => {
     if (competitorName.trim() && !competitors.includes(competitorName.trim())) {
@@ -65,17 +52,6 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
         onboarding_completed: true,
       }, { onConflict: "user_id" });
 
-      // Save tracked products
-      if (selectedProducts.length > 0) {
-        const productRows = selectedProducts.map(p => ({
-          user_id: user.id,
-          product_name: p,
-          category: p,
-          region: selectedCountry,
-        }));
-        await supabase.from("tracked_products").insert(productRows);
-      }
-
       // Save competitors
       if (competitors.length > 0) {
         const competitorRows = competitors.map(c => ({
@@ -95,18 +71,12 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
     }
   };
 
-  const stepIcons = [
-    <Globe className="w-5 h-5" />,
-    <Package className="w-5 h-5" />,
-    <Users className="w-5 h-5" />,
-  ];
-
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent className="bg-card border-border sm:max-w-lg [&>button]:hidden">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
-            {[1, 2, 3].map(s => (
+            {[1, 2].map(s => (
               <div
                 key={s}
                 className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold transition-colors ${
@@ -119,8 +89,7 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
           </div>
           <DialogTitle className="text-foreground">
             {step === 1 && "Select your country"}
-            {step === 2 && "What products do you track?"}
-            {step === 3 && "Add competitors (optional)"}
+            {step === 2 && "Add competitors (optional)"}
           </DialogTitle>
         </DialogHeader>
 
@@ -143,28 +112,8 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
           </div>
         )}
 
-        {/* Step 2: Products */}
+        {/* Step 2: Competitors */}
         {step === 2 && (
-          <div className="flex flex-wrap gap-2 py-2">
-            {PRODUCT_CATEGORIES.map(product => (
-              <button
-                key={product}
-                onClick={() => toggleProduct(product)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                  selectedProducts.includes(product)
-                    ? "bg-primary/10 text-primary border border-primary/30"
-                    : "bg-accent/50 text-foreground hover:bg-accent border border-transparent"
-                }`}
-              >
-                {selectedProducts.includes(product) && <Check className="w-3 h-3 inline mr-1" />}
-                {product}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Step 3: Competitors */}
-        {step === 3 && (
           <div className="space-y-4 py-2">
             <div className="flex gap-2">
               <Input
@@ -197,7 +146,7 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
           {step > 1 ? (
             <Button variant="ghost" onClick={() => setStep(s => s - 1)}>Back</Button>
           ) : <div />}
-          {step < 3 ? (
+          {step < 2 ? (
             <Button
               onClick={() => setStep(s => s + 1)}
               disabled={step === 1 && !selectedCountry}
