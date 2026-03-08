@@ -93,7 +93,7 @@ const CompetitorDetailPage = () => {
     return () => observer.disconnect();
   }, [analysis]);
 
-  const d = analysis?.analysis_data;
+  const d = analysis?.analysis_data as Record<string, any> | undefined;
   const sections = [
     { id: "overview", label: "Overview" },
     { id: "financials", label: "Financial Performance" },
