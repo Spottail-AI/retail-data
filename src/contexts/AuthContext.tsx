@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useCallback, useRef } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { getTierFromProductId, type SubscriptionTier } from "@/lib/stripe-config";
 
 interface AuthContextType {
   user: User | null;
@@ -10,6 +11,8 @@ interface AuthContextType {
   checkingPayment: boolean;
   isSubscribed: boolean;
   checkingSubscription: boolean;
+  subscriptionTier: SubscriptionTier;
+  subscriptionEnd: string | null;
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
@@ -27,6 +30,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [checkingPayment, setCheckingPayment] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [checkingSubscription, setCheckingSubscription] = useState(false);
+  const [subscriptionTier, setSubscriptionTier] = useState<SubscriptionTier>("free");
+  const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
   
   const isCheckingRef = useRef(false);
   const hasCheckedPaymentRef = useRef(false);
@@ -38,6 +43,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { data: { session: currentSession } } = await supabase.auth.getSession();
     if (!currentSession) {
       setIsSubscribed(false);
+      setSubscriptionTier("free");
+      setSubscriptionEnd(null);
       return false;
     }
 
@@ -57,16 +64,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error) {
         console.error("Error checking subscription:", error);
         setIsSubscribed(false);
+        setSubscriptionTier("free");
+        setSubscriptionEnd(null);
         return false;
       }
 
       const subscribed = data?.subscribed ?? false;
+      const tier = getTierFromProductId(data?.product_id ?? null);
       setIsSubscribed(subscribed);
+      setSubscriptionTier(subscribed ? tier : "free");
+      setSubscriptionEnd(data?.subscription_end ?? null);
       hasCheckedSubRef.current = true;
       return subscribed;
     } catch (error) {
       console.error("Error checking subscription:", error);
       setIsSubscribed(false);
+      setSubscriptionTier("free");
+      setSubscriptionEnd(null);
       return false;
     } finally {
       isCheckingSubRef.current = false;
@@ -133,7 +147,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (initialSession?.user) {
           lastUserIdRef.current = initialSession.user.id;
           
-          // Check payment and subscription in parallel
           setCheckingPayment(true);
           setCheckingSubscription(true);
           
@@ -159,8 +172,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             if (subResult.status === "fulfilled" && !subResult.value.error && subResult.value.data?.subscribed) {
               setIsSubscribed(true);
+              const tier = getTierFromProductId(subResult.value.data?.product_id ?? null);
+              setSubscriptionTier(tier);
+              setSubscriptionEnd(subResult.value.data?.subscription_end ?? null);
             } else {
               setIsSubscribed(false);
+              setSubscriptionTier("free");
+              setSubscriptionEnd(null);
             }
             hasCheckedSubRef.current = true;
           } catch (error) {
@@ -168,6 +186,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (isMounted) {
               setHasPaid(false);
               setIsSubscribed(false);
+              setSubscriptionTier("free");
+              setSubscriptionEnd(null);
             }
           } finally {
             if (isMounted) {
@@ -208,6 +228,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (event === "SIGNED_OUT") {
           setHasPaid(false);
           setIsSubscribed(false);
+          setSubscriptionTier("free");
+          setSubscriptionEnd(null);
           setCheckingPayment(false);
           setCheckingSubscription(false);
           hasCheckedPaymentRef.current = false;
@@ -253,6 +275,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         checkingPayment,
         isSubscribed,
         checkingSubscription,
+        subscriptionTier,
+        subscriptionEnd,
         signUp,
         signIn,
         signOut,
