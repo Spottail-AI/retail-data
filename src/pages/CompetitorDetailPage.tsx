@@ -26,7 +26,7 @@ const CompetitorDetailPage = () => {
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
   const [activeSection, setActiveSection] = useState("overview");
-  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const { data: competitor } = useQuery({
     queryKey: ["competitor", id],
