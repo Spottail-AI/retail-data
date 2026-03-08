@@ -15,12 +15,6 @@ const COUNTRIES = [
   "UAE", "Mexico", "Netherlands", "Singapore",
 ];
 
-const PRODUCT_CATEGORIES = [
-  "Electronics", "Fashion & Apparel", "Beauty & Personal Care", "Food & Beverages",
-  "Health & Wellness", "Home & Furniture", "Automotive", "Toys & Games",
-  "Office Supplies", "Sports & Outdoors",
-];
-
 interface OnboardingModalProps {
   open: boolean;
   onComplete: () => void;
