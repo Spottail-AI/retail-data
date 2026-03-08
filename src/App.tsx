@@ -42,6 +42,7 @@ import Dashboard from "./pages/Dashboard";
 import PriceTracking from "./pages/PriceTracking";
 import Suppliers from "./pages/Suppliers";
 import CompetitorAnalysis from "./pages/CompetitorAnalysis";
+import CompetitorDetailPage from "./pages/CompetitorDetailPage";
 import TrendDiscovery from "./pages/TrendDiscovery";
 import Reports from "./pages/Reports";
 import SettingsPage from "./pages/Settings";
