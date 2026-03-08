@@ -77,6 +77,7 @@ const App = () => (
             <Route path="/price-tracking" element={<PriceTracking />} />
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/competitor-analysis" element={<CompetitorAnalysis />} />
+            <Route path="/competitor-analysis/:id" element={<CompetitorDetailPage />} />
             <Route path="/trend-discovery" element={<TrendDiscovery />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<SettingsPage />} />
