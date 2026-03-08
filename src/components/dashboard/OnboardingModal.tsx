@@ -58,17 +58,6 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
         onboarding_completed: true,
       }, { onConflict: "user_id" });
 
-      // Save tracked products
-      if (selectedProducts.length > 0) {
-        const productRows = selectedProducts.map(p => ({
-          user_id: user.id,
-          product_name: p,
-          category: p,
-          region: selectedCountry,
-        }));
-        await supabase.from("tracked_products").insert(productRows);
-      }
-
       // Save competitors
       if (competitors.length > 0) {
         const competitorRows = competitors.map(c => ({
