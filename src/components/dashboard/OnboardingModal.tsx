@@ -152,7 +152,7 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
           {step > 1 ? (
             <Button variant="ghost" onClick={() => setStep(s => s - 1)}>Back</Button>
           ) : <div />}
-          {step < 3 ? (
+          {step < 2 ? (
             <Button
               onClick={() => setStep(s => s + 1)}
               disabled={step === 1 && !selectedCountry}
