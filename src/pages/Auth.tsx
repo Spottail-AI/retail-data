@@ -41,7 +41,7 @@ const Auth = () => {
           navigate(redirectTo);
         }
       } else {
-        const { error } = await signUp(email, password);
+        const { error } = await signUp(email, password, { first_name: firstName, last_name: lastName });
         if (error) {
           toast({ title: "Signup failed", description: error.message, variant: "destructive" });
         } else {
