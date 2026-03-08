@@ -31,16 +31,9 @@ export const OnboardingModal = ({ open, onComplete }: OnboardingModalProps) => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [competitorName, setCompetitorName] = useState("");
   const [competitors, setCompetitors] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
-
-  const toggleProduct = (product: string) => {
-    setSelectedProducts(prev =>
-      prev.includes(product) ? prev.filter(p => p !== product) : [...prev, product]
-    );
-  };
 
   const addCompetitor = () => {
     if (competitorName.trim() && !competitors.includes(competitorName.trim())) {
