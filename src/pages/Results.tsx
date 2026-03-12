@@ -40,7 +40,7 @@ const Results = () => {
   const { user, session, loading: authLoading, hasPaid, checkPaymentStatus, checkingPayment } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hasShownSuccessToast = useRef(false);
   const hasStartedVerification = useRef(false);
 
