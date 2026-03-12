@@ -18,15 +18,25 @@ import {
 
 const CompetitorPriceTrackingSoftware = () => {
   useEffect(() => {
-    document.title = "Competitor Price Tracking Software | Spottail.ai - Real-Time Pricing Intelligence";
+    document.title = "Competitor Price Tracking Software | Monitor Competitor Prices";
     const metaDesc = document.querySelector('meta[name="description"]');
-    const content = "Track competitor prices in real-time across all channels. Get automated alerts, pricing recommendations, and market intelligence. Free plan available. Try Spottail.ai today.";
+    const content = "Competitor price tracking software for retail teams. Track competitor prices across e-commerce stores, monitor price changes, and optimize pricing strategy with Spottail.";
     if (metaDesc) {
       metaDesc.setAttribute("content", content);
     } else {
       const meta = document.createElement("meta");
       meta.name = "description";
       meta.content = content;
+      document.head.appendChild(meta);
+    }
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    const keywords = "competitor price tracking software, competitor price monitoring, price tracking tool, e-commerce price tracker, retail price monitoring";
+    if (metaKeywords) {
+      metaKeywords.setAttribute("content", keywords);
+    } else {
+      const meta = document.createElement("meta");
+      meta.name = "keywords";
+      meta.content = keywords;
       document.head.appendChild(meta);
     }
 
