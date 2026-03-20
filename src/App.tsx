@@ -127,6 +127,8 @@ const App = () => (
             <Route path="/dropship-spy-alternative" element={<DropshipSpyAlternative />} />
             <Route path="/glimpse-alternative" element={<GlimpseAlternative />} />
             <Route path="/competitor-price-tracking-software" element={<CompetitorPriceTrackingSoftware />} />
+            <Route path="/find-distributors" element={<FindDistributors />} />
+            <Route path="/find-suppliers" element={<FindSuppliers />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
