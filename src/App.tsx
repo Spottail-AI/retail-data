@@ -60,6 +60,8 @@ import EcomhuntAlternative from "./pages/EcomhuntAlternative";
 import DropshipSpyAlternative from "./pages/DropshipSpyAlternative";
 import GlimpseAlternative from "./pages/GlimpseAlternative";
 import CompetitorPriceTrackingSoftware from "./pages/CompetitorPriceTrackingSoftware";
+import FindDistributors from "./pages/FindDistributors";
+import FindSuppliers from "./pages/FindSuppliers";
 
 const queryClient = new QueryClient();
 
