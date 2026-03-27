@@ -31,8 +31,14 @@ const SourceProductDetail = () => {
   const queryClient = useQueryClient();
   const [showVoteEmail, setShowVoteEmail] = useState(false);
   const [voteEmail, setVoteEmail] = useState("");
-  const [voteStatus, setVoteStatus] = useState<"idle" | "submitting" | "pending" | "error" | "duplicate">("idle");
+  const [voteStatus, setVoteStatus] = useState<"idle" | "submitting" | "success" | "error" | "duplicate">("idle");
   const [voteError, setVoteError] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [captchaChallenge, setCaptchaChallenge] = useState(() => {
+    const a = Math.floor(Math.random() * 10) + 1;
+    const b = Math.floor(Math.random() * 10) + 1;
+    return { a, b, answer: a + b };
+  });
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["source-product", slug],
