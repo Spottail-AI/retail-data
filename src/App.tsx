@@ -65,6 +65,9 @@ import FindSuppliers from "./pages/FindSuppliers";
 import SourceMarketplace from "./pages/SourceMarketplace";
 import SourceProductDetail from "./pages/SourceProductDetail";
 import SourceCommunityVote from "./pages/SourceCommunityVote";
+import SourceListProduct from "./pages/SourceListProduct";
+import SourceProductAnalytics from "./pages/SourceProductAnalytics";
+import SourceVerifyBrand from "./pages/SourceVerifyBrand";
 import BuyerTrendingNow from "./pages/BuyerTrendingNow";
 import BuyerShortlist from "./pages/BuyerShortlist";
 import BuyerEnquiries from "./pages/BuyerEnquiries";
@@ -136,8 +139,11 @@ const App = () => (
             <Route path="/find-distributors" element={<FindDistributors />} />
             <Route path="/find-suppliers" element={<FindSuppliers />} />
             <Route path="/source" element={<SourceMarketplace />} />
+            <Route path="/source/new" element={<SourceListProduct />} />
             <Route path="/source/:slug" element={<SourceProductDetail />} />
             <Route path="/source/:slug/vote" element={<SourceCommunityVote />} />
+            <Route path="/source/:slug/analytics" element={<SourceProductAnalytics />} />
+            <Route path="/source/:slug/verify" element={<SourceVerifyBrand />} />
             <Route path="/trending-now" element={<BuyerTrendingNow />} />
             <Route path="/my-shortlist" element={<BuyerShortlist />} />
             <Route path="/enquiries" element={<BuyerEnquiries />} />
