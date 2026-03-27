@@ -46,6 +46,21 @@ const SourceVerifyBrand = () => {
     enabled: !!slug,
   });
 
+  // Check existing request
+  const { data: existingRequest } = useQuery({
+    queryKey: ["verification-request", product?.id, user?.id],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("verification_requests")
+        .select("id, status")
+        .eq("product_id", product!.id)
+        .eq("user_id", user!.id)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!product && !!user,
+  });
+
   const update = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -59,14 +74,22 @@ const SourceVerifyBrand = () => {
     }
 
     setSubmitting(true);
-    // For now, store as a pending verification in the product's description
-    // A real implementation would use a separate verifications table
-    // For MVP, we mark this as a toast confirmation
     try {
-      // Simulate submission — in production this would go to a verifications queue
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const { error } = await supabase.from("verification_requests").insert({
+        product_id: product.id,
+        user_id: user.id,
+        company_name: form.company_name.trim(),
+        website_url: form.website_url.trim(),
+        business_registration: form.business_registration.trim() || null,
+        additional_info: form.additional_info.trim() || null,
+      });
+
+      if (error) throw error;
+
       setSubmitted(true);
       toast({ title: "Verification request submitted!", description: "We'll review your application within 2–3 business days." });
+    } catch (err: any) {
+      toast({ title: "Failed to submit", description: err.message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -92,7 +115,7 @@ const SourceVerifyBrand = () => {
     );
   }
 
-  if (submitted) {
+  if (submitted || (existingRequest && existingRequest.status === "pending")) {
     return (
       <DashboardShell>
         <div className="max-w-[560px] mx-auto px-4 py-16 text-center">
@@ -102,6 +125,23 @@ const SourceVerifyBrand = () => {
             We'll review your verification request for <span className="text-foreground font-semibold">{product?.product_name}</span> within 2–3 business days.
           </p>
           <p className="text-muted-foreground text-xs mb-6">You'll receive an email notification once approved.</p>
+          <Button variant="outline" onClick={() => navigate(`/source/${slug}/analytics`)}>
+            Back to Analytics
+          </Button>
+        </div>
+      </DashboardShell>
+    );
+  }
+
+  if (existingRequest && existingRequest.status === "rejected") {
+    return (
+      <DashboardShell>
+        <div className="max-w-[560px] mx-auto px-4 py-16 text-center">
+          <Shield className="w-12 h-12 text-destructive mx-auto mb-4" />
+          <h1 className="text-xl font-extrabold text-foreground mb-2">Verification Declined</h1>
+          <p className="text-muted-foreground text-sm mb-6">
+            Your previous verification request was not approved. Please contact support for more details.
+          </p>
           <Button variant="outline" onClick={() => navigate(`/source/${slug}/analytics`)}>
             Back to Analytics
           </Button>
