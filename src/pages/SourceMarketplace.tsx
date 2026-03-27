@@ -91,10 +91,11 @@ const SourceMarketplace = () => {
     enabled: !!user,
   });
 
-  const handleVote = async (e: React.MouseEvent, productId: string) => {
+  const handleVote = async (e: React.MouseEvent, productId: string, productSlug: string) => {
     e.stopPropagation();
     if (!user) {
-      navigate("/auth?mode=signup&redirect=/source");
+      // Navigate to the product page so the guest can use the CAPTCHA vote dialog
+      navigate(`/source/${productSlug}`);
       return;
     }
 
