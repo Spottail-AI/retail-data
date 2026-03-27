@@ -35,36 +35,35 @@ export const PricingSection = () => {
 
   const plans = [
     {
-      name: "Starter",
+      name: "Free",
       icon: Zap,
-      price: "$20",
-      period: "/month",
-      description: "Perfect for small retailers testing the waters",
+      price: "$0",
+      period: "",
+      description: "Perfect for getting started",
       features: [
-        "5 country markets",
-        "10 product categories",
-        "Weekly trend reports",
+        "Track 2 competitors",
+        "Daily price updates",
         "Email alerts",
         "Basic analytics",
-        "Community support"
+        "Dashboard access"
       ],
       popular: false
     },
     {
-      name: "Professional",
+      name: "Pro",
       icon: Crown,
-      price: "$40",
+      price: "$20",
       period: "/month",
-      description: "Ideal for growing businesses and online stores",
+      description: "For growing businesses and online stores",
       features: [
-        "25+ country markets",
-        "Unlimited categories",
-        "Daily trend reports",
-        "Real-time alerts",
+        "Track 10 competitors",
+        "Real-time monitoring",
+        "Slack integration",
+        "Pricing recommendations",
         "Advanced analytics",
-        "Platform-specific insights",
-        "Priority support",
-        "Custom filters"
+        "API access",
+        "Email support",
+        "Weekly auto-updates"
       ],
       popular: true
     },
@@ -72,17 +71,17 @@ export const PricingSection = () => {
       name: "Enterprise",
       icon: Rocket,
       price: "Custom",
-      period: "pricing",
+      period: " pricing",
       description: "For large retailers and enterprise businesses",
       features: [
-        "All global markets",
-        "Unlimited everything",
-        "Hourly updates",
-        "API access",
+        "Unlimited competitor tracking",
         "Custom integrations",
-        "Dedicated account manager",
+        "Dedicated support",
         "White-label options",
-        "Training & onboarding"
+        "SLA guarantee",
+        "Priority feature requests",
+        "Advanced security",
+        "Bulk pricing on API"
       ],
       popular: false
     }
