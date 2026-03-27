@@ -27,7 +27,10 @@ const SourceProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const [showVoteEmail, setShowVoteEmail] = useState(false);
+  const [voteEmail, setVoteEmail] = useState("");
+  const [voteStatus, setVoteStatus] = useState<"idle" | "submitting" | "pending" | "error" | "duplicate">("idle");
+  const [voteError, setVoteError] = useState("");
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["source-product", slug],
