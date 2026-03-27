@@ -3,7 +3,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/lib/stripe-config";
-import DashboardShell from "@/components/dashboard/DashboardShell";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { PricingCards } from "@/components/pricing/PricingCards";
 import { ComparisonTable } from "@/components/pricing/ComparisonTable";
 import { PricingFAQ } from "@/components/pricing/PricingFAQ";
@@ -80,11 +81,15 @@ const Pricing = () => {
   };
 
   return (
-    <DashboardShell
-      title="Upgrade Plan"
-      description="Choose the plan that fits your business needs."
-    >
-      {/* Current plan banner */}
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="pt-24 pb-16 px-4 md:px-8 max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Upgrade Plan</h1>
+          <p className="text-muted-foreground">Choose the plan that fits your business needs.</p>
+        </div>
+
+        {/* Current plan banner */}
       {user && (
         <div className="mb-8 p-4 rounded-xl border border-border bg-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
@@ -202,7 +207,9 @@ const Pricing = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </DashboardShell>
+      </main>
+      <Footer />
+    </div>
   );
 };
 
