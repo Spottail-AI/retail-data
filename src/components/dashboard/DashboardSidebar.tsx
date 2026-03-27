@@ -12,6 +12,8 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
+  Package,
+  Store,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -27,6 +29,8 @@ const navItems = [
   { label: "Suppliers & Distributors", icon: Truck, path: "/suppliers" },
   { label: "Competitor Analysis", icon: Users, path: "/competitor-analysis" },
   { label: "Trend Discovery", icon: Sparkles, path: "/trend-discovery" },
+  { label: "List a Product", icon: Package, path: "/source/new" },
+  { label: "Browse Source", icon: Store, path: "/source" },
   { label: "Reports", icon: FileText, path: "/reports" },
   { label: "Settings", icon: Settings, path: "/settings" },
 ];
