@@ -195,6 +195,250 @@ export type Database = {
         }
         Relationships: []
       }
+      source_buyer_votes: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_buyer_votes_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "source_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      source_community_votes: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          product_id: string
+          verification_token: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          product_id: string
+          verification_token?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          product_id?: string
+          verification_token?: string | null
+          verified?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_community_votes_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "source_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      source_enquiries: {
+        Row: {
+          buyer_id: string
+          created_at: string
+          id: string
+          message: string | null
+          product_id: string
+          status: string | null
+          supplier_id: string
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          product_id: string
+          status?: string | null
+          supplier_id: string
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          product_id?: string
+          status?: string | null
+          supplier_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_enquiries_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "source_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      source_product_views: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          viewer_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          viewer_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          viewer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_product_views_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "source_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      source_products: {
+        Row: {
+          available_skus: number | null
+          category: string | null
+          contact_email: string | null
+          contact_preference: string | null
+          contact_whatsapp: string | null
+          created_at: string
+          currency: string | null
+          description: string | null
+          id: string
+          is_featured: boolean | null
+          is_trending: boolean | null
+          is_verified: boolean | null
+          launched_at: string | null
+          lead_time: string | null
+          moq: number | null
+          product_images: Json | null
+          product_name: string
+          shipping_countries: Json | null
+          slug: string
+          tagline: string | null
+          updated_at: string
+          user_id: string
+          wholesale_price_max: number | null
+          wholesale_price_min: number | null
+        }
+        Insert: {
+          available_skus?: number | null
+          category?: string | null
+          contact_email?: string | null
+          contact_preference?: string | null
+          contact_whatsapp?: string | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_trending?: boolean | null
+          is_verified?: boolean | null
+          launched_at?: string | null
+          lead_time?: string | null
+          moq?: number | null
+          product_images?: Json | null
+          product_name: string
+          shipping_countries?: Json | null
+          slug: string
+          tagline?: string | null
+          updated_at?: string
+          user_id: string
+          wholesale_price_max?: number | null
+          wholesale_price_min?: number | null
+        }
+        Update: {
+          available_skus?: number | null
+          category?: string | null
+          contact_email?: string | null
+          contact_preference?: string | null
+          contact_whatsapp?: string | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_trending?: boolean | null
+          is_verified?: boolean | null
+          launched_at?: string | null
+          lead_time?: string | null
+          moq?: number | null
+          product_images?: Json | null
+          product_name?: string
+          shipping_countries?: Json | null
+          slug?: string
+          tagline?: string | null
+          updated_at?: string
+          user_id?: string
+          wholesale_price_max?: number | null
+          wholesale_price_min?: number | null
+        }
+        Relationships: []
+      }
+      source_shortlists: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_shortlists_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "source_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       suppliers: {
         Row: {
           average_price: number | null
