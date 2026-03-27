@@ -31,8 +31,14 @@ const SourceProductDetail = () => {
   const queryClient = useQueryClient();
   const [showVoteEmail, setShowVoteEmail] = useState(false);
   const [voteEmail, setVoteEmail] = useState("");
-  const [voteStatus, setVoteStatus] = useState<"idle" | "submitting" | "pending" | "error" | "duplicate">("idle");
+  const [voteStatus, setVoteStatus] = useState<"idle" | "submitting" | "success" | "error" | "duplicate">("idle");
   const [voteError, setVoteError] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [captchaChallenge, setCaptchaChallenge] = useState(() => {
+    const a = Math.floor(Math.random() * 10) + 1;
+    const b = Math.floor(Math.random() * 10) + 1;
+    return { a, b, answer: a + b };
+  });
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["source-product", slug],
@@ -134,6 +140,14 @@ const SourceProductDetail = () => {
       setVoteError(parsed.error.errors[0].message);
       return;
     }
+    if (parseInt(captchaAnswer) !== captchaChallenge.answer) {
+      setVoteError("Incorrect answer. Please try again.");
+      const a = Math.floor(Math.random() * 10) + 1;
+      const b = Math.floor(Math.random() * 10) + 1;
+      setCaptchaChallenge({ a, b, answer: a + b });
+      setCaptchaAnswer("");
+      return;
+    }
     if (!product) return;
     setVoteStatus("submitting");
     try {
@@ -148,7 +162,8 @@ const SourceProductDetail = () => {
           setVoteError("Something went wrong. Please try again.");
         }
       } else {
-        setVoteStatus("pending");
+        setVoteStatus("success");
+        queryClient.invalidateQueries({ queryKey: ["source-product-votes", product.id] });
       }
     } catch {
       setVoteStatus("error");
@@ -403,22 +418,30 @@ const SourceProductDetail = () => {
           </div>
         </div>
 
-        {/* Email Vote Dialog */}
-        <Dialog open={showVoteEmail} onOpenChange={setShowVoteEmail}>
+        {/* Vote Dialog */}
+        <Dialog open={showVoteEmail} onOpenChange={(open) => {
+          setShowVoteEmail(open);
+          if (!open) {
+            setVoteStatus("idle");
+            setVoteEmail("");
+            setCaptchaAnswer("");
+            setVoteError("");
+          }
+        }}>
           <DialogContent className="bg-[#111827] border-[#1e2d4a] max-w-md">
             <DialogHeader>
               <DialogTitle className="text-white">
-                {voteStatus === "pending"
-                  ? "Check your email"
+                {voteStatus === "success"
+                  ? "Vote recorded!"
                   : voteStatus === "duplicate"
                   ? "Already voted"
                   : `Vote for ${product.product_name}`}
               </DialogTitle>
             </DialogHeader>
-            {voteStatus === "pending" ? (
+            {voteStatus === "success" ? (
               <div className="text-center py-4">
-                <Mail className="w-10 h-10 text-[#4f8ef7] mx-auto mb-3" />
-                <p className="text-[#94a3b8] text-sm">We've sent a verification link to <span className="text-white">{voteEmail}</span>. Click it to confirm your vote.</p>
+                <CheckCircle className="w-10 h-10 text-[#4ade80] mx-auto mb-3" />
+                <p className="text-[#94a3b8] text-sm">Thanks for supporting this product! Your vote has been counted.</p>
               </div>
             ) : voteStatus === "duplicate" ? (
               <div className="text-center py-4">
@@ -427,19 +450,29 @@ const SourceProductDetail = () => {
               </div>
             ) : (
               <div>
-                <p className="text-[#94a3b8] text-xs mb-4">Enter your email to cast a community vote. We'll send a quick verification link.</p>
-                <form onSubmit={handleCommunityVote} className="flex gap-2">
+                <p className="text-[#94a3b8] text-xs mb-4">Enter your email and solve the challenge to cast your vote.</p>
+                <form onSubmit={handleCommunityVote} className="space-y-3">
                   <Input
                     type="email"
                     placeholder="you@example.com"
                     value={voteEmail}
                     onChange={(e) => setVoteEmail(e.target.value)}
-                    className="flex-1 bg-[#0a0e1a] border-[#1e2d4a] text-white placeholder:text-[#64748b]"
+                    className="bg-[#0a0e1a] border-[#1e2d4a] text-white placeholder:text-[#64748b]"
                   />
+                  <div className="flex items-center gap-2">
+                    <span className="text-[#94a3b8] text-sm whitespace-nowrap">What is {captchaChallenge.a} + {captchaChallenge.b}?</span>
+                    <Input
+                      type="number"
+                      placeholder="?"
+                      value={captchaAnswer}
+                      onChange={(e) => setCaptchaAnswer(e.target.value)}
+                      className="w-20 bg-[#0a0e1a] border-[#1e2d4a] text-white placeholder:text-[#64748b] text-center"
+                    />
+                  </div>
                   <Button
                     type="submit"
                     disabled={voteStatus === "submitting"}
-                    className="bg-[#4f8ef7] hover:bg-[#4f8ef7]/90 text-white font-semibold shrink-0"
+                    className="w-full bg-[#4f8ef7] hover:bg-[#4f8ef7]/90 text-white font-semibold"
                   >
                     {voteStatus === "submitting" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Vote"}
                   </Button>

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, CheckCircle, AlertCircle, Mail } from "lucide-react";
+import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
@@ -11,12 +11,16 @@ const emailSchema = z.string().trim().email("Please enter a valid email address"
 
 const SourceCommunityVote = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [searchParams] = useSearchParams();
-  const verifyToken = searchParams.get("verify");
 
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitting" | "pending_verify" | "success" | "duplicate" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "duplicate" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [captchaChallenge, setCaptchaChallenge] = useState(() => {
+    const a = Math.floor(Math.random() * 10) + 1;
+    const b = Math.floor(Math.random() * 10) + 1;
+    return { a, b, answer: a + b };
+  });
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["source-product-vote", slug],
@@ -32,33 +36,6 @@ const SourceCommunityVote = () => {
     enabled: !!slug,
   });
 
-  // Auto-verify if token in URL
-  useEffect(() => {
-    if (verifyToken) {
-      verifyVote(verifyToken);
-    }
-  }, [verifyToken]);
-
-  const verifyVote = async (token: string) => {
-    setStatus("submitting");
-    try {
-      const { data, error } = await supabase.functions.invoke("verify-vote", {
-        body: { action: "verify", token },
-      });
-      if (error) throw error;
-      setStatus("success");
-    } catch {
-      setStatus("error");
-      setErrorMsg("Invalid or expired verification link.");
-    }
-  };
-
-  useEffect(() => {
-    if (product) {
-      document.title = `Vote for ${product.product_name} — Spottail Source`;
-    }
-  }, [product]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
@@ -66,6 +43,15 @@ const SourceCommunityVote = () => {
     const parsed = emailSchema.safeParse(email);
     if (!parsed.success) {
       setErrorMsg(parsed.error.errors[0].message);
+      return;
+    }
+
+    if (parseInt(captchaAnswer) !== captchaChallenge.answer) {
+      setErrorMsg("Incorrect answer. Please try again.");
+      const a = Math.floor(Math.random() * 10) + 1;
+      const b = Math.floor(Math.random() * 10) + 1;
+      setCaptchaChallenge({ a, b, answer: a + b });
+      setCaptchaAnswer("");
       return;
     }
 
@@ -78,7 +64,6 @@ const SourceCommunityVote = () => {
       });
 
       if (error) {
-        // Check if it's a duplicate
         if (error.message?.includes("409") || (data as any)?.error === "already_voted") {
           setStatus("duplicate");
         } else {
@@ -86,7 +71,7 @@ const SourceCommunityVote = () => {
           setErrorMsg("Something went wrong. Please try again.");
         }
       } else {
-        setStatus("pending_verify");
+        setStatus("success");
       }
     } catch {
       setStatus("error");
@@ -120,7 +105,6 @@ const SourceCommunityVote = () => {
     <div className="min-h-screen bg-[#0a0e1a] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-[390px]">
         <div className="bg-[#111827] border border-[#1e2d4a] rounded-2xl p-8 text-center">
-          {/* Product Image */}
           <div className="w-[68px] h-[68px] rounded-xl bg-[#1e2d4a] flex items-center justify-center text-3xl mx-auto mb-5 overflow-hidden">
             {coverImage ? (
               <img src={coverImage} alt="" className="w-full h-full object-cover" />
@@ -129,15 +113,12 @@ const SourceCommunityVote = () => {
             )}
           </div>
 
-          {/* Brand Name */}
           <p className="text-[#4f8ef7] text-xs font-semibold uppercase tracking-wider mb-2">
             Spottail Source
           </p>
 
-          {/* Product Name */}
           <h1 className="text-white text-xl font-extrabold mb-4">{product.product_name}</h1>
 
-          {/* Description */}
           <p className="text-[#94a3b8] text-sm leading-relaxed mb-6">
             We're trying to get stocked in retail stores worldwide. Your vote tells buyers there's real demand for this product.
           </p>
@@ -145,14 +126,8 @@ const SourceCommunityVote = () => {
           {status === "success" ? (
             <div className="py-6">
               <CheckCircle className="w-12 h-12 text-[#c5f135] mx-auto mb-3" />
-              <h2 className="text-white font-bold text-lg mb-1">Vote verified!</h2>
+              <h2 className="text-white font-bold text-lg mb-1">Vote recorded!</h2>
               <p className="text-[#94a3b8] text-sm">Your support helps this product get discovered by retail buyers.</p>
-            </div>
-          ) : status === "pending_verify" ? (
-            <div className="py-6">
-              <Mail className="w-12 h-12 text-[#4f8ef7] mx-auto mb-3" />
-              <h2 className="text-white font-bold text-lg mb-1">Check your email</h2>
-              <p className="text-[#94a3b8] text-sm">We've sent a verification link to <span className="text-white font-medium">{email}</span>. Click it to confirm your vote.</p>
             </div>
           ) : status === "duplicate" ? (
             <div className="py-6">
@@ -171,6 +146,17 @@ const SourceCommunityVote = () => {
                 required
                 maxLength={255}
               />
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-[#94a3b8] text-sm whitespace-nowrap">What is {captchaChallenge.a} + {captchaChallenge.b}?</span>
+                <Input
+                  type="number"
+                  placeholder="?"
+                  value={captchaAnswer}
+                  onChange={(e) => setCaptchaAnswer(e.target.value)}
+                  className="w-20 bg-[#0d1117] border-[#1e2d4a] text-white placeholder:text-[#475569] focus:border-[#4f8ef7] h-11 text-center"
+                  required
+                />
+              </div>
               {errorMsg && <p className="text-red-400 text-xs text-left">{errorMsg}</p>}
               <Button
                 type="submit"
@@ -185,13 +171,11 @@ const SourceCommunityVote = () => {
             </form>
           )}
 
-          {/* Footer Notes */}
           <p className="text-[#475569] text-[11px] mt-5 leading-relaxed">
             One vote per email. No account needed. Your email won't be shared.
           </p>
         </div>
 
-        {/* Powered By */}
         <p className="text-center text-[#475569] text-[11px] mt-4">
           Powered by <span className="text-[#94a3b8]">Spottail Source</span>
         </p>
