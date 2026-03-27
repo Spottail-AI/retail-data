@@ -154,13 +154,11 @@ const SourceProductDetail = () => {
       const { data, error } = await supabase.functions.invoke("verify-vote", {
         body: { action: "submit-vote", product_id: product.id, email: parsed.data },
       });
-      if (error) {
-        if (error.message?.includes("409") || (data as any)?.error === "already_voted") {
-          setVoteStatus("duplicate");
-        } else {
-          setVoteStatus("error");
-          setVoteError("Something went wrong. Please try again.");
-        }
+      if (error || data?.error === "already_voted") {
+        setVoteStatus("duplicate");
+      } else if (data?.error) {
+        setVoteStatus("error");
+        setVoteError("Something went wrong. Please try again.");
       } else {
         setVoteStatus("success");
         queryClient.invalidateQueries({ queryKey: ["source-product-votes", product.id] });
