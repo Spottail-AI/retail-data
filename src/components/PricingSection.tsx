@@ -213,9 +213,9 @@ export const PricingSection = () => {
                       ? "bg-cta hover:bg-cta/90 text-cta-foreground shadow-lg shadow-cta/20" 
                       : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                   }`}
-                  onClick={() => navigate("/auth?mode=signup")}
+                  onClick={() => navigate(plan.popular ? "/auth?mode=signup&redirect=/pricing" : "/auth?mode=signup")}
                 >
-                  Start now - Free
+                  {plan.popular ? "Start Free Trial" : "Get Started"}
                 </Button>
               )}
             </div>
