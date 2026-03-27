@@ -109,15 +109,50 @@ const SourceProductDetail = () => {
   });
 
   const handleVote = async () => {
-    if (!user) { navigate("/auth?mode=signup&redirect=/source/" + slug); return; }
     if (!product) return;
-    if (hasVoted) {
-      await supabase.from("source_buyer_votes").delete().eq("product_id", product.id).eq("user_id", user.id);
+    if (user) {
+      // Authenticated buyer vote
+      if (hasVoted) {
+        await supabase.from("source_buyer_votes").delete().eq("product_id", product.id).eq("user_id", user.id);
+      } else {
+        await supabase.from("source_buyer_votes").insert({ product_id: product.id, user_id: user.id });
+      }
+      queryClient.invalidateQueries({ queryKey: ["source-product-votes", product.id] });
+      queryClient.invalidateQueries({ queryKey: ["source-user-voted", product.id, user.id] });
     } else {
-      await supabase.from("source_buyer_votes").insert({ product_id: product.id, user_id: user.id });
+      // Show email verification flow for unauthenticated users
+      setShowVoteEmail(true);
     }
-    queryClient.invalidateQueries({ queryKey: ["source-product-votes", product.id] });
-    queryClient.invalidateQueries({ queryKey: ["source-user-voted", product.id, user.id] });
+  };
+
+  const handleCommunityVote = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setVoteError("");
+    const parsed = emailSchema.safeParse(voteEmail);
+    if (!parsed.success) {
+      setVoteError(parsed.error.errors[0].message);
+      return;
+    }
+    if (!product) return;
+    setVoteStatus("submitting");
+    try {
+      const { data, error } = await supabase.functions.invoke("verify-vote", {
+        body: { action: "submit-vote", product_id: product.id, email: parsed.data },
+      });
+      if (error) {
+        if (error.message?.includes("409") || (data as any)?.error === "already_voted") {
+          setVoteStatus("duplicate");
+        } else {
+          setVoteStatus("error");
+          setVoteError("Something went wrong. Please try again.");
+        }
+      } else {
+        setVoteStatus("pending");
+      }
+    } catch {
+      setVoteStatus("error");
+      setVoteError("Something went wrong. Please try again.");
+    }
   };
 
   const handleShortlist = async () => {
