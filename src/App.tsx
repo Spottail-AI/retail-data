@@ -62,6 +62,9 @@ import GlimpseAlternative from "./pages/GlimpseAlternative";
 import CompetitorPriceTrackingSoftware from "./pages/CompetitorPriceTrackingSoftware";
 import FindDistributors from "./pages/FindDistributors";
 import FindSuppliers from "./pages/FindSuppliers";
+import SourceMarketplace from "./pages/SourceMarketplace";
+import SourceProductDetail from "./pages/SourceProductDetail";
+import SourceCommunityVote from "./pages/SourceCommunityVote";
 
 const queryClient = new QueryClient();
 
@@ -129,6 +132,9 @@ const App = () => (
             <Route path="/competitor-price-tracking-software" element={<CompetitorPriceTrackingSoftware />} />
             <Route path="/find-distributors" element={<FindDistributors />} />
             <Route path="/find-suppliers" element={<FindSuppliers />} />
+            <Route path="/source" element={<SourceMarketplace />} />
+            <Route path="/source/:slug" element={<SourceProductDetail />} />
+            <Route path="/source/:slug/vote" element={<SourceCommunityVote />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
