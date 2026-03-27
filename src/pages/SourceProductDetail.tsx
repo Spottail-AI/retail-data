@@ -231,7 +231,35 @@ const SourceProductDetail = () => {
           </div>
         </div>
 
-        <div className="h-px bg-[#1e2d4a] mb-8" />
+        <div className="h-px bg-[#1e2d4a] mb-4" />
+
+        {/* Action Buttons - mobile */}
+        <div className="flex sm:hidden gap-2 mb-8">
+          <Button className="flex-1 bg-[#c5f135] text-black hover:bg-[#c5f135]/90 font-semibold text-sm h-11">
+            <MessageSquare className="w-4 h-4 mr-1.5" /> Enquire
+          </Button>
+          <Button
+            onClick={handleShortlist}
+            variant="outline"
+            className={cn(
+              "flex-1 border-[#4f8ef7]/30 text-[#4f8ef7] hover:bg-[#4f8ef7]/10 text-sm h-11",
+              isShortlisted && "bg-[#4f8ef7]/10 border-[#4f8ef7]"
+            )}
+          >
+            <Heart className={cn("w-4 h-4 mr-1.5", isShortlisted && "fill-[#4f8ef7]")} />
+            {isShortlisted ? "Saved" : "Shortlist"}
+          </Button>
+          <Button
+            onClick={handleVote}
+            variant="outline"
+            className={cn(
+              "flex-1 border-[#4f8ef7]/30 text-[#4f8ef7] hover:bg-[#4f8ef7]/10 text-sm h-11",
+              hasVoted && "bg-[#4f8ef7]/10 border-[#4f8ef7]"
+            )}
+          >
+            <ChevronUp className="w-4 h-4 mr-1.5" /> Vote
+          </Button>
+        </div>
 
         {/* Body - Two Column */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
