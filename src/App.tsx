@@ -65,6 +65,9 @@ import FindSuppliers from "./pages/FindSuppliers";
 import SourceMarketplace from "./pages/SourceMarketplace";
 import SourceProductDetail from "./pages/SourceProductDetail";
 import SourceCommunityVote from "./pages/SourceCommunityVote";
+import BuyerTrendingNow from "./pages/BuyerTrendingNow";
+import BuyerShortlist from "./pages/BuyerShortlist";
+import BuyerEnquiries from "./pages/BuyerEnquiries";
 
 const queryClient = new QueryClient();
 
@@ -135,6 +138,9 @@ const App = () => (
             <Route path="/source" element={<SourceMarketplace />} />
             <Route path="/source/:slug" element={<SourceProductDetail />} />
             <Route path="/source/:slug/vote" element={<SourceCommunityVote />} />
+            <Route path="/trending-now" element={<BuyerTrendingNow />} />
+            <Route path="/my-shortlist" element={<BuyerShortlist />} />
+            <Route path="/enquiries" element={<BuyerEnquiries />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
