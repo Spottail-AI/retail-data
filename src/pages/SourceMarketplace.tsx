@@ -117,14 +117,14 @@ const SourceMarketplace = () => {
     <div className="min-h-screen bg-[#0a0e1a]">
       <Header />
 
-      <main className="max-w-[900px] mx-auto px-4 sm:px-6 pt-8 pb-16">
+      <main className="max-w-[900px] mx-auto px-4 sm:px-6 pt-24 sm:pt-28 pb-16">
         {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-2">
+        <div className="mb-10">
+          <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-5 h-5 text-[#c5f135]" />
             <span className="text-[#c5f135] text-xs font-semibold uppercase tracking-wider">Spottail Source</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-1">Today's Launches</h1>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-2 tracking-tight">Today's Launches</h1>
           <p className="text-[#64748b] text-sm font-mono">spottail.ai/source</p>
         </div>
 
