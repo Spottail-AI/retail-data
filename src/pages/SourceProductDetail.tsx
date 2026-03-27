@@ -5,12 +5,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ChevronUp, Heart, MessageSquare, ExternalLink,
-  CheckCircle, TrendingUp, Loader2, Globe, Package, Layers,
+  CheckCircle, TrendingUp, Loader2, Globe, Package, Layers, Mail,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { z } from "zod";
+
+const emailSchema = z.string().trim().email("Please enter a valid email").max(255);
 
 const trendPlatforms = [
   { name: "TikTok", color: "#ff0050", urlTemplate: (q: string) => `https://tiktok.com/search?q=${encodeURIComponent(q)}` },
@@ -24,6 +28,10 @@ const SourceProductDetail = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [showVoteEmail, setShowVoteEmail] = useState(false);
+  const [voteEmail, setVoteEmail] = useState("");
+  const [voteStatus, setVoteStatus] = useState<"idle" | "submitting" | "pending" | "error" | "duplicate">("idle");
+  const [voteError, setVoteError] = useState("");
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["source-product", slug],
@@ -101,15 +109,50 @@ const SourceProductDetail = () => {
   });
 
   const handleVote = async () => {
-    if (!user) { navigate("/auth?mode=signup&redirect=/source/" + slug); return; }
     if (!product) return;
-    if (hasVoted) {
-      await supabase.from("source_buyer_votes").delete().eq("product_id", product.id).eq("user_id", user.id);
+    if (user) {
+      // Authenticated buyer vote
+      if (hasVoted) {
+        await supabase.from("source_buyer_votes").delete().eq("product_id", product.id).eq("user_id", user.id);
+      } else {
+        await supabase.from("source_buyer_votes").insert({ product_id: product.id, user_id: user.id });
+      }
+      queryClient.invalidateQueries({ queryKey: ["source-product-votes", product.id] });
+      queryClient.invalidateQueries({ queryKey: ["source-user-voted", product.id, user.id] });
     } else {
-      await supabase.from("source_buyer_votes").insert({ product_id: product.id, user_id: user.id });
+      // Show email verification flow for unauthenticated users
+      setShowVoteEmail(true);
     }
-    queryClient.invalidateQueries({ queryKey: ["source-product-votes", product.id] });
-    queryClient.invalidateQueries({ queryKey: ["source-user-voted", product.id, user.id] });
+  };
+
+  const handleCommunityVote = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setVoteError("");
+    const parsed = emailSchema.safeParse(voteEmail);
+    if (!parsed.success) {
+      setVoteError(parsed.error.errors[0].message);
+      return;
+    }
+    if (!product) return;
+    setVoteStatus("submitting");
+    try {
+      const { data, error } = await supabase.functions.invoke("verify-vote", {
+        body: { action: "submit-vote", product_id: product.id, email: parsed.data },
+      });
+      if (error) {
+        if (error.message?.includes("409") || (data as any)?.error === "already_voted") {
+          setVoteStatus("duplicate");
+        } else {
+          setVoteStatus("error");
+          setVoteError("Something went wrong. Please try again.");
+        }
+      } else {
+        setVoteStatus("pending");
+      }
+    } catch {
+      setVoteStatus("error");
+      setVoteError("Something went wrong. Please try again.");
+    }
   };
 
   const handleShortlist = async () => {
@@ -358,34 +401,49 @@ const SourceProductDetail = () => {
             </div>
           </div>
         </div>
-      </main>
 
-      {/* Mobile Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#0d1117] border-t border-[#1e2d4a] p-3 flex gap-2 sm:hidden z-40">
-        <Button className="flex-1 bg-[#c5f135] text-black hover:bg-[#c5f135]/90 font-semibold text-sm h-10">
-          <MessageSquare className="w-4 h-4 mr-1" /> Enquire
-        </Button>
-        <Button
-          onClick={handleShortlist}
-          variant="outline"
-          className={cn(
-            "border-[#4f8ef7]/30 text-[#4f8ef7] h-10 px-3",
-            isShortlisted && "bg-[#4f8ef7]/10"
-          )}
-        >
-          <Heart className={cn("w-4 h-4", isShortlisted && "fill-[#4f8ef7]")} />
-        </Button>
-        <Button
-          onClick={handleVote}
-          variant="outline"
-          className={cn(
-            "border-[#4f8ef7]/30 text-[#4f8ef7] h-10 px-3",
-            hasVoted && "bg-[#4f8ef7]/10"
-          )}
-        >
-          <ChevronUp className="w-4 h-4" />
-        </Button>
-      </div>
+        {/* Email Vote Modal - inline */}
+        {showVoteEmail && (
+          <div className="mt-8 bg-[#111827] border border-[#1e2d4a] rounded-xl p-6 max-w-md mx-auto">
+            {voteStatus === "pending" ? (
+              <div className="text-center">
+                <Mail className="w-10 h-10 text-[#4f8ef7] mx-auto mb-3" />
+                <h3 className="text-white font-bold text-lg mb-1">Check your email</h3>
+                <p className="text-[#94a3b8] text-sm">We've sent a verification link to <span className="text-white">{voteEmail}</span>. Click it to confirm your vote.</p>
+              </div>
+            ) : voteStatus === "duplicate" ? (
+              <div className="text-center">
+                <CheckCircle className="w-10 h-10 text-[#4ade80] mx-auto mb-3" />
+                <h3 className="text-white font-bold text-lg mb-1">Already voted</h3>
+                <p className="text-[#94a3b8] text-sm">This email has already voted for this product.</p>
+              </div>
+            ) : (
+              <>
+                <h3 className="text-white font-bold text-base mb-1">Vote for {product.product_name}</h3>
+                <p className="text-[#94a3b8] text-xs mb-4">Enter your email to cast a community vote. We'll send a quick verification link.</p>
+                <form onSubmit={handleCommunityVote} className="flex gap-2">
+                  <Input
+                    type="email"
+                    placeholder="you@example.com"
+                    value={voteEmail}
+                    onChange={(e) => setVoteEmail(e.target.value)}
+                    className="flex-1 bg-[#0a0e1a] border-[#1e2d4a] text-white placeholder:text-[#64748b]"
+                  />
+                  <Button
+                    type="submit"
+                    disabled={voteStatus === "submitting"}
+                    className="bg-[#4f8ef7] hover:bg-[#4f8ef7]/90 text-white font-semibold shrink-0"
+                  >
+                    {voteStatus === "submitting" ? <Loader2 className="w-4 h-4 animate-spin" /> : "Vote"}
+                  </Button>
+                </form>
+                {voteError && <p className="text-red-400 text-xs mt-2">{voteError}</p>}
+                <button onClick={() => setShowVoteEmail(false)} className="text-[#64748b] text-xs mt-3 hover:text-white transition-colors">Cancel</button>
+              </>
+            )}
+          </div>
+        )}
+      </main>
 
       <Footer />
     </div>
