@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,24 +8,54 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { lovable } from "@/integrations/lovable/index";
+import { RoleSelection } from "@/components/auth/RoleSelection";
+import { supabase } from "@/integrations/supabase/client";
+import type { UserRole } from "@/hooks/use-user-role";
 
 const Auth = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const mode = searchParams.get("mode");
-  
+
   const [isLogin, setIsLogin] = useState(mode !== "signup");
+  const [step, setStep] = useState<"role" | "credentials">(mode === "signup" ? "role" : "credentials");
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const redirectTo = searchParams.get("redirect") || "/dashboard";
+
+  // After signup + role selected, assign role once user is available
+  const [pendingRole, setPendingRole] = useState<UserRole | null>(null);
+
+  useEffect(() => {
+    if (user && pendingRole) {
+      const assign = async () => {
+        try {
+          await supabase
+            .from("user_roles")
+            .insert({ user_id: user.id, role: pendingRole });
+        } catch (e) {
+          console.error("Failed to assign role:", e);
+        }
+        setPendingRole(null);
+        navigate(redirectTo);
+      };
+      assign();
+    }
+  }, [user, pendingRole, navigate, redirectTo]);
+
+  const handleRoleSelect = (role: UserRole) => {
+    setSelectedRole(role);
+    setStep("credentials");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +76,8 @@ const Auth = () => {
           toast({ title: "Signup failed", description: error.message, variant: "destructive" });
         } else {
           toast({ title: "Account created!", description: "You have been signed up successfully." });
-          navigate(redirectTo);
+          // Set pending role — will be assigned once user state updates
+          setPendingRole(selectedRole);
         }
       }
     } catch (error) {
@@ -72,13 +103,23 @@ const Auth = () => {
     }
   };
 
+  const switchToSignup = () => {
+    setIsLogin(false);
+    setStep("role");
+  };
+
+  const switchToLogin = () => {
+    setIsLogin(true);
+    setStep("credentials");
+  };
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <Link to="/" className="absolute top-8 left-8 z-20">
         <div className="flex items-center space-x-2">
-          <img 
-            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png" 
-            alt="Spottail" 
+          <img
+            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png"
+            alt="Spottail"
             className="h-8"
           />
         </div>
@@ -87,135 +128,161 @@ const Auth = () => {
       <Button
         variant="ghost"
         className="absolute top-8 right-8 text-muted-foreground hover:text-foreground"
-        onClick={() => navigate(-1)}
+        onClick={() => {
+          if (!isLogin && step === "credentials") {
+            setStep("role");
+          } else {
+            navigate(-1);
+          }
+        }}
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back
       </Button>
 
       <Card className="w-full max-w-md bg-card border-border">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-foreground">
-            {isLogin ? "Welcome Back" : "Create Account"}
-          </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            {isLogin
-              ? "Sign in to access your trend analysis"
-              : "Sign up to unlock full trend insights"}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {!isLogin && (
-              <div className="grid grid-cols-2 gap-4">
+        {/* Role selection step (signup only) */}
+        {!isLogin && step === "role" ? (
+          <CardContent className="pt-8 pb-6">
+            <RoleSelection onSelect={handleRoleSelect} />
+            <div className="mt-4 text-center">
+              <button
+                type="button"
+                onClick={switchToLogin}
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Already have an account? Sign in
+              </button>
+            </div>
+          </CardContent>
+        ) : (
+          <>
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl font-bold text-foreground">
+                {isLogin ? "Welcome Back" : "Create Account"}
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {isLogin
+                  ? "Sign in to access your dashboard"
+                  : selectedRole === "buyer"
+                    ? "Sign up as a Retail Buyer / Distributor"
+                    : "Sign up as a Supplier / Brand"}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {!isLogin && (
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName" className="text-foreground text-sm">First Name</Label>
+                      <Input
+                        id="firstName"
+                        type="text"
+                        placeholder="John"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                        className="bg-background border-border"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName" className="text-foreground text-sm">Last Name</Label>
+                      <Input
+                        id="lastName"
+                        type="text"
+                        placeholder="Doe"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                        className="bg-background border-border"
+                      />
+                    </div>
+                  </div>
+                )}
                 <div className="space-y-2">
-                  <Label htmlFor="firstName" className="text-foreground text-sm">First Name</Label>
+                  <Label htmlFor="email" className="text-foreground text-sm">Email</Label>
                   <Input
-                    id="firstName"
-                    type="text"
-                    placeholder="John"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                     className="bg-background border-border"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName" className="text-foreground text-sm">Last Name</Label>
+                  <Label htmlFor="password" className="text-foreground text-sm">Password</Label>
                   <Input
-                    id="lastName"
-                    type="text"
-                    placeholder="Doe"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
+                    minLength={6}
                     className="bg-background border-border"
                   />
                 </div>
-              </div>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground text-sm">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-background border-border"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground text-sm">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                className="bg-background border-border"
-              />
-            </div>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  {isLogin ? "Signing in..." : "Creating account..."}
-                </>
-              ) : (
-                isLogin ? "Sign In" : "Create Account"
-              )}
-            </Button>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      {isLogin ? "Signing in..." : "Creating account..."}
+                    </>
+                  ) : (
+                    isLogin ? "Sign In" : "Create Account"
+                  )}
+                </Button>
 
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-border" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-              </div>
-            </div>
+                <div className="relative my-4">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-border" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                  </div>
+                </div>
 
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleGoogleSignIn}
-              disabled={googleLoading}
-              className="w-full border-border hover:bg-accent"
-            >
-              {googleLoading ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                  <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                  <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                </svg>
-              )}
-              Continue with Google
-            </Button>
-          </form>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleGoogleSignIn}
+                  disabled={googleLoading}
+                  className="w-full border-border hover:bg-accent"
+                >
+                  {googleLoading ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                      <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                      <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                      <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                    </svg>
+                  )}
+                  Continue with Google
+                </Button>
+              </form>
 
-          <div className="mt-6 text-center">
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              {isLogin
-                ? "Don't have an account? Sign up"
-                : "Already have an account? Sign in"}
-            </button>
-          </div>
-        </CardContent>
+              <div className="mt-6 text-center">
+                <button
+                  type="button"
+                  onClick={() => isLogin ? switchToSignup() : switchToLogin()}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {isLogin
+                    ? "Don't have an account? Sign up"
+                    : "Already have an account? Sign in"}
+                </button>
+              </div>
+            </CardContent>
+          </>
+        )}
       </Card>
     </div>
   );
