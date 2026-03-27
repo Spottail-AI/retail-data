@@ -261,8 +261,14 @@ const SourceProductDetail = () => {
 
           {/* Action Buttons - desktop */}
           <div className="hidden sm:flex flex-col gap-2 shrink-0">
-            <Button className="bg-[#c5f135] text-black hover:bg-[#c5f135]/90 font-semibold px-6">
-              <MessageSquare className="w-4 h-4 mr-1" /> Request Sample
+            <Button
+              onClick={handleVote}
+              className={cn(
+                "bg-[#c5f135] text-black hover:bg-[#c5f135]/90 font-semibold px-6",
+                hasVoted && "bg-[#4f8ef7] text-white hover:bg-[#4f8ef7]/90"
+              )}
+            >
+              <ChevronUp className="w-4 h-4 mr-1" /> {hasVoted ? "Voted" : "Vote"}
             </Button>
             <Button
               onClick={handleShortlist}
@@ -276,14 +282,10 @@ const SourceProductDetail = () => {
               {isShortlisted ? "Shortlisted" : "+ Shortlist"}
             </Button>
             <Button
-              onClick={handleVote}
               variant="outline"
-              className={cn(
-                "border-[#4f8ef7]/30 text-[#4f8ef7] hover:bg-[#4f8ef7]/10",
-                hasVoted && "bg-[#4f8ef7]/10 border-[#4f8ef7]"
-              )}
+              className="border-[#4f8ef7]/30 text-[#4f8ef7] hover:bg-[#4f8ef7]/10"
             >
-              <ChevronUp className="w-4 h-4 mr-1" /> Vote
+              <MessageSquare className="w-4 h-4 mr-1" /> Request Sample
             </Button>
           </div>
         </div>
@@ -292,8 +294,14 @@ const SourceProductDetail = () => {
 
         {/* Action Buttons - mobile */}
         <div className="flex sm:hidden gap-2 mb-8">
-          <Button className="flex-1 bg-[#c5f135] text-black hover:bg-[#c5f135]/90 font-semibold text-sm h-11">
-            <MessageSquare className="w-4 h-4 mr-1.5" /> Enquire
+          <Button
+            onClick={handleVote}
+            className={cn(
+              "flex-1 bg-[#c5f135] text-black hover:bg-[#c5f135]/90 font-semibold text-sm h-11",
+              hasVoted && "bg-[#4f8ef7] text-white hover:bg-[#4f8ef7]/90"
+            )}
+          >
+            <ChevronUp className="w-4 h-4 mr-1.5" /> {hasVoted ? "Voted" : "Vote"}
           </Button>
           <Button
             onClick={handleShortlist}
@@ -307,15 +315,25 @@ const SourceProductDetail = () => {
             {isShortlisted ? "Saved" : "Shortlist"}
           </Button>
           <Button
-            onClick={handleVote}
             variant="outline"
-            className={cn(
-              "flex-1 border-[#4f8ef7]/30 text-[#4f8ef7] hover:bg-[#4f8ef7]/10 text-sm h-11",
-              hasVoted && "bg-[#4f8ef7]/10 border-[#4f8ef7]"
-            )}
+            className="flex-1 border-[#4f8ef7]/30 text-[#4f8ef7] hover:bg-[#4f8ef7]/10 text-sm h-11"
           >
-            <ChevronUp className="w-4 h-4 mr-1.5" /> Vote
+            <MessageSquare className="w-4 h-4 mr-1.5" /> Enquire
           </Button>
+        </div>
+
+        {/* Votes Row */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-5 text-center">
+            <p className="text-[#4f8ef7] text-xs font-semibold uppercase tracking-wider mb-1">Buyer Votes</p>
+            <p className="text-white text-3xl font-extrabold">{votes.buyer}</p>
+            <p className="text-[#94a3b8] text-xs mt-1">retail buyers</p>
+          </div>
+          <div className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-5 text-center">
+            <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wider mb-1">Community Votes</p>
+            <p className="text-white text-3xl font-extrabold">{votes.community}</p>
+            <p className="text-[#94a3b8] text-xs mt-1">via share link</p>
+          </div>
         </div>
 
         {/* Body - Two Column */}
@@ -372,22 +390,8 @@ const SourceProductDetail = () => {
             )}
           </div>
 
-          {/* Right - Votes + Supplier */}
+          {/* Right - Supplier */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Buyer Votes */}
-            <div className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-5 text-center">
-              <p className="text-[#4f8ef7] text-xs font-semibold uppercase tracking-wider mb-1">Buyer Votes</p>
-              <p className="text-white text-3xl font-extrabold">{votes.buyer}</p>
-              <p className="text-[#94a3b8] text-xs mt-1">retail buyers</p>
-            </div>
-
-            {/* Community Votes */}
-            <div className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-5 text-center">
-              <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wider mb-1">Community Votes</p>
-              <p className="text-white text-3xl font-extrabold">{votes.community}</p>
-              <p className="text-[#94a3b8] text-xs mt-1">via share link</p>
-            </div>
-
             {/* Supplier Card */}
             <div className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-5">
               <h3 className="text-white font-semibold text-sm mb-3">Supplier</h3>
