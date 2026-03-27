@@ -23,7 +23,9 @@ export const TestimonialsSection = () => {
           {reasons.map((reason, index) => (
             <div
               key={index}
-              className="flex items-start gap-3 p-4 md:p-5 bg-card border border-[hsl(var(--card-border))] rounded-xl"
+              className={`flex items-start gap-3 p-4 md:p-5 bg-card border border-[hsl(var(--card-border))] rounded-xl ${
+                index === reasons.length - 1 && reasons.length % 2 !== 0 ? "md:col-span-2 md:max-w-sm md:mx-auto" : ""
+              }`}
             >
               <div className="w-6 h-6 bg-success/15 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Check className="w-3.5 h-3.5 text-success" />
