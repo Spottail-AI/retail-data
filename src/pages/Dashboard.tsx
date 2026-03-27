@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUserRole } from "@/hooks/use-user-role";
 
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { Footer } from "@/components/Footer";
@@ -15,9 +16,11 @@ import { SupplierIntelligenceSection } from "@/components/dashboard/SupplierInte
 import { CompetitorAnalysisSection } from "@/components/dashboard/CompetitorAnalysisSection";
 import { TrendDiscoverySection } from "@/components/dashboard/TrendDiscoverySection";
 import { OnboardingModal } from "@/components/dashboard/OnboardingModal";
+import BuyerDashboard from "@/pages/BuyerDashboard";
 
 const Dashboard = () => {
   const { user, loading: authLoading } = useAuth();
+  const { role, isLoading: roleLoading, isBuyer } = useUserRole();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -43,7 +46,7 @@ const Dashboard = () => {
     }
   }, [user, authLoading, navigate]);
 
-  if (authLoading || prefsLoading) {
+  if (authLoading || prefsLoading || roleLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -55,6 +58,11 @@ const Dashboard = () => {
   }
 
   if (!user) return null;
+
+  // If user is a buyer, render buyer dashboard
+  if (isBuyer) {
+    return <BuyerDashboard />;
+  }
 
   const needsOnboarding = !preferences?.onboarding_completed;
 
