@@ -685,6 +685,53 @@ export type Database = {
         }
         Relationships: []
       }
+      verification_requests: {
+        Row: {
+          additional_info: string | null
+          business_registration: string | null
+          company_name: string
+          created_at: string
+          id: string
+          product_id: string
+          reviewed_at: string | null
+          status: string
+          user_id: string
+          website_url: string
+        }
+        Insert: {
+          additional_info?: string | null
+          business_registration?: string | null
+          company_name: string
+          created_at?: string
+          id?: string
+          product_id: string
+          reviewed_at?: string | null
+          status?: string
+          user_id: string
+          website_url: string
+        }
+        Update: {
+          additional_info?: string | null
+          business_registration?: string | null
+          company_name?: string
+          created_at?: string
+          id?: string
+          product_id?: string
+          reviewed_at?: string | null
+          status?: string
+          user_id?: string
+          website_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_requests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "source_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { ArrowLeft, Package, Loader2 } from "lucide-react";
+import { ArrowLeft, Package, Loader2, ImagePlus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const CATEGORIES = [
@@ -20,12 +20,16 @@ const CATEGORIES = [
 ];
 
 const CURRENCIES = ["USD", "EUR", "GBP", "AUD", "CAD"];
+const MAX_IMAGES = 5;
 
 const SourceListProduct = () => {
   const { user } = useAuth();
   const { isSupplier } = useUserRole();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
+  const [images, setImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
     product_name: "",
@@ -56,6 +60,48 @@ const SourceListProduct = () => {
     "-" +
     Date.now().toString(36);
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const remaining = MAX_IMAGES - images.length;
+    const newFiles = files.slice(0, remaining);
+    
+    if (files.length > remaining) {
+      toast({ title: `Maximum ${MAX_IMAGES} images allowed`, variant: "destructive" });
+    }
+
+    const newPreviews = newFiles.map((f) => URL.createObjectURL(f));
+    setImages((prev) => [...prev, ...newFiles]);
+    setImagePreviews((prev) => [...prev, ...newPreviews]);
+    
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const removeImage = (idx: number) => {
+    URL.revokeObjectURL(imagePreviews[idx]);
+    setImages((prev) => prev.filter((_, i) => i !== idx));
+    setImagePreviews((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const uploadImages = async (userId: string): Promise<string[]> => {
+    const urls: string[] = [];
+    for (const file of images) {
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `${userId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error } = await supabase.storage
+        .from("product-images")
+        .upload(path, file, { contentType: file.type });
+      if (error) {
+        console.error("Upload error:", error);
+        continue;
+      }
+      const { data: urlData } = supabase.storage
+        .from("product-images")
+        .getPublicUrl(path);
+      urls.push(urlData.publicUrl);
+    }
+    return urls;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -70,6 +116,9 @@ const SourceListProduct = () => {
       const countries = form.shipping_countries
         ? form.shipping_countries.split(",").map((c) => c.trim()).filter(Boolean)
         : [];
+
+      // Upload images first
+      const imageUrls = await uploadImages(user.id);
 
       const { error } = await supabase.from("source_products").insert({
         user_id: user.id,
@@ -87,6 +136,7 @@ const SourceListProduct = () => {
         contact_preference: form.contact_preference,
         contact_email: form.contact_email.trim() || null,
         contact_whatsapp: form.contact_whatsapp.trim() || null,
+        product_images: imageUrls.length > 0 ? imageUrls : null,
         slug,
       });
 
@@ -127,6 +177,50 @@ const SourceListProduct = () => {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Product Images */}
+          <section className="space-y-4">
+            <h2 className="text-foreground font-bold text-sm uppercase tracking-wider">Product Images</h2>
+            <p className="text-muted-foreground text-xs">Upload up to {MAX_IMAGES} images. First image is the cover photo.</p>
+            
+            <div className="flex gap-3 flex-wrap">
+              {imagePreviews.map((preview, idx) => (
+                <div key={idx} className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group">
+                  <img src={preview} alt="" className="w-full h-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(idx)}
+                    className="absolute top-1 right-1 w-5 h-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                  {idx === 0 && (
+                    <span className="absolute bottom-0 left-0 right-0 bg-primary/80 text-primary-foreground text-[8px] text-center font-bold py-0.5">
+                      COVER
+                    </span>
+                  )}
+                </div>
+              ))}
+              {images.length < MAX_IMAGES && (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-20 h-20 rounded-lg border-2 border-dashed border-border hover:border-primary/50 flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <ImagePlus className="w-5 h-5" />
+                  <span className="text-[9px]">Add</span>
+                </button>
+              )}
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageSelect}
+              className="hidden"
+            />
+          </section>
+
           {/* Product Info */}
           <section className="space-y-4">
             <h2 className="text-foreground font-bold text-sm uppercase tracking-wider">Product Information</h2>

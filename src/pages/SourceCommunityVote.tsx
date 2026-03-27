@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { Loader2, CheckCircle, AlertCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
@@ -11,8 +11,11 @@ const emailSchema = z.string().trim().email("Please enter a valid email address"
 
 const SourceCommunityVote = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [searchParams] = useSearchParams();
+  const verifyToken = searchParams.get("verify");
+
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "duplicate" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "pending_verify" | "success" | "duplicate" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   const { data: product, isLoading } = useQuery({
@@ -28,6 +31,27 @@ const SourceCommunityVote = () => {
     },
     enabled: !!slug,
   });
+
+  // Auto-verify if token in URL
+  useEffect(() => {
+    if (verifyToken) {
+      verifyVote(verifyToken);
+    }
+  }, [verifyToken]);
+
+  const verifyVote = async (token: string) => {
+    setStatus("submitting");
+    try {
+      const { data, error } = await supabase.functions.invoke("verify-vote", {
+        body: { action: "verify", token },
+      });
+      if (error) throw error;
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setErrorMsg("Invalid or expired verification link.");
+    }
+  };
 
   useEffect(() => {
     if (product) {
@@ -49,21 +73,20 @@ const SourceCommunityVote = () => {
     setStatus("submitting");
 
     try {
-      const { error } = await supabase.from("source_community_votes").insert({
-        product_id: product.id,
-        email: parsed.data,
-        verified: true, // For v1, auto-verify. Email verification flow will be added later.
+      const { data, error } = await supabase.functions.invoke("verify-vote", {
+        body: { action: "submit-vote", product_id: product.id, email: parsed.data },
       });
 
       if (error) {
-        if (error.code === "23505") {
+        // Check if it's a duplicate
+        if (error.message?.includes("409") || (data as any)?.error === "already_voted") {
           setStatus("duplicate");
         } else {
           setStatus("error");
           setErrorMsg("Something went wrong. Please try again.");
         }
       } else {
-        setStatus("success");
+        setStatus("pending_verify");
       }
     } catch {
       setStatus("error");
@@ -90,18 +113,19 @@ const SourceCommunityVote = () => {
     );
   }
 
-  const emoji = product.product_images?.[0] || "📦";
+  const images = product.product_images as string[] | null;
+  const coverImage = images && images.length > 0 && typeof images[0] === "string" && images[0].startsWith("http") ? images[0] : null;
 
   return (
     <div className="min-h-screen bg-[#0a0e1a] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-[390px]">
         <div className="bg-[#111827] border border-[#1e2d4a] rounded-2xl p-8 text-center">
           {/* Product Image */}
-          <div className="w-[68px] h-[68px] rounded-xl bg-[#1e2d4a] flex items-center justify-center text-3xl mx-auto mb-5">
-            {typeof emoji === "string" && emoji.startsWith("http") ? (
-              <img src={emoji} alt="" className="w-full h-full rounded-xl object-cover" />
+          <div className="w-[68px] h-[68px] rounded-xl bg-[#1e2d4a] flex items-center justify-center text-3xl mx-auto mb-5 overflow-hidden">
+            {coverImage ? (
+              <img src={coverImage} alt="" className="w-full h-full object-cover" />
             ) : (
-              <span>{emoji}</span>
+              <span>📦</span>
             )}
           </div>
 
@@ -121,8 +145,14 @@ const SourceCommunityVote = () => {
           {status === "success" ? (
             <div className="py-6">
               <CheckCircle className="w-12 h-12 text-[#c5f135] mx-auto mb-3" />
-              <h2 className="text-white font-bold text-lg mb-1">Thanks for your vote!</h2>
+              <h2 className="text-white font-bold text-lg mb-1">Vote verified!</h2>
               <p className="text-[#94a3b8] text-sm">Your support helps this product get discovered by retail buyers.</p>
+            </div>
+          ) : status === "pending_verify" ? (
+            <div className="py-6">
+              <Mail className="w-12 h-12 text-[#4f8ef7] mx-auto mb-3" />
+              <h2 className="text-white font-bold text-lg mb-1">Check your email</h2>
+              <p className="text-[#94a3b8] text-sm">We've sent a verification link to <span className="text-white font-medium">{email}</span>. Click it to confirm your vote.</p>
             </div>
           ) : status === "duplicate" ? (
             <div className="py-6">
