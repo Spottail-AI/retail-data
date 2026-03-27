@@ -63,13 +63,11 @@ const SourceCommunityVote = () => {
         body: { action: "submit-vote", product_id: product.id, email: parsed.data },
       });
 
-      if (error) {
-        if (error.message?.includes("409") || (data as any)?.error === "already_voted") {
-          setStatus("duplicate");
-        } else {
-          setStatus("error");
-          setErrorMsg("Something went wrong. Please try again.");
-        }
+      if (error || data?.error === "already_voted") {
+        setStatus("duplicate");
+      } else if (data?.error) {
+        setStatus("error");
+        setErrorMsg("Something went wrong. Please try again.");
       } else {
         setStatus("success");
       }
