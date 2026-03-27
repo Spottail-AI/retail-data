@@ -240,7 +240,7 @@ const SourceProductDetail = () => {
                 </span>
               )}
             </div>
-            <p className="text-[#64748b] text-xs font-mono mb-1">spottail.ai/source/{product.slug}</p>
+            
             <p className="text-[#94a3b8] text-sm mb-3">{product.tagline}</p>
             <div className="flex gap-2 flex-wrap">
               {product.moq && (
