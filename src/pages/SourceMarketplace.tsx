@@ -232,7 +232,7 @@ const SourceMarketplace = () => {
                   {/* Vote Column */}
                   <div className="flex flex-col items-center shrink-0 ml-2">
                     <button
-                      onClick={(e) => handleVote(e, product.id)}
+                      onClick={(e) => handleVote(e, product.id, product.slug)}
                       className={cn(
                         "w-12 sm:w-14 flex flex-col items-center gap-0.5 py-2 px-2 rounded-lg border transition-all",
                         hasVoted
