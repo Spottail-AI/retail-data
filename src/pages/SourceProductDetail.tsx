@@ -5,12 +5,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ChevronUp, Heart, MessageSquare, ExternalLink,
-  CheckCircle, TrendingUp, Loader2, Globe, Package, Layers,
+  CheckCircle, TrendingUp, Loader2, Globe, Package, Layers, Mail,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { z } from "zod";
+
+const emailSchema = z.string().trim().email("Please enter a valid email").max(255);
 
 const trendPlatforms = [
   { name: "TikTok", color: "#ff0050", urlTemplate: (q: string) => `https://tiktok.com/search?q=${encodeURIComponent(q)}` },
