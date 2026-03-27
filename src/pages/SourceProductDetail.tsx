@@ -154,7 +154,7 @@ const SourceProductDetail = () => {
     <div className="min-h-screen bg-[#0a0e1a]">
       <Header />
 
-      <main className="max-w-[900px] mx-auto px-4 sm:px-6 pt-8 pb-16">
+      <main className="max-w-[900px] mx-auto px-4 sm:px-6 pt-24 sm:pt-28 pb-16">
         {/* Top Section */}
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6">
           {/* Image */}
