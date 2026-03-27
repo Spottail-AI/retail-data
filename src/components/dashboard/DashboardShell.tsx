@@ -9,8 +9,8 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 interface DashboardShellProps {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   children?: React.ReactNode;
 }
 
