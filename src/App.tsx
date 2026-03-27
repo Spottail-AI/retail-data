@@ -62,6 +62,9 @@ import GlimpseAlternative from "./pages/GlimpseAlternative";
 import CompetitorPriceTrackingSoftware from "./pages/CompetitorPriceTrackingSoftware";
 import FindDistributors from "./pages/FindDistributors";
 import FindSuppliers from "./pages/FindSuppliers";
+import SourceMarketplace from "./pages/SourceMarketplace";
+import SourceProductDetail from "./pages/SourceProductDetail";
+import SourceCommunityVote from "./pages/SourceCommunityVote";
 
 const queryClient = new QueryClient();
 
