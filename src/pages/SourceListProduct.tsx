@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -151,10 +151,13 @@ const SourceListProduct = () => {
     }
   };
 
-  if (!user) {
-    navigate("/auth?redirect=/source/new");
-    return null;
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth?redirect=/source/new");
+    }
+  }, [user, navigate]);
+
+  if (!user) return null;
 
   return (
     <DashboardShell>
