@@ -167,7 +167,8 @@ const SourceMarketplace = () => {
             {products.map((product: any, idx: number) => {
               const votes = voteCounts[product.id] || { buyer: 0, community: 0 };
               const hasVoted = userVotes.includes(product.id);
-              const emoji = product.product_images?.[0] || "📦";
+              const productImages = (product.product_images as string[] | null) || [];
+              const coverImage = productImages.length > 0 && typeof productImages[0] === "string" && productImages[0].startsWith("http") ? productImages[0] : null;
 
               return (
                 <div
@@ -179,11 +180,11 @@ const SourceMarketplace = () => {
                   )}
                 >
                   {/* Product Image */}
-                  <div className="w-[46px] h-[46px] rounded-lg bg-[#1e2d4a] flex items-center justify-center text-2xl shrink-0">
-                    {typeof emoji === "string" && emoji.startsWith("http") ? (
-                      <img src={emoji} alt="" className="w-full h-full rounded-lg object-cover" />
+                  <div className="w-[46px] h-[46px] rounded-lg bg-[#1e2d4a] flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+                    {coverImage ? (
+                      <img src={coverImage} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      <span>{emoji}</span>
+                      <span>📦</span>
                     )}
                   </div>
 
