@@ -403,24 +403,30 @@ const SourceProductDetail = () => {
           </div>
         </div>
 
-        {/* Email Vote Modal - inline */}
-        {showVoteEmail && (
-          <div className="mt-8 bg-[#111827] border border-[#1e2d4a] rounded-xl p-6 max-w-md mx-auto">
+        {/* Email Vote Dialog */}
+        <Dialog open={showVoteEmail} onOpenChange={setShowVoteEmail}>
+          <DialogContent className="bg-[#111827] border-[#1e2d4a] max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-white">
+                {voteStatus === "pending"
+                  ? "Check your email"
+                  : voteStatus === "duplicate"
+                  ? "Already voted"
+                  : `Vote for ${product.product_name}`}
+              </DialogTitle>
+            </DialogHeader>
             {voteStatus === "pending" ? (
-              <div className="text-center">
+              <div className="text-center py-4">
                 <Mail className="w-10 h-10 text-[#4f8ef7] mx-auto mb-3" />
-                <h3 className="text-white font-bold text-lg mb-1">Check your email</h3>
                 <p className="text-[#94a3b8] text-sm">We've sent a verification link to <span className="text-white">{voteEmail}</span>. Click it to confirm your vote.</p>
               </div>
             ) : voteStatus === "duplicate" ? (
-              <div className="text-center">
+              <div className="text-center py-4">
                 <CheckCircle className="w-10 h-10 text-[#4ade80] mx-auto mb-3" />
-                <h3 className="text-white font-bold text-lg mb-1">Already voted</h3>
                 <p className="text-[#94a3b8] text-sm">This email has already voted for this product.</p>
               </div>
             ) : (
-              <>
-                <h3 className="text-white font-bold text-base mb-1">Vote for {product.product_name}</h3>
+              <div>
                 <p className="text-[#94a3b8] text-xs mb-4">Enter your email to cast a community vote. We'll send a quick verification link.</p>
                 <form onSubmit={handleCommunityVote} className="flex gap-2">
                   <Input
@@ -439,11 +445,10 @@ const SourceProductDetail = () => {
                   </Button>
                 </form>
                 {voteError && <p className="text-red-400 text-xs mt-2">{voteError}</p>}
-                <button onClick={() => setShowVoteEmail(false)} className="text-[#64748b] text-xs mt-3 hover:text-white transition-colors">Cancel</button>
-              </>
+              </div>
             )}
-          </div>
-        )}
+          </DialogContent>
+        </Dialog>
       </main>
 
       <Footer />
