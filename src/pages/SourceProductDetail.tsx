@@ -147,7 +147,8 @@ const SourceProductDetail = () => {
     );
   }
 
-  const emoji = product.product_images?.[0] || "📦";
+  const images = (product.product_images as string[] | null) || [];
+  const coverImage = images.length > 0 && typeof images[0] === "string" && images[0].startsWith("http") ? images[0] : null;
 
   return (
     <div className="min-h-screen bg-[#0a0e1a]">
@@ -157,11 +158,11 @@ const SourceProductDetail = () => {
         {/* Top Section */}
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6">
           {/* Image */}
-          <div className="w-16 h-16 rounded-xl bg-[#1e2d4a] flex items-center justify-center text-3xl shrink-0">
-            {typeof emoji === "string" && emoji.startsWith("http") ? (
-              <img src={emoji} alt="" className="w-full h-full rounded-xl object-cover" />
+          <div className="w-16 h-16 rounded-xl bg-[#1e2d4a] flex items-center justify-center text-3xl shrink-0 overflow-hidden">
+            {coverImage ? (
+              <img src={coverImage} alt={product.product_name} className="w-full h-full object-cover" />
             ) : (
-              <span>{emoji}</span>
+              <span>📦</span>
             )}
           </div>
 
