@@ -1,21 +1,15 @@
-import { EbayProductResearchHeroSection } from "@/components/EbayProductResearchHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const EbayProductResearchTool = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <EbayProductResearchHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const EbayProductResearchTool = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "eBay Product Research Tool",
+      subheadline:
+        "Stay ahead of the curve. Discover trending products that are about to win on eBay.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default EbayProductResearchTool;
