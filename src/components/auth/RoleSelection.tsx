@@ -209,8 +209,8 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
         </button>
       </div>
 
-      {/* Expanded bullets for buyer */}
-      {selected === "buyer" && (
+      {/* Expanded bullets for selected role */}
+      {selected && (
         <ul
           style={{
             listStyle: "none",
@@ -221,7 +221,7 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
             gap: 8,
           }}
         >
-          {buyerBullets.map((b) => (
+          {(selected === "buyer" ? buyerBullets : supplierBullets).map((b) => (
             <li
               key={b}
               style={{
