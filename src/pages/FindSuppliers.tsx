@@ -54,7 +54,7 @@ const FindSuppliers = () => {
     };
   }, []);
 
-  const handleCtaClick = () => navigate("/auth?mode=signup");
+  const handleCtaClick = () => navigate("/signup");
 
   return (
     <div className="min-h-screen bg-[#0A0E1A] font-inter text-white">
@@ -227,7 +227,7 @@ const FindSuppliers = () => {
             Join thousands of retailers and buyers using Spottail to source smarter — without the directories, the guesswork, or the wasted time.
           </p>
           <form
-            onSubmit={(e) => { e.preventDefault(); navigate("/auth?mode=signup"); }}
+            onSubmit={(e) => { e.preventDefault(); navigate("/signup"); }}
             className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-4"
           >
             <Input

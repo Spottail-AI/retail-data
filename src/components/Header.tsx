@@ -49,10 +49,10 @@ export const Header = ({ inline = false }: HeaderProps) => {
           </>
         ) : (
           <>
-            <Button variant="ghost" size="sm" onClick={() => navigate("/auth")} className="text-muted-foreground hover:text-foreground hover:bg-accent">
+            <Button variant="ghost" size="sm" onClick={() => navigate("/login")} className="text-muted-foreground hover:text-foreground hover:bg-accent">
               <LogIn className="w-4 h-4 mr-2" />Sign In
             </Button>
-            <Button size="sm" onClick={() => navigate("/auth?mode=signup")} className="bg-cta hover:bg-cta/90 text-cta-foreground">
+            <Button size="sm" onClick={() => navigate("/signup")} className="bg-cta hover:bg-cta/90 text-cta-foreground">
               <UserPlus className="w-4 h-4 mr-2" />Sign Up
             </Button>
           </>
@@ -96,10 +96,10 @@ export const Header = ({ inline = false }: HeaderProps) => {
             </>
           ) : (
             <>
-              <Button variant="ghost" size="sm" onClick={() => navigate("/auth")} className="text-muted-foreground hover:text-foreground hover:bg-accent">
+              <Button variant="ghost" size="sm" onClick={() => navigate("/login")} className="text-muted-foreground hover:text-foreground hover:bg-accent">
                 <LogIn className="w-4 h-4 mr-2" />Sign In
               </Button>
-              <Button size="sm" onClick={() => navigate("/auth?mode=signup")} className="bg-cta hover:bg-cta/90 text-cta-foreground font-semibold">
+              <Button size="sm" onClick={() => navigate("/signup")} className="bg-cta hover:bg-cta/90 text-cta-foreground font-semibold">
                 <UserPlus className="w-4 h-4 mr-2" />Sign Up
               </Button>
             </>
@@ -134,10 +134,10 @@ export const Header = ({ inline = false }: HeaderProps) => {
               </>
             ) : (
               <>
-                <Button variant="ghost" onClick={() => { navigate("/auth"); setMobileMenuOpen(false); }} className="text-muted-foreground hover:text-foreground hover:bg-accent w-full">
+                <Button variant="ghost" onClick={() => { navigate("/login"); setMobileMenuOpen(false); }} className="text-muted-foreground hover:text-foreground hover:bg-accent w-full">
                   <LogIn className="w-4 h-4 mr-2" />Sign In
                 </Button>
-                <Button onClick={() => { navigate("/auth?mode=signup"); setMobileMenuOpen(false); }} className="bg-cta hover:bg-cta/90 text-cta-foreground font-semibold w-full">
+                <Button onClick={() => { navigate("/signup"); setMobileMenuOpen(false); }} className="bg-cta hover:bg-cta/90 text-cta-foreground font-semibold w-full">
                   <UserPlus className="w-4 h-4 mr-2" />Sign Up
                 </Button>
               </>

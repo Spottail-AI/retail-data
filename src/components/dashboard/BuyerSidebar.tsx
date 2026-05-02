@@ -36,7 +36,7 @@ export const BuyerSidebar = ({ collapsed, onToggle }: BuyerSidebarProps) => {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/auth");
+    navigate("/login");
   };
 
   return (

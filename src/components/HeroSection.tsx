@@ -40,7 +40,7 @@ export const HeroSection = () => {
           <Button 
             size="lg" 
             className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 sm:px-10 py-5 text-base sm:text-lg font-semibold rounded-lg shadow-lg shadow-cta/20 transition-all duration-300 hover:shadow-xl hover:shadow-cta/30 w-full sm:w-auto"
-            onClick={() => navigate("/auth?mode=signup")}
+            onClick={() => navigate("/signup")}
           >
             Get Started
             <ArrowRight className="ml-2 w-5 h-5" />

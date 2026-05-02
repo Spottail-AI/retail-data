@@ -71,7 +71,7 @@ export const CompetitorLandingPage = ({ data }: { data: CompetitorPageData }) =>
           <p className="text-base md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed">
             {data.hero.subheadline}
           </p>
-          <Link to="/auth">
+          <Link to="/login">
             <Button
               size="lg"
               className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 sm:px-10 py-5 text-base sm:text-lg font-semibold rounded-lg shadow-lg shadow-cta/20 transition-all duration-300 hover:shadow-xl hover:shadow-cta/30 w-full sm:w-auto"
@@ -231,7 +231,7 @@ export const CompetitorLandingPage = ({ data }: { data: CompetitorPageData }) =>
           <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-6 md:mb-8 tracking-wide">
             {data.finalCta.headline}
           </h2>
-          <Link to="/auth">
+          <Link to="/login">
             <Button
               size="lg"
               className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 sm:px-10 py-5 text-base sm:text-lg font-semibold rounded-lg shadow-lg shadow-cta/20 transition-all duration-300 hover:shadow-xl hover:shadow-cta/30 w-full sm:w-auto"

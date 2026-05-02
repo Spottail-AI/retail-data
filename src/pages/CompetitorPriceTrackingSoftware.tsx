@@ -90,7 +90,7 @@ const CompetitorPriceTrackingSoftware = () => {
             Monitor competitor prices in real-time across all channels. Get instant alerts. Make pricing decisions in hours, not days. Track Amazon, eBay, Shopify, and 50+ retail platforms.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/auth?mode=signup">
+            <Link to="/signup">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-5 text-base sm:text-lg font-semibold rounded-lg shadow-lg shadow-primary/20 w-full sm:w-auto">
                 Start Free Trial
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -307,7 +307,7 @@ const CompetitorPriceTrackingSoftware = () => {
                     </li>
                   ))}
                 </ul>
-                <Link to="/auth?mode=signup">
+                <Link to="/signup">
                   <Button className={`w-full ${plan.popular ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"}`}>
                     {plan.cta}
                   </Button>
@@ -498,7 +498,7 @@ const CompetitorPriceTrackingSoftware = () => {
           <p className="text-lg text-muted-foreground mb-2">See what your competitors are doing in real-time.</p>
           <p className="text-sm text-muted-foreground mb-8">Free forever plan. No credit card required. 90-second setup.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-            <Link to="/auth?mode=signup">
+            <Link to="/signup">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-5 text-lg font-semibold rounded-lg shadow-lg shadow-primary/20 w-full sm:w-auto">
                 Start Your Free Trial
                 <ArrowRight className="ml-2 w-5 h-5" />

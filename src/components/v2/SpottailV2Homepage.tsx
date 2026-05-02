@@ -92,14 +92,14 @@ const Nav = () => {
           ) : (
             <>
               <button
-                onClick={() => navigate("/auth")}
+                onClick={() => navigate("/login")}
                 className="hidden md:inline-block font-body font-medium text-[13px] tracking-[-0.01em] cursor-pointer transition-all"
                 style={{ padding: "7px 16px", borderRadius: 7, color: "var(--v2-muted)", background: "transparent", border: "1px solid var(--v2-border)" }}
               >
                 Sign in
               </button>
               <button
-                onClick={() => navigate("/auth?mode=signup")}
+                onClick={() => navigate("/signup")}
                 className="font-body font-medium text-[13px] tracking-[-0.01em] cursor-pointer transition-all"
                 style={{ padding: "7px 16px", borderRadius: 7, color: "#fff", background: "var(--v2-ink)", border: "1px solid transparent" }}
               >
@@ -142,7 +142,7 @@ const Nav = () => {
             </button>
           ))}
           <button
-            onClick={() => { setOpen(false); navigate("/auth?mode=signup"); }}
+            onClick={() => { setOpen(false); navigate("/signup"); }}
             className="text-[15px] font-semibold text-left bg-transparent border-0 cursor-pointer"
             style={{ color: "var(--v2-teal)", padding: "12px 0", marginTop: 8 }}
           >
@@ -201,14 +201,14 @@ const Hero = () => {
         </ul>
         <div className="hero-actions-v2 flex items-center justify-center" style={{ gap: 12 }}>
           <button
-            onClick={() => navigate("/auth?mode=signup")}
+            onClick={() => navigate("/signup")}
             className="font-body cursor-pointer transition-all"
             style={{ fontSize: 14, fontWeight: 500, letterSpacing: "-0.01em", color: "var(--v2-black)", background: "var(--v2-white)", border: "none", padding: "13px 26px", borderRadius: 9 }}
           >
             Start for free
           </button>
           <button
-            onClick={() => navigate("/auth?mode=signup")}
+            onClick={() => navigate("/signup")}
             className="font-body cursor-pointer transition-colors flex items-center"
             style={{ fontSize: 14, fontWeight: 400, letterSpacing: "-0.01em", color: "rgba(255,255,255,0.45)", background: "transparent", border: "none", padding: "13px 8px", gap: 6 }}
           >
@@ -317,7 +317,7 @@ const HowItWorks = () => {
             From raw retail data to actions your team can move on — in minutes, not months.
           </p>
           <button
-            onClick={() => navigate("/auth?mode=signup")}
+            onClick={() => navigate("/signup")}
             className="font-body cursor-pointer transition-all hidden md:inline-block"
             style={{ fontSize: 14, fontWeight: 500, letterSpacing: "-0.01em", color: "#fff", background: "var(--v2-ink)", border: "none", padding: "13px 26px", borderRadius: 9 }}
           >
@@ -466,7 +466,7 @@ const Pricing = () => {
               ))}
             </ul>
             <button
-              onClick={() => navigate("/auth?mode=signup")}
+              onClick={() => navigate("/signup")}
               className="w-full font-body cursor-pointer transition-all"
               style={{ fontSize: 13, fontWeight: 500, padding: 12, borderRadius: 8, letterSpacing: "-0.01em", background: "transparent", border: "1px solid var(--v2-border)", color: "var(--v2-ink)" }}
             >
@@ -492,7 +492,7 @@ const Pricing = () => {
               ))}
             </ul>
             <button
-              onClick={() => navigate("/auth?mode=signup&redirect=/pricing")}
+              onClick={() => navigate("/signup&redirect=/pricing")}
               className="w-full font-body cursor-pointer transition-all"
               style={{ fontSize: 13, fontWeight: 500, padding: 12, borderRadius: 8, letterSpacing: "-0.01em", background: "#fff", border: "1px solid transparent", color: "var(--v2-black)" }}
             >
@@ -580,7 +580,7 @@ const CtaBlock = () => {
         </div>
         <div className="cta-right-v2 flex flex-col items-end flex-shrink-0" style={{ gap: 12, marginLeft: 60 }}>
           <button
-            onClick={() => navigate("/auth?mode=signup")}
+            onClick={() => navigate("/signup")}
             className="font-body cursor-pointer transition-all"
             style={{ fontSize: 15, fontWeight: 500, letterSpacing: "-0.01em", color: "var(--v2-black)", background: "var(--v2-white)", border: "none", padding: "14px 32px", borderRadius: 9 }}
           >
