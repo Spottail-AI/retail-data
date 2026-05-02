@@ -15,6 +15,13 @@ const buyerBullets = [
   "Get alerts when shortlisted products start trending",
 ];
 
+const supplierBullets = [
+  "Track competitors and retail product prices over time",
+  "List your retail products on Spottail Source — where retail buyers can find them",
+  "Find distributors and suppliers for your products in one click",
+  "Discover trending products on TikTok, Reddit & more before they peak",
+];
+
 // v2 design tokens
 const ink = "#1A1A18";
 const white = "#FEFEFE";
@@ -202,8 +209,8 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
         </button>
       </div>
 
-      {/* Expanded bullets for buyer */}
-      {selected === "buyer" && (
+      {/* Expanded bullets for selected role */}
+      {selected && (
         <ul
           style={{
             listStyle: "none",
@@ -214,7 +221,7 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
             gap: 8,
           }}
         >
-          {buyerBullets.map((b) => (
+          {(selected === "buyer" ? buyerBullets : supplierBullets).map((b) => (
             <li
               key={b}
               style={{
