@@ -1,21 +1,15 @@
-import { TrendingAutomobileProductsUSHeroSection } from "@/components/TrendingAutomobileProductsUSHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const TrendingAutomobileProductsUS = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <TrendingAutomobileProductsUSHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const TrendingAutomobileProductsUS = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Find Trending Automobile Products in the United States",
+      subheadline:
+        "Spot rising automobile products before they break out. Stock smarter, advertise sharper, and outsell your competition.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default TrendingAutomobileProductsUS;

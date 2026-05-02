@@ -1,21 +1,15 @@
-import { TrendingFashionProductsUSHeroSection } from "@/components/TrendingFashionProductsUSHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const TrendingFashionProductsUS = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <TrendingFashionProductsUSHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const TrendingFashionProductsUS = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Find Trending Fashion Products in the United States",
+      subheadline:
+        "Catch the next fashion wave early. Track styles people are buying — and those about to break out.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default TrendingFashionProductsUS;

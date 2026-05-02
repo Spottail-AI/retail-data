@@ -1,21 +1,15 @@
-import { TrendingFurnitureHomeProductsUSHeroSection } from "@/components/TrendingFurnitureHomeProductsUSHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const TrendingFurnitureHomeProductsUS = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <TrendingFurnitureHomeProductsUSHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const TrendingFurnitureHomeProductsUS = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Find Trending Furniture & Home Products in the United States",
+      subheadline:
+        "Identify the home and furniture products buyers want — before competitors stock them.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default TrendingFurnitureHomeProductsUS;

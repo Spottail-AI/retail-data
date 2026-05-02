@@ -1,21 +1,15 @@
-import { TrendingFoodProductsUSHeroSection } from "@/components/TrendingFoodProductsUSHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const TrendingFoodProductsUS = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <TrendingFoodProductsUSHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const TrendingFoodProductsUS = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Find Trending Food Products in the United States",
+      subheadline:
+        "Discover the food and beverage products people are talking about — and stock the next breakout SKU.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default TrendingFoodProductsUS;

@@ -1,21 +1,16 @@
-import { EbayProductTrendsHeroSection } from "@/components/EbayProductTrendsHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const EbayProductTrends = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <EbayProductTrendsHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const EbayProductTrends = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "eBay Product Trends",
+      headlineItalic: "Discover what's about to sell big",
+      subheadline:
+        "Don't waste time chasing yesterday's bestsellers. Discover eBay product trends in real time — so you can stock up, advertise smarter, and outsell your competition.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default EbayProductTrends;
