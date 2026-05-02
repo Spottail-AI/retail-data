@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ShoppingBag, ShoppingCart, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
 import type { UserRole } from "@/hooks/use-user-role";
 
 interface RoleSelectionProps {
@@ -16,39 +15,124 @@ const buyerBullets = [
   "Get alerts when shortlisted products start trending",
 ];
 
+// v2 design tokens
+const ink = "#1A1A18";
+const white = "#FEFEFE";
+const surface = "#F7F7F4";
+const teal = "#0D9B8A";
+const tealLight = "#E6F5F3";
+const border = "rgba(26,26,24,0.12)";
+const muted = "rgba(26,26,24,0.6)";
+
 export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
   const [selected, setSelected] = useState<UserRole | null>(null);
 
+  const cardStyle = (isSelected: boolean): React.CSSProperties => ({
+    position: "relative",
+    background: isSelected ? tealLight : white,
+    border: `1.5px solid ${isSelected ? teal : border}`,
+    borderRadius: 14,
+    padding: 18,
+    textAlign: "left",
+    cursor: "pointer",
+    transition: "all 0.15s ease",
+    fontFamily: "Manrope, system-ui, sans-serif",
+    boxShadow: isSelected ? `0 0 0 3px rgba(13,155,138,0.12)` : "none",
+  });
+
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-foreground">How will you use Spottail?</h2>
-        <p className="text-muted-foreground text-sm mt-1">Choose your role to get a personalised experience</p>
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ textAlign: "center" }}>
+        <h2
+          className="font-display"
+          style={{
+            fontFamily: "Fraunces, Georgia, serif",
+            fontSize: 28,
+            fontWeight: 600,
+            color: ink,
+            letterSpacing: "-0.02em",
+            lineHeight: 1.15,
+            margin: 0,
+            marginBottom: 8,
+          }}
+        >
+          How will you use Spottail?
+        </h2>
+        <p
+          style={{
+            fontFamily: "Manrope, system-ui, sans-serif",
+            fontSize: 14,
+            fontWeight: 600,
+            color: ink,
+            margin: 0,
+            lineHeight: 1.5,
+          }}
+        >
+          Select one option below to continue
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Supplier Card */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
+        {/* Supplier / Retail Product Owner Card */}
         <button
           type="button"
           onClick={() => setSelected("supplier")}
-          className={cn(
-            "relative rounded-xl border p-5 text-left transition-all duration-200",
-            "bg-[#111827] hover:border-[#4f8ef7]/60",
-            selected === "supplier"
-              ? "border-[#4f8ef7] ring-1 ring-[#4f8ef7]/30"
-              : "border-[#1e2d4a]"
-          )}
+          style={cardStyle(selected === "supplier")}
         >
           {selected === "supplier" && (
-            <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#4f8ef7] flex items-center justify-center">
-              <Check className="w-3 h-3 text-white" />
+            <div
+              style={{
+                position: "absolute",
+                top: 14,
+                right: 14,
+                width: 22,
+                height: 22,
+                borderRadius: 999,
+                background: teal,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Check style={{ width: 13, height: 13, color: white }} strokeWidth={3} />
             </div>
           )}
-          <div className="w-10 h-10 rounded-lg bg-[#1e2d4a] flex items-center justify-center mb-3">
-            <ShoppingBag className="w-5 h-5 text-[#4f8ef7]" />
+          <div
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 10,
+              background: selected === "supplier" ? white : surface,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 12,
+            }}
+          >
+            <ShoppingBag style={{ width: 18, height: 18, color: teal }} />
           </div>
-          <h3 className="font-bold text-white text-base">Supplier / Brand</h3>
-          <p className="text-[#94a3b8] text-sm mt-1">
+          <h3
+            style={{
+              fontFamily: "Manrope, system-ui, sans-serif",
+              fontSize: 15,
+              fontWeight: 600,
+              color: ink,
+              margin: 0,
+              marginBottom: 4,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Retail Product Owner
+          </h3>
+          <p
+            style={{
+              fontFamily: "Manrope, system-ui, sans-serif",
+              fontSize: 13,
+              color: muted,
+              margin: 0,
+              lineHeight: 1.5,
+            }}
+          >
             List your products and get discovered by retail buyers globally
           </p>
         </button>
@@ -57,24 +141,62 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
         <button
           type="button"
           onClick={() => setSelected("buyer")}
-          className={cn(
-            "relative rounded-xl border p-5 text-left transition-all duration-200",
-            "bg-[#111827] hover:border-[#4f8ef7]/60",
-            selected === "buyer"
-              ? "border-[#4f8ef7] ring-1 ring-[#4f8ef7]/30"
-              : "border-[#1e2d4a]"
-          )}
+          style={cardStyle(selected === "buyer")}
         >
           {selected === "buyer" && (
-            <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#4f8ef7] flex items-center justify-center">
-              <Check className="w-3 h-3 text-white" />
+            <div
+              style={{
+                position: "absolute",
+                top: 14,
+                right: 14,
+                width: 22,
+                height: 22,
+                borderRadius: 999,
+                background: teal,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Check style={{ width: 13, height: 13, color: white }} strokeWidth={3} />
             </div>
           )}
-          <div className="w-10 h-10 rounded-lg bg-[#1e2d4a] flex items-center justify-center mb-3">
-            <ShoppingCart className="w-5 h-5 text-[#4f8ef7]" />
+          <div
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 10,
+              background: selected === "buyer" ? white : surface,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 12,
+            }}
+          >
+            <ShoppingCart style={{ width: 18, height: 18, color: teal }} />
           </div>
-          <h3 className="font-bold text-white text-base">Retail Buyer / Distributor</h3>
-          <p className="text-[#94a3b8] text-sm mt-1">
+          <h3
+            style={{
+              fontFamily: "Manrope, system-ui, sans-serif",
+              fontSize: 15,
+              fontWeight: 600,
+              color: ink,
+              margin: 0,
+              marginBottom: 4,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Retail Buyer / Distributor
+          </h3>
+          <p
+            style={{
+              fontFamily: "Manrope, system-ui, sans-serif",
+              fontSize: 13,
+              color: muted,
+              margin: 0,
+              lineHeight: 1.5,
+            }}
+          >
             Find products about to trend and source from verified suppliers
           </p>
         </button>
@@ -82,26 +204,75 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
 
       {/* Expanded bullets for buyer */}
       {selected === "buyer" && (
-        <ul className="space-y-2 pl-1 animate-in fade-in slide-in-from-top-2 duration-300">
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+          }}
+        >
           {buyerBullets.map((b) => (
-            <li key={b} className="flex items-start gap-2 text-sm text-[#94a3b8]">
-              <Check className="w-4 h-4 text-[#4ADE80] mt-0.5 shrink-0" />
+            <li
+              key={b}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 8,
+                fontFamily: "Manrope, system-ui, sans-serif",
+                fontSize: 13,
+                color: muted,
+                lineHeight: 1.5,
+              }}
+            >
+              <Check style={{ width: 14, height: 14, color: teal, marginTop: 3, flexShrink: 0 }} strokeWidth={3} />
               <span>{b}</span>
             </li>
           ))}
         </ul>
       )}
 
+      {!selected && (
+        <p
+          style={{
+            fontFamily: "Manrope, system-ui, sans-serif",
+            fontSize: 12,
+            color: muted,
+            textAlign: "center",
+            margin: 0,
+            fontStyle: "italic",
+          }}
+        >
+          Pick one of the options above to enable the button
+        </p>
+      )}
+
       <button
         type="button"
         disabled={!selected || loading}
         onClick={() => selected && onSelect(selected)}
-        className={cn(
-          "w-full py-3 rounded-lg font-semibold text-sm transition-all",
-          selected
-            ? "bg-[#c5f135] text-[#0a0f1c] hover:bg-[#d4ff44]"
-            : "bg-[#1e2d4a] text-[#475569] cursor-not-allowed"
-        )}
+        style={{
+          width: "100%",
+          height: 46,
+          borderRadius: 10,
+          border: "none",
+          fontFamily: "Manrope, system-ui, sans-serif",
+          fontSize: 15,
+          fontWeight: 600,
+          letterSpacing: "-0.01em",
+          cursor: !selected || loading ? "not-allowed" : "pointer",
+          background: selected ? teal : surface,
+          color: selected ? white : muted,
+          transition: "background 0.15s ease",
+        }}
+        onMouseEnter={(e) => {
+          if (selected && !loading) e.currentTarget.style.background = "#0B8576";
+        }}
+        onMouseLeave={(e) => {
+          if (selected) e.currentTarget.style.background = teal;
+        }}
       >
         {loading ? "Setting up..." : "Continue →"}
       </button>
