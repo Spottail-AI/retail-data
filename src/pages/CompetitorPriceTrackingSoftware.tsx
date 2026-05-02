@@ -32,75 +32,130 @@ const V2Nav = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
+
+  const goToSection = (id: string) => {
+    setOpen(false);
+    navigate("/");
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }, 300);
+  };
+
   return (
     <>
       <nav
         className="fixed top-0 left-0 right-0 z-[99] flex items-center justify-between"
-        style={{ height: 58, padding: "0 24px", background: "var(--v2-white)", borderBottom: "1px solid var(--v2-border)" }}
+        style={{
+          height: 58,
+          padding: "0 48px",
+          background: "var(--v2-white)",
+          borderBottom: "1px solid var(--v2-border)",
+        }}
       >
         <button onClick={() => navigate("/")} className="bg-transparent border-0 cursor-pointer p-0">
           <V2Logo />
         </button>
-        <ul className="hidden md:flex list-none" style={{ gap: 28 }}>
+
+        <ul className="hidden md:flex list-none gap-7">
           {[
-            { label: "Home", to: "/" },
-            { label: "Pricing", to: "/pricing" },
+            { label: "Ideation", id: "features" },
+            { label: "Growth", id: "how" },
+            { label: "Scale", id: "pricing" },
           ].map((item) => (
-            <li key={item.label}>
+            <li key={item.id}>
               <button
-                onClick={() => navigate(item.to)}
-                className="bg-transparent border-0 cursor-pointer p-0"
-                style={{ fontSize: 13, fontWeight: 400, color: "var(--v2-muted)" }}
+                onClick={() => goToSection(item.id)}
+                className="text-[13px] font-normal bg-transparent border-0 cursor-pointer transition-colors p-0"
+                style={{ color: "var(--v2-muted)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--v2-ink)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--v2-muted)")}
               >
                 {item.label}
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ display: "inline-block", verticalAlign: "middle", marginLeft: 2, opacity: 0.5 }}>
+                  <path d="M2 3.5l3 3 3-3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </button>
             </li>
           ))}
         </ul>
-        <div className="flex items-center" style={{ gap: 10 }}>
+
+        <div className="flex items-center gap-[10px]">
           {user ? (
             <>
               <button
                 onClick={() => navigate("/dashboard")}
-                className="hidden md:inline-block font-body cursor-pointer"
-                style={{ fontSize: 13, fontWeight: 500, padding: "7px 16px", borderRadius: 7, color: "var(--v2-muted)", background: "transparent", border: "1px solid var(--v2-border)" }}
-              >Dashboard</button>
+                className="hidden md:inline-block font-body font-medium text-[13px] tracking-[-0.01em] no-underline cursor-pointer transition-all"
+                style={{ padding: "7px 16px", borderRadius: 7, color: "var(--v2-muted)", background: "transparent", border: "1px solid var(--v2-border)" }}
+              >
+                Dashboard
+              </button>
               <button
                 onClick={async () => { await signOut(); navigate("/"); }}
-                className="font-body cursor-pointer"
-                style={{ fontSize: 13, fontWeight: 500, padding: "7px 16px", borderRadius: 7, color: "#fff", background: "var(--v2-ink)", border: "1px solid transparent" }}
-              >Sign out</button>
+                className="font-body font-medium text-[13px] tracking-[-0.01em] cursor-pointer transition-all"
+                style={{ padding: "7px 16px", borderRadius: 7, color: "#fff", background: "var(--v2-ink)", border: "1px solid transparent" }}
+              >
+                Sign out
+              </button>
             </>
           ) : (
             <>
               <button
                 onClick={() => navigate("/login")}
-                className="hidden md:inline-block font-body cursor-pointer"
-                style={{ fontSize: 13, fontWeight: 500, padding: "7px 16px", borderRadius: 7, color: "var(--v2-muted)", background: "transparent", border: "1px solid var(--v2-border)" }}
-              >Sign in</button>
+                className="hidden md:inline-block font-body font-medium text-[13px] tracking-[-0.01em] cursor-pointer transition-all"
+                style={{ padding: "7px 16px", borderRadius: 7, color: "var(--v2-muted)", background: "transparent", border: "1px solid var(--v2-border)" }}
+              >
+                Sign in
+              </button>
               <button
                 onClick={() => navigate("/signup")}
-                className="font-body cursor-pointer"
-                style={{ fontSize: 13, fontWeight: 500, padding: "7px 16px", borderRadius: 7, color: "#fff", background: "var(--v2-ink)", border: "1px solid transparent" }}
-              >Start free</button>
+                className="font-body font-medium text-[13px] tracking-[-0.01em] cursor-pointer transition-all"
+                style={{ padding: "7px 16px", borderRadius: 7, color: "#fff", background: "var(--v2-ink)", border: "1px solid transparent" }}
+              >
+                Start free
+              </button>
             </>
           )}
+
           <button
             onClick={() => setOpen(!open)}
             aria-label="Menu"
             className="md:hidden flex flex-col justify-center bg-transparent border-0 cursor-pointer ml-2"
             style={{ gap: 5, padding: 4 }}
           >
-            <span style={{ display: "block", width: 20, height: 1.5, background: "var(--v2-ink)" }} />
-            <span style={{ display: "block", width: 20, height: 1.5, background: "var(--v2-ink)" }} />
-            <span style={{ display: "block", width: 20, height: 1.5, background: "var(--v2-ink)" }} />
+            <span className="block transition-all" style={{ width: 20, height: 1.5, background: "var(--v2-ink)", transform: open ? "translateY(6.5px) rotate(45deg)" : "none" }} />
+            <span className="block transition-all" style={{ width: 20, height: 1.5, background: "var(--v2-ink)", opacity: open ? 0 : 1 }} />
+            <span className="block transition-all" style={{ width: 20, height: 1.5, background: "var(--v2-ink)", transform: open ? "translateY(-6.5px) rotate(-45deg)" : "none" }} />
           </button>
         </div>
       </nav>
+
       {open && (
-        <div className="md:hidden fixed left-0 right-0 z-[98]" style={{ top: 58, background: "var(--v2-white)", borderBottom: "1px solid var(--v2-border)", padding: 20 }}>
-          <button onClick={() => { navigate("/"); setOpen(false); }} className="block w-full text-left bg-transparent border-0 py-2" style={{ fontSize: 14, color: "var(--v2-ink)" }}>Home</button>
-          <button onClick={() => { navigate("/pricing"); setOpen(false); }} className="block w-full text-left bg-transparent border-0 py-2" style={{ fontSize: 14, color: "var(--v2-ink)" }}>Pricing</button>
+        <div
+          className="md:hidden fixed left-0 right-0 z-[98] flex flex-col"
+          style={{ top: 58, background: "var(--v2-white)", borderBottom: "1px solid var(--v2-border)", padding: 20, gap: 4 }}
+        >
+          {[
+            { label: "Ideation", id: "features" },
+            { label: "Growth", id: "how" },
+            { label: "Scale", id: "pricing" },
+            { label: "Customers", id: "testimonials" },
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => goToSection(item.id)}
+              className="text-[15px] font-normal text-left bg-transparent border-0 cursor-pointer"
+              style={{ color: "var(--v2-ink)", padding: "12px 0", borderBottom: "1px solid var(--v2-border)", letterSpacing: "-0.01em" }}
+            >
+              {item.label}
+            </button>
+          ))}
+          <button
+            onClick={() => { setOpen(false); navigate("/signup"); }}
+            className="text-[15px] font-semibold text-left bg-transparent border-0 cursor-pointer"
+            style={{ color: "var(--v2-teal)", padding: "12px 0", marginTop: 8 }}
+          >
+            Start free
+          </button>
         </div>
       )}
     </>
