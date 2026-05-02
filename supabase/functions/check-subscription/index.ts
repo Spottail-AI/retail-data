@@ -92,9 +92,10 @@ serve(async (req) => {
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     logStep("ERROR", { message: msg });
+    const isAuthErr = msg.toLowerCase().includes("auth") || msg.includes("authorization header") || msg.includes("not authenticated");
     return new Response(
-      JSON.stringify({ error: msg }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 }
+      JSON.stringify({ error: isAuthErr ? "Authentication failed" : "Service temporarily unavailable" }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: isAuthErr ? 401 : 500 }
     );
   }
 });
