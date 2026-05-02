@@ -102,11 +102,13 @@ const Auth = () => {
   const switchToSignup = () => {
     setIsLogin(false);
     setStep("role");
+    navigate(`/signup${location.search}`, { replace: true });
   };
 
   const switchToLogin = () => {
     setIsLogin(true);
     setStep("credentials");
+    navigate(`/login${location.search}`, { replace: true });
   };
 
   // v2 design tokens
