@@ -8,7 +8,6 @@ interface RoleSelectionProps {
 }
 
 const buyerBullets = [
-const buyerBullets = [
   "Browse Spottail Source — the marketplace for retail-ready products",
   "Discover trending products on TikTok, Reddit & more before they peak",
   "Filter by category, trend signal, verified brands, and MOQ",
