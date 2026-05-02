@@ -2,12 +2,10 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import {
   ArrowRight, Check, X, Play, Clock, Bell, BarChart3, Zap, Globe,
-  TrendingUp, Shield, Users, Star, ChevronDown, Layers, FileText,
-  Eye, Target, DollarSign, Gauge, Rocket, Package, MonitorSmartphone,
-  CircleDot, AlertTriangle, LineChart
+  TrendingUp, Shield, Users, Star, Layers, FileText,
+  Eye, Target, Rocket, Package, MonitorSmartphone, LineChart
 } from "lucide-react";
 import {
   Accordion,
@@ -15,6 +13,51 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
+// ── Design system primitives matching the v2 homepage ──────────────────────
+const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+  <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--v2-teal)", marginBottom: 12 }}>
+    {children}
+  </p>
+);
+
+const SectionH2 = ({ children, light = false }: { children: React.ReactNode; light?: boolean }) => (
+  <h2 className="font-display" style={{ fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 300, letterSpacing: "-0.03em", lineHeight: 1.1, color: light ? "#fff" : "var(--v2-ink)" }}>
+    {children}
+  </h2>
+);
+
+const cardStyle: React.CSSProperties = {
+  background: "var(--v2-white)",
+  border: "1px solid var(--v2-border)",
+  borderRadius: 12,
+  padding: 28,
+};
+
+const surfaceCardStyle: React.CSSProperties = {
+  background: "var(--v2-surface)",
+  border: "1px solid var(--v2-border)",
+  borderRadius: 12,
+  padding: 28,
+};
+
+const primaryBtnStyle: React.CSSProperties = {
+  fontSize: 14, fontWeight: 500, letterSpacing: "-0.01em",
+  color: "#fff", background: "var(--v2-ink)", border: "none",
+  padding: "13px 26px", borderRadius: 9, display: "inline-flex", alignItems: "center", gap: 8,
+};
+
+const ghostBtnStyle: React.CSSProperties = {
+  fontSize: 14, fontWeight: 500, letterSpacing: "-0.01em",
+  color: "var(--v2-ink)", background: "transparent", border: "1px solid var(--v2-border)",
+  padding: "13px 26px", borderRadius: 9, display: "inline-flex", alignItems: "center", gap: 8,
+};
+
+const tealChipStyle: React.CSSProperties = {
+  width: 36, height: 36, borderRadius: 9,
+  background: "var(--v2-teal-light)", border: "1px solid var(--v2-border)",
+  display: "flex", alignItems: "center", justifyContent: "center",
+};
 
 const CompetitorPriceTrackingSoftware = () => {
   useEffect(() => {
@@ -40,7 +83,6 @@ const CompetitorPriceTrackingSoftware = () => {
       document.head.appendChild(meta);
     }
 
-    // Canonical
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
     if (!canonical) {
       canonical = document.createElement("link");
@@ -49,7 +91,6 @@ const CompetitorPriceTrackingSoftware = () => {
     }
     canonical.href = "https://spottail.ai/competitor-price-tracking-software";
 
-    // JSON-LD
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.textContent = JSON.stringify({
@@ -74,98 +115,98 @@ const CompetitorPriceTrackingSoftware = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background font-inter">
+    <div className="spottail-v2 min-h-screen" style={{ background: "var(--v2-white)", color: "var(--v2-ink)" }}>
+      <Header />
+
       {/* ─── 1. HERO ─── */}
-      <section className="relative min-h-[70vh] flex items-center justify-center px-4 pt-32 md:pt-36 pb-16 md:pb-20">
-        <Header />
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-success/8 rounded-full blur-3xl" />
-        </div>
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 md:mb-8 leading-tight tracking-wide">
-            Competitor Price Tracking Software That Actually Keeps You Competitive
+      <section style={{ background: "var(--v2-white)", padding: "140px 24px 80px" }}>
+        <div className="mx-auto text-center" style={{ maxWidth: 900 }}>
+          <SectionLabel>Competitor Price Tracking</SectionLabel>
+          <h1 className="font-display" style={{ fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 300, letterSpacing: "-0.035em", lineHeight: 1.05, color: "var(--v2-ink)", marginBottom: 24 }}>
+            Competitor price tracking that{" "}
+            <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>actually keeps you competitive</em>
           </h1>
-          <p className="text-base md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed">
+          <p style={{ fontSize: 17, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.6, letterSpacing: "-0.01em", maxWidth: 680, margin: "0 auto 40px" }}>
             Monitor competitor prices in real-time across all channels. Get instant alerts. Make pricing decisions in hours, not days. Track Amazon, eBay, Shopify, and 50+ retail platforms.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center" style={{ gap: 12, marginBottom: 40 }}>
             <Link to="/signup">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-5 text-base sm:text-lg font-semibold rounded-lg shadow-lg shadow-primary/20 w-full sm:w-auto">
-                Start Free Trial
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
+              <button style={primaryBtnStyle}>
+                Start Free Trial <ArrowRight className="w-4 h-4" />
+              </button>
             </Link>
-            <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-accent px-8 py-5 text-base sm:text-lg font-semibold rounded-lg w-full sm:w-auto">
-              <Play className="mr-2 w-5 h-5" />
-              Watch 2-min Demo
-            </Button>
+            <button style={ghostBtnStyle}>
+              <Play className="w-4 h-4" /> Watch 2-min Demo
+            </button>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-10 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2"><Users className="w-4 h-4 text-primary" /> Used by 500+ retailers</span>
-            <span className="flex items-center gap-2"><Zap className="w-4 h-4 text-primary" /> Real-time monitoring</span>
-            <span className="flex items-center gap-2"><Clock className="w-4 h-4 text-primary" /> 90-second setup</span>
+          <div className="flex flex-wrap items-center justify-center" style={{ gap: 24, fontSize: 12, fontWeight: 400, color: "var(--v2-muted)", letterSpacing: "-0.005em" }}>
+            <span className="flex items-center" style={{ gap: 6 }}><Users className="w-4 h-4" style={{ color: "var(--v2-teal)" }} /> Used by 500+ retailers</span>
+            <span className="flex items-center" style={{ gap: 6 }}><Zap className="w-4 h-4" style={{ color: "var(--v2-teal)" }} /> Real-time monitoring</span>
+            <span className="flex items-center" style={{ gap: 6 }}><Clock className="w-4 h-4" style={{ color: "var(--v2-teal)" }} /> 90-second setup</span>
           </div>
         </div>
       </section>
 
       {/* ─── 2. PROBLEM ─── */}
-      <section className="py-16 md:py-24 px-4 bg-card/30">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-6 md:mb-8 tracking-wide text-center">
-            Why Manual Competitor Price Tracking is Costing You Sales
-          </h2>
-          <p className="text-muted-foreground text-center max-w-3xl mx-auto mb-12 leading-relaxed">
-            In today's e-commerce landscape, competitor price tracking software isn't optional — it's survival. Amazon alone changes 2.5 million prices every single day. If you're still checking competitor prices manually once a week, you're already behind. The result? Lost sales, eroded margins, and wasted hours on spreadsheets that are outdated the moment you finish them. Real-time price monitoring software gives you the edge.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <section style={{ background: "var(--v2-surface)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>The problem</SectionLabel>
+            <SectionH2>Why manual tracking is <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>costing you sales</em></SectionH2>
+            <p style={{ fontSize: 15, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.65, letterSpacing: "-0.01em", maxWidth: 720, margin: "20px auto 0" }}>
+              In today's e-commerce landscape, competitor price tracking software isn't optional — it's survival. Amazon alone changes 2.5 million prices every single day. If you're still checking competitor prices manually once a week, you're already behind.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-5" style={{ gap: 12 }}>
             {[
               { stat: "2.5M", label: "Daily price changes on Amazon" },
               { stat: "67%", label: "Shoppers compare prices before buying" },
               { stat: "30%", label: "Revenue lost to mispricing" },
               { stat: "8hrs", label: "Avg. weekly manual tracking time" },
-              { stat: "< 24hrs", label: "Shelf life of a competitive price" },
+              { stat: "< 24h", label: "Shelf life of a competitive price" },
             ].map((s, i) => (
-              <div key={i} className="text-center p-4 md:p-6 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-                <div className="text-2xl md:text-3xl font-bold text-primary mb-2">{s.stat}</div>
-                <div className="text-xs md:text-sm text-muted-foreground">{s.label}</div>
+              <div key={i} style={{ ...cardStyle, padding: "24px 18px", textAlign: "center" }}>
+                <div className="font-display" style={{ fontSize: 32, fontWeight: 300, letterSpacing: "-0.03em", color: "var(--v2-ink)", marginBottom: 6 }}>{s.stat}</div>
+                <div style={{ fontSize: 12, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.5, letterSpacing: "-0.005em" }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── 3. SOLUTION (3-Column) ─── */}
-      <section className="py-16 md:py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            Real-Time Competitor Price Tracking. Automated.
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* ─── 3. SOLUTION ─── */}
+      <section style={{ background: "var(--v2-white)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>How it works</SectionLabel>
+            <SectionH2>Real-time tracking, <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>automated</em></SectionH2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 16 }}>
             {[
               { icon: Eye, title: "Monitor", desc: "Track prices across 50+ retailers in real-time. Every change captured automatically so you never miss a competitor move." },
               { icon: BarChart3, title: "Analyze", desc: "Get pricing recommendations and margin analysis. Understand where you stand in the market at a glance with intelligent dashboards." },
               { icon: Zap, title: "Act", desc: "Auto-sync prices, set pricing rules, and respond to competitors quickly. Turn insights into revenue in minutes, not days." },
             ].map((col, i) => (
-              <div key={i} className="p-6 md:p-8 rounded-xl bg-card border border-[hsl(var(--card-border))] text-center">
-                <div className="w-12 h-12 bg-primary/15 rounded-full flex items-center justify-center mx-auto mb-5">
-                  <col.icon className="w-6 h-6 text-primary" />
+              <div key={i} style={cardStyle}>
+                <div style={tealChipStyle}>
+                  <col.icon className="w-4 h-4" style={{ color: "var(--v2-teal)" }} />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">{col.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{col.desc}</p>
+                <h3 className="font-body" style={{ fontSize: 16, fontWeight: 600, color: "var(--v2-ink)", letterSpacing: "-0.02em", margin: "20px 0 8px" }}>{col.title}</h3>
+                <p style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.6, letterSpacing: "-0.005em" }}>{col.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── 4. KEY FEATURES (6-Grid) ─── */}
-      <section className="py-16 md:py-24 px-4 bg-card/30">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            Everything You Need in Competitor Price Tracking Software
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* ─── 4. KEY FEATURES ─── */}
+      <section style={{ background: "var(--v2-surface)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>Features</SectionLabel>
+            <SectionH2>Everything you need in <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>price tracking software</em></SectionH2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 16 }}>
             {[
               { icon: MonitorSmartphone, title: "Real-Time Price Monitoring", points: ["Track competitor prices as they change", "Instant alerts when prices move", "Historical price data & trends"] },
               { icon: Globe, title: "Multi-Channel Integration", points: ["Amazon, eBay, Shopify, WooCommerce, Alibaba", "Direct website scraping", "CSV imports for any source"] },
@@ -174,16 +215,16 @@ const CompetitorPriceTrackingSoftware = () => {
               { icon: Target, title: "Pricing Recommendations", points: ["AI-powered pricing suggestions", "Margin protection rules", "Seasonal pricing strategies"] },
               { icon: FileText, title: "Data Export & Reporting", points: ["Export price history as CSV", "Generate shareable reports", "Team sharing & collaboration"] },
             ].map((f, i) => (
-              <div key={i} className="p-6 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-                <div className="w-10 h-10 bg-primary/15 rounded-lg flex items-center justify-center mb-4">
-                  <f.icon className="w-5 h-5 text-primary" />
+              <div key={i} style={cardStyle}>
+                <div style={tealChipStyle}>
+                  <f.icon className="w-4 h-4" style={{ color: "var(--v2-teal)" }} />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">{f.title}</h3>
-                <ul className="space-y-2">
+                <h3 className="font-body" style={{ fontSize: 15, fontWeight: 600, color: "var(--v2-ink)", letterSpacing: "-0.02em", margin: "20px 0 12px" }}>{f.title}</h3>
+                <ul className="list-none">
                   {f.points.map((p, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                      {p}
+                    <li key={j} className="flex items-start" style={{ gap: 8, fontSize: 13, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.55, letterSpacing: "-0.005em", marginBottom: 6 }}>
+                      <Check className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--v2-teal)", marginTop: 4 }} />
+                      <span>{p}</span>
                     </li>
                   ))}
                 </ul>
@@ -193,25 +234,24 @@ const CompetitorPriceTrackingSoftware = () => {
         </div>
       </section>
 
-      {/* ─── 5. HOW IT WORKS ─── */}
-      <section className="py-16 md:py-24 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            Get Started in 90 Seconds
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      {/* ─── 5. HOW IT WORKS STEPS ─── */}
+      <section style={{ background: "var(--v2-white)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>Setup</SectionLabel>
+            <SectionH2>Get started in <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>90 seconds</em></SectionH2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4" style={{ gap: 16 }}>
             {[
-              { step: "1", title: "Add Products to Track", desc: "Paste URLs or search by name. We'll start monitoring immediately." },
-              { step: "2", title: "Choose Monitoring Frequency", desc: "Real-time, hourly, or daily — you decide how often to check." },
-              { step: "3", title: "Receive Alerts & Recommendations", desc: "Get notified the moment a competitor changes their price." },
-              { step: "4", title: "Make Data-Driven Decisions", desc: "Use pricing intelligence to stay competitive and protect margins." },
+              { step: "01", title: "Add Products to Track", desc: "Paste URLs or search by name. We'll start monitoring immediately." },
+              { step: "02", title: "Choose Monitoring Frequency", desc: "Real-time, hourly, or daily — you decide how often to check." },
+              { step: "03", title: "Receive Alerts & Recommendations", desc: "Get notified the moment a competitor changes their price." },
+              { step: "04", title: "Make Data-Driven Decisions", desc: "Use pricing intelligence to stay competitive and protect margins." },
             ].map((s, i) => (
-              <div key={i} className="text-center p-5 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-                <div className="w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-4 text-lg font-bold">
-                  {s.step}
-                </div>
-                <h3 className="text-base font-semibold text-foreground mb-2">{s.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              <div key={i} style={{ ...cardStyle, padding: 24 }}>
+                <span className="font-display" style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-teal)", letterSpacing: "-0.01em" }}>{s.step}</span>
+                <h3 className="font-body" style={{ fontSize: 15, fontWeight: 600, color: "var(--v2-ink)", letterSpacing: "-0.02em", margin: "12px 0 8px" }}>{s.title}</h3>
+                <p style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.55, letterSpacing: "-0.005em" }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -219,25 +259,26 @@ const CompetitorPriceTrackingSoftware = () => {
       </section>
 
       {/* ─── 6. USE CASES ─── */}
-      <section className="py-16 md:py-24 px-4 bg-card/30">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            Built for Your Business Type
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section style={{ background: "var(--v2-surface)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>Use cases</SectionLabel>
+            <SectionH2>Built for <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>your business type</em></SectionH2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: 16 }}>
             {[
               { icon: Package, title: "E-Commerce Sellers", metric: "18% avg revenue increase", desc: "Stay competitive on Amazon, eBay, and your own store with real-time competitive pricing data." },
               { icon: Rocket, title: "Dropshippers & Resellers", metric: "22% margin improvement", desc: "Find the best margins by tracking supplier and competitor prices simultaneously." },
               { icon: Users, title: "Retail Chains", metric: "12% traffic increase", desc: "Ensure consistent, competitive pricing across all locations and online channels." },
               { icon: Shield, title: "Private Label Brands", metric: "15% market share growth", desc: "Protect your brand positioning and respond to competitors encroaching on your market." },
             ].map((uc, i) => (
-              <div key={i} className="p-6 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-                <div className="w-10 h-10 bg-primary/15 rounded-lg flex items-center justify-center mb-4">
-                  <uc.icon className="w-5 h-5 text-primary" />
+              <div key={i} style={cardStyle}>
+                <div style={tealChipStyle}>
+                  <uc.icon className="w-4 h-4" style={{ color: "var(--v2-teal)" }} />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-1">{uc.title}</h3>
-                <div className="text-sm font-medium text-success mb-3">{uc.metric}</div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{uc.desc}</p>
+                <h3 className="font-body" style={{ fontSize: 15, fontWeight: 600, color: "var(--v2-ink)", letterSpacing: "-0.02em", margin: "20px 0 4px" }}>{uc.title}</h3>
+                <div style={{ fontSize: 12, fontWeight: 500, color: "var(--v2-teal)", marginBottom: 10, letterSpacing: "-0.005em" }}>{uc.metric}</div>
+                <p style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.55, letterSpacing: "-0.005em" }}>{uc.desc}</p>
               </div>
             ))}
           </div>
@@ -245,12 +286,13 @@ const CompetitorPriceTrackingSoftware = () => {
       </section>
 
       {/* ─── 7. BENEFITS ─── */}
-      <section className="py-16 md:py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            What Spottail.ai Competitor Price Tracking Gives You
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section style={{ background: "var(--v2-white)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>Benefits</SectionLabel>
+            <SectionH2>What Spottail <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>gives you</em></SectionH2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 16 }}>
             {[
               { icon: Clock, title: "Save Time", desc: "Automate price tracking and save 150+ hours per year. No more manual spreadsheets." },
               { icon: TrendingUp, title: "Increase Revenue", desc: "Retailers using Spottail see a 10-25% revenue increase within 3 months." },
@@ -259,13 +301,13 @@ const CompetitorPriceTrackingSoftware = () => {
               { icon: BarChart3, title: "Get Insights", desc: "Understand pricing trends, seasonal patterns, and competitor strategies at a glance." },
               { icon: Layers, title: "Scale Easily", desc: "Track 2 products or 2,000 — Spottail grows with your business without added complexity." },
             ].map((b, i) => (
-              <div key={i} className="flex items-start gap-4 p-5 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-                <div className="w-10 h-10 bg-success/15 rounded-full flex items-center justify-center shrink-0">
-                  <b.icon className="w-5 h-5 text-success" />
+              <div key={i} className="flex items-start" style={{ ...cardStyle, gap: 16 }}>
+                <div style={{ ...tealChipStyle, flexShrink: 0 }}>
+                  <b.icon className="w-4 h-4" style={{ color: "var(--v2-teal)" }} />
                 </div>
                 <div>
-                  <h3 className="text-base font-semibold text-foreground mb-1">{b.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
+                  <h3 className="font-body" style={{ fontSize: 15, fontWeight: 600, color: "var(--v2-ink)", letterSpacing: "-0.02em", marginBottom: 6 }}>{b.title}</h3>
+                  <p style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.55, letterSpacing: "-0.005em" }}>{b.desc}</p>
                 </div>
               </div>
             ))}
@@ -274,60 +316,75 @@ const CompetitorPriceTrackingSoftware = () => {
       </section>
 
       {/* ─── 8. PRICING ─── */}
-      <section className="py-16 md:py-24 px-4 bg-card/30">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4 tracking-wide text-center">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="text-muted-foreground text-center mb-12">No hidden fees. Cancel anytime.</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <section style={{ background: "var(--v2-surface)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>Pricing</SectionLabel>
+            <SectionH2>Simple, <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>transparent</em> pricing</SectionH2>
+            <p style={{ fontSize: 14, fontWeight: 300, color: "var(--v2-muted)", marginTop: 12, letterSpacing: "-0.005em" }}>No hidden fees. Cancel anytime.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 mx-auto" style={{ gap: 16, maxWidth: 960 }}>
             {[
-              { name: "FREE", price: "$0", period: "/month", items: "2 products", freq: "Daily updates", features: ["Price change alerts", "7-day history", "Email notifications"], cta: "Start Free", popular: false },
-              { name: "PRO", price: "$29", period: "/month", items: "10 products", freq: "Real-time updates", features: ["Everything in Free", "AI pricing recommendations", "Slack & SMS alerts", "Unlimited history", "CSV export"], cta: "Start Pro Trial", popular: true },
-              { name: "ENTERPRISE", price: "Custom", period: "", items: "Unlimited products", freq: "Real-time + API", features: ["Everything in Pro", "Dedicated account manager", "Custom integrations", "SSO & team management", "Priority support"], cta: "Contact Sales", popular: false },
-            ].map((plan, i) => (
-              <div key={i} className={`p-6 md:p-8 rounded-xl border ${plan.popular ? "border-primary bg-card shadow-lg shadow-primary/10 relative" : "border-[hsl(var(--card-border))] bg-card"}`}>
-                {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-1 rounded-full">
-                    Most Popular
-                  </div>
-                )}
-                <div className="text-sm font-medium text-muted-foreground mb-2">{plan.name}</div>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-3xl md:text-4xl font-bold text-foreground">{plan.price}</span>
-                  <span className="text-muted-foreground text-sm">{plan.period}</span>
+              { name: "FREE", price: "$0", period: "/month", items: "2 products", freq: "Daily updates", features: ["Price change alerts", "7-day history", "Email notifications"], cta: "Start Free", featured: false },
+              { name: "PRO", price: "$29", period: "/month", items: "10 products", freq: "Real-time updates", features: ["Everything in Free", "AI pricing recommendations", "Slack & SMS alerts", "Unlimited history", "CSV export"], cta: "Start Pro Trial", featured: true },
+              { name: "ENTERPRISE", price: "Custom", period: "", items: "Unlimited products", freq: "Real-time + API", features: ["Everything in Pro", "Dedicated account manager", "Custom integrations", "SSO & team management", "Priority support"], cta: "Contact Sales", featured: false },
+            ].map((plan, i) => {
+              const dark = plan.featured;
+              return (
+                <div key={i} style={{
+                  background: dark ? "var(--v2-black)" : "var(--v2-white)",
+                  border: "1px solid " + (dark ? "transparent" : "var(--v2-border)"),
+                  borderRadius: 12,
+                  padding: 30,
+                }}>
+                  <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: dark ? "rgba(255,255,255,0.35)" : "var(--v2-muted)", marginBottom: 18 }}>{plan.name}</p>
+                  <p className="font-display" style={{ fontSize: plan.price === "Custom" ? 36 : 48, fontWeight: 300, letterSpacing: "-0.04em", color: dark ? "#fff" : "var(--v2-ink)", lineHeight: 1, marginBottom: 4 }}>{plan.price}</p>
+                  <p style={{ fontSize: 12, fontWeight: 300, color: dark ? "rgba(255,255,255,0.3)" : "var(--v2-muted)", marginBottom: 18, letterSpacing: "-0.01em" }}>{plan.period || plan.items}</p>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: dark ? "rgba(255,255,255,0.65)" : "var(--v2-teal)", paddingBottom: 18, marginBottom: 18, borderBottom: "1px solid " + (dark ? "rgba(255,255,255,0.08)" : "var(--v2-border)"), letterSpacing: "-0.005em" }}>
+                    {plan.freq} · {plan.items}
+                  </p>
+                  <ul className="list-none" style={{ marginBottom: 24 }}>
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start" style={{ fontSize: 13, fontWeight: 300, color: dark ? "rgba(255,255,255,0.65)" : "var(--v2-ink)", padding: "5px 0", gap: 9, letterSpacing: "-0.005em" }}>
+                        <Check className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--v2-teal)", marginTop: 3 }} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link to="/signup">
+                    <button className="w-full font-body cursor-pointer" style={{
+                      fontSize: 13, fontWeight: 500, padding: 12, borderRadius: 8, letterSpacing: "-0.01em",
+                      background: dark ? "#fff" : "transparent",
+                      border: "1px solid " + (dark ? "transparent" : "var(--v2-border)"),
+                      color: dark ? "var(--v2-black)" : "var(--v2-ink)",
+                    }}>
+                      {plan.cta}
+                    </button>
+                  </Link>
                 </div>
-                <div className="text-sm text-muted-foreground mb-1">{plan.items}</div>
-                <div className="text-sm text-primary font-medium mb-6">{plan.freq}</div>
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link to="/signup">
-                  <Button className={`w-full ${plan.popular ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"}`}>
-                    {plan.cta}
-                  </Button>
-                </Link>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ─── 9. INTEGRATIONS ─── */}
-      <section className="py-16 md:py-24 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-6 tracking-wide">
-            Connects to Your Favorite Tools
-          </h2>
-          <p className="text-muted-foreground mb-10">Integrates with 50+ platforms. More coming soon.</p>
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
+      <section style={{ background: "var(--v2-white)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto text-center" style={{ maxWidth: 900 }}>
+          <SectionLabel>Integrations</SectionLabel>
+          <SectionH2>Connects to your <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>favourite tools</em></SectionH2>
+          <p style={{ fontSize: 14, fontWeight: 300, color: "var(--v2-muted)", margin: "16px 0 36px", letterSpacing: "-0.005em" }}>
+            Integrates with 50+ platforms. More coming soon.
+          </p>
+          <div className="flex flex-wrap items-center justify-center" style={{ gap: 10 }}>
             {["Shopify", "WooCommerce", "Amazon", "eBay", "Slack", "Google Sheets", "Zapier", "Excel"].map((name) => (
-              <div key={name} className="px-5 py-3 rounded-lg bg-card border border-[hsl(var(--card-border))] text-sm font-medium text-foreground">
+              <div key={name} style={{
+                padding: "10px 18px",
+                borderRadius: 100,
+                background: "var(--v2-white)",
+                border: "1px solid var(--v2-border)",
+                fontSize: 13, fontWeight: 500, color: "var(--v2-ink)", letterSpacing: "-0.01em",
+              }}>
                 {name}
               </div>
             ))}
@@ -336,20 +393,21 @@ const CompetitorPriceTrackingSoftware = () => {
       </section>
 
       {/* ─── 10. COMPARISON TABLE ─── */}
-      <section className="py-16 md:py-24 px-4 bg-card/30">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            How Spottail Stacks Up
-          </h2>
-          <div className="overflow-x-auto -mx-4 px-4">
-            <table className="w-full border-collapse min-w-[600px]">
+      <section style={{ background: "var(--v2-surface)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1000 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>Comparison</SectionLabel>
+            <SectionH2>How Spottail <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>stacks up</em></SectionH2>
+          </div>
+          <div className="overflow-x-auto" style={{ ...cardStyle, padding: 0 }}>
+            <table className="w-full border-collapse" style={{ minWidth: 600 }}>
               <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Feature</th>
-                  <th className="text-center py-3 px-4 text-primary font-semibold text-xs uppercase tracking-wider">Spottail</th>
-                  <th className="text-center py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Prisync</th>
-                  <th className="text-center py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Competera</th>
-                  <th className="text-center py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Price2Spy</th>
+                <tr style={{ borderBottom: "1px solid var(--v2-border)" }}>
+                  <th style={{ textAlign: "left", padding: "16px 20px", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--v2-muted)" }}>Feature</th>
+                  <th style={{ textAlign: "center", padding: "16px 20px", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--v2-teal)" }}>Spottail</th>
+                  <th style={{ textAlign: "center", padding: "16px 20px", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--v2-muted)" }}>Prisync</th>
+                  <th style={{ textAlign: "center", padding: "16px 20px", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--v2-muted)" }}>Competera</th>
+                  <th style={{ textAlign: "center", padding: "16px 20px", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--v2-muted)" }}>Price2Spy</th>
                 </tr>
               </thead>
               <tbody>
@@ -363,11 +421,13 @@ const CompetitorPriceTrackingSoftware = () => {
                   { feature: "Slack / SMS Alerts", spottail: true, prisync: false, competera: false, price2spy: true },
                   { feature: "Trend Discovery", spottail: true, prisync: false, competera: false, price2spy: false },
                 ].map((row, i) => (
-                  <tr key={i} className="border-b border-border/50">
-                    <td className="py-3 px-4 text-foreground font-medium text-sm">{row.feature}</td>
+                  <tr key={i} style={{ borderBottom: "1px solid var(--v2-border)" }}>
+                    <td style={{ padding: "14px 20px", fontSize: 13, fontWeight: 500, color: "var(--v2-ink)", letterSpacing: "-0.005em" }}>{row.feature}</td>
                     {[row.spottail, row.prisync, row.competera, row.price2spy].map((val, j) => (
-                      <td key={j} className="py-3 px-4 text-center">
-                        {val ? <Check className="w-4 h-4 text-success mx-auto" /> : <X className="w-4 h-4 text-muted-foreground/40 mx-auto" />}
+                      <td key={j} style={{ padding: "14px 20px", textAlign: "center" }}>
+                        {val
+                          ? <Check className="w-4 h-4 mx-auto" style={{ color: "var(--v2-teal)" }} />
+                          : <X className="w-4 h-4 mx-auto" style={{ color: "var(--v2-border)" }} />}
                       </td>
                     ))}
                   </tr>
@@ -379,46 +439,50 @@ const CompetitorPriceTrackingSoftware = () => {
       </section>
 
       {/* ─── 11. TESTIMONIALS ─── */}
-      <section className="py-16 md:py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            What Retailers Are Saying
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <section style={{ background: "var(--v2-white)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>Customers</SectionLabel>
+            <SectionH2>What retailers <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>are saying</em></SectionH2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 16, marginBottom: 24 }}>
             {[
               { quote: "Spottail's price tracking saved us 15 hours a week. We increased our revenue by 22% in just two months by responding to competitor pricing changes in real-time.", name: "Sarah K.", title: "E-Commerce Director", company: "TrendRetail", impact: "+22% revenue" },
               { quote: "We used to lose sales because we were always a day behind on pricing. With Spottail's competitor price tracking software, we're now the first to adjust. Game changer.", name: "David M.", title: "Head of Pricing", company: "GreenMart", impact: "+18% conversion" },
               { quote: "The AI recommendations alone paid for the subscription 10x over. We protect our margins without constantly checking competitor sites manually.", name: "Priya L.", title: "Operations Lead", company: "LuxHome Goods", impact: "30% time saved" },
             ].map((t, i) => (
-              <div key={i} className="p-6 rounded-xl bg-card border border-[hsl(var(--card-border))] flex flex-col">
-                <div className="flex gap-1 mb-4">
+              <div key={i} className="flex flex-col" style={cardStyle}>
+                <div className="flex" style={{ gap: 3, marginBottom: 16 }}>
                   {Array.from({ length: 5 }).map((_, j) => (
-                    <Star key={j} className="w-4 h-4 text-warning fill-warning" />
+                    <Star key={j} className="w-3.5 h-3.5" style={{ color: "var(--v2-teal)", fill: "var(--v2-teal)" }} />
                   ))}
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">"{t.quote}"</p>
-                <div>
-                  <div className="text-foreground font-medium text-sm">{t.name}</div>
-                  <div className="text-muted-foreground text-xs">{t.title}, {t.company}</div>
-                  <div className="text-success text-xs font-medium mt-1">{t.impact}</div>
+                <p className="font-display italic" style={{ fontSize: 15, fontWeight: 300, lineHeight: 1.6, color: "var(--v2-ink)", letterSpacing: "-0.01em", marginBottom: 24, flex: 1 }}>
+                  "{t.quote}"
+                </p>
+                <div style={{ paddingTop: 16, borderTop: "1px solid var(--v2-border)" }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "var(--v2-ink)", letterSpacing: "-0.01em" }}>{t.name}</div>
+                  <div style={{ fontSize: 12, fontWeight: 300, color: "var(--v2-muted)", marginTop: 2 }}>{t.title}, {t.company}</div>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: "var(--v2-teal)", marginTop: 6 }}>{t.impact}</div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="text-center p-8 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-            <Play className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">See how retailers use Spottail</h3>
-            <p className="text-sm text-muted-foreground">Watch a 2-minute walkthrough of how real businesses track competitor prices and boost revenue.</p>
+          <div className="text-center" style={{ ...surfaceCardStyle, padding: 40 }}>
+            <Play className="w-10 h-10 mx-auto" style={{ color: "var(--v2-teal)", marginBottom: 16 }} />
+            <h3 className="font-body" style={{ fontSize: 16, fontWeight: 600, color: "var(--v2-ink)", letterSpacing: "-0.02em", marginBottom: 8 }}>See how retailers use Spottail</h3>
+            <p style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-muted)", letterSpacing: "-0.005em" }}>Watch a 2-minute walkthrough of how real businesses track competitor prices and boost revenue.</p>
           </div>
         </div>
       </section>
 
       {/* ─── 12. FAQ ─── */}
-      <section className="py-16 md:py-24 px-4 bg-card/30">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            Frequently Asked Questions
-          </h2>
+      <section style={{ background: "var(--v2-surface)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 760 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>FAQ</SectionLabel>
+            <SectionH2>Frequently asked <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>questions</em></SectionH2>
+          </div>
           <Accordion type="single" collapsible className="space-y-3">
             {[
               { q: "How often does Spottail update competitor prices?", a: "Depending on your plan, prices are updated daily (Free), or in real-time (Pro and Enterprise). Real-time tracking captures changes within minutes of them happening." },
@@ -432,9 +496,9 @@ const CompetitorPriceTrackingSoftware = () => {
               { q: "Do you offer a free trial?", a: "Yes — our Free plan is free forever with 2 tracked products and daily updates. No credit card required. Upgrade anytime." },
               { q: "Can I cancel anytime?", a: "Yes. There are no long-term contracts. You can cancel your subscription at any time from your account settings." },
             ].map((faq, i) => (
-              <AccordionItem key={i} value={`faq-${i}`} className="bg-card border border-[hsl(var(--card-border))] rounded-xl px-5">
-                <AccordionTrigger className="text-foreground text-sm font-medium text-left">{faq.q}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-sm leading-relaxed">{faq.a}</AccordionContent>
+              <AccordionItem key={i} value={`faq-${i}`} style={{ background: "var(--v2-white)", border: "1px solid var(--v2-border)", borderRadius: 12, padding: "0 20px" }}>
+                <AccordionTrigger className="font-body text-left" style={{ fontSize: 14, fontWeight: 500, color: "var(--v2-ink)", letterSpacing: "-0.01em" }}>{faq.q}</AccordionTrigger>
+                <AccordionContent style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.65, letterSpacing: "-0.005em" }}>{faq.a}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
@@ -442,12 +506,13 @@ const CompetitorPriceTrackingSoftware = () => {
       </section>
 
       {/* ─── 13. CASE STUDIES ─── */}
-      <section className="py-16 md:py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-12 tracking-wide text-center">
-            Case Study: How 3 Retailers Used Price Tracking to Increase Revenue
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section style={{ background: "var(--v2-white)", padding: "96px 24px", borderTop: "1px solid var(--v2-border)" }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <SectionLabel>Case studies</SectionLabel>
+            <SectionH2>How 3 retailers <em style={{ fontStyle: "italic", color: "var(--v2-muted)" }}>increased revenue</em></SectionH2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 16 }}>
             {[
               {
                 type: "Mid-Size E-Commerce Store",
@@ -474,14 +539,17 @@ const CompetitorPriceTrackingSoftware = () => {
                 learning: "Brick-and-mortar retailers need online price intelligence just as much as e-commerce sellers.",
               },
             ].map((cs, i) => (
-              <div key={i} className="p-6 rounded-xl bg-card border border-[hsl(var(--card-border))]">
-                <div className="text-primary text-xs font-semibold uppercase tracking-wider mb-2">{cs.type}</div>
-                <div className="text-xs text-muted-foreground mb-4">{cs.size}</div>
-                <div className="space-y-3 text-sm">
-                  <div><span className="font-medium text-foreground">Challenge:</span> <span className="text-muted-foreground">{cs.challenge}</span></div>
-                  <div><span className="font-medium text-foreground">Solution:</span> <span className="text-muted-foreground">{cs.solution}</span></div>
-                  <div><span className="font-medium text-success">Results:</span> <span className="text-muted-foreground">{cs.results}</span></div>
-                  <div className="pt-2 border-t border-border/50"><span className="font-medium text-foreground">Key Learning:</span> <span className="text-muted-foreground italic">{cs.learning}</span></div>
+              <div key={i} style={cardStyle}>
+                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--v2-teal)", marginBottom: 6 }}>{cs.type}</div>
+                <div style={{ fontSize: 12, fontWeight: 300, color: "var(--v2-muted)", marginBottom: 16, letterSpacing: "-0.005em" }}>{cs.size}</div>
+                <div className="space-y-3" style={{ fontSize: 13 }}>
+                  <div><span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>Challenge:</span> <span style={{ fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.6 }}>{cs.challenge}</span></div>
+                  <div><span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>Solution:</span> <span style={{ fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.6 }}>{cs.solution}</span></div>
+                  <div><span style={{ fontWeight: 600, color: "var(--v2-teal)" }}>Results:</span> <span style={{ fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.6 }}>{cs.results}</span></div>
+                  <div style={{ paddingTop: 12, borderTop: "1px solid var(--v2-border)" }}>
+                    <span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>Key Learning:</span>{" "}
+                    <span className="font-display italic" style={{ fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.6 }}>{cs.learning}</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -490,31 +558,43 @@ const CompetitorPriceTrackingSoftware = () => {
       </section>
 
       {/* ─── 14. FINAL CTA ─── */}
-      <section className="py-16 md:py-24 px-4 bg-card/30">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4 tracking-wide">
-            Start Tracking Competitor Prices Today
+      <section style={{ background: "var(--v2-black)", padding: "110px 24px" }}>
+        <div className="mx-auto text-center" style={{ maxWidth: 760 }}>
+          <h2 className="font-display" style={{ fontSize: "clamp(34px, 4.5vw, 56px)", fontWeight: 300, letterSpacing: "-0.03em", lineHeight: 1.05, color: "#fff", marginBottom: 16 }}>
+            Start tracking competitor<br />
+            prices <em style={{ fontStyle: "italic", color: "rgba(255,255,255,0.4)" }}>today</em>
           </h2>
-          <p className="text-lg text-muted-foreground mb-2">See what your competitors are doing in real-time.</p>
-          <p className="text-sm text-muted-foreground mb-8">Free forever plan. No credit card required. 90-second setup.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+          <p style={{ fontSize: 15, fontWeight: 300, color: "rgba(255,255,255,0.4)", letterSpacing: "-0.01em", marginBottom: 6 }}>
+            See what your competitors are doing in real-time.
+          </p>
+          <p style={{ fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.3)", letterSpacing: "-0.005em", marginBottom: 36 }}>
+            Free forever plan. No credit card required. 90-second setup.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center" style={{ gap: 12, marginBottom: 24 }}>
             <Link to="/signup">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-5 text-lg font-semibold rounded-lg shadow-lg shadow-primary/20 w-full sm:w-auto">
-                Start Your Free Trial
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
+              <button className="font-body cursor-pointer" style={{
+                fontSize: 15, fontWeight: 500, letterSpacing: "-0.01em",
+                color: "var(--v2-black)", background: "var(--v2-white)", border: "none",
+                padding: "14px 32px", borderRadius: 9, display: "inline-flex", alignItems: "center", gap: 8,
+              }}>
+                Start Your Free Trial <ArrowRight className="w-4 h-4" />
+              </button>
             </Link>
-            <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-accent px-8 py-5 text-lg font-semibold rounded-lg w-full sm:w-auto">
+            <button className="font-body cursor-pointer" style={{
+              fontSize: 15, fontWeight: 500, letterSpacing: "-0.01em",
+              color: "rgba(255,255,255,0.7)", background: "transparent",
+              border: "1px solid rgba(255,255,255,0.15)",
+              padding: "14px 32px", borderRadius: 9,
+            }}>
               Schedule a Demo
-            </Button>
+            </button>
           </div>
-          <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
-            <Users className="w-4 h-4 text-primary" /> Join 500+ retailers tracking prices smarter
+          <p className="flex items-center justify-center" style={{ fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.35)", letterSpacing: "0.01em", gap: 6 }}>
+            <Users className="w-3.5 h-3.5" /> Join 500+ retailers tracking prices smarter
           </p>
         </div>
       </section>
 
-      {/* ─── 15. FOOTER ─── */}
       <Footer />
     </div>
   );
