@@ -8,11 +8,19 @@ interface RoleSelectionProps {
 }
 
 const buyerBullets = [
+const buyerBullets = [
   "Browse Spottail Source — the marketplace for retail-ready products",
   "Discover trending products on TikTok, Reddit & more before they peak",
   "Filter by category, trend signal, verified brands, and MOQ",
   "Shortlist products and request samples in one click",
   "Get alerts when shortlisted products start trending",
+];
+
+const supplierBullets = [
+  "Track competitors and retail product prices over time",
+  "List your retail products on Spottail Source — where retail buyers can find them",
+  "Find distributors and suppliers for your products in one click",
+  "Discover trending products on TikTok, Reddit & more before they peak",
 ];
 
 // v2 design tokens
