@@ -21,40 +21,33 @@ import type { SubscriptionTier } from "@/lib/stripe-config";
 const plans = [
   {
     tier: "free" as const,
-    name: "Free",
+    name: "Starter",
     icon: Zap,
     price: "$0",
-    billing: "Forever free",
-    description: "Perfect for getting started",
+    billing: "Start exploring the market",
+    description: "Perfect for individuals and small teams getting started with smarter retail decisions.",
     features: [
-      { text: "Track 2 competitors", included: true },
-      { text: "Daily price updates", included: true },
-      { text: "Email alerts", included: true },
-      { text: "Basic analytics", included: true },
-      { text: "Dashboard access", included: true },
-      { text: "Real-time monitoring", included: false },
-      { text: "Slack integration", included: false },
-      { text: "Pricing recommendations", included: false },
-      { text: "API access", included: false },
+      { text: "Access to product trend detection", included: true },
+      { text: "Launch products to retail buyers", included: true },
+      { text: "Track up to 2 product prices", included: true },
+      { text: "Find up to 2 suppliers & distributors", included: true },
+      { text: "Competitive analysis tools", included: false },
+      { text: "Priority support & onboarding", included: false },
     ],
   },
   {
     tier: "pro" as const,
-    name: "Pro",
+    name: "Growth",
     icon: Crown,
     price: "$20",
-    billing: "/month",
-    description: "For growing businesses and online stores",
+    billing: "per month",
+    description: "For growing retail and e-commerce teams ready to scale decisions and execution.",
     popular: true,
     features: [
-      { text: "Track 10 competitors", included: true },
-      { text: "Real-time monitoring", included: true },
-      { text: "Slack integration", included: true },
-      { text: "Pricing recommendations", included: true },
-      { text: "Advanced analytics", included: true },
-      { text: "API access", included: true },
-      { text: "Email support", included: true },
-      { text: "Weekly auto-updates", included: true },
+      { text: "Everything in Starter", included: true },
+      { text: "Track up to 10 product prices", included: true },
+      { text: "Find up to 10 suppliers & distributors", included: true },
+      { text: "Access to competitive analysis tools", included: true },
     ],
   },
   {
@@ -62,31 +55,24 @@ const plans = [
     name: "Enterprise",
     icon: Rocket,
     price: "Custom",
-    billing: "pricing",
-    description: "For large retailers and enterprise businesses",
+    billing: "Full visibility. Full control.",
+    description: "For teams operating at scale across multiple products, markets, and suppliers.",
     features: [
-      { text: "Unlimited competitor tracking", included: true },
-      { text: "Custom integrations", included: true },
-      { text: "Dedicated support", included: true },
-      { text: "White-label options", included: true },
-      { text: "SLA guarantee", included: true },
-      { text: "Priority feature requests", included: true },
-      { text: "Advanced security", included: true },
-      { text: "Bulk pricing on API", included: true },
+      { text: "Unlimited product price tracking", included: true },
+      { text: "Unlimited supplier & distributor discovery", included: true },
+      { text: "Full competitive analysis suite", included: true },
+      { text: "Priority support & onboarding", included: true },
     ],
   },
 ];
 
 const compareRows = [
-  { feature: "Competitor Tracking", free: "2", pro: "10", enterprise: "Unlimited" },
-  { feature: "Price Monitoring", free: "Daily", pro: "Real-time", enterprise: "Real-time" },
-  { feature: "Pricing Recommendations", free: false, pro: true, enterprise: true },
-  { feature: "API Access", free: false, pro: true, enterprise: true },
-  { feature: "Slack Integration", free: false, pro: true, enterprise: true },
-  { feature: "Email Support", free: false, pro: true, enterprise: true },
-  { feature: "Priority Support", free: false, pro: false, enterprise: true },
-  { feature: "SLA Guarantee", free: false, pro: false, enterprise: true },
-  { feature: "Custom Integrations", free: false, pro: false, enterprise: true },
+  { feature: "Product trend detection", free: true, pro: true, enterprise: true },
+  { feature: "Launch products to retail buyers", free: true, pro: true, enterprise: true },
+  { feature: "Product price tracking", free: "Up to 2", pro: "Up to 10", enterprise: "Unlimited" },
+  { feature: "Supplier & distributor discovery", free: "Up to 2", pro: "Up to 10", enterprise: "Unlimited" },
+  { feature: "Competitive analysis tools", free: false, pro: true, enterprise: true },
+  { feature: "Priority support & onboarding", free: false, pro: false, enterprise: true },
 ];
 
 const faqs = [
@@ -369,8 +355,8 @@ const Pricing = () => {
               <thead>
                 <tr style={{ background: "var(--v2-surface)", borderBottom: "1px solid var(--v2-border)" }}>
                   <th className="text-left font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-ink)" }}>Feature</th>
-                  <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-ink)" }}>Free</th>
-                  <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-teal)" }}>Pro</th>
+                  <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-ink)" }}>Starter</th>
+                  <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-teal)" }}>Growth</th>
                   <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-ink)" }}>Enterprise</th>
                 </tr>
               </thead>
