@@ -1,21 +1,7 @@
-import { HeroSection } from "@/components/HeroSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { CtaSection } from "@/components/CtaSection";
-import { Footer } from "@/components/Footer";
+import { SpottailV2Homepage } from "@/components/v2/SpottailV2Homepage";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <HeroSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <CtaSection />
-      <Footer />
-    </div>
-  );
+  return <SpottailV2Homepage />;
 };
 
 export default Index;
