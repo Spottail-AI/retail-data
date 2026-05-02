@@ -49,9 +49,9 @@ const SourceProductAnalytics = () => {
     queryFn: async () => {
       const [b, c] = await Promise.all([
         supabase.from("source_buyer_votes").select("*", { count: "exact", head: true }).eq("product_id", product!.id),
-        supabase.from("source_community_votes").select("*", { count: "exact", head: true }).eq("product_id", product!.id).eq("verified", true),
+        supabase.rpc("get_community_vote_count", { p_product_id: product!.id }),
       ]);
-      return { buyer: b.count || 0, community: c.count || 0 };
+      return { buyer: b.count || 0, community: (c.data as number | null) || 0 };
     },
     enabled: !!product,
   });
