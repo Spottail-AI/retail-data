@@ -1,6 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============= Spottail v2 homepage scoped theme ============= */
+.spottail-v2 {
+  --v2-black: #0C0C0B;
+  --v2-ink: #1A1A18;
+  --v2-muted: #6B6B66;
+  --v2-border: #E4E4E0;
+  --v2-surface: #F7F7F4;
+  --v2-white: #FEFEFE;
+  --v2-teal: #0D9B8A;
+  --v2-teal-light: #E6F5F3;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--v2-ink);
+  background: var(--v2-white);
+  -webkit-font-smoothing: antialiased;
+}
+.spottail-v2 .font-display { font-family: 'Fraunces', Georgia, serif; }
+.spottail-v2 .font-body { font-family: 'Manrope', system-ui, sans-serif; }
 
 @layer base {
   :root {
