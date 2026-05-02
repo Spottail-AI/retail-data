@@ -239,7 +239,7 @@ const CompetitorPriceTrackingSoftware = () => {
 
   return (
     <div className="spottail-v2 min-h-screen" style={{ background: "var(--v2-white)", color: "var(--v2-ink)" }}>
-      <Header />
+      <V2Nav />
 
       {/* ─── 1. HERO ─── */}
       <section style={{ background: "var(--v2-white)", padding: "140px 24px 80px" }}>
@@ -718,7 +718,7 @@ const CompetitorPriceTrackingSoftware = () => {
         </div>
       </section>
 
-      <Footer />
+      <V2Footer />
     </div>
   );
 };
