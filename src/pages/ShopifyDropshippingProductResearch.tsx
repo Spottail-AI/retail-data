@@ -1,21 +1,16 @@
-import { ShopifyDropshippingHeroSection } from "@/components/ShopifyDropshippingHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const ShopifyDropshippingProductResearch = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <ShopifyDropshippingHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const ShopifyDropshippingProductResearch = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Product Research Tool for",
+      headlineItalic: "Shopify Dropshipping",
+      subheadline:
+        "Stay ahead of the curve. Discover trending products that are about to win on Shopify.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default ShopifyDropshippingProductResearch;

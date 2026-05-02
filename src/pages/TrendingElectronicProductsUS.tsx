@@ -1,21 +1,15 @@
-import { TrendingElectronicProductsUSHeroSection } from "@/components/TrendingElectronicProductsUSHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const TrendingElectronicProductsUS = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <TrendingElectronicProductsUSHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const TrendingElectronicProductsUS = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Find Trending Electronic Products in the United States",
+      subheadline:
+        "Spot rising electronics before they break out. Stock up smarter and stay ahead of the curve.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default TrendingElectronicProductsUS;

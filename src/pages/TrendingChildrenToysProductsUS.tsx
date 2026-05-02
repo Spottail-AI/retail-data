@@ -1,21 +1,15 @@
-import { TrendingChildrenToysProductsUSHeroSection } from "@/components/TrendingChildrenToysProductsUSHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const TrendingChildrenToysProductsUS = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <TrendingChildrenToysProductsUSHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const TrendingChildrenToysProductsUS = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Find Trending Children & Toys Products in the United States",
+      subheadline:
+        "Discover toys parents are talking about — and the ones about to take off — before the rest of the market catches on.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default TrendingChildrenToysProductsUS;

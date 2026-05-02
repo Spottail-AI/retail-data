@@ -1,21 +1,16 @@
-import { EtsyProductTrendsHeroSection } from "@/components/EtsyProductTrendsHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const EtsyProductTrends = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <EtsyProductTrendsHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const EtsyProductTrends = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Etsy Product Trends",
+      headlineItalic: "Discover what's about to sell big",
+      subheadline:
+        "Don't waste time chasing yesterday's bestsellers. Discover Etsy product trends in real time — so you can stock up, advertise smarter, and outsell your competition.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default EtsyProductTrends;
