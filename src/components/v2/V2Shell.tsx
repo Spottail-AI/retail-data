@@ -99,7 +99,7 @@ export const V2Nav = ({ ctaLabel = "Start free" }: { ctaLabel?: string } = {}) =
                 className="font-body font-medium text-[13px] tracking-[-0.01em] cursor-pointer transition-all"
                 style={{ padding: "7px 16px", borderRadius: 7, color: "#fff", background: "var(--v2-ink)", border: "1px solid transparent" }}
               >
-                Start free
+                {ctaLabel}
               </button>
             </>
           )}
@@ -141,7 +141,7 @@ export const V2Nav = ({ ctaLabel = "Start free" }: { ctaLabel?: string } = {}) =
             className="text-[15px] font-semibold text-left bg-transparent border-0 cursor-pointer"
             style={{ color: "var(--v2-teal)", padding: "12px 0", marginTop: 8 }}
           >
-            Start free
+            {ctaLabel}
           </button>
         </div>
       )}
