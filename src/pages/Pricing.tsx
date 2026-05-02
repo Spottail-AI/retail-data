@@ -355,8 +355,8 @@ const Pricing = () => {
               <thead>
                 <tr style={{ background: "var(--v2-surface)", borderBottom: "1px solid var(--v2-border)" }}>
                   <th className="text-left font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-ink)" }}>Feature</th>
-                  <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-ink)" }}>Free</th>
-                  <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-teal)" }}>Pro</th>
+                  <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-ink)" }}>Starter</th>
+                  <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-teal)" }}>Growth</th>
                   <th className="text-center font-body" style={{ padding: "14px 18px", fontWeight: 600, color: "var(--v2-ink)" }}>Enterprise</th>
                 </tr>
               </thead>
