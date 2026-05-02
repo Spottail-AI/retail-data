@@ -36,9 +36,17 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Check admin role - for now, use a simple check via has_role
-    // In production, add an 'admin' role to the app_role enum
-    // For MVP, only the product owner or first registered user can approve
+    // Check admin role server-side
+    const { data: isAdmin, error: roleErr } = await supabase.rpc("has_role", {
+      _user_id: user.id,
+      _role: "admin",
+    });
+    if (roleErr || !isAdmin) {
+      return new Response(
+        JSON.stringify({ error: "Forbidden" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 403 }
+      );
+    }
 
     if (action === "approve") {
       const { data: request, error: reqError } = await supabase
