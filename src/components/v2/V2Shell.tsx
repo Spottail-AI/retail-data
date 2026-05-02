@@ -19,7 +19,7 @@ export const V2Logo = ({ light = false }: { light?: boolean }) => (
   </span>
 );
 
-export const V2Nav = () => {
+export const V2Nav = ({ ctaLabel = "Start free" }: { ctaLabel?: string } = {}) => {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
