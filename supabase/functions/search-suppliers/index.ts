@@ -165,10 +165,10 @@ Return ONLY valid JSON in this exact format, no other text:
     const allResults = parsed.results || [];
     const displayLimit = hasPaid ? 10 : 2;
 
-    // Save full results to saved_searches table
+    // Save full results server-side for the user's history (they own this data)
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
-    
+
     await adminClient.from("saved_searches").insert({
       user_id: user.id,
       product_name: sanitizedProduct,
@@ -178,10 +178,13 @@ Return ONLY valid JSON in this exact format, no other text:
       results_found: allResults.length,
     });
 
+    // Enforce paywall server-side: only return results the user is allowed to see.
+    const visibleResults = allResults.slice(0, displayLimit);
+
     return new Response(
-      JSON.stringify({ 
-        results: allResults, 
-        hasPaid, 
+      JSON.stringify({
+        results: visibleResults,
+        hasPaid,
         displayLimit,
         resultsFound: allResults.length,
         upgradeRequired: !hasPaid && allResults.length > 2,
@@ -191,7 +194,7 @@ Return ONLY valid JSON in this exact format, no other text:
   } catch (error) {
     console.error("Error:", error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: "Service temporarily unavailable" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
