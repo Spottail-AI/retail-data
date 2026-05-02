@@ -1,21 +1,16 @@
-import { EcommerceAnalyticsHeroSection } from "@/components/EcommerceAnalyticsHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const EcommerceAnalyticsTool = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <EcommerceAnalyticsHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const EcommerceAnalyticsTool = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail analytics",
+      headline: "eCommerce Analytics Tool",
+      headlineItalic: "Predict what's trending before it happens",
+      subheadline:
+        "Tired of chasing trends after they peak? Spot products gaining traction across eCommerce so you can act fast and stay ahead of the competition.",
+      ctaLabel: "Get started free",
+    }}
+  />
+);
 
 export default EcommerceAnalyticsTool;
