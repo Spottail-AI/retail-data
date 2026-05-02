@@ -737,6 +737,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_community_vote_count: {
+        Args: { p_product_id: string }
+        Returns: number
+      }
+      get_community_vote_counts: {
+        Args: { p_product_ids: string[] }
+        Returns: {
+          product_id: string
+          vote_count: number
+        }[]
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -751,7 +762,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "supplier" | "buyer"
+      app_role: "supplier" | "buyer" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -879,7 +890,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["supplier", "buyer"],
+      app_role: ["supplier", "buyer", "admin"],
     },
   },
 } as const

@@ -57,7 +57,7 @@ const SourceMarketplace = () => {
       
       const [buyerRes, communityRes] = await Promise.all([
         supabase.from("source_buyer_votes").select("product_id").in("product_id", ids),
-        supabase.from("source_community_votes").select("product_id").eq("verified", true).in("product_id", ids),
+        supabase.rpc("get_community_vote_counts", { p_product_ids: ids }),
       ]);
 
       const counts: Record<string, { buyer: number; community: number }> = {};
@@ -68,8 +68,8 @@ const SourceMarketplace = () => {
       buyerRes.data?.forEach((v: any) => {
         if (counts[v.product_id]) counts[v.product_id].buyer++;
       });
-      communityRes.data?.forEach((v: any) => {
-        if (counts[v.product_id]) counts[v.product_id].community++;
+      (communityRes.data as any[] | null)?.forEach((row: any) => {
+        if (counts[row.product_id]) counts[row.product_id].community = row.vote_count;
       });
 
       return counts;
