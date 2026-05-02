@@ -98,7 +98,7 @@ const SourceMarketplace = () => {
 
   return (
     <V2Page>
-      <V2Nav />
+      <V2Nav ctaLabel="Launch your product" />
 
       <main style={{ maxWidth: 920, margin: "0 auto", padding: "120px 24px 96px" }}>
         {/* Page Header */}
