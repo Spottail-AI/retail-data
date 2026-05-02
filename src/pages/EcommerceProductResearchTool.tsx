@@ -1,21 +1,16 @@
-import { EcommerceProductResearchHeroSection } from "@/components/EcommerceProductResearchHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const EcommerceProductResearchTool = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <EcommerceProductResearchHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const EcommerceProductResearchTool = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Product Research Tool",
+      headlineItalic: "for your eCommerce brand",
+      subheadline:
+        "Stay ahead of the curve. Discover trending products that are about to win on various eCommerce platforms.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default EcommerceProductResearchTool;

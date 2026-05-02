@@ -1,21 +1,16 @@
-import { WalmartMarketplaceProductResearchHeroSection } from "@/components/WalmartMarketplaceProductResearchHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const WalmartMarketplaceProductResearchTool = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <WalmartMarketplaceProductResearchHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const WalmartMarketplaceProductResearchTool = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Product Research Tool",
+      headlineItalic: "for Walmart Marketplace",
+      subheadline:
+        "Stay ahead of the curve. Discover trending products that are about to win on Walmart Marketplace.",
+      ctaLabel: "Start researching free",
+    }}
+  />
+);
 
 export default WalmartMarketplaceProductResearchTool;
