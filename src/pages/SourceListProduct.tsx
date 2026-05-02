@@ -153,7 +153,7 @@ const SourceListProduct = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/auth?redirect=/source/new");
+      navigate("/login?redirect=/source/new");
     }
   }, [user, navigate]);
 

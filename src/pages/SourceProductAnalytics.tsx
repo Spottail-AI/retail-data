@@ -79,7 +79,7 @@ const SourceProductAnalytics = () => {
   };
 
   if (!user) {
-    navigate("/auth?redirect=/source/analytics");
+    navigate("/login?redirect=/source/analytics");
     return null;
   }
 

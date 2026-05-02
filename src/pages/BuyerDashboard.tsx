@@ -21,7 +21,7 @@ const BuyerDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!authLoading && !user) navigate("/auth?redirect=/dashboard");
+    if (!authLoading && !user) navigate("/login?redirect=/dashboard");
   }, [user, authLoading, navigate]);
 
   // Stats queries

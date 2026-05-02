@@ -181,7 +181,7 @@ const Results = () => {
 
   const handlePayment = async () => {
     if (!user || !session) {
-      navigate(`/auth?redirect=/results?session_id=${sessionId}`);
+      navigate(`/login?redirect=/results?session_id=${sessionId}`);
       return;
     }
     setProcessingPayment(true);
@@ -356,7 +356,7 @@ const Results = () => {
                 
                 {!user ? (
                   <Button
-                    onClick={() => navigate(`/auth?redirect=/results?session_id=${sessionId}`)}
+                    onClick={() => navigate(`/login?redirect=/results?session_id=${sessionId}`)}
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3"
                   >
                     Sign Up to Unlock

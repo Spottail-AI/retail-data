@@ -129,7 +129,7 @@ export const DemoSection = () => {
     }
 
     if (!user || !session) {
-      navigate("/auth?mode=signup");
+      navigate("/signup");
       toast({
         title: "Sign up required",
         description: "Create a free account to analyze trends.",

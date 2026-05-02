@@ -18,7 +18,7 @@ const BuyerEnquiries = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!authLoading && !user) navigate("/auth?redirect=/enquiries");
+    if (!authLoading && !user) navigate("/login?redirect=/enquiries");
   }, [user, authLoading, navigate]);
 
   const { data: enquiries = [], isLoading } = useQuery({

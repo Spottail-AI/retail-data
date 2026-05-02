@@ -42,7 +42,7 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/auth");
+    navigate("/login");
   };
 
   return (

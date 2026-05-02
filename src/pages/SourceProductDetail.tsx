@@ -170,7 +170,7 @@ const SourceProductDetail = () => {
   };
 
   const handleShortlist = async () => {
-    if (!user) { navigate("/auth?mode=signup&redirect=/source/" + slug); return; }
+    if (!user) { navigate("/signup&redirect=/source/" + slug); return; }
     if (!product) return;
     if (isShortlisted) {
       await supabase.from("source_shortlists").delete().eq("product_id", product.id).eq("user_id", user.id);

@@ -35,7 +35,7 @@ const Pricing = () => {
 
   const handleUpgrade = async () => {
     if (!session) {
-      navigate("/auth?mode=signup&redirect=/pricing");
+      navigate("/signup&redirect=/pricing");
       return;
     }
     setCheckoutLoading(true);
@@ -124,7 +124,7 @@ const Pricing = () => {
         loading={checkoutLoading}
         onUpgrade={handleUpgrade}
         onContactSales={() => setContactOpen(true)}
-        onSignUp={() => navigate("/auth?mode=signup&redirect=/pricing")}
+        onSignUp={() => navigate("/signup&redirect=/pricing")}
       />
 
       <ComparisonTable />
@@ -138,7 +138,7 @@ const Pricing = () => {
         </p>
         {!isSubscribed && (
           <Button
-            onClick={user ? handleUpgrade : () => navigate("/auth?mode=signup")}
+            onClick={user ? handleUpgrade : () => navigate("/signup")}
             disabled={checkoutLoading}
             className="bg-cta hover:bg-cta/90 text-cta-foreground font-semibold px-8 py-3"
           >

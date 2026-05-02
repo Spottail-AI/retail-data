@@ -11,10 +11,12 @@ import type { UserRole } from "@/hooks/use-user-role";
 const Auth = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const mode = searchParams.get("mode");
+  const queryMode = searchParams.get("mode");
+  const pathIsSignup = location.pathname === "/signup";
+  const isSignupMode = pathIsSignup || queryMode === "signup";
 
-  const [isLogin, setIsLogin] = useState(mode !== "signup");
-  const [step, setStep] = useState<"role" | "credentials">(mode === "signup" ? "role" : "credentials");
+  const [isLogin, setIsLogin] = useState(!isSignupMode);
+  const [step, setStep] = useState<"role" | "credentials">(isSignupMode ? "role" : "credentials");
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -100,11 +102,13 @@ const Auth = () => {
   const switchToSignup = () => {
     setIsLogin(false);
     setStep("role");
+    navigate(`/signup${location.search}`, { replace: true });
   };
 
   const switchToLogin = () => {
     setIsLogin(true);
     setStep("credentials");
+    navigate(`/login${location.search}`, { replace: true });
   };
 
   // v2 design tokens
