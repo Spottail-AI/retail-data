@@ -1,21 +1,16 @@
-import { WalmartMarketplaceProductTrendsHeroSection } from "@/components/WalmartMarketplaceProductTrendsHeroSection";
-import { DemoSection } from "@/components/DemoSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+import { TrendingLandingPage } from "@/components/TrendingLandingPage";
 
-const WalmartMarketplaceProductTrends = () => {
-  return (
-    <div className="min-h-screen bg-background font-inter">
-      <WalmartMarketplaceProductTrendsHeroSection />
-      <DemoSection />
-      <FeaturesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <Footer />
-    </div>
-  );
-};
+const WalmartMarketplaceProductTrends = () => (
+  <TrendingLandingPage
+    data={{
+      eyebrow: "AI-powered retail product research",
+      headline: "Walmart Marketplace Product Trends",
+      headlineItalic: "Discover what's about to sell big",
+      subheadline:
+        "Track Walmart Marketplace product trends in real time so you can stock up, advertise smarter, and outsell your competition.",
+      ctaLabel: "Start tracking trends free",
+    }}
+  />
+);
 
 export default WalmartMarketplaceProductTrends;
