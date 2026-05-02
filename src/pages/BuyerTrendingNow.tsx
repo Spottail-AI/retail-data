@@ -25,7 +25,7 @@ const BuyerTrendingNow = () => {
   const [activeFilter, setActiveFilter] = useState("All");
 
   useEffect(() => {
-    if (!authLoading && !user) navigate("/auth?redirect=/trending-now");
+    if (!authLoading && !user) navigate("/login?redirect=/trending-now");
   }, [user, authLoading, navigate]);
 
   // Fetch trends from the generate-trends edge function

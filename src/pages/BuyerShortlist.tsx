@@ -13,7 +13,7 @@ const BuyerShortlist = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (!authLoading && !user) navigate("/auth?redirect=/my-shortlist");
+    if (!authLoading && !user) navigate("/login?redirect=/my-shortlist");
   }, [user, authLoading, navigate]);
 
   const { data: shortlisted = [], isLoading } = useQuery({

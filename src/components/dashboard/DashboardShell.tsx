@@ -22,7 +22,7 @@ const DashboardShell = ({ title, description, children }: DashboardShellProps) =
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate("/auth?redirect=" + window.location.pathname);
+      navigate("/login?redirect=" + window.location.pathname);
     }
   }, [user, authLoading, navigate]);
 

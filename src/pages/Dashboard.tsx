@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate("/auth?redirect=/dashboard");
+      navigate("/login?redirect=/dashboard");
     }
   }, [user, authLoading, navigate]);
 
