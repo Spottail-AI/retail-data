@@ -110,7 +110,7 @@ const SourceMarketplace = () => {
             </span>
           </div>
           <h1 className="font-display" style={{ fontSize: "clamp(36px, 5vw, 52px)", fontWeight: 300, letterSpacing: "-0.03em", lineHeight: 1.05, color: "var(--v2-ink)", marginBottom: 10 }}>
-            Today's <em style={{ fontStyle: "italic", color: "var(--v2-teal)" }}>launches</em>
+            Retail product <em style={{ fontStyle: "italic", color: "var(--v2-teal)" }}>launches</em>
           </h1>
           <p className="font-body" style={{ fontSize: 13, color: "var(--v2-muted)", fontFamily: "monospace" }}>
             spottail.ai/source
@@ -244,12 +244,9 @@ const SourceMarketplace = () => {
                       }}
                     >
                       <ChevronUp className="w-4 h-4" />
-                      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--v2-ink)" }}>{votes.buyer}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--v2-ink)" }}>{votes.buyer + votes.community}</span>
                     </button>
-                    <span style={{ fontSize: 9, marginTop: 4, fontWeight: 500, color: "var(--v2-teal)" }}>Buyer votes</span>
-                    {votes.community > 0 && (
-                      <span style={{ fontSize: 9, color: "var(--v2-muted)" }}>+ {votes.community} community</span>
-                    )}
+                    <span style={{ fontSize: 9, marginTop: 4, fontWeight: 500, color: "var(--v2-teal)" }}>Votes</span>
                   </div>
                 </div>
               );
