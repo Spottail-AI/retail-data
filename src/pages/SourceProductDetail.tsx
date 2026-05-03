@@ -353,30 +353,6 @@ const SourceProductDetail = () => {
             )}
           </div>
 
-          <div className="lg:col-span-2 space-y-4">
-            <div style={cardStyle}>
-              <h3 className="font-body" style={{ fontSize: 13, fontWeight: 600, color: "var(--v2-ink)", marginBottom: 12 }}>Supplier</h3>
-              <div className="space-y-2 font-body" style={{ fontSize: 13 }}>
-                {[
-                  ["Brand", "—"],
-                  ["Country", "—"],
-                  ["Response time", "—"],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex justify-between">
-                    <span style={{ color: "var(--v2-muted)" }}>{k}</span>
-                    <span style={{ color: "var(--v2-ink)", fontWeight: 500 }}>{v}</span>
-                  </div>
-                ))}
-                {product.is_verified && (
-                  <div style={{ paddingTop: 8, borderTop: "1px solid var(--v2-border)" }}>
-                    <span style={{ ...tagStyle, background: "var(--v2-teal-light)", color: "var(--v2-teal)", width: "fit-content" }}>
-                      <CheckCircle className="w-3 h-3" /> Verified Brand
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Vote Dialog */}
