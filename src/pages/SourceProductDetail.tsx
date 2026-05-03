@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ChevronUp, Heart, MessageSquare, ExternalLink,
-  CheckCircle, TrendingUp, Loader2, Globe, Package, Layers,
+  CheckCircle, TrendingUp, Loader2, Globe, Package, Layers, ArrowLeft,
 } from "lucide-react";
 import { V2Nav, V2Footer, V2Page } from "@/components/v2/V2Shell";
 import { Input } from "@/components/ui/input";
@@ -219,6 +219,14 @@ const SourceProductDetail = () => {
       <V2Nav />
 
       <main style={{ maxWidth: 920, margin: "0 auto", padding: "120px 24px 80px" }}>
+        <button
+          onClick={() => navigate("/source")}
+          className="inline-flex items-center font-body"
+          style={{ gap: 6, marginBottom: 20, padding: "6px 12px 6px 8px", borderRadius: 9, fontSize: 13, fontWeight: 500, color: "var(--v2-muted)", background: "transparent", border: "1px solid var(--v2-border)", cursor: "pointer" }}
+        >
+          <ArrowLeft className="w-4 h-4" /> Return to Source
+        </button>
+
         {/* Top Section */}
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6" style={{ marginBottom: 24 }}>
           <div className="shrink-0 overflow-hidden flex items-center justify-center" style={{ width: 64, height: 64, borderRadius: 12, background: "var(--v2-surface)", fontSize: 28 }}>
@@ -381,7 +389,7 @@ const SourceProductDetail = () => {
             setVoteError("");
           }
         }}>
-          <DialogContent className="sm:max-w-md" style={{ background: "var(--v2-white)", border: "1px solid var(--v2-border)" }}>
+          <DialogContent className="spottail-v2 sm:max-w-md" style={{ background: "#FEFEFE", border: "1px solid #E4E4E0", color: "#1A1A18" }}>
             <DialogHeader>
               <DialogTitle className="font-display" style={{ fontSize: 22, fontWeight: 400, letterSpacing: "-0.02em", color: "var(--v2-ink)" }}>
                 {voteStatus === "success" ? "Vote recorded!" : voteStatus === "duplicate" ? "Already voted" : `Vote for ${product.product_name}`}
