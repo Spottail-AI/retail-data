@@ -60,6 +60,7 @@ import EcomhuntAlternative from "./pages/EcomhuntAlternative";
 import DropshipSpyAlternative from "./pages/DropshipSpyAlternative";
 import GlimpseAlternative from "./pages/GlimpseAlternative";
 import CompetitorPriceTrackingSoftware from "./pages/CompetitorPriceTrackingSoftware";
+import AmazonProductPriceTracker from "./pages/AmazonProductPriceTracker";
 import FindDistributors from "./pages/FindDistributors";
 import FindSuppliers from "./pages/FindSuppliers";
 import SourceMarketplace from "./pages/SourceMarketplace";
@@ -138,6 +139,7 @@ const App = () => (
             <Route path="/dropship-spy-alternative" element={<DropshipSpyAlternative />} />
             <Route path="/glimpse-alternative" element={<GlimpseAlternative />} />
             <Route path="/competitor-price-tracking-software" element={<CompetitorPriceTrackingSoftware />} />
+            <Route path="/amazon-product-price-tracker" element={<AmazonProductPriceTracker />} />
             <Route path="/find-distributors" element={<FindDistributors />} />
             <Route path="/find-suppliers" element={<FindSuppliers />} />
             <Route path="/source" element={<SourceMarketplace />} />
