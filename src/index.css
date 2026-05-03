@@ -33,7 +33,7 @@
   .spottail-v2 .pricing-grid-v2 { grid-template-columns: 1fr !important; max-width: 480px; margin-left: auto; margin-right: auto; }
   .spottail-v2 .cta-inner-v2 { flex-direction: column; align-items: flex-start !important; gap: 36px; }
   .spottail-v2 .cta-right-v2 { align-items: flex-start !important; margin-left: 0 !important; }
-  .spottail-v2 .footer-grid-v2 { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
+  .spottail-v2 .footer-grid-v2 { gap: 32px !important; }
 }
 
 /* Mobile */
