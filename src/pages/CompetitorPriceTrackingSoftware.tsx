@@ -279,7 +279,7 @@ const CompetitorPriceTrackingSoftware = () => {
       operatingSystem: "Web",
       offers: [
         { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Free" },
-        { "@type": "Offer", price: "29", priceCurrency: "USD", name: "Pro" },
+        { "@type": "Offer", price: "20", priceCurrency: "USD", name: "Growth" },
       ],
       description: "Track competitor prices in real-time across all channels with automated alerts and pricing intelligence.",
     });

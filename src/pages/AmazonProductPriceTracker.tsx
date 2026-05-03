@@ -273,7 +273,7 @@ const AmazonProductPriceTracker = () => {
       operatingSystem: "Web",
       offers: [
         { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Free" },
-        { "@type": "Offer", price: "29", priceCurrency: "USD", name: "Pro" },
+        { "@type": "Offer", price: "20", priceCurrency: "USD", name: "Growth" },
       ],
       description: "Track Amazon product prices in real time, monitor competitors, and win the Buy Box with automated alerts and AI pricing recommendations.",
     });
