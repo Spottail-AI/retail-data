@@ -503,9 +503,9 @@ const CompetitorPriceTrackingSoftware = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 mx-auto" style={{ gap: 16, maxWidth: 960 }}>
             {[
-              { name: "FREE", price: "$0", period: "/month", items: "2 products", freq: "Daily updates", features: ["Price change alerts", "7-day history", "Email notifications"], cta: "Start Free", featured: false },
-              { name: "PRO", price: "$29", period: "/month", items: "10 products", freq: "Real-time updates", features: ["Everything in Free", "AI pricing recommendations", "Slack & SMS alerts", "Unlimited history", "CSV export"], cta: "Start Pro Trial", featured: true },
-              { name: "ENTERPRISE", price: "Custom", period: "", items: "Unlimited products", freq: "Real-time + API", features: ["Everything in Pro", "Dedicated account manager", "Custom integrations", "SSO & team management", "Priority support"], cta: "Contact Sales", featured: false },
+              { name: "STARTER", price: "$0", period: "Start exploring the market", items: "Up to 2 product prices", freq: "Forever free", features: ["Access to product trend detection", "Launch products to retail buyers", "Track up to 2 product prices", "Find up to 2 suppliers & distributors"], cta: "Get started free", featured: false },
+              { name: "GROWTH", price: "$20", period: "per month", items: "Up to 10 product prices", freq: "For growing teams", features: ["Everything in Free", "Track up to 10 product prices", "Find up to 10 suppliers & distributors", "Access to competitive analysis tools"], cta: "Get started", featured: true },
+              { name: "ENTERPRISE", price: "Custom", period: "Full visibility. Full control.", items: "Unlimited tracking", freq: "For teams at scale", features: ["Unlimited product price tracking", "Unlimited supplier & distributor discovery", "Full competitive analysis suite", "Priority support & onboarding"], cta: "Contact Sales", featured: false },
             ].map((plan, i) => {
               const dark = plan.featured;
               return (
