@@ -40,6 +40,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const isCheckingSubRef = useRef(false);
   const hasPaidRef = useRef(false);
   const isSubscribedRef = useRef(false);
+  const authStateRef = useRef<{ userId: string | null; accessToken: string | null }>({
+    userId: null,
+    accessToken: null,
+  });
 
   useEffect(() => {
     hasPaidRef.current = hasPaid;
@@ -48,6 +52,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     isSubscribedRef.current = isSubscribed;
   }, [isSubscribed]);
+
+  const setAuthSession = useCallback((nextSession: Session | null) => {
+    const nextUserId = nextSession?.user?.id ?? null;
+    const nextAccessToken = nextSession?.access_token ?? null;
+
+    if (
+      authStateRef.current.userId === nextUserId &&
+      authStateRef.current.accessToken === nextAccessToken
+    ) {
+      return;
+    }
+
+    authStateRef.current = { userId: nextUserId, accessToken: nextAccessToken };
+    setSession(nextSession);
+    setUser(nextSession?.user ?? null);
+  }, []);
 
   const checkSubscriptionStatus = useCallback(async (): Promise<boolean> => {
     const { data: { session: currentSession } } = await supabase.auth.getSession();
@@ -151,8 +171,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const { data: { session: initialSession } } = await supabase.auth.getSession();
         if (!isMounted) return;
 
-        setSession(initialSession);
-        setUser(initialSession?.user ?? null);
+        setAuthSession(initialSession);
 
         // Unblock the app immediately once we know the session.
         if (isMounted) setLoading(false);
@@ -223,13 +242,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (!isMounted) return;
         
         if (event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION") {
-          setSession(newSession);
-          setUser(newSession?.user ?? null);
+          setAuthSession(newSession);
           return;
         }
         
-        setSession(newSession);
-        setUser(newSession?.user ?? null);
+        setAuthSession(newSession);
 
         if (event === "SIGNED_IN" && newSession) {
           const isNewUser = lastUserIdRef.current !== newSession.user.id;
