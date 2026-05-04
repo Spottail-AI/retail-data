@@ -279,7 +279,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isMounted = false;
       subscription.unsubscribe();
     };
-  }, [checkPaymentStatus, checkSubscriptionStatus]);
+  }, [checkPaymentStatus, checkSubscriptionStatus, setAuthSession]);
 
   const signUp = async (email: string, password: string, metadata?: { first_name?: string; last_name?: string }) => {
     const { error } = await supabase.auth.signUp({
