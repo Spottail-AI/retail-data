@@ -57,7 +57,7 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
       {/* Logo */}
       <div className="h-14 flex items-center px-4 border-b border-white/[0.06] shrink-0">
         <img
-          src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png"
+          src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.webp"
           alt="Spottail"
           className={cn("object-contain transition-all", collapsed ? "h-6" : "h-7")}
         />

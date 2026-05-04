@@ -67,7 +67,7 @@ export const Header = ({ inline = false }: HeaderProps) => {
         {/* Logo */}
         <div className="flex items-center flex-shrink-0">
           <img
-            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png"
+            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.webp"
             alt="Spottail"
             className="h-7 md:h-8 object-contain"
             style={{ background: "transparent" }}

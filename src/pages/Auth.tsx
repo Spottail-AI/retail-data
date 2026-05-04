@@ -168,7 +168,7 @@ const Auth = () => {
         }}
       >
         <img
-          src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png"
+          src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.webp"
           alt="Spottail"
           style={{ height: 28 }}
         />
