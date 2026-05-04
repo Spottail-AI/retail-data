@@ -144,59 +144,61 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setSession(initialSession);
         setUser(initialSession?.user ?? null);
 
+        // Unblock the app immediately once we know the session.
+        if (isMounted) setLoading(false);
+
         if (initialSession?.user) {
           lastUserIdRef.current = initialSession.user.id;
-          
           setCheckingPayment(true);
           setCheckingSubscription(true);
-          
-          try {
-            const [paymentResult, subResult] = await Promise.allSettled([
-              supabase.functions.invoke("check-payment", {
-                headers: { Authorization: `Bearer ${initialSession.access_token}` },
-                body: {},
-              }),
-              supabase.functions.invoke("check-subscription", {
-                headers: { Authorization: `Bearer ${initialSession.access_token}` },
-              }),
-            ]);
 
-            if (!isMounted) return;
+          // Fire payment + subscription checks in the background — do NOT block UI.
+          Promise.allSettled([
+            supabase.functions.invoke("check-payment", {
+              headers: { Authorization: `Bearer ${initialSession.access_token}` },
+              body: {},
+            }),
+            supabase.functions.invoke("check-subscription", {
+              headers: { Authorization: `Bearer ${initialSession.access_token}` },
+            }),
+          ])
+            .then(([paymentResult, subResult]) => {
+              if (!isMounted) return;
 
-            if (paymentResult.status === "fulfilled" && !paymentResult.value.error && paymentResult.value.data?.hasPaid) {
-              setHasPaid(true);
-            } else {
+              if (paymentResult.status === "fulfilled" && !paymentResult.value.error && paymentResult.value.data?.hasPaid) {
+                setHasPaid(true);
+              } else {
+                setHasPaid(false);
+              }
+              hasCheckedPaymentRef.current = true;
+
+              if (subResult.status === "fulfilled" && !subResult.value.error && subResult.value.data?.subscribed) {
+                setIsSubscribed(true);
+                const tier = getTierFromProductId(subResult.value.data?.product_id ?? null);
+                setSubscriptionTier(tier);
+                setSubscriptionEnd(subResult.value.data?.subscription_end ?? null);
+              } else {
+                setIsSubscribed(false);
+                setSubscriptionTier("free");
+                setSubscriptionEnd(null);
+              }
+              hasCheckedSubRef.current = true;
+            })
+            .catch((error) => {
+              console.error("Error checking initial status:", error);
+              if (!isMounted) return;
               setHasPaid(false);
-            }
-            hasCheckedPaymentRef.current = true;
-
-            if (subResult.status === "fulfilled" && !subResult.value.error && subResult.value.data?.subscribed) {
-              setIsSubscribed(true);
-              const tier = getTierFromProductId(subResult.value.data?.product_id ?? null);
-              setSubscriptionTier(tier);
-              setSubscriptionEnd(subResult.value.data?.subscription_end ?? null);
-            } else {
               setIsSubscribed(false);
               setSubscriptionTier("free");
               setSubscriptionEnd(null);
-            }
-            hasCheckedSubRef.current = true;
-          } catch (error) {
-            console.error("Error checking initial status:", error);
-            if (isMounted) {
-              setHasPaid(false);
-              setIsSubscribed(false);
-              setSubscriptionTier("free");
-              setSubscriptionEnd(null);
-            }
-          } finally {
-            if (isMounted) {
+            })
+            .finally(() => {
+              if (!isMounted) return;
               setCheckingPayment(false);
               setCheckingSubscription(false);
-            }
-          }
+            });
         }
-      } finally {
+      } catch (e) {
         if (isMounted) setLoading(false);
       }
     };

@@ -46,7 +46,7 @@ const Dashboard = () => {
     }
   }, [user, authLoading, navigate]);
 
-  if (authLoading || prefsLoading || roleLoading) {
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -59,12 +59,21 @@ const Dashboard = () => {
 
   if (!user) return null;
 
-  // If user is a buyer, render buyer dashboard
+  // If user is a buyer, render buyer dashboard (wait for role to resolve before deciding)
+  if (roleLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   if (isBuyer) {
     return <BuyerDashboard />;
   }
 
-  const needsOnboarding = !preferences?.onboarding_completed;
+  // Only show the onboarding modal once preferences have actually loaded — don't block the UI.
+  const needsOnboarding = !prefsLoading && !preferences?.onboarding_completed;
 
   return (
     <div className="min-h-screen dashboard-light">
