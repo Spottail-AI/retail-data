@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TrendingUp, TrendingDown, Truck, Users, Sparkles, ArrowUp, ArrowDown, AlertCircle } from "lucide-react";
+import { TrendingUp, TrendingDown, Truck, Users, Sparkles, ArrowUp, ArrowDown, AlertCircle, Package, LineChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
