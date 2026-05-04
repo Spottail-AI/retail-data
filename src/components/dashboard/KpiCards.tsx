@@ -46,7 +46,7 @@ const KpiCard = ({
 }: KpiCardProps) => {
   if (loading) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 space-y-3 shadow-sm">
+      <Card className="bg-card border-border p-6 space-y-3 shadow-sm">
         <Skeleton className="h-3 w-24" />
         <Skeleton className="h-7 w-16" />
         <Skeleton className="h-3 w-32" />
@@ -56,7 +56,7 @@ const KpiCard = ({
 
   if (error) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <div className="flex items-center gap-2 text-destructive mb-2">
           <AlertCircle className="w-4 h-4" />
           <span className="text-sm font-medium">Failed to load</span>
@@ -68,7 +68,7 @@ const KpiCard = ({
 
   if (value === null || value === 0) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm flex flex-col items-center justify-center min-h-[130px]">
+      <Card className="bg-card border-border p-6 shadow-sm flex flex-col items-center justify-center min-h-[130px]">
         <Button variant="outline" size="sm" onClick={onEmptyCta} className="text-xs text-primary border-primary/30 hover:bg-primary/5">
           {emptyCta}
         </Button>
@@ -81,7 +81,7 @@ const KpiCard = ({
 
   return (
     <Card
-      className="bg-card border-[#E6E8EB] p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-card border-border p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
       onClick={onClick}
     >
       <div className="flex items-start justify-between">

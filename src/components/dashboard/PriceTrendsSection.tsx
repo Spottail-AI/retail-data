@@ -26,7 +26,7 @@ export const PriceTrendsSection = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <Skeleton className="h-5 w-40 mb-4" />
         <Skeleton className="h-64 w-full" />
       </Card>
@@ -35,7 +35,7 @@ export const PriceTrendsSection = () => {
 
   if (isError) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <div className="flex items-center gap-2 text-destructive mb-2">
           <AlertCircle className="w-4 h-4" />
           <span className="text-sm font-medium">Failed to load price data</span>
@@ -47,7 +47,7 @@ export const PriceTrendsSection = () => {
 
   if (!products || products.length === 0) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm">
+      <Card className="bg-card border-border p-8 text-center shadow-sm">
         <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
           <TrendingUp className="w-6 h-6 text-primary" />
         </div>
@@ -77,7 +77,7 @@ export const PriceTrendsSection = () => {
   const isPositive = overallChange >= 0;
 
   return (
-    <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+    <Card className="bg-card border-border p-6 shadow-sm">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-base font-semibold text-foreground">Price Trends</h3>
@@ -97,17 +97,17 @@ export const PriceTrendsSection = () => {
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="primaryFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="hsl(217, 100%, 65.5%)" stopOpacity={0.15} />
-                <stop offset="100%" stopColor="hsl(217, 100%, 65.5%)" stopOpacity={0.02} />
+                <stop offset="0%" stopColor="hsl(173 84% 33%)" stopOpacity={0.15} />
+                <stop offset="100%" stopColor="hsl(173 84% 33%)" stopOpacity={0.02} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E6E8EB" />
-            <XAxis dataKey="name" tick={{ fill: "#555", fontSize: 12 }} axisLine={{ stroke: "#E6E8EB" }} tickLine={false} />
-            <YAxis tick={{ fill: "#555", fontSize: 12 }} axisLine={{ stroke: "#E6E8EB" }} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis dataKey="name" tick={{ fill: "#555", fontSize: 12 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} />
+            <YAxis tick={{ fill: "#555", fontSize: 12 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} />
             <Tooltip
               contentStyle={{
                 backgroundColor: "#fff",
-                border: "1px solid #E6E8EB",
+                border: "1px solid hsl(var(--border))",
                 borderRadius: "8px",
                 color: "#111",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
@@ -119,14 +119,14 @@ export const PriceTrendsSection = () => {
               iconType="line"
               wrapperStyle={{ fontSize: "12px", color: "#666" }}
             />
-            <Area type="monotone" dataKey="current" stroke="hsl(217, 100%, 65.5%)" strokeWidth={2.5} fill="url(#primaryFill)" name="Current Price" dot={{ r: 3, fill: "hsl(217, 100%, 65.5%)" }} />
+            <Area type="monotone" dataKey="current" stroke="hsl(173 84% 33%)" strokeWidth={2.5} fill="url(#primaryFill)" name="Current Price" dot={{ r: 3, fill: "hsl(173 84% 33%)" }} />
             <Area type="monotone" dataKey="previous" stroke="#A0AEC0" strokeWidth={1.5} strokeDasharray="4 4" fill="none" name="Previous Price" dot={false} />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
       {/* AI Insight */}
-      <div className="mt-6 p-6 rounded-lg bg-[hsl(217,100%,65.5%,0.05)] border border-[hsl(217,100%,65.5%,0.15)]">
+      <div className="mt-6 p-6 rounded-lg bg-[hsl(173 84% 33% / 0.04)] border border-[hsl(173 84% 33% / 0.18)]">
         <div className="flex items-start gap-3">
           <div className="p-1.5 rounded-md bg-primary/10 shrink-0 mt-0.5">
             <Sparkles className="w-4 h-4 text-primary" />

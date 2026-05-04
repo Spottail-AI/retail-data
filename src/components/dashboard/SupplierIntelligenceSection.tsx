@@ -26,7 +26,7 @@ export const SupplierIntelligenceSection = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <Skeleton className="h-5 w-40 mb-4" />
         <div className="space-y-3">
           {[1, 2, 3].map(i => <Skeleton key={i} className="h-12 w-full" />)}
@@ -37,7 +37,7 @@ export const SupplierIntelligenceSection = () => {
 
   if (isError) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <div className="flex items-center gap-2 text-destructive mb-2">
           <AlertCircle className="w-4 h-4" />
           <span className="text-sm font-medium">Failed to load suppliers</span>
@@ -49,7 +49,7 @@ export const SupplierIntelligenceSection = () => {
 
   if (!suppliers || suppliers.length === 0) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm">
+      <Card className="bg-card border-border p-8 text-center shadow-sm">
         <div className="mx-auto w-12 h-12 rounded-full bg-[hsl(142,71%,45.3%,0.1)] flex items-center justify-center mb-4">
           <Truck className="w-6 h-6 text-[hsl(142,71%,45.3%)]" />
         </div>
@@ -66,7 +66,7 @@ export const SupplierIntelligenceSection = () => {
   }
 
   return (
-    <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+    <Card className="bg-card border-border p-6 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-semibold text-foreground">Supplier Intelligence</h3>
         <span className="text-xs text-muted-foreground">{suppliers.length} supplier{suppliers.length !== 1 ? "s" : ""}</span>
@@ -75,7 +75,7 @@ export const SupplierIntelligenceSection = () => {
       <div className="overflow-x-auto -mx-6">
         <Table>
           <TableHeader>
-            <TableRow className="border-[#E6E8EB] bg-[#F9FAFB]">
+            <TableRow className="border-border bg-[hsl(var(--muted))]">
               <TableHead className="text-muted-foreground font-medium pl-6">
                 <span className="flex items-center gap-1">Supplier <ArrowUpDown className="w-3 h-3" /></span>
               </TableHead>
@@ -90,7 +90,7 @@ export const SupplierIntelligenceSection = () => {
           </TableHeader>
           <TableBody>
             {suppliers.map((s) => (
-              <TableRow key={s.id} className="border-[#E6E8EB] hover:bg-[#F9FAFB] transition-colors h-12">
+              <TableRow key={s.id} className="border-border hover:bg-[hsl(var(--muted))] transition-colors h-12">
                 <TableCell className="font-medium text-foreground pl-6">{s.supplier_name}</TableCell>
                 <TableCell className="text-muted-foreground">{s.location || "—"}</TableCell>
                 <TableCell className="text-foreground">{s.average_price ? `$${Number(s.average_price).toFixed(2)}` : "—"}</TableCell>
