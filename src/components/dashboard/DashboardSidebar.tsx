@@ -30,7 +30,7 @@ const navItems = [
   { label: "Competitor Analysis", icon: Users, path: "/competitor-analysis" },
   { label: "Trend Discovery", icon: Sparkles, path: "/trend-discovery" },
   { label: "List a Product", icon: Package, path: "/source/new" },
-  { label: "Browse Source", icon: Store, path: "/source" },
+  { label: "Spottail Source", icon: Store, path: "/source", external: true },
   { label: "Reports", icon: FileText, path: "/reports" },
   { label: "Settings", icon: Settings, path: "/settings" },
 ];
