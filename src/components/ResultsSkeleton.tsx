@@ -12,7 +12,7 @@ export const ResultsSkeleton = ({ message = "Loading your results..." }: Results
       <Link to="/" className="absolute top-8 left-8 z-20">
         <div className="flex items-center space-x-2">
           <img 
-            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png" 
+            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.webp" 
             alt="Spottail" 
             className="h-8"
           />
