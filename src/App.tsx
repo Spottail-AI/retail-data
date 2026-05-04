@@ -74,7 +74,16 @@ const BuyerTrendingNow = lazy(() => import("./pages/BuyerTrendingNow"));
 const BuyerShortlist = lazy(() => import("./pages/BuyerShortlist"));
 const BuyerEnquiries = lazy(() => import("./pages/BuyerEnquiries"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      retry: 1,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
