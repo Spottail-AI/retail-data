@@ -159,6 +159,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         if (initialSession?.user) {
           lastUserIdRef.current = initialSession.user.id;
+          if (hasCheckedPaymentRef.current && hasCheckedSubRef.current) return;
+          isCheckingRef.current = true;
+          isCheckingSubRef.current = true;
           setCheckingPayment(true);
           setCheckingSubscription(true);
 
@@ -204,6 +207,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             })
             .finally(() => {
               if (!isMounted) return;
+              isCheckingRef.current = false;
+              isCheckingSubRef.current = false;
               setCheckingPayment(false);
               setCheckingSubscription(false);
             });
