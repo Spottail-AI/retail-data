@@ -38,6 +38,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const lastUserIdRef = useRef<string | null>(null);
   const hasCheckedSubRef = useRef(false);
   const isCheckingSubRef = useRef(false);
+  const hasPaidRef = useRef(false);
+  const isSubscribedRef = useRef(false);
+  const authStateRef = useRef<{ userId: string | null; accessToken: string | null }>({
+    userId: null,
+    accessToken: null,
+  });
+
+  useEffect(() => {
+    hasPaidRef.current = hasPaid;
+  }, [hasPaid]);
+
+  useEffect(() => {
+    isSubscribedRef.current = isSubscribed;
+  }, [isSubscribed]);
+
+  const setAuthSession = useCallback((nextSession: Session | null) => {
+    const nextUserId = nextSession?.user?.id ?? null;
+    const nextAccessToken = nextSession?.access_token ?? null;
+
+    if (
+      authStateRef.current.userId === nextUserId &&
+      authStateRef.current.accessToken === nextAccessToken
+    ) {
+      return;
+    }
+
+    authStateRef.current = { userId: nextUserId, accessToken: nextAccessToken };
+    setSession(nextSession);
+    setUser(nextSession?.user ?? null);
+  }, []);
 
   const checkSubscriptionStatus = useCallback(async (): Promise<boolean> => {
     const { data: { session: currentSession } } = await supabase.auth.getSession();
@@ -49,9 +79,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     if (hasCheckedSubRef.current && lastUserIdRef.current === currentSession.user.id) {
-      return isSubscribed;
+      return isSubscribedRef.current;
     }
-    if (isCheckingSubRef.current) return isSubscribed;
+    if (isCheckingSubRef.current) return isSubscribedRef.current;
 
     isCheckingSubRef.current = true;
     setCheckingSubscription(true);
@@ -86,7 +116,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isCheckingSubRef.current = false;
       setCheckingSubscription(false);
     }
-  }, [isSubscribed]);
+  }, []);
 
   const checkPaymentStatus = useCallback(async (checkoutSessionId?: string): Promise<boolean> => {
     const { data: { session: currentSession } } = await supabase.auth.getSession();
@@ -98,9 +128,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (!checkoutSessionId) {
       if (hasCheckedPaymentRef.current && lastUserIdRef.current === currentSession.user.id) {
-        return hasPaid;
+        return hasPaidRef.current;
       }
-      if (isCheckingRef.current) return hasPaid;
+      if (isCheckingRef.current) return hasPaidRef.current;
     }
 
     isCheckingRef.current = true;
@@ -131,7 +161,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isCheckingRef.current = false;
       setCheckingPayment(false);
     }
-  }, [hasPaid]);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -141,14 +171,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const { data: { session: initialSession } } = await supabase.auth.getSession();
         if (!isMounted) return;
 
-        setSession(initialSession);
-        setUser(initialSession?.user ?? null);
+        setAuthSession(initialSession);
 
         // Unblock the app immediately once we know the session.
         if (isMounted) setLoading(false);
 
         if (initialSession?.user) {
           lastUserIdRef.current = initialSession.user.id;
+          if (hasCheckedPaymentRef.current && hasCheckedSubRef.current) return;
+          isCheckingRef.current = true;
+          isCheckingSubRef.current = true;
           setCheckingPayment(true);
           setCheckingSubscription(true);
 
@@ -194,6 +226,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             })
             .finally(() => {
               if (!isMounted) return;
+              isCheckingRef.current = false;
+              isCheckingSubRef.current = false;
               setCheckingPayment(false);
               setCheckingSubscription(false);
             });
@@ -208,13 +242,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (!isMounted) return;
         
         if (event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION") {
-          setSession(newSession);
-          setUser(newSession?.user ?? null);
+          setAuthSession(newSession);
           return;
         }
         
-        setSession(newSession);
-        setUser(newSession?.user ?? null);
+        setAuthSession(newSession);
 
         if (event === "SIGNED_IN" && newSession) {
           const isNewUser = lastUserIdRef.current !== newSession.user.id;
@@ -247,7 +279,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isMounted = false;
       subscription.unsubscribe();
     };
-  }, [checkPaymentStatus, checkSubscriptionStatus]);
+  }, [checkPaymentStatus, checkSubscriptionStatus, setAuthSession]);
 
   const signUp = async (email: string, password: string, metadata?: { first_name?: string; last_name?: string }) => {
     const { error } = await supabase.auth.signUp({

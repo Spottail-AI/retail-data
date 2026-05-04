@@ -11,13 +11,17 @@ export function useUserRole() {
   const { data: role, isLoading, refetch } = useQuery({
     queryKey: ["user-role", user?.id],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_user_role", {
-        _user_id: user!.id,
-      });
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user!.id)
+        .maybeSingle();
       if (error) throw error;
-      return data as UserRole | null;
+      return (data?.role as UserRole | undefined) ?? null;
     },
     enabled: !!user,
+    retry: false,
+    staleTime: 5 * 60 * 1000,
   });
 
   const assignRole = useMutation({
