@@ -28,7 +28,7 @@ export const DashboardTopBar = ({ sidebarCollapsed, onMobileMenuToggle }: Dashbo
 
   return (
     <header
-      className="h-16 bg-[hsl(var(--card))] border-b border-[#E6E8EB] flex items-center justify-between px-4 md:px-8 sticky top-0 z-20"
+      className="h-14 bg-[hsl(var(--card))] border-b border-border flex items-center justify-between px-4 md:px-8 sticky top-0 z-20"
     >
       {/* Left side */}
       <div className="flex items-center gap-4">
@@ -39,10 +39,13 @@ export const DashboardTopBar = ({ sidebarCollapsed, onMobileMenuToggle }: Dashbo
           <Menu className="w-5 h-5" />
         </button>
         <div>
-          <h2 className="text-sm md:text-base font-semibold text-[#111111]">
+          <h2
+            className="text-[15px] md:text-[17px] text-foreground"
+            style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 400, letterSpacing: "-0.015em" }}
+          >
             Welcome back, {firstName}
           </h2>
-          <p className="text-xs text-muted-foreground hidden sm:block">
+          <p className="text-[12px] text-muted-foreground hidden sm:block tracking-[-0.005em]">
             Here's your live market overview.
           </p>
         </div>
@@ -55,19 +58,19 @@ export const DashboardTopBar = ({ sidebarCollapsed, onMobileMenuToggle }: Dashbo
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Search..."
-            className="pl-9 w-48 lg:w-64 h-9 bg-[hsl(var(--background))] border-[#E6E8EB] text-sm"
+            className="pl-9 w-48 lg:w-64 h-9 bg-[hsl(var(--background))] border-border text-[13px] rounded-md"
           />
         </div>
 
         {/* Notifications */}
-        <button className="relative p-2 rounded-lg hover:bg-accent transition-colors text-muted-foreground hover:text-foreground">
-          <Bell className="w-5 h-5" />
+        <button className="relative p-2 rounded-md hover:bg-accent transition-colors text-muted-foreground hover:text-foreground">
+          <Bell className="w-[18px] h-[18px]" />
         </button>
 
         {/* Profile */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm font-semibold">
+            <button className="w-8 h-8 rounded-full bg-[#0D9B8A]/10 flex items-center justify-center text-[#0D9B8A] text-sm font-semibold">
               {firstName.charAt(0).toUpperCase()}
             </button>
           </DropdownMenuTrigger>
