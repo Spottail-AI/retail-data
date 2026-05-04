@@ -49,12 +49,13 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
     <aside
       className={cn(
         "fixed left-0 top-0 h-screen flex flex-col z-30 transition-all duration-300",
-        "bg-[hsl(216,54%,8.4%)] border-r border-[hsl(215,20%,22%)]",
+        "bg-[#0C0C0B] border-r border-white/[0.06]",
         collapsed ? "w-16" : "w-60"
       )}
+      style={{ fontFamily: "'Manrope', system-ui, sans-serif" }}
     >
       {/* Logo */}
-      <div className="h-16 flex items-center px-4 border-b border-[hsl(215,20%,22%)] shrink-0">
+      <div className="h-14 flex items-center px-4 border-b border-white/[0.06] shrink-0">
         <img
           src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.png"
           alt="Spottail"
@@ -62,14 +63,14 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
         />
         <button
           onClick={onToggle}
-          className="ml-auto text-[hsl(214,11%,65.1%)] hover:text-[hsl(210,29%,92.5%)] transition-colors"
+          className="ml-auto text-white/40 hover:text-white transition-colors"
         >
           {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
         </button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
+      <nav className="flex-1 py-4 px-2 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -77,16 +78,16 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
               key={item.path}
               onClick={() => navigate(item.path)}
               className={cn(
-                "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 relative",
+                "w-full flex items-center gap-3 px-3 py-2 rounded-md text-[13px] font-medium transition-all duration-200 relative tracking-[-0.01em]",
                 isActive
-                  ? "text-[hsl(217,100%,65.5%)] bg-[hsl(217,100%,65.5%,0.08)]"
-                  : "text-[hsl(214,11%,65.1%)] hover:text-[hsl(210,29%,92.5%)] hover:bg-[hsl(215,30%,18%)]"
+                  ? "text-white bg-white/[0.06]"
+                  : "text-white/55 hover:text-white hover:bg-white/[0.04]"
               )}
             >
               {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-[hsl(217,100%,65.5%)] rounded-r-full" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-5 bg-[#0D9B8A] rounded-r-full" />
               )}
-              <item.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-[hsl(217,100%,65.5%)]" : "")} />
+              <item.icon className={cn("w-[18px] h-[18px] shrink-0", isActive ? "text-[#0D9B8A]" : "")} />
               {!collapsed && <span>{item.label}</span>}
             </button>
           );
@@ -94,31 +95,31 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
       </nav>
 
       {/* Bottom section */}
-      <div className="p-3 border-t border-[hsl(215,20%,22%)] space-y-2 shrink-0">
+      <div className="p-3 border-t border-white/[0.06] space-y-1.5 shrink-0">
         <button
           onClick={() => navigate("/help")}
           className={cn(
-            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[hsl(214,11%,65.1%)] hover:text-[hsl(210,29%,92.5%)] hover:bg-[hsl(215,30%,18%)] transition-colors"
+            "w-full flex items-center gap-3 px-3 py-2 rounded-md text-[13px] text-white/55 hover:text-white hover:bg-white/[0.04] transition-colors tracking-[-0.01em]"
           )}
         >
-          <HelpCircle className="w-5 h-5 shrink-0" />
+          <HelpCircle className="w-[18px] h-[18px] shrink-0" />
           {!collapsed && <span>Help & Docs</span>}
         </button>
         <Button
           onClick={handleSignOut}
           variant="ghost"
           className={cn(
-            "w-full justify-start gap-3 text-[hsl(214,11%,65.1%)] hover:text-[hsl(210,29%,92.5%)] hover:bg-[hsl(215,30%,18%)]",
+            "w-full justify-start gap-3 text-[13px] text-white/55 hover:text-white hover:bg-white/[0.04] tracking-[-0.01em] font-medium px-3 h-auto py-2",
             collapsed && "justify-center px-0"
           )}
         >
-          <LogOut className="w-5 h-5 shrink-0" />
+          <LogOut className="w-[18px] h-[18px] shrink-0" />
           {!collapsed && <span>Sign Out</span>}
         </Button>
         {!collapsed && (
           <Button
             onClick={() => navigate("/pricing")}
-            className="w-full bg-cta hover:bg-cta/90 text-cta-foreground font-semibold"
+            className="w-full bg-[#0D9B8A] hover:bg-[#0b8576] text-white font-medium text-[13px] tracking-[-0.01em] rounded-md h-9 mt-2"
           >
             Upgrade Plan
           </Button>
