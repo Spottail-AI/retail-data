@@ -38,6 +38,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const lastUserIdRef = useRef<string | null>(null);
   const hasCheckedSubRef = useRef(false);
   const isCheckingSubRef = useRef(false);
+  const hasPaidRef = useRef(false);
+  const isSubscribedRef = useRef(false);
+
+  useEffect(() => {
+    hasPaidRef.current = hasPaid;
+  }, [hasPaid]);
+
+  useEffect(() => {
+    isSubscribedRef.current = isSubscribed;
+  }, [isSubscribed]);
 
   const checkSubscriptionStatus = useCallback(async (): Promise<boolean> => {
     const { data: { session: currentSession } } = await supabase.auth.getSession();
@@ -49,9 +59,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     if (hasCheckedSubRef.current && lastUserIdRef.current === currentSession.user.id) {
-      return isSubscribed;
+      return isSubscribedRef.current;
     }
-    if (isCheckingSubRef.current) return isSubscribed;
+    if (isCheckingSubRef.current) return isSubscribedRef.current;
 
     isCheckingSubRef.current = true;
     setCheckingSubscription(true);
@@ -86,7 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isCheckingSubRef.current = false;
       setCheckingSubscription(false);
     }
-  }, [isSubscribed]);
+  }, []);
 
   const checkPaymentStatus = useCallback(async (checkoutSessionId?: string): Promise<boolean> => {
     const { data: { session: currentSession } } = await supabase.auth.getSession();
@@ -98,9 +108,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (!checkoutSessionId) {
       if (hasCheckedPaymentRef.current && lastUserIdRef.current === currentSession.user.id) {
-        return hasPaid;
+        return hasPaidRef.current;
       }
-      if (isCheckingRef.current) return hasPaid;
+      if (isCheckingRef.current) return hasPaidRef.current;
     }
 
     isCheckingRef.current = true;
@@ -131,7 +141,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isCheckingRef.current = false;
       setCheckingPayment(false);
     }
-  }, [hasPaid]);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
