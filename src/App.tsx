@@ -3,75 +3,76 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
-import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import Results from "./pages/Results";
-import AmazonAnalytics from "./pages/AmazonAnalytics";
-import TikTokShopAnalytics from "./pages/TikTokShopAnalytics";
-import AmazonProductTrends from "./pages/AmazonProductTrends";
-import TikTokShopProductTrends from "./pages/TikTokShopProductTrends";
-import EcommerceProductTrends from "./pages/EcommerceProductTrends";
-import ShopifyDropshippingProductResearch from "./pages/ShopifyDropshippingProductResearch";
-import EbayProductResearchTool from "./pages/EbayProductResearchTool";
-import EcommerceProductResearchTool from "./pages/EcommerceProductResearchTool";
-import FacebookMarketplaceProductResearchTool from "./pages/FacebookMarketplaceProductResearchTool";
-import FacebookMarketplaceAnalyticsTool from "./pages/FacebookMarketplaceAnalyticsTool";
-import EbayAnalyticsTool from "./pages/EbayAnalyticsTool";
-import EcommerceAnalyticsTool from "./pages/EcommerceAnalyticsTool";
-import WalmartMarketplaceAnalyticsTool from "./pages/WalmartMarketplaceAnalyticsTool";
-import EbayProductTrends from "./pages/EbayProductTrends";
-import EtsyProductTrends from "./pages/EtsyProductTrends";
-import WalmartMarketplaceProductTrends from "./pages/WalmartMarketplaceProductTrends";
-import EtsyProductResearchTool from "./pages/EtsyProductResearchTool";
-import TikTokShopProductResearchTool from "./pages/TikTokShopProductResearchTool";
-import VintedProductResearchTool from "./pages/VintedProductResearchTool";
-import WalmartMarketplaceProductResearchTool from "./pages/WalmartMarketplaceProductResearchTool";
-import TrendingBeautyProductsUS from "./pages/TrendingBeautyProductsUS";
-import TrendingElectronicProductsUS from "./pages/TrendingElectronicProductsUS";
-import TrendingFashionProductsUS from "./pages/TrendingFashionProductsUS";
-import TrendingHealthProductsUS from "./pages/TrendingHealthProductsUS";
-import TrendingAutomobileProductsUS from "./pages/TrendingAutomobileProductsUS";
-import TrendingOfficeProductsUS from "./pages/TrendingOfficeProductsUS";
-import TrendingChildrenToysProductsUS from "./pages/TrendingChildrenToysProductsUS";
-import TrendingFoodProductsUS from "./pages/TrendingFoodProductsUS";
-import TrendingFurnitureHomeProductsUS from "./pages/TrendingFurnitureHomeProductsUS";
-import TrendingEcommerceProductsUS from "./pages/TrendingEcommerceProductsUS";
-import Dashboard from "./pages/Dashboard";
-import PriceTracking from "./pages/PriceTracking";
-import Suppliers from "./pages/Suppliers";
-import CompetitorAnalysis from "./pages/CompetitorAnalysis";
-import CompetitorDetailPage from "./pages/CompetitorDetailPage";
-import TrendDiscovery from "./pages/TrendDiscovery";
-import Reports from "./pages/Reports";
-import SettingsPage from "./pages/Settings";
-import Help from "./pages/Help";
-import Pricing from "./pages/Pricing";
-import NotFound from "./pages/NotFound";
-import Helium10Alternative from "./pages/Helium10Alternative";
-import JungleScoutAlternative from "./pages/JungleScoutAlternative";
-import SellTheTrendAlternative from "./pages/SellTheTrendAlternative";
-import PexdaAlternative from "./pages/PexdaAlternative";
-import ExplodingTopicsAlternative from "./pages/ExplodingTopicsAlternative";
-import AlgopixAlternative from "./pages/AlgopixAlternative";
-import TrendHunterAlternative from "./pages/TrendHunterAlternative";
-import EcomhuntAlternative from "./pages/EcomhuntAlternative";
-import DropshipSpyAlternative from "./pages/DropshipSpyAlternative";
-import GlimpseAlternative from "./pages/GlimpseAlternative";
-import CompetitorPriceTrackingSoftware from "./pages/CompetitorPriceTrackingSoftware";
-import AmazonProductPriceTracker from "./pages/AmazonProductPriceTracker";
-import FindDistributors from "./pages/FindDistributors";
-import FindSuppliers from "./pages/FindSuppliers";
-import SourceMarketplace from "./pages/SourceMarketplace";
-import SourceProductDetail from "./pages/SourceProductDetail";
-import SourceCommunityVote from "./pages/SourceCommunityVote";
-import SourceListProduct from "./pages/SourceListProduct";
-import SourceProductAnalytics from "./pages/SourceProductAnalytics";
-import SourceVerifyBrand from "./pages/SourceVerifyBrand";
-import BuyerTrendingNow from "./pages/BuyerTrendingNow";
-import BuyerShortlist from "./pages/BuyerShortlist";
-import BuyerEnquiries from "./pages/BuyerEnquiries";
+const Index = lazy(() => import("./pages/Index"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Results = lazy(() => import("./pages/Results"));
+const AmazonAnalytics = lazy(() => import("./pages/AmazonAnalytics"));
+const TikTokShopAnalytics = lazy(() => import("./pages/TikTokShopAnalytics"));
+const AmazonProductTrends = lazy(() => import("./pages/AmazonProductTrends"));
+const TikTokShopProductTrends = lazy(() => import("./pages/TikTokShopProductTrends"));
+const EcommerceProductTrends = lazy(() => import("./pages/EcommerceProductTrends"));
+const ShopifyDropshippingProductResearch = lazy(() => import("./pages/ShopifyDropshippingProductResearch"));
+const EbayProductResearchTool = lazy(() => import("./pages/EbayProductResearchTool"));
+const EcommerceProductResearchTool = lazy(() => import("./pages/EcommerceProductResearchTool"));
+const FacebookMarketplaceProductResearchTool = lazy(() => import("./pages/FacebookMarketplaceProductResearchTool"));
+const FacebookMarketplaceAnalyticsTool = lazy(() => import("./pages/FacebookMarketplaceAnalyticsTool"));
+const EbayAnalyticsTool = lazy(() => import("./pages/EbayAnalyticsTool"));
+const EcommerceAnalyticsTool = lazy(() => import("./pages/EcommerceAnalyticsTool"));
+const WalmartMarketplaceAnalyticsTool = lazy(() => import("./pages/WalmartMarketplaceAnalyticsTool"));
+const EbayProductTrends = lazy(() => import("./pages/EbayProductTrends"));
+const EtsyProductTrends = lazy(() => import("./pages/EtsyProductTrends"));
+const WalmartMarketplaceProductTrends = lazy(() => import("./pages/WalmartMarketplaceProductTrends"));
+const EtsyProductResearchTool = lazy(() => import("./pages/EtsyProductResearchTool"));
+const TikTokShopProductResearchTool = lazy(() => import("./pages/TikTokShopProductResearchTool"));
+const VintedProductResearchTool = lazy(() => import("./pages/VintedProductResearchTool"));
+const WalmartMarketplaceProductResearchTool = lazy(() => import("./pages/WalmartMarketplaceProductResearchTool"));
+const TrendingBeautyProductsUS = lazy(() => import("./pages/TrendingBeautyProductsUS"));
+const TrendingElectronicProductsUS = lazy(() => import("./pages/TrendingElectronicProductsUS"));
+const TrendingFashionProductsUS = lazy(() => import("./pages/TrendingFashionProductsUS"));
+const TrendingHealthProductsUS = lazy(() => import("./pages/TrendingHealthProductsUS"));
+const TrendingAutomobileProductsUS = lazy(() => import("./pages/TrendingAutomobileProductsUS"));
+const TrendingOfficeProductsUS = lazy(() => import("./pages/TrendingOfficeProductsUS"));
+const TrendingChildrenToysProductsUS = lazy(() => import("./pages/TrendingChildrenToysProductsUS"));
+const TrendingFoodProductsUS = lazy(() => import("./pages/TrendingFoodProductsUS"));
+const TrendingFurnitureHomeProductsUS = lazy(() => import("./pages/TrendingFurnitureHomeProductsUS"));
+const TrendingEcommerceProductsUS = lazy(() => import("./pages/TrendingEcommerceProductsUS"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const PriceTracking = lazy(() => import("./pages/PriceTracking"));
+const Suppliers = lazy(() => import("./pages/Suppliers"));
+const CompetitorAnalysis = lazy(() => import("./pages/CompetitorAnalysis"));
+const CompetitorDetailPage = lazy(() => import("./pages/CompetitorDetailPage"));
+const TrendDiscovery = lazy(() => import("./pages/TrendDiscovery"));
+const Reports = lazy(() => import("./pages/Reports"));
+const SettingsPage = lazy(() => import("./pages/Settings"));
+const Help = lazy(() => import("./pages/Help"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Helium10Alternative = lazy(() => import("./pages/Helium10Alternative"));
+const JungleScoutAlternative = lazy(() => import("./pages/JungleScoutAlternative"));
+const SellTheTrendAlternative = lazy(() => import("./pages/SellTheTrendAlternative"));
+const PexdaAlternative = lazy(() => import("./pages/PexdaAlternative"));
+const ExplodingTopicsAlternative = lazy(() => import("./pages/ExplodingTopicsAlternative"));
+const AlgopixAlternative = lazy(() => import("./pages/AlgopixAlternative"));
+const TrendHunterAlternative = lazy(() => import("./pages/TrendHunterAlternative"));
+const EcomhuntAlternative = lazy(() => import("./pages/EcomhuntAlternative"));
+const DropshipSpyAlternative = lazy(() => import("./pages/DropshipSpyAlternative"));
+const GlimpseAlternative = lazy(() => import("./pages/GlimpseAlternative"));
+const CompetitorPriceTrackingSoftware = lazy(() => import("./pages/CompetitorPriceTrackingSoftware"));
+const AmazonProductPriceTracker = lazy(() => import("./pages/AmazonProductPriceTracker"));
+const FindDistributors = lazy(() => import("./pages/FindDistributors"));
+const FindSuppliers = lazy(() => import("./pages/FindSuppliers"));
+const SourceMarketplace = lazy(() => import("./pages/SourceMarketplace"));
+const SourceProductDetail = lazy(() => import("./pages/SourceProductDetail"));
+const SourceCommunityVote = lazy(() => import("./pages/SourceCommunityVote"));
+const SourceListProduct = lazy(() => import("./pages/SourceListProduct"));
+const SourceProductAnalytics = lazy(() => import("./pages/SourceProductAnalytics"));
+const SourceVerifyBrand = lazy(() => import("./pages/SourceVerifyBrand"));
+const BuyerTrendingNow = lazy(() => import("./pages/BuyerTrendingNow"));
+const BuyerShortlist = lazy(() => import("./pages/BuyerShortlist"));
+const BuyerEnquiries = lazy(() => import("./pages/BuyerEnquiries"));
 
 const queryClient = new QueryClient();
 
@@ -82,8 +83,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
+          <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><div className="h-10 w-10 animate-spin rounded-full border-2 border-primary/25 border-t-primary" /></div>}>
+            <Routes>
+              <Route path="/" element={<Index />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/signup" element={<Auth />} />
@@ -152,8 +154,9 @@ const App = () => (
             <Route path="/my-shortlist" element={<BuyerShortlist />} />
             <Route path="/enquiries" element={<BuyerEnquiries />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
