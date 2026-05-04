@@ -161,19 +161,6 @@
     letter-spacing: -0.005em;
   }
 
-  /* Headings use Fraunces inside the dashboard scope */
-  .dashboard-light h1,
-  .dashboard-light h2,
-  .dashboard-light h3,
-  .dashboard-light h4 {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 400;
-    letter-spacing: -0.015em;
-    color: hsl(var(--foreground));
-  }
-  .dashboard-light h1 { font-weight: 400; }
-  .dashboard-light h2 { font-weight: 400; }
-
   /* Tighten card chrome to match v2 (subtle border, no heavy shadow) */
   .dashboard-light .shadow-sm {
     box-shadow: none !important;
@@ -182,6 +169,16 @@
   .dashboard-light .hover\:shadow-md:hover {
     box-shadow: 0 1px 2px rgba(12, 12, 11, 0.04), 0 4px 16px rgba(12, 12, 11, 0.04) !important;
   }
+}
+
+/* Dashboard headings use Fraunces — placed outside @layer base so Tailwind
+   font-* utilities don't override font-family (weight stays per utility). */
+.dashboard-light h1,
+.dashboard-light h2,
+.dashboard-light h3,
+.dashboard-light h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  letter-spacing: -0.015em;
 }
 
 @layer base {
