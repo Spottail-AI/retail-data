@@ -58,7 +58,7 @@ export const TrendDiscoverySection = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <Skeleton className="h-5 w-40 mb-4" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3].map(i => <Skeleton key={i} className="h-36" />)}
@@ -69,7 +69,7 @@ export const TrendDiscoverySection = () => {
 
   if (isError) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <div className="flex items-center gap-2 text-destructive mb-2">
           <AlertCircle className="w-4 h-4" />
           <span className="text-sm font-medium">Failed to load trends</span>
@@ -81,7 +81,7 @@ export const TrendDiscoverySection = () => {
 
   if (!trends || trends.length === 0) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm">
+      <Card className="bg-card border-border p-8 text-center shadow-sm">
         <div className="mx-auto w-12 h-12 rounded-full bg-cta/10 flex items-center justify-center mb-4">
           <Sparkles className="w-6 h-6 text-cta" />
         </div>
@@ -98,7 +98,7 @@ export const TrendDiscoverySection = () => {
   }
 
   return (
-    <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+    <Card className="bg-card border-border p-6 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-semibold text-foreground">Trend Discovery</h3>
         <span className="text-xs text-muted-foreground">{trends.length} recent analysis</span>
@@ -114,7 +114,7 @@ export const TrendDiscoverySection = () => {
           return (
             <Card
               key={trend.id}
-              className="bg-card border-[#E6E8EB] p-4 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group"
+              className="bg-card border-border p-4 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-sm font-bold text-foreground truncate">

@@ -26,7 +26,7 @@ export const CompetitorAnalysisSection = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <Skeleton className="h-5 w-40 mb-4" />
         <Skeleton className="h-48 w-full" />
       </Card>
@@ -35,7 +35,7 @@ export const CompetitorAnalysisSection = () => {
 
   if (isError) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+      <Card className="bg-card border-border p-6 shadow-sm">
         <div className="flex items-center gap-2 text-destructive mb-2">
           <AlertCircle className="w-4 h-4" />
           <span className="text-sm font-medium">Failed to load competitors</span>
@@ -47,7 +47,7 @@ export const CompetitorAnalysisSection = () => {
 
   if (!competitors || competitors.length === 0) {
     return (
-      <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm">
+      <Card className="bg-card border-border p-8 text-center shadow-sm">
         <div className="mx-auto w-12 h-12 rounded-full bg-[hsl(38,92%,50%,0.1)] flex items-center justify-center mb-4">
           <Users className="w-6 h-6 text-[hsl(38,92%,50%)]" />
         </div>
@@ -77,7 +77,7 @@ export const CompetitorAnalysisSection = () => {
   const maxChange = Math.max(...competitors.map(c => Math.abs(Number(c.last_price_change) || 0)));
 
   return (
-    <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
+    <Card className="bg-card border-border p-6 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-base font-semibold text-foreground">Competitor Analysis</h3>
@@ -96,13 +96,13 @@ export const CompetitorAnalysisSection = () => {
         </div>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E6E8EB" />
-            <XAxis dataKey="name" tick={{ fill: "#555", fontSize: 11 }} axisLine={{ stroke: "#E6E8EB" }} tickLine={false} />
-            <YAxis tick={{ fill: "#555", fontSize: 11 }} axisLine={{ stroke: "#E6E8EB" }} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis dataKey="name" tick={{ fill: "#555", fontSize: 11 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} />
+            <YAxis tick={{ fill: "#555", fontSize: 11 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} />
             <Tooltip
               contentStyle={{
                 backgroundColor: "#fff",
-                border: "1px solid #E6E8EB",
+                border: "1px solid hsl(var(--border))",
                 borderRadius: "8px",
                 color: "#111",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
@@ -112,9 +112,9 @@ export const CompetitorAnalysisSection = () => {
               {chartData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={entry.isYou ? "hsl(217, 100%, 65.5%)" : "#CBD5E1"}
+                  fill={entry.isYou ? "hsl(173 84% 33%)" : "#CBD5E1"}
                   strokeWidth={entry.isYou ? 2 : 0}
-                  stroke={entry.isYou ? "hsl(217, 100%, 55%)" : "none"}
+                  stroke={entry.isYou ? "hsl(173 84% 25%)" : "none"}
                 />
               ))}
             </Bar>
