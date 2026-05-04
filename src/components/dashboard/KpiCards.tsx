@@ -106,52 +106,61 @@ export const KpiCards = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const { data: trackedProducts, isLoading: loadingProducts, isError: errorProducts, refetch: refetchProducts } = useQuery({
-    queryKey: ["tracked-products-kpi", user?.id],
+  // Card 1: Launch a retail product — snapshot of user's listed products
+  const { data: listedData, isLoading: loadingListed, isError: errorListed, refetch: refetchListed } = useQuery({
+    queryKey: ["listed-products-kpi", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("tracked_products")
-        .select("id, price_change_pct")
-        .eq("user_id", user!.id);
+        .from("source_products")
+        .select("id, product_name, created_at")
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false });
       if (error) throw error;
-      const active = data?.filter(p => Math.abs(Number(p.price_change_pct) || 0) > 2) ?? [];
-      const avgChange = active.length > 0
-        ? active.reduce((sum, p) => sum + (Number(p.price_change_pct) || 0), 0) / active.length
-        : 0;
-      return { count: active.length, avgChange: Math.round(avgChange * 10) / 10 };
+      return {
+        count: data?.length ?? 0,
+        latest: data?.[0]?.product_name ?? null,
+      };
     },
     enabled: !!user,
   });
 
+  // Card 2: Track product or competitor prices — combined tracked_prices snapshot
+  const { data: trackedData, isLoading: loadingTracked, isError: errorTracked, refetch: refetchTracked } = useQuery({
+    queryKey: ["tracked-prices-kpi", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("tracked_prices")
+        .select("id, product_label, created_at")
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return {
+        count: data?.length ?? 0,
+        latest: data?.[0]?.product_label ?? null,
+      };
+    },
+    enabled: !!user,
+  });
+
+  // Card 3: Search for distributors — suppliers/distributors saved by the user
   const { data: supplierData, isLoading: loadingSuppliers, isError: errorSuppliers, refetch: refetchSuppliers } = useQuery({
     queryKey: ["suppliers-kpi", user?.id],
     queryFn: async () => {
-      const { count, error } = await supabase
-        .from("suppliers")
-        .select("id", { count: "exact", head: true })
-        .eq("user_id", user!.id);
-      if (error) throw error;
-      return { count: count ?? 0 };
-    },
-    enabled: !!user,
-  });
-
-  const { data: competitorData, isLoading: loadingCompetitors, isError: errorCompetitors, refetch: refetchCompetitors } = useQuery({
-    queryKey: ["competitors-kpi", user?.id],
-    queryFn: async () => {
       const { data, error } = await supabase
-        .from("tracked_competitors")
-        .select("id, last_price_change")
-        .eq("user_id", user!.id);
+        .from("suppliers")
+        .select("id, supplier_name, created_at")
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false });
       if (error) throw error;
-      const avgChange = data && data.length > 0
-        ? data.reduce((sum, c) => sum + (Number(c.last_price_change) || 0), 0) / data.length
-        : 0;
-      return { count: data?.length ?? 0, avgChange: Math.round(avgChange * 10) / 10 };
+      return {
+        count: data?.length ?? 0,
+        latest: data?.[0]?.supplier_name ?? null,
+      };
     },
     enabled: !!user,
   });
 
+  // Card 4: Trend Signals — unchanged
   const { data: trendData, isLoading: loadingTrends, isError: errorTrends, refetch: refetchTrends } = useQuery({
     queryKey: ["trend-signals-kpi", user?.id],
     queryFn: async () => {
@@ -168,46 +177,46 @@ export const KpiCards = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <KpiCard
-        title="Price Movements"
-        value={trackedProducts?.count ?? null}
-        change={trackedProducts?.avgChange}
-        subtitle="Products with significant changes"
-        icon={<TrendingUp className="w-4 h-4" />}
+        title="Launch a retail product"
+        value={listedData?.count ?? null}
+        change={0}
+        subtitle={listedData?.latest ? `Latest: ${listedData.latest}` : "Products listed"}
+        icon={<Package className="w-4 h-4" />}
         accentColor="primary"
-        loading={loadingProducts}
-        error={errorProducts}
-        emptyCta="Add Products"
-        onRetry={() => refetchProducts()}
+        loading={loadingListed}
+        error={errorListed}
+        emptyCta="List a Product"
+        onRetry={() => refetchListed()}
+        onClick={() => navigate("/source/new")}
+        onEmptyCta={() => navigate("/source/new")}
+      />
+      <KpiCard
+        title="Track Product or Competitor Prices"
+        value={trackedData?.count ?? null}
+        change={0}
+        subtitle={trackedData?.latest ? `Latest: ${trackedData.latest}` : "Items tracked"}
+        icon={<LineChart className="w-4 h-4" />}
+        accentColor="primary"
+        loading={loadingTracked}
+        error={errorTracked}
+        emptyCta="Track Prices"
+        onRetry={() => refetchTracked()}
         onClick={() => navigate("/price-tracking")}
         onEmptyCta={() => navigate("/price-tracking")}
       />
       <KpiCard
-        title="Suppliers Found"
+        title="Search for Distributors"
         value={supplierData?.count ?? null}
-        change={5}
-        subtitle="Matching your tracked products"
+        change={0}
+        subtitle={supplierData?.latest ? `Latest: ${supplierData.latest}` : "Saved distributors"}
         icon={<Truck className="w-4 h-4" />}
         accentColor="success"
         loading={loadingSuppliers}
         error={errorSuppliers}
-        emptyCta="Search Suppliers"
+        emptyCta="Find Distributors"
         onRetry={() => refetchSuppliers()}
         onClick={() => navigate("/suppliers")}
         onEmptyCta={() => navigate("/suppliers")}
-      />
-      <KpiCard
-        title="Competitor Changes"
-        value={competitorData?.count ?? null}
-        change={competitorData?.avgChange}
-        subtitle="Detected positioning shifts"
-        icon={<Users className="w-4 h-4" />}
-        accentColor="warning"
-        loading={loadingCompetitors}
-        error={errorCompetitors}
-        emptyCta="Add Competitors"
-        onRetry={() => refetchCompetitors()}
-        onClick={() => navigate("/competitor-analysis")}
-        onEmptyCta={() => navigate("/competitor-analysis")}
       />
       <KpiCard
         title="Trend Signals"
