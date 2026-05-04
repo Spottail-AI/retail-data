@@ -76,7 +76,13 @@ export const DashboardSidebar = ({ collapsed, onToggle }: DashboardSidebarProps)
           return (
             <button
               key={item.path}
-              onClick={() => navigate(item.path)}
+              onClick={() => {
+                if ((item as any).external) {
+                  window.open(item.path, "_blank", "noopener,noreferrer");
+                } else {
+                  navigate(item.path);
+                }
+              }}
               className={cn(
                 "w-full flex items-center gap-3 px-3 py-2 rounded-md text-[13px] font-medium transition-all duration-200 relative tracking-[-0.01em]",
                 isActive
