@@ -1,0 +1,1 @@
+REVOKE SELECT (contact_email, contact_whatsapp) ON public.source_products FROM anon;
