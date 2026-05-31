@@ -172,7 +172,7 @@ const Suppliers = () => {
           ))}
         </TableBody>
       </Table>
-      {!hasPaid && results.length > 2 && (
+      {!effectiveHasPaid && results.length > 2 && (
         <div className="px-6 py-4 border-t border-[#E6E8EB] bg-muted/50 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Lock className="w-4 h-4" />
