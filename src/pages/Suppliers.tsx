@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, ExternalLink, Lock, Clock, Trash2 } from "lucide-react";
+import { Search, ExternalLink, Lock, Clock, Trash2, Download, FileSpreadsheet } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -135,6 +135,39 @@ const Suppliers = () => {
 
   const effectiveHasPaid = serverHasPaid ?? hasPaid;
   const displayLimit = effectiveHasPaid ? 10 : 2;
+
+  const downloadCSV = (items: Result[], filenamePrefix: string) => {
+    const headers = ["Company Name", "Website", "Type"];
+    const rows = items.map((r) => [r.name, r.website, r.type]);
+    const csv = [headers, ...rows]
+      .map((row) =>
+        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")
+      )
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${filenamePrefix}-${country}-${new Date().toISOString().split("T")[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    toast.success("CSV downloaded");
+  };
+
+  const openInGoogleSheets = async (items: Result[]) => {
+    const headers = ["Company Name", "Website", "Type"];
+    const rows = items.map((r) => [r.name, r.website, r.type]);
+    const tsv = [headers, ...rows].map((row) => row.join("\t")).join("\n");
+    try {
+      await navigator.clipboard.writeText(tsv);
+      window.open("https://sheets.new", "_blank");
+      toast.success("Data copied to clipboard. Paste into cell A1 in the new Google Sheet.");
+    } catch {
+      toast.error("Could not copy to clipboard. Please use the CSV download instead.");
+    }
+  };
   const displayedResults = results.slice(0, displayLimit);
   const suppliers = displayedResults.filter((r) => r.type === "supplier");
   const distributors = displayedResults.filter((r) => r.type === "distributor");
@@ -279,10 +312,30 @@ const Suppliers = () => {
 
       {/* Results */}
       {!loading && searched && displayedResults.length > 0 && (
-        <div className={`mt-6 ${showBoth ? "grid grid-cols-1 lg:grid-cols-2 gap-4" : ""}`}>
-          {suppliers.length > 0 && <ResultTable items={suppliers} title="Suppliers" />}
-          {distributors.length > 0 && <ResultTable items={distributors} title="Distributors" />}
-        </div>
+        <>
+          <div className="flex flex-wrap items-center gap-3 mt-6">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => downloadCSV(displayedResults, `${product.trim().replace(/\s+/g, "-")}-results`)}
+            >
+              <Download className="w-4 h-4 mr-1.5" />
+              Download CSV
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => openInGoogleSheets(displayedResults)}
+            >
+              <FileSpreadsheet className="w-4 h-4 mr-1.5" />
+              Open in Google Sheets
+            </Button>
+          </div>
+          <div className={`mt-4 ${showBoth ? "grid grid-cols-1 lg:grid-cols-2 gap-4" : ""}`}>
+            {suppliers.length > 0 && <ResultTable items={suppliers} title="Suppliers" />}
+            {distributors.length > 0 && <ResultTable items={distributors} title="Distributors" />}
+          </div>
+        </>
       )}
 
       {/* No results */}
