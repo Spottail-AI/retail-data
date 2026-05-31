@@ -133,7 +133,8 @@ const Suppliers = () => {
     toast.success("Search deleted");
   };
 
-  const displayLimit = hasPaid ? 10 : 2;
+  const effectiveHasPaid = serverHasPaid ?? hasPaid;
+  const displayLimit = effectiveHasPaid ? 10 : 2;
   const displayedResults = results.slice(0, displayLimit);
   const suppliers = displayedResults.filter((r) => r.type === "supplier");
   const distributors = displayedResults.filter((r) => r.type === "distributor");
