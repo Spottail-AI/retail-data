@@ -100,6 +100,7 @@ const Suppliers = () => {
       if (error) throw error;
       const allResults = data?.results || [];
       setResults(allResults);
+      if (typeof data?.hasPaid === "boolean") setServerHasPaid(data.hasPaid);
 
       const { data: saved } = await supabase
         .from("saved_searches")
