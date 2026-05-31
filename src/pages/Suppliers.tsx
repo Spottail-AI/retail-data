@@ -312,10 +312,30 @@ const Suppliers = () => {
 
       {/* Results */}
       {!loading && searched && displayedResults.length > 0 && (
-        <div className={`mt-6 ${showBoth ? "grid grid-cols-1 lg:grid-cols-2 gap-4" : ""}`}>
-          {suppliers.length > 0 && <ResultTable items={suppliers} title="Suppliers" />}
-          {distributors.length > 0 && <ResultTable items={distributors} title="Distributors" />}
-        </div>
+        <>
+          <div className="flex flex-wrap items-center gap-3 mt-6">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => downloadCSV(displayedResults, `${product.trim().replace(/\s+/g, "-")}-results`)}
+            >
+              <Download className="w-4 h-4 mr-1.5" />
+              Download CSV
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => openInGoogleSheets(displayedResults)}
+            >
+              <FileSpreadsheet className="w-4 h-4 mr-1.5" />
+              Open in Google Sheets
+            </Button>
+          </div>
+          <div className={`mt-4 ${showBoth ? "grid grid-cols-1 lg:grid-cols-2 gap-4" : ""}`}>
+            {suppliers.length > 0 && <ResultTable items={suppliers} title="Suppliers" />}
+            {distributors.length > 0 && <ResultTable items={distributors} title="Distributors" />}
+          </div>
+        </>
       )}
 
       {/* No results */}
