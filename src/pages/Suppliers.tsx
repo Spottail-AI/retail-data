@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, ExternalLink, Lock, Clock, Trash2 } from "lucide-react";
+import { Search, ExternalLink, Lock, Clock, Trash2, Download, Table } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
