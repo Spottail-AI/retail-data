@@ -61,6 +61,7 @@ const Suppliers = () => {
   const [searched, setSearched] = useState(false);
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
+  const [serverHasPaid, setServerHasPaid] = useState<boolean | null>(null);
 
   const filteredCountries = useMemo(() => {
     if (!countrySearch) return ALL_COUNTRIES;
