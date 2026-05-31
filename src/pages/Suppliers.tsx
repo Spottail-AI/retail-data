@@ -61,6 +61,7 @@ const Suppliers = () => {
   const [searched, setSearched] = useState(false);
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
+  const [serverHasPaid, setServerHasPaid] = useState<boolean | null>(null);
 
   const filteredCountries = useMemo(() => {
     if (!countrySearch) return ALL_COUNTRIES;
@@ -99,6 +100,7 @@ const Suppliers = () => {
       if (error) throw error;
       const allResults = data?.results || [];
       setResults(allResults);
+      if (typeof data?.hasPaid === "boolean") setServerHasPaid(data.hasPaid);
 
       const { data: saved } = await supabase
         .from("saved_searches")
@@ -131,7 +133,8 @@ const Suppliers = () => {
     toast.success("Search deleted");
   };
 
-  const displayLimit = hasPaid ? 10 : 2;
+  const effectiveHasPaid = serverHasPaid ?? hasPaid;
+  const displayLimit = effectiveHasPaid ? 10 : 2;
   const displayedResults = results.slice(0, displayLimit);
   const suppliers = displayedResults.filter((r) => r.type === "supplier");
   const distributors = displayedResults.filter((r) => r.type === "distributor");
@@ -169,7 +172,7 @@ const Suppliers = () => {
           ))}
         </TableBody>
       </Table>
-      {!hasPaid && results.length > 2 && (
+      {!effectiveHasPaid && results.length > 2 && (
         <div className="px-6 py-4 border-t border-[#E6E8EB] bg-muted/50 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Lock className="w-4 h-4" />
