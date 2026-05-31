@@ -135,6 +135,39 @@ const Suppliers = () => {
 
   const effectiveHasPaid = serverHasPaid ?? hasPaid;
   const displayLimit = effectiveHasPaid ? 10 : 2;
+
+  const downloadCSV = (items: Result[], filenamePrefix: string) => {
+    const headers = ["Company Name", "Website", "Type"];
+    const rows = items.map((r) => [r.name, r.website, r.type]);
+    const csv = [headers, ...rows]
+      .map((row) =>
+        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")
+      )
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${filenamePrefix}-${country}-${new Date().toISOString().split("T")[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    toast.success("CSV downloaded");
+  };
+
+  const openInGoogleSheets = async (items: Result[]) => {
+    const headers = ["Company Name", "Website", "Type"];
+    const rows = items.map((r) => [r.name, r.website, r.type]);
+    const tsv = [headers, ...rows].map((row) => row.join("\t")).join("\n");
+    try {
+      await navigator.clipboard.writeText(tsv);
+      window.open("https://sheets.new", "_blank");
+      toast.success("Data copied to clipboard. Paste into cell A1 in the new Google Sheet.");
+    } catch {
+      toast.error("Could not copy to clipboard. Please use the CSV download instead.");
+    }
+  };
   const displayedResults = results.slice(0, displayLimit);
   const suppliers = displayedResults.filter((r) => r.type === "supplier");
   const distributors = displayedResults.filter((r) => r.type === "distributor");
