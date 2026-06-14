@@ -1,0 +1,1 @@
+ALTER TABLE public.list_items ADD COLUMN IF NOT EXISTS sources jsonb NOT NULL DEFAULT '[]'::jsonb;
