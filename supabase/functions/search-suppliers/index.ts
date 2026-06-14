@@ -82,39 +82,43 @@ Deno.serve(async (req) => {
       });
     }
 
-    const prompt = `You are a B2B retail intelligence engine. Find ${resultCount} REAL, currently operating retail stores and/or distributors in ${selectedCountry} that are a strong commercial fit to stock or distribute the following product.
+    const prompt = `You are a B2B retail intelligence engine GROUNDED IN GOOGLE WEB SEARCH. Use the live web search results provided by the tool to find ${resultCount} REAL, currently operating retail stores and/or distributors in ${selectedCountry} that are a strong commercial fit to stock or distribute the following product.
 
 Product: "${sanitizedProduct}"
 Country: ${selectedCountry}
 
-For each result return a deeply enriched JSON object. NEVER invent contact details — if you cannot reasonably know a real value, return an empty string for that field. Real, verifiable values only.
+CRITICAL GROUNDING RULES:
+- You MUST issue web searches and base every store's name, website, address, phone, and email ONLY on facts found in the search results you actually read.
+- If a contact field (email, phone, whatsapp, address, contact_form_url) is not present in a source you've actually seen, return "" for that field. Never guess or fabricate contact details.
+- For every result, include a "sources" array containing the URLs you actually used to verify that store's facts (1–5 URLs). Use the real URLs from the search results, not invented ones.
 
 Required fields per result:
-- name (string): the retail store or distributor's official trading name
-- website (string): real, working homepage URL
+- name (string): official trading name from a real source
+- website (string): real homepage URL found via search
 - type ("retailer" | "distributor")
-- channel ("Physical" | "Online" | "Both"): how this store reaches end customers
+- channel ("Physical" | "Online" | "Both")
 - location (string): "City, Region" or "City, State"
-- fit_score ("High" | "Medium" | "Low"): how well the product matches this store's range
-- why_it_matches (string, 1-2 sentences): concrete reason this store is a good fit
-- pitch_angle (string, 1 sentence): a tailored pitch angle for THIS specific store
-- store_type (string): e.g. "Independent boutique", "National chain", "Specialty retailer", "Wholesale distributor"
-- audience_category (string): e.g. "Premium 25-45 urban", "Value-driven families"
+- address (string): full street address if found in a source, else ""
+- fit_score ("High" | "Medium" | "Low"): YOUR judgment of fit
+- why_it_matches (string, 1-2 sentences): YOUR reasoning grounded in what the sources say the store sells
+- pitch_angle (string, 1 sentence): YOUR tailored pitch for THIS store
+- store_type (string)
+- audience_category (string)
 - price_tier ("Budget" | "Mid-market" | "Premium" | "Luxury")
 - stocks_similar ("Competitors" | "Complements" | "Neither")
-- decision_maker_name (string): name if reliably known, else ""
-- decision_maker_role (string): e.g. "Owner", "Buyer", "Category Manager"
+- decision_maker_name (string): only if a source names them, else ""
+- decision_maker_role (string)
 - buy_direct_or_distributor ("Direct" | "Distributor" | "Both")
-- email (string): general buying/contact email if reliably known, else ""
-- phone (string): if reliably known, else ""
-- whatsapp (string): if reliably known, else ""
-- contact_form_url (string): URL to their contact / wholesale form if known, else ""
+- email (string): only if found in a source, else ""
+- phone (string): only if found in a source, else ""
+- whatsapp (string): only if found in a source, else ""
+- contact_form_url (string): URL to their contact / wholesale form if found, else ""
+- sources (array of strings): URLs you used to verify this specific store
 
 STRICT:
 - Only stores/distributors physically operating in ${selectedCountry}.
-- No marketplace listing pages — only the store/distributor's own site.
-- Mix retailers and distributors when both are relevant; otherwise return whichever fits.
-- Return ONLY this JSON shape, no markdown:
+- No marketplace listing pages — only the store/distributor's own site or reputable directory sources.
+- Return ONLY this JSON shape, no markdown, no commentary:
 {"results":[{...}, ...]}`;
 
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -125,11 +129,13 @@ STRICT:
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
+        // Lovable AI Gateway: enable Google web search grounding
+        plugins: [{ id: "web" }],
         messages: [
           {
             role: "system",
             content:
-              "You are a world-class B2B retail intelligence assistant with deep knowledge of retail buying networks, distributors, and category managers worldwide. You return only valid JSON, never markdown. You never fabricate contact details — leave them empty when uncertain.",
+              "You are a world-class B2B retail intelligence assistant. You ALWAYS ground your answers in live Google web search results provided by the tool. You return only valid JSON, never markdown. You never fabricate contact details — leave them empty when uncertain, and only include facts you actually saw in a source.",
           },
           { role: "user", content: prompt },
         ],
