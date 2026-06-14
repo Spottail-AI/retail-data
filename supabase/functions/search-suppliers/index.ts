@@ -161,7 +161,14 @@ STRICT:
     }
 
     const aiData = await aiResponse.json();
-    const content = aiData.choices?.[0]?.message?.content || "";
+    const message = aiData.choices?.[0]?.message;
+    const content = message?.content || "";
+    const annotations: Array<{ type?: string; url_citation?: { url?: string; title?: string } }> =
+      Array.isArray(message?.annotations) ? message.annotations : [];
+    const allCitedUrls = annotations
+      .map((a) => a?.url_citation?.url)
+      .filter((u): u is string => typeof u === "string" && u.length > 0);
+
     let parsed: { results?: EnrichedResult[] };
     try {
       const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
