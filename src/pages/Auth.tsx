@@ -15,6 +15,9 @@ const Auth = () => {
   const pathIsSignup = location.pathname === "/signup";
   const isSignupMode = pathIsSignup || queryMode === "signup";
 
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const prefillEmail = searchParams.get("email") || "";
+
   const [isLogin, setIsLogin] = useState(!isSignupMode);
   const [step, setStep] = useState<"role" | "credentials">(isSignupMode ? "role" : "credentials");
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
