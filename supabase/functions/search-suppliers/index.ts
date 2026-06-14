@@ -122,8 +122,9 @@ Required fields per result:
 - sources (array of strings): URLs you used to verify this specific store
 
 STRICT:
-- Only stores/distributors physically operating in ${selectedCountry}.
+- Only businesses physically operating in ${selectedCountry}.
 - No marketplace listing pages — only the store/distributor's own site or reputable directory sources.
+- You MUST return EXACTLY ${resultCount} entries with the required retailer/distributor mix. Returning fewer is a failure.
 - Return ONLY this JSON shape, no markdown, no commentary:
 {"results":[{...}, ...]}`;
 
