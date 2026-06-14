@@ -199,9 +199,6 @@ const Hero = () => {
       style={{ background: "var(--v2-black)", padding: "80px 48px 55px", minHeight: "92vh" }}
     >
       <div className="mx-auto w-full text-center" style={{ maxWidth: 900 }}>
-        <p className="font-body" style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.01em", color: "var(--v2-teal)", marginBottom: 28 }}>
-          Launch smarter. Price better. Win faster.
-        </p>
         <h1
           className="font-display"
           style={{
