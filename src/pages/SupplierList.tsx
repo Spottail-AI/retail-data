@@ -166,7 +166,7 @@ const SupplierListPage = () => {
     (async () => {
       setLoading(true);
       const [{ data: list }, { data: rows }] = await Promise.all([
-        supabase.from("saved_searches").select("id, product_name, list_title, country, created_at").eq("id", listId).maybeSingle(),
+        supabase.from("saved_searches").select("id, product_name, list_title, country, created_at, results").eq("id", listId).maybeSingle(),
         supabase.from("list_items").select("*").eq("list_id", listId).order("sort_order", { ascending: true }),
       ]);
       if (cancelled) return;
@@ -174,7 +174,51 @@ const SupplierListPage = () => {
         setMeta(list as ListMeta);
         setTitleDraft((list as ListMeta).list_title || (list as ListMeta).product_name);
       }
-      if (rows) setItems(rows as ListItem[]);
+      let finalRows = (rows ?? []) as ListItem[];
+
+      // Backfill: legacy saved_searches stored results as JSON only.
+      // If no list_items exist yet but saved_searches.results has entries, hydrate them.
+      const legacyResults = Array.isArray((list as any)?.results) ? ((list as any).results as any[]) : [];
+      if (finalRows.length === 0 && legacyResults.length > 0) {
+        const norm = (v: any, allowed: string[], fb: string) => (v && allowed.includes(v) ? v : fb);
+        const toInsert = legacyResults.map((r: any, idx: number) => ({
+          list_id: listId,
+          user_id: session.user.id,
+          name: String(r?.name || "Unknown").slice(0, 200),
+          website: r?.website ?? null,
+          channel: norm(r?.channel, ["Physical", "Online", "Both"], "Both"),
+          location: r?.location ?? null,
+          fit_score: norm(r?.fit_score, ["High", "Medium", "Low"], "Medium"),
+          why_it_matches: r?.why_it_matches ?? r?.why ?? null,
+          pitch_angle: r?.pitch_angle ?? null,
+          store_type: r?.store_type ?? null,
+          audience_category: r?.audience_category ?? null,
+          price_tier: r?.price_tier ?? null,
+          stocks_similar: norm(r?.stocks_similar, ["Competitors", "Complements", "Neither"], "Neither"),
+          decision_maker_name: r?.decision_maker_name ?? null,
+          decision_maker_role: r?.decision_maker_role ?? null,
+          buy_direct_or_distributor: norm(r?.buy_direct_or_distributor, ["Direct", "Distributor", "Both"], "Both"),
+          email: r?.email ?? null,
+          phone: r?.phone ?? null,
+          whatsapp: r?.whatsapp ?? null,
+          contact_form_url: r?.contact_form_url ?? null,
+          address: r?.address ?? null,
+          status: "To contact",
+          priority: "Medium",
+          sort_order: idx,
+        }));
+        const { data: inserted, error: insErr } = await supabase
+          .from("list_items")
+          .insert(toInsert)
+          .select("*");
+        if (insErr) {
+          console.error("Backfill failed", insErr);
+        } else if (inserted) {
+          finalRows = inserted as ListItem[];
+        }
+      }
+
+      setItems(finalRows);
       setLoading(false);
     })();
     return () => { cancelled = true; };
