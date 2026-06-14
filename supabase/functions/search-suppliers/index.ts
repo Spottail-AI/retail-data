@@ -235,6 +235,10 @@ STRICT:
       phone: r.phone || null,
       whatsapp: r.whatsapp || null,
       contact_form_url: r.contact_form_url || null,
+      address: r.address || null,
+      sources: Array.isArray(r.sources) && r.sources.length > 0
+        ? r.sources.filter((u) => typeof u === "string" && u.length > 0).slice(0, 10)
+        : allCitedUrls.slice(0, 5),
       status: "To contact",
       priority: "Medium",
       sort_order: idx,
