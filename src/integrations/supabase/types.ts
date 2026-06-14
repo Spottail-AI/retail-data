@@ -58,6 +58,104 @@ export type Database = {
           },
         ]
       }
+      list_items: {
+        Row: {
+          audience_category: string | null
+          buy_direct_or_distributor: string | null
+          channel: string
+          contact_form_url: string | null
+          created_at: string
+          decision_maker_name: string | null
+          decision_maker_role: string | null
+          email: string | null
+          fit_score: string
+          id: string
+          list_id: string
+          location: string | null
+          name: string
+          notes: string | null
+          phone: string | null
+          pitch_angle: string | null
+          price_tier: string | null
+          priority: string
+          sort_order: number
+          status: string
+          stocks_similar: string | null
+          store_type: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+          whatsapp: string | null
+          why_it_matches: string | null
+        }
+        Insert: {
+          audience_category?: string | null
+          buy_direct_or_distributor?: string | null
+          channel?: string
+          contact_form_url?: string | null
+          created_at?: string
+          decision_maker_name?: string | null
+          decision_maker_role?: string | null
+          email?: string | null
+          fit_score?: string
+          id?: string
+          list_id: string
+          location?: string | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          pitch_angle?: string | null
+          price_tier?: string | null
+          priority?: string
+          sort_order?: number
+          status?: string
+          stocks_similar?: string | null
+          store_type?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+          whatsapp?: string | null
+          why_it_matches?: string | null
+        }
+        Update: {
+          audience_category?: string | null
+          buy_direct_or_distributor?: string | null
+          channel?: string
+          contact_form_url?: string | null
+          created_at?: string
+          decision_maker_name?: string | null
+          decision_maker_role?: string | null
+          email?: string | null
+          fit_score?: string
+          id?: string
+          list_id?: string
+          location?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          pitch_angle?: string | null
+          price_tier?: string | null
+          priority?: string
+          sort_order?: number
+          status?: string
+          stocks_similar?: string | null
+          store_type?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+          whatsapp?: string | null
+          why_it_matches?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "list_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "saved_searches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount: number
@@ -167,6 +265,7 @@ export type Database = {
           country: string | null
           created_at: string
           id: string
+          list_title: string | null
           product_name: string
           results: Json
           results_found: number
@@ -177,6 +276,7 @@ export type Database = {
           country?: string | null
           created_at?: string
           id?: string
+          list_title?: string | null
           product_name: string
           results?: Json
           results_found?: number
@@ -187,6 +287,7 @@ export type Database = {
           country?: string | null
           created_at?: string
           id?: string
+          list_title?: string | null
           product_name?: string
           results?: Json
           results_found?: number
