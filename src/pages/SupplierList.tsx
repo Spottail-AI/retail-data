@@ -18,6 +18,7 @@ import {
 import {
   ArrowLeft, Download, Plus, Mail, Phone, MessageCircle, Search,
   X, Filter as FilterIcon, ArrowUpDown, ExternalLink, Loader2,
+  Copy, MapPin, Globe, FileText, MessageSquare,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -49,6 +50,7 @@ type ListItem = {
   phone: string | null;
   whatsapp: string | null;
   contact_form_url: string | null;
+  address: string | null;
   status: Status;
   priority: Priority;
   notes: string | null;
@@ -89,6 +91,59 @@ const prioPill = (p: Priority) =>
     : p === "Medium"
     ? "bg-amber-50 text-amber-700 border-amber-200"
     : "bg-slate-100 text-slate-600 border-slate-200";
+
+/* ───────────── Contact helpers ───────────── */
+
+// Normalize phone to E.164. Defaults to UK (+44) when input is a local number.
+function normalizePhoneE164(raw?: string | null, defaultCc = "44"): string | null {
+  if (!raw) return null;
+  let s = raw.replace(/[^\d+]/g, "");
+  if (!s) return null;
+  if (s.startsWith("+")) {
+    return /^\+\d{8,15}$/.test(s) ? s : null;
+  }
+  if (s.startsWith("00")) s = s.slice(2);
+  if (s.startsWith("0")) s = defaultCc + s.slice(1);
+  if (/^\d{8,15}$/.test(s)) return "+" + s;
+  return null;
+}
+
+// Best-effort cleaned phone for tel:/sms: when E.164 normalization fails.
+function cleanedPhone(raw?: string | null): string | null {
+  if (!raw) return null;
+  const s = raw.replace(/[^\d+]/g, "");
+  return s.length >= 6 ? s : null;
+}
+
+// Mobile detection — keep WhatsApp limited to numbers we can be confident are mobiles.
+// UK: +447… is mobile. For other country codes we conservatively allow WhatsApp
+// since most international numbers users save here are reachable on WhatsApp.
+function looksLikeMobile(e164: string): boolean {
+  if (e164.startsWith("+44")) return e164.startsWith("+447");
+  return true;
+}
+
+function firstName(full?: string | null): string {
+  if (!full) return "";
+  const t = full.trim().split(/\s+/)[0];
+  return t || "";
+}
+
+function buildMessage(item: ListItem): string {
+  const fn = firstName(item.decision_maker_name);
+  return fn
+    ? `Hi ${fn}, I'm reaching out about stocking my product with ${item.name}.`
+    : `Hi, I'm reaching out about stocking my product with ${item.name}.`;
+}
+
+async function copyToClipboard(text: string, label: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.success(`${label} copied`);
+  } catch {
+    toast.error("Copy failed");
+  }
+}
 
 const SupplierListPage = () => {
   const { listId } = useParams<{ listId: string }>();
@@ -666,15 +721,19 @@ const DetailPanel = ({
         </div>
       </div>
 
+      {/* Contact action bar */}
+      <ContactActionBar item={item} />
+
       {/* Contact */}
       <div>
         <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Contact</h3>
         <div className="grid grid-cols-1 gap-3 border border-[#E6E8EB] rounded-lg p-3">
           {editableText("Email", "email", "name@store.com")}
           {editableText("Contact Form URL", "contact_form_url", "https://…/wholesale")}
-          {editableText("Phone", "phone", "+1 555…")}
-          {editableText("WhatsApp", "whatsapp", "+1 555…")}
+          {editableText("Phone", "phone", "+44 7700 900123")}
+          {editableText("WhatsApp", "whatsapp", "+44 7700 900123")}
           {editableText("Website", "website", "https://store.com")}
+          {editableText("Address", "address", "Street, City, Postcode")}
         </div>
       </div>
 
@@ -691,6 +750,126 @@ const DetailPanel = ({
           className="min-h-[120px]"
         />
       </div>
+    </div>
+  );
+};
+
+/* ───────────── Contact Action Bar ───────────── */
+
+const ContactActionBar = ({ item }: { item: ListItem }) => {
+  const message = buildMessage(item);
+  const subject = "Stocking enquiry";
+  const encMsg = encodeURIComponent(message);
+  const encSubject = encodeURIComponent(subject);
+
+  const e164 = normalizePhoneE164(item.phone);
+  const e164Whatsapp = normalizePhoneE164(item.whatsapp || item.phone);
+  const phoneForLinks = e164 || cleanedPhone(item.phone);
+  const whatsappOk = !!(e164Whatsapp && looksLikeMobile(e164Whatsapp));
+
+  const emailHref = item.email
+    ? `mailto:${item.email}?subject=${encSubject}&body=${encMsg}`
+    : null;
+  const formHref = !item.email && item.contact_form_url ? item.contact_form_url : null;
+
+  const telHref = phoneForLinks ? `tel:${phoneForLinks}` : null;
+  const smsHref = phoneForLinks ? `sms:${phoneForLinks}?body=${encMsg}` : null;
+  const waHref = whatsappOk
+    ? `https://wa.me/${e164Whatsapp!.replace(/^\+/, "")}?text=${encMsg}`
+    : null;
+
+  const websiteHref = item.website || null;
+  const mapsHref = item.address
+    ? `https://maps.google.com/?q=${encodeURIComponent(item.address)}`
+    : null;
+
+  const nothing =
+    !emailHref && !formHref && !telHref && !smsHref && !waHref && !websiteHref && !mapsHref;
+
+  if (nothing) {
+    return (
+      <div className="rounded-lg border border-dashed border-[#E6E8EB] p-3 text-xs text-muted-foreground">
+        Add an email, phone, website, or address below to enable one-click outreach.
+      </div>
+    );
+  }
+
+  const btn =
+    "inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#E6E8EB] bg-card text-sm font-medium text-foreground hover:bg-muted/60 transition-colors";
+
+  return (
+    <div className="rounded-lg border border-[#E6E8EB] bg-muted/30 p-3">
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Reach out
+        </h3>
+        <button
+          onClick={() => copyToClipboard(message, "Message")}
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+          title="Copy pre-filled message"
+        >
+          <Copy className="w-3.5 h-3.5" /> Copy message
+        </button>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {waHref && (
+          <a href={waHref} target="_blank" rel="noopener noreferrer"
+            className={cn(btn, "text-emerald-700 border-emerald-200 bg-emerald-50 hover:bg-emerald-100")}>
+            <MessageCircle className="w-4 h-4" /> WhatsApp
+          </a>
+        )}
+        {smsHref && (
+          <a href={smsHref} className={btn}>
+            <MessageSquare className="w-4 h-4" /> SMS
+          </a>
+        )}
+        {emailHref && (
+          <a href={emailHref} className={btn}>
+            <Mail className="w-4 h-4" /> Email
+          </a>
+        )}
+        {formHref && (
+          <a href={formHref} target="_blank" rel="noopener noreferrer" className={btn}>
+            <FileText className="w-4 h-4" /> Open contact form
+          </a>
+        )}
+        {telHref && (
+          <a href={telHref} className={btn}>
+            <Phone className="w-4 h-4" /> Call
+          </a>
+        )}
+        {websiteHref && (
+          <a href={websiteHref} target="_blank" rel="noopener noreferrer" className={btn}>
+            <Globe className="w-4 h-4" /> Open website
+          </a>
+        )}
+        {mapsHref && (
+          <a href={mapsHref} target="_blank" rel="noopener noreferrer" className={btn}>
+            <MapPin className="w-4 h-4" /> Open in Maps
+          </a>
+        )}
+      </div>
+
+      {/* Desktop fallbacks: tel/sms/wa.me are unreliable on desktop */}
+      {(phoneForLinks || item.phone) && (
+        <div className="hidden md:flex flex-wrap gap-2 mt-2 pt-2 border-t border-[#E6E8EB]/60">
+          {(phoneForLinks || item.phone) && (
+            <button
+              onClick={() => copyToClipboard(phoneForLinks || item.phone || "", "Number")}
+              className={cn(btn, "text-xs h-8 px-2.5")}
+            >
+              <Copy className="w-3.5 h-3.5" /> Copy number
+            </button>
+          )}
+          <button
+            onClick={() => copyToClipboard(message, "Message")}
+            className={cn(btn, "text-xs h-8 px-2.5")}
+          >
+            <Copy className="w-3.5 h-3.5" /> Copy message
+          </button>
+        </div>
+      )}
     </div>
   );
 };
