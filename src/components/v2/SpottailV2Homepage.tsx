@@ -338,7 +338,7 @@ const Features = () => {
     { icon: "🎯", title: "Competitive Analysis", desc: "Understand what competitors are launching, how they position themselves, and where they're vulnerable." },
   ];
   return (
-    <section id="features" style={{ background: "var(--v2-white)", padding: "48px 48px 96px", borderTop: "1px solid var(--v2-border)" }}>
+    <section id="features" style={{ background: "var(--v2-white)", padding: "24px 48px 96px", borderTop: "1px solid var(--v2-border)" }}>
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
         <div className="features-header-v2 flex justify-between items-end" style={{ marginBottom: 52 }}>
           <div>
