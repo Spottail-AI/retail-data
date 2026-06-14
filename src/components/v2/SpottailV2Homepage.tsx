@@ -187,8 +187,8 @@ const Hero = () => {
             "List your product on Source and let buyers come to you.",
             "Get matched to stores likely to stock and reorder, not random leads.",
           ].map((line) => (
-            <li key={line} className="flex items-center justify-center gap-2" style={{ padding: "5px 0" }}>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0">
+            <li key={line} className="flex items-start gap-2 text-left" style={{ padding: "5px 0" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0" style={{ marginTop: 6 }}>
                 <path d="M2.5 7l3 3 6-6" stroke="#0D9B8A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <span>{line}</span>
