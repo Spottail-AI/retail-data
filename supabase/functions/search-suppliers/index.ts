@@ -225,12 +225,20 @@ STRICT:
       /raw material/i, /ingredient supplier/i, /packaging supplier/i,
       /sourcing agent/i, /trading (company|co\b)/i, /wholesale marketplace/i,
       /alibaba|aliexpress|made-in-china|globalsources|indiamart|thomasnet|faire\.com|ankorstore|tundra\.com/i,
+      // Single-brand / DTC / own-label signals — another brand can't stock the user's product
+      /\bdtc\b/i, /direct[- ]to[- ]consumer/i, /\bour (own )?brand\b/i, /\bsingle[- ]brand\b/i,
+      /\bmonobrand\b/i, /own[- ]label/i, /house brand/i, /flagship store/i,
+      /\bwe (make|craft|produce|design)\b/i, /\bour products\b/i,
     ];
+    const MULTIBRAND_HINTS = /multi[- ]brand|stockist|shop by brand|brands we (carry|stock)|over \d+ brands|hundreds of brands|curated brands|department store|specialty retailer|independent retailer|wholesaler|distributor/i;
     const isBuyer = (r: EnrichedResult) => {
       const t = (r.type || "").toLowerCase();
       if (t === "supplier" || t === "manufacturer") return false;
-      const blob = `${r.name || ""} ${r.website || ""} ${r.why_it_matches || ""} ${r.store_type || ""}`;
-      return !BLOCK_PATTERNS.some((re) => re.test(blob));
+      const blob = `${r.name || ""} ${r.website || ""} ${r.why_it_matches || ""} ${r.pitch_angle || ""} ${r.store_type || ""}`;
+      if (BLOCK_PATTERNS.some((re) => re.test(blob))) return false;
+      // Distributors get a pass; retailers must show some multi-brand signal in the rationale
+      if (t === "distributor") return true;
+      return MULTIBRAND_HINTS.test(blob);
     };
     const cleanResults = allResults.filter(isBuyer);
     const displayLimit = hasPaid ? 10 : 2;
