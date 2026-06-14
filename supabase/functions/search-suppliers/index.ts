@@ -211,9 +211,24 @@ STRICT:
       });
     }
 
-    const allResults: EnrichedResult[] = parsed.results || [];
+    // Filter out anything that smells like a supplier/manufacturer/marketplace — user wants BUYERS, not sources.
+    const BLOCK_PATTERNS = [
+      /manufactur/i, /\bfactor(y|ies)\b/i, /\boem\b/i, /\bodm\b/i, /co-?packer/i,
+      /private[- ]label/i, /white[- ]label/i, /contract manufactur/i,
+      /raw material/i, /ingredient supplier/i, /packaging supplier/i,
+      /sourcing agent/i, /trading (company|co\b)/i, /wholesale marketplace/i,
+      /alibaba|aliexpress|made-in-china|globalsources|indiamart|thomasnet|faire\.com|ankorstore|tundra\.com/i,
+    ];
+    const isBuyer = (r: EnrichedResult) => {
+      const t = (r.type || "").toLowerCase();
+      if (t === "supplier" || t === "manufacturer") return false;
+      const blob = `${r.name || ""} ${r.website || ""} ${r.why_it_matches || ""} ${r.store_type || ""}`;
+      return !BLOCK_PATTERNS.some((re) => re.test(blob));
+    };
+    const cleanResults = allResults.filter(isBuyer);
     const displayLimit = hasPaid ? 10 : 2;
-    const persistedResults = allResults.slice(0, displayLimit);
+    const persistedResults = cleanResults.slice(0, displayLimit);
+
 
     // Save list + items server-side
     const defaultTitle = `${sanitizedProduct} — ${selectedCountry}`;
