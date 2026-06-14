@@ -183,10 +183,9 @@ const Hero = () => {
         </p>
         <ul className="hero-sub-v2 list-none mx-auto" style={{ fontSize: 17, fontWeight: 300, color: "rgba(255,255,255,0.55)", maxWidth: 480, margin: "0 auto 44px", letterSpacing: "-0.01em" }}>
           {[
-            "Track product prices across online and offline markets",
-            "Find verified buyers, distributors, and suppliers instantly",
-            "Launch your products to a network of retailers and buyers",
-            "Discover rising products before they break out",
+            "Find the right stores and distributors in one click, contact details included.",
+            "List your product on Source and let buyers come to you.",
+            "Get matched to stores likely to stock and reorder, not random leads.",
           ].map((line) => (
             <li key={line} className="flex items-center justify-center gap-2" style={{ padding: "5px 0" }}>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0">
