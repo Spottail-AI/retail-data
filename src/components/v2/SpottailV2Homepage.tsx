@@ -358,8 +358,7 @@ const SectionH2 = ({ children }: { children: React.ReactNode }) => (
 
 const Features = () => {
   const items = [
-    { icon: "📉", title: "Retail & Competitor Product Price Tracking", desc: "Track prices across online and offline markets so you never miss margin or pricing opportunities. Get real-time price change alerts." },
-    { icon: "🔍", title: "Supplier & Distributor Discovery", desc: "Find verified distributors and suppliers for your products in one click. Reduce sourcing friction." },
+    { icon: "🔍", title: "Retail Store & Distributor Discovery", desc: "Find verified retail stores and distributors for your products in one click. Reduce sourcing friction." },
     { icon: "📈", title: "Product Trends Discovery", desc: "Identify products customers are talking about and those about to trend. Spot revenue opportunities before competitors." },
     { icon: "🚀", title: "Launch Your Product to Retail Buyers", desc: "Buyers and customers can explore and upvote products to signal real demand." },
     { icon: "🎯", title: "Competitive Analysis", desc: "Understand what competitors are launching, how they position themselves, and where they're vulnerable." },
@@ -411,9 +410,9 @@ const Features = () => {
 const HowItWorks = () => {
   const navigate = useNavigate();
   const steps = [
-    { n: "01", title: "See what's happening", desc: "Track prices, competitor moves, emerging products, and supply signals across online and offline retail." },
-    { n: "02", title: "Understand what matters", desc: "Spot opportunities, risks, and gaps in pricing, sourcing, demand, and positioning using real-time market context." },
-    { n: "03", title: "Act with confidence", desc: "Launch products, adjust pricing, source suppliers, and respond to competitors—all from one place." },
+    { n: "01", title: "See what's happening", desc: "Track competitor moves, emerging products, and supply signals across online and offline retail." },
+    { n: "02", title: "Understand what matters", desc: "Spot opportunities, risks, and gaps in sourcing, demand, and positioning using real-time market context." },
+    { n: "03", title: "Act with confidence", desc: "Launch products, source retail stores and distributors, and respond to competitors—all from one place." },
   ];
   return (
     <section id="how" style={{ background: "var(--v2-surface)", padding: "96px 48px", borderTop: "1px solid var(--v2-border)", borderBottom: "1px solid var(--v2-border)" }}>
@@ -465,7 +464,7 @@ const HowItWorks = () => {
 const Testimonials = () => {
   const items = [
     { featured: true, quote: '"Spottail replaced three different tools we were paying for. The AI surfaced a product gap that became our best-performing category last quarter."', initials: "MO", name: "Marcus Osei", role: "Head of Buying" },
-    { featured: false, quote: '"The competitor pricing alerts alone are worth it. We stopped losing price-sensitive customers and our margin held through peak season."', initials: "LB", name: "Leila Burrows", role: "E-Commerce Director" },
+    { featured: false, quote: '"Spottail surfaced distributor leads we would never have found on our own. It cut our sourcing cycle from weeks to days."', initials: "LB", name: "Leila Burrows", role: "E-Commerce Director" },
     { featured: false, quote: '"We used to spend weeks sourcing distributors manually. Now we find them in minutes and just a click. We can now move faster."', initials: "TN", name: "Tom Nwachukwu", role: "Category Manager" },
   ];
   return (
@@ -570,7 +569,7 @@ const Pricing = () => {
               Perfect for individuals and small teams getting started with smarter retail decisions.
             </p>
             <ul className="list-none" style={{ marginBottom: 28 }}>
-              {["Access to product trend detection", "Launch products to retail buyers", "Track up to 2 product prices", "Find up to 2 suppliers & distributors"].map((f, i, arr) => (
+              {["Access to product trend detection", "Launch products to retail buyers", "Find up to 2 retail stores & distributors"].map((f, i, arr) => (
                 <li key={f} className="flex items-center" style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-ink)", padding: "6px 0", gap: 9, borderBottom: i === arr.length - 1 ? "none" : "1px solid var(--v2-border)", letterSpacing: "-0.005em" }}>
                   <CheckIcon />{f}
                 </li>
@@ -596,7 +595,7 @@ const Pricing = () => {
               For growing retail and e-commerce teams ready to scale decisions and execution.
             </p>
             <ul className="list-none" style={{ marginBottom: 28 }}>
-              {["Everything in Free", "Track up to 10 product prices", "Find up to 10 suppliers & distributors", "Access to competitive analysis tools"].map((f, i, arr) => (
+              {["Everything in Free", "Find up to 10 retail stores & distributors", "Access to competitive analysis tools"].map((f, i, arr) => (
                 <li key={f} className="flex items-center" style={{ fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.6)", padding: "6px 0", gap: 9, borderBottom: i === arr.length - 1 ? "none" : "1px solid rgba(255,255,255,0.06)", letterSpacing: "-0.005em" }}>
                   <CheckIcon />{f}
                 </li>
@@ -617,10 +616,10 @@ const Pricing = () => {
             <p className="font-display" style={{ fontSize: 36, fontWeight: 300, letterSpacing: "-0.04em", color: "var(--v2-ink)", lineHeight: 1, marginBottom: 4, paddingTop: 5 }}>Custom</p>
             <p style={{ fontSize: 12, fontWeight: 300, color: "var(--v2-muted)", marginBottom: 20, letterSpacing: "-0.01em" }}>Full visibility. Full control.</p>
             <p style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-muted)", lineHeight: 1.55, paddingBottom: 20, marginBottom: 20, borderBottom: "1px solid var(--v2-border)", letterSpacing: "-0.005em" }}>
-              For teams operating at scale across multiple products, markets, and suppliers.
+              For teams operating at scale across multiple products and markets.
             </p>
             <ul className="list-none" style={{ marginBottom: 28 }}>
-              {["Unlimited product price tracking", "Unlimited supplier & distributor discovery", "Full competitive analysis suite", "Priority support & onboarding"].map((f, i, arr) => (
+              {["Unlimited retail store & distributor discovery", "Full competitive analysis suite", "Priority support & onboarding"].map((f, i, arr) => (
                 <li key={f} className="flex items-center" style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-ink)", padding: "6px 0", gap: 9, borderBottom: i === arr.length - 1 ? "none" : "1px solid var(--v2-border)", letterSpacing: "-0.005em" }}>
                   <CheckIcon />{f}
                 </li>
