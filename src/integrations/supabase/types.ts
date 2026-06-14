@@ -60,6 +60,7 @@ export type Database = {
       }
       list_items: {
         Row: {
+          address: string | null
           audience_category: string | null
           buy_direct_or_distributor: string | null
           channel: string
@@ -89,6 +90,7 @@ export type Database = {
           why_it_matches: string | null
         }
         Insert: {
+          address?: string | null
           audience_category?: string | null
           buy_direct_or_distributor?: string | null
           channel?: string
@@ -118,6 +120,7 @@ export type Database = {
           why_it_matches?: string | null
         }
         Update: {
+          address?: string | null
           audience_category?: string | null
           buy_direct_or_distributor?: string | null
           channel?: string
