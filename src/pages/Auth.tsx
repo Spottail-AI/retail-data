@@ -15,12 +15,15 @@ const Auth = () => {
   const pathIsSignup = location.pathname === "/signup";
   const isSignupMode = pathIsSignup || queryMode === "signup";
 
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const prefillEmail = searchParams.get("email") || "";
+
   const [isLogin, setIsLogin] = useState(!isSignupMode);
   const [step, setStep] = useState<"role" | "credentials">(isSignupMode ? "role" : "credentials");
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(prefillEmail);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -28,7 +31,6 @@ const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   const [pendingRole, setPendingRole] = useState<UserRole | null>(null);
 
