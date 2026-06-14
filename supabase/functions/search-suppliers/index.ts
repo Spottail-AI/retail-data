@@ -299,8 +299,9 @@ STRICT:
         list_id: listRow.id,
         hasPaid,
         displayLimit,
-        resultsFound: allResults.length,
-        upgradeRequired: !hasPaid && allResults.length > 2,
+        resultsFound: cleanResults.length,
+        upgradeRequired: !hasPaid && cleanResults.length > 2,
+
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
