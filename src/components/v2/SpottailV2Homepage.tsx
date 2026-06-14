@@ -142,13 +142,41 @@ const Nav = () => {
               {item.label}
             </button>
           ))}
-          <button
-            onClick={() => { setOpen(false); navigate("/signup"); }}
-            className="text-[15px] font-semibold text-left bg-transparent border-0 cursor-pointer"
-            style={{ color: "var(--v2-teal)", padding: "12px 0", marginTop: 8 }}
-          >
-            Start free
-          </button>
+          {user ? (
+            <>
+              <button
+                onClick={() => { setOpen(false); navigate("/dashboard"); }}
+                className="text-[15px] font-normal text-left bg-transparent border-0 cursor-pointer"
+                style={{ color: "var(--v2-ink)", padding: "12px 0", borderBottom: "1px solid var(--v2-border)", letterSpacing: "-0.01em" }}
+              >
+                Dashboard
+              </button>
+              <button
+                onClick={async () => { setOpen(false); await signOut(); navigate("/"); }}
+                className="text-[15px] font-semibold text-left bg-transparent border-0 cursor-pointer"
+                style={{ color: "var(--v2-teal)", padding: "12px 0", marginTop: 8 }}
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => { setOpen(false); navigate("/login"); }}
+                className="text-[15px] font-normal text-left bg-transparent border-0 cursor-pointer"
+                style={{ color: "var(--v2-ink)", padding: "12px 0", borderBottom: "1px solid var(--v2-border)", letterSpacing: "-0.01em" }}
+              >
+                Sign in
+              </button>
+              <button
+                onClick={() => { setOpen(false); navigate("/signup"); }}
+                className="text-[15px] font-semibold text-left bg-transparent border-0 cursor-pointer"
+                style={{ color: "var(--v2-teal)", padding: "12px 0", marginTop: 8 }}
+              >
+                Start free
+              </button>
+            </>
+          )}
         </div>
       )}
     </>
