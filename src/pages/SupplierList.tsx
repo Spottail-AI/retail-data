@@ -50,6 +50,7 @@ type ListItem = {
   phone: string | null;
   whatsapp: string | null;
   contact_form_url: string | null;
+  address: string | null;
   status: Status;
   priority: Priority;
   notes: string | null;
