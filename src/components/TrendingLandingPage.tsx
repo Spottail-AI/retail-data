@@ -517,7 +517,7 @@ const Pricing = () => {
               For teams operating at scale across multiple products, markets, and suppliers.
             </p>
             <ul className="list-none" style={{ marginBottom: 28 }}>
-              {["Unlimited product price tracking", "Unlimited supplier & distributor discovery", "Full competitive analysis suite", "Priority support & onboarding"].map((f, i, arr) => (
+              {["Unlimited retail buyer & distributor discovery", "Unlimited trend discovery", "Full competitive analysis suite", "Priority support & onboarding"].map((f, i, arr) => (
                 <li key={f} className="flex items-center" style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-ink)", padding: "6px 0", gap: 9, borderBottom: i === arr.length - 1 ? "none" : "1px solid var(--v2-border)", letterSpacing: "-0.005em" }}>
                   <CheckIcon />{f}
                 </li>
