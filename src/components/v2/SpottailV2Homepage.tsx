@@ -176,20 +176,16 @@ const Hero = () => {
             marginBottom: 32,
           }}
         >
-          Your AI Growth Partner for<br />
-          <em style={{ fontStyle: "italic", fontWeight: 300, color: "rgba(255,255,255,0.45)" }}>
-            Retail &amp; E-Commerce
-          </em>
+          Reach the right stores and distributors in one click — and let them find you.
         </h1>
         <p className="hero-subhead-v2" style={{ fontSize: 22, fontWeight: 300, color: "rgba(255,255,255,0.6)", margin: "0 auto 28px", lineHeight: 1.4, letterSpacing: "-0.02em" }}>
-          Make smarter product, pricing, and sourcing decisions—faster.
+          From your first shelf to your next hundred stores, we help you find the right retailers and help buyers find you.
         </p>
         <ul className="hero-sub-v2 list-none mx-auto" style={{ fontSize: 17, fontWeight: 300, color: "rgba(255,255,255,0.55)", maxWidth: 480, margin: "0 auto 44px", letterSpacing: "-0.01em" }}>
           {[
-            "Track product prices across online and offline markets",
-            "Find verified buyers, distributors, and suppliers instantly",
-            "Launch your products to a network of retailers and buyers",
-            "Discover rising products before they break out",
+            "Find the right stores and distributors in one click, contact details included.",
+            "List your product on Source and let buyers come to you.",
+            "Get matched to stores likely to stock and reorder, not random leads.",
           ].map((line) => (
             <li key={line} className="flex items-center justify-center gap-2" style={{ padding: "5px 0" }}>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0">
