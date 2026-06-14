@@ -29,6 +29,7 @@ const Auth = () => {
   const { toast } = useToast();
 
   const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const prefillEmail = searchParams.get("email") || "";
 
   const [pendingRole, setPendingRole] = useState<UserRole | null>(null);
 
