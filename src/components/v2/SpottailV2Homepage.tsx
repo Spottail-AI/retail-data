@@ -215,7 +215,7 @@ const Hero = () => {
         >
           Reach the right stores and distributors in one click
         </h1>
-        <p className="hero-subhead-v2" style={{ fontSize: 20, fontWeight: 300, color: "rgba(255,255,255,0.6)", margin: "0 auto 28px", lineHeight: 1.4, letterSpacing: "-0.02em" }}>
+        <p className="hero-subhead-v2" style={{ fontSize: 18, fontWeight: 300, color: "rgba(255,255,255,0.6)", margin: "0 auto 28px", lineHeight: 1.4, letterSpacing: "-0.02em" }}>
           From your first shelf to your next hundred stores, we help you find the right retailers and help buyers find you.
         </p>
         <ul className="hero-sub-v2 list-none mx-auto" style={{ fontSize: 17, fontWeight: 300, color: "rgba(255,255,255,0.55)", maxWidth: 480, margin: "0 auto 44px", letterSpacing: "-0.01em" }}>
