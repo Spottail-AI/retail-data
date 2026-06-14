@@ -165,12 +165,13 @@ STRICT:
           {
             role: "system",
             content:
-              "You are a world-class B2B retail intelligence assistant. You ALWAYS ground your answers in live Google web search results provided by the tool. You return only valid JSON, never markdown. You never fabricate contact details — leave them empty when uncertain, and only include facts you actually saw in a source.",
+              "You are a world-class B2B RETAIL PLACEMENT intelligence assistant. The user is a brand/manufacturer looking for retailers and distributors that would BUY and STOCK their product to sell onward — they are NOT looking for suppliers, factories, OEMs, packaging vendors, marketplaces, or sourcing agents. You ALWAYS ground answers in live Google web search results. You return only valid JSON, never markdown. You never fabricate contact details — leave them empty when uncertain.",
           },
           { role: "user", content: prompt },
         ],
       }),
     });
+
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
