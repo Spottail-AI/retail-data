@@ -82,20 +82,26 @@ Deno.serve(async (req) => {
       });
     }
 
-    const prompt = `You are a B2B retail intelligence engine GROUNDED IN GOOGLE WEB SEARCH. Use the live web search results provided by the tool to find ${resultCount} REAL, currently operating retail stores and/or distributors in ${selectedCountry} that are a strong commercial fit to stock or distribute the following product.
+    const prompt = `You are a B2B retail intelligence engine GROUNDED IN GOOGLE WEB SEARCH. Use the live web search results provided by the tool to find EXACTLY ${resultCount} REAL, currently operating businesses in ${selectedCountry} that are a strong commercial fit to STOCK or DISTRIBUTE the following product. The user is a brand/supplier trying to PLACE this product into the market.
 
 Product: "${sanitizedProduct}"
 Country: ${selectedCountry}
 
+MIX REQUIREMENT (very important):
+- The list MUST be a mix of RETAIL STORES (independent shops, specialty retailers, boutiques, chains, online retailers that sell to end consumers) AND DISTRIBUTORS / wholesalers.
+- Aim for roughly 60% retailers and 40% distributors when both exist in the category. Never return distributors-only unless retailers truly do not exist for this product category in ${selectedCountry}.
+- If exact-match retailers are scarce, broaden to ADJACENT retail categories where this product would logically sell (e.g. health food shops, delis, gift shops, lifestyle stores, department stores) so you still reach ${resultCount} results.
+
 CRITICAL GROUNDING RULES:
-- You MUST issue web searches and base every store's name, website, address, phone, and email ONLY on facts found in the search results you actually read.
+- You MUST issue multiple web searches and base every store's name, website, address, phone, and email ONLY on facts found in the search results you actually read.
 - If a contact field (email, phone, whatsapp, address, contact_form_url) is not present in a source you've actually seen, return "" for that field. Never guess or fabricate contact details.
 - For every result, include a "sources" array containing the URLs you actually used to verify that store's facts (1–5 URLs). Use the real URLs from the search results, not invented ones.
+- Do NOT stop early. Keep searching across different queries and categories until you have ${resultCount} verified entries.
 
 Required fields per result:
 - name (string): official trading name from a real source
 - website (string): real homepage URL found via search
-- type ("retailer" | "distributor")
+- type ("retailer" | "distributor"): the list MUST contain both types
 - channel ("Physical" | "Online" | "Both")
 - location (string): "City, Region" or "City, State"
 - address (string): full street address if found in a source, else ""
