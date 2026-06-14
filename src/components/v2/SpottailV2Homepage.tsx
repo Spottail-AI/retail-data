@@ -229,7 +229,7 @@ const Hero = () => {
         <h1
           className="font-display"
           style={{
-            fontSize: "clamp(52px, 7vw, 86px)",
+            fontSize: "clamp(38px, 7vw, 86px)",
             fontWeight: 300,
             lineHeight: 1.0,
             letterSpacing: "-0.03em",
@@ -237,7 +237,7 @@ const Hero = () => {
             marginBottom: 32,
           }}
         >
-          Reach the right stores and distributors in one click
+          Reach the right stores<br className="md:hidden" /> and distributors<br className="md:hidden" /> in one click
         </h1>
         <p className="hero-subhead-v2" style={{ fontSize: 18, fontWeight: 300, color: "rgba(255,255,255,0.6)", margin: "0 auto 28px", lineHeight: 1.4, letterSpacing: "-0.02em" }}>
           From your first shelf to your next hundred stores, we help you find the right retailers and help buyers find you.
