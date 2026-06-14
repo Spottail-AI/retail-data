@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -75,6 +75,12 @@ const BuyerTrendingNow = lazy(() => import("./pages/BuyerTrendingNow"));
 const BuyerShortlist = lazy(() => import("./pages/BuyerShortlist"));
 const BuyerEnquiries = lazy(() => import("./pages/BuyerEnquiries"));
 
+// Permanent redirect: /suppliers/:listId → /stockists/:listId
+const SuppliersListRedirect = () => {
+  const { listId } = useParams();
+  return <Navigate to={`/stockists/${listId}`} replace />;
+};
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -101,8 +107,11 @@ const App = () => (
             <Route path="/signup" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/price-tracking" element={<PriceTracking />} />
-            <Route path="/suppliers" element={<Suppliers />} />
-            <Route path="/suppliers/:listId" element={<SupplierList />} />
+            <Route path="/stockists" element={<Suppliers />} />
+            <Route path="/stockists/:listId" element={<SupplierList />} />
+            {/* Permanent redirects from the old /suppliers route */}
+            <Route path="/suppliers" element={<Navigate to="/stockists" replace />} />
+            <Route path="/suppliers/:listId" element={<SuppliersListRedirect />} />
             <Route path="/competitor-analysis" element={<CompetitorAnalysis />} />
             <Route path="/competitor-analysis/:id" element={<CompetitorDetailPage />} />
             <Route path="/trend-discovery" element={<TrendDiscovery />} />
