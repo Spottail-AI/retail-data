@@ -721,15 +721,19 @@ const DetailPanel = ({
         </div>
       </div>
 
+      {/* Contact action bar */}
+      <ContactActionBar item={item} />
+
       {/* Contact */}
       <div>
         <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Contact</h3>
         <div className="grid grid-cols-1 gap-3 border border-[#E6E8EB] rounded-lg p-3">
           {editableText("Email", "email", "name@store.com")}
           {editableText("Contact Form URL", "contact_form_url", "https://…/wholesale")}
-          {editableText("Phone", "phone", "+1 555…")}
-          {editableText("WhatsApp", "whatsapp", "+1 555…")}
+          {editableText("Phone", "phone", "+44 7700 900123")}
+          {editableText("WhatsApp", "whatsapp", "+44 7700 900123")}
           {editableText("Website", "website", "https://store.com")}
+          {editableText("Address", "address", "Street, City, Postcode")}
         </div>
       </div>
 
