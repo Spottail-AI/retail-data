@@ -43,7 +43,8 @@
   .spottail-v2 .hero-sub-v2 { font-size: 14px !important; max-width: 100% !important; margin-bottom: 32px !important; }
   .spottail-v2 .hero-sub-v2 li { white-space: normal; text-align: left; justify-content: flex-start !important; }
   .spottail-v2 .hero-actions-v2 { flex-direction: column; align-items: stretch; gap: 10px !important; }
-  .spottail-v2 .hero-actions-v2 button { width: 100%; text-align: center; justify-content: center; padding: 14px 20px !important; }
+  .spottail-v2 .hero-actions-v2 input { width: 100%; flex: 0 0 auto !important; height: 48px !important; }
+  .spottail-v2 .hero-actions-v2 button { width: 100%; text-align: center; justify-content: center; padding: 14px 20px !important; flex: 0 0 auto !important; height: 48px !important; }
   .spottail-v2 .hero-bottom-v2 { flex-wrap: wrap; justify-content: center; gap: 8px !important; margin-top: 40px !important; padding-top: 28px !important; }
   .spottail-v2 .features-grid-v2 { grid-template-columns: 1fr !important; gap: 12px !important; }
   .spottail-v2 .features-grid-v2 > div:last-child { max-width: 100% !important; grid-column: span 1 !important; margin: 0 !important; }
