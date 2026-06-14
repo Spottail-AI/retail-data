@@ -40,7 +40,7 @@ const TrendingFoodProductsUS = lazy(() => import("./pages/TrendingFoodProductsUS
 const TrendingFurnitureHomeProductsUS = lazy(() => import("./pages/TrendingFurnitureHomeProductsUS"));
 const TrendingEcommerceProductsUS = lazy(() => import("./pages/TrendingEcommerceProductsUS"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-const PriceTracking = lazy(() => import("./pages/PriceTracking"));
+
 const Suppliers = lazy(() => import("./pages/Suppliers"));
 const SupplierList = lazy(() => import("./pages/SupplierList"));
 const CompetitorAnalysis = lazy(() => import("./pages/CompetitorAnalysis"));
@@ -61,8 +61,6 @@ const TrendHunterAlternative = lazy(() => import("./pages/TrendHunterAlternative
 const EcomhuntAlternative = lazy(() => import("./pages/EcomhuntAlternative"));
 const DropshipSpyAlternative = lazy(() => import("./pages/DropshipSpyAlternative"));
 const GlimpseAlternative = lazy(() => import("./pages/GlimpseAlternative"));
-const CompetitorPriceTrackingSoftware = lazy(() => import("./pages/CompetitorPriceTrackingSoftware"));
-const AmazonProductPriceTracker = lazy(() => import("./pages/AmazonProductPriceTracker"));
 const FindDistributors = lazy(() => import("./pages/FindDistributors"));
 const FindSuppliers = lazy(() => import("./pages/FindSuppliers"));
 const SourceMarketplace = lazy(() => import("./pages/SourceMarketplace"));
@@ -106,7 +104,7 @@ const App = () => (
             <Route path="/login" element={<Auth />} />
             <Route path="/signup" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/price-tracking" element={<PriceTracking />} />
+            
             <Route path="/stockists" element={<Suppliers />} />
             <Route path="/stockists/:listId" element={<SupplierList />} />
             {/* Permanent redirects from the old /suppliers route */}
@@ -160,8 +158,6 @@ const App = () => (
             <Route path="/ecomhunt-alternative" element={<EcomhuntAlternative />} />
             <Route path="/dropship-spy-alternative" element={<DropshipSpyAlternative />} />
             <Route path="/glimpse-alternative" element={<GlimpseAlternative />} />
-            <Route path="/competitor-price-tracking-software" element={<CompetitorPriceTrackingSoftware />} />
-            <Route path="/amazon-product-price-tracker" element={<AmazonProductPriceTracker />} />
             <Route path="/find-distributors" element={<FindDistributors />} />
             <Route path="/find-suppliers" element={<FindSuppliers />} />
             <Route path="/source" element={<SourceMarketplace />} />
