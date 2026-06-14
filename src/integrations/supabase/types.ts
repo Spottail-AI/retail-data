@@ -80,6 +80,7 @@ export type Database = {
           price_tier: string | null
           priority: string
           sort_order: number
+          sources: Json
           status: string
           stocks_similar: string | null
           store_type: string | null
@@ -110,6 +111,7 @@ export type Database = {
           price_tier?: string | null
           priority?: string
           sort_order?: number
+          sources?: Json
           status?: string
           stocks_similar?: string | null
           store_type?: string | null
@@ -140,6 +142,7 @@ export type Database = {
           price_tier?: string | null
           priority?: string
           sort_order?: number
+          sources?: Json
           status?: string
           stocks_similar?: string | null
           store_type?: string | null
