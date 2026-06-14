@@ -305,7 +305,7 @@ const Hero = () => {
             )}
           </button>
         </div>
-        <div className="hero-bottom-v2 flex items-center justify-center flex-wrap" style={{ gap: 12, marginTop: 88, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div className="hero-bottom-v2 flex items-center justify-center flex-wrap" style={{ gap: 12, marginTop: 44, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.07)" }}>
           <span style={{ fontSize: 12, fontWeight: 400, color: "rgba(255,255,255,0.25)", letterSpacing: "0.01em", marginRight: 8 }}>
             Trusted by teams at
           </span>
