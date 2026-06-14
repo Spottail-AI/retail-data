@@ -176,10 +176,7 @@ const Hero = () => {
             marginBottom: 32,
           }}
         >
-          Your AI Growth Partner for<br />
-          <em style={{ fontStyle: "italic", fontWeight: 300, color: "rgba(255,255,255,0.45)" }}>
-            Retail &amp; E-Commerce
-          </em>
+          Reach the right stores and distributors in one click — and let them find you.
         </h1>
         <p className="hero-subhead-v2" style={{ fontSize: 22, fontWeight: 300, color: "rgba(255,255,255,0.6)", margin: "0 auto 28px", lineHeight: 1.4, letterSpacing: "-0.02em" }}>
           Make smarter product, pricing, and sourcing decisions—faster.
