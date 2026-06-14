@@ -87,51 +87,69 @@ Deno.serve(async (req) => {
       });
     }
 
-    const prompt = `You are a B2B retail intelligence engine GROUNDED IN GOOGLE WEB SEARCH. Use the live web search results provided by the tool to find EXACTLY ${resultCount} REAL, currently operating businesses in ${selectedCountry} that are a strong commercial fit to STOCK or DISTRIBUTE the following product. The user is a brand/supplier trying to PLACE this product into the market.
+    const prompt = `You are a B2B RETAIL PLACEMENT intelligence engine GROUNDED IN GOOGLE WEB SEARCH.
 
-Product: "${sanitizedProduct}"
+WHO THE USER IS (critical context — do not misinterpret):
+- The user is a BRAND, MANUFACTURER, or PRODUCT OWNER who already makes "${sanitizedProduct}".
+- They are looking for BUYERS of their product — i.e. RETAIL STORES that would sell it to end consumers, and DISTRIBUTORS / WHOLESALERS that would buy it to resell to retailers.
+- They are NOT looking for suppliers, manufacturers, factories, OEMs, contract manufacturers, white-label producers, ingredient suppliers, packaging suppliers, raw-material vendors, sourcing agents, dropshippers, B2B marketplaces (Alibaba, Faire, Ankorstore, Tundra, Etsy wholesale), trade shows, agencies, or consultancies. EXCLUDE ALL OF THESE.
+
+YOUR JOB:
+Use live Google web search to find EXACTLY ${resultCount} REAL, currently operating businesses in ${selectedCountry} that could STOCK and SELL "${sanitizedProduct}" — meaning retail stores (physical or online) that sell to consumers, and distributors/wholesalers that supply such retailers.
+
+Product the user wants to PLACE: "${sanitizedProduct}"
 Country: ${selectedCountry}
 
-MIX REQUIREMENT (very important):
-- The list MUST be a mix of RETAIL STORES (independent shops, specialty retailers, boutiques, chains, online retailers that sell to end consumers) AND DISTRIBUTORS / wholesalers.
-- Aim for roughly 60% retailers and 40% distributors when both exist in the category. Never return distributors-only unless retailers truly do not exist for this product category in ${selectedCountry}.
-- If exact-match retailers are scarce, broaden to ADJACENT retail categories where this product would logically sell (e.g. health food shops, delis, gift shops, lifestyle stores, department stores) so you still reach ${resultCount} results.
+MIX REQUIREMENT:
+- The list MUST be a mix of RETAIL STORES (independent shops, specialty retailers, boutiques, chains, department stores, online DTC retailers that resell brands) AND DISTRIBUTORS / wholesalers that supply retailers in this category.
+- Aim for ~60% retailers and ~40% distributors. Never return distributors-only.
+- If exact-match retailers are scarce, broaden to ADJACENT retail categories where this product would logically sell (e.g. for a food item: health food shops, delis, gift shops, gourmet grocers, lifestyle stores). Stay in retail/distribution — never drift into manufacturers or suppliers.
 
-CRITICAL GROUNDING RULES:
-- You MUST issue multiple web searches and base every store's name, website, address, phone, and email ONLY on facts found in the search results you actually read.
-- If a contact field (email, phone, whatsapp, address, contact_form_url) is not present in a source you've actually seen, return "" for that field. Never guess or fabricate contact details.
-- For every result, include a "sources" array containing the URLs you actually used to verify that store's facts (1–5 URLs). Use the real URLs from the search results, not invented ones.
-- Do NOT stop early. Keep searching across different queries and categories until you have ${resultCount} verified entries.
+HARD EXCLUSIONS (returning any of these is a failure):
+- Other manufacturers, factories, OEMs, contract manufacturers, co-packers, private-label producers of the same product
+- Ingredient / component / packaging / raw-material suppliers
+- Sourcing agents, trading companies, import/export brokers acting as suppliers TO the user
+- Marketplaces themselves (Amazon, eBay, Alibaba, Faire, Ankorstore, Tundra, Etsy) — but a brand's own retail store IS allowed
+- Trade shows, agencies, consultancies, media sites, blogs, directories
+- The user's own brand or direct competitors who also manufacture the same product (unless they are clearly also a retailer reselling third-party brands)
+
+GROUNDING RULES:
+- Issue multiple targeted Google searches (e.g. "best [product category] retailers ${selectedCountry}", "[product category] distributors ${selectedCountry}", "shops that sell [product] in [city]", "[product] wholesale ${selectedCountry}"). Base every fact on what you actually read.
+- For each store, verify from a real source that they SELL TO CONSUMERS (retailer) or RESELL TO RETAILERS (distributor). If you cannot verify the business model, drop them and find another.
+- If a contact field (email, phone, whatsapp, address, contact_form_url) is not present in a source you've actually seen, return "" — never fabricate.
+- Include a "sources" array (1–5 real URLs) per result.
+- Do NOT stop early. Keep searching until you have ${resultCount} verified entries that pass the exclusion rules.
 
 Required fields per result:
-- name (string): official trading name from a real source
-- website (string): real homepage URL found via search
-- type ("retailer" | "distributor"): the list MUST contain both types
+- name (string): official trading name
+- website (string): real homepage URL
+- type ("retailer" | "distributor"): MUST be one of these two — never "supplier" or "manufacturer"
 - channel ("Physical" | "Online" | "Both")
-- location (string): "City, Region" or "City, State"
-- address (string): full street address if found in a source, else ""
-- fit_score ("High" | "Medium" | "Low"): YOUR judgment of fit
-- why_it_matches (string, 1-2 sentences): YOUR reasoning grounded in what the sources say the store sells
-- pitch_angle (string, 1 sentence): YOUR tailored pitch for THIS store
+- location (string): "City, Region"
+- address (string): full street address if found, else ""
+- fit_score ("High" | "Medium" | "Low"): how well this buyer fits the product
+- why_it_matches (string, 1-2 sentences): grounded in what the source says they CURRENTLY SELL — explain why they'd stock this product
+- pitch_angle (string, 1 sentence): tailored outreach angle for the brand to use
 - store_type (string)
 - audience_category (string)
 - price_tier ("Budget" | "Mid-market" | "Premium" | "Luxury")
-- stocks_similar ("Competitors" | "Complements" | "Neither")
-- decision_maker_name (string): only if a source names them, else ""
-- decision_maker_role (string)
-- buy_direct_or_distributor ("Direct" | "Distributor" | "Both")
+- stocks_similar ("Competitors" | "Complements" | "Neither"): do they already stock competing or complementary products?
+- decision_maker_name (string): only if a source names a buyer / category manager / owner, else ""
+- decision_maker_role (string): e.g. "Head of Buying", "Owner", "Category Manager"
+- buy_direct_or_distributor ("Direct" | "Distributor" | "Both"): how this retailer typically sources new brands
 - email (string): only if found in a source, else ""
-- phone (string): only if found in a source, else ""
-- whatsapp (string): only if found in a source, else ""
-- contact_form_url (string): URL to their contact / wholesale form if found, else ""
-- sources (array of strings): URLs you used to verify this specific store
+- phone (string): only if found, else ""
+- whatsapp (string): only if found, else ""
+- contact_form_url (string): wholesale / stockist / contact form URL if found, else ""
+- sources (array of strings): URLs used to verify THIS store
 
 STRICT:
 - Only businesses physically operating in ${selectedCountry}.
-- No marketplace listing pages — only the store/distributor's own site or reputable directory sources.
-- You MUST return EXACTLY ${resultCount} entries with the required retailer/distributor mix. Returning fewer is a failure.
+- Only retailers and distributors — NEVER suppliers, manufacturers, or marketplaces.
+- Return EXACTLY ${resultCount} entries. Returning fewer, or returning suppliers/manufacturers, is a failure.
 - Return ONLY this JSON shape, no markdown, no commentary:
 {"results":[{...}, ...]}`;
+
 
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
