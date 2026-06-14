@@ -266,7 +266,7 @@ const Hero = ({ data }: { data: TrendingLandingPageData }) => {
 // ── Features (mirrors v2 homepage) ─────────────────────────────────────────
 const Features = () => {
   const items = [
-    { icon: "📉", title: "Retail & Competitor Product Price Tracking", desc: "Track prices across online and offline markets so you never miss margin or pricing opportunities. Get real-time price change alerts." },
+    { icon: "🔍", title: "Retail Buyer & Distributor Discovery", desc: "Find verified retail buyers and distributors that can stock your products. Reduce go-to-market friction." },
     { icon: "🔍", title: "Supplier & Distributor Discovery", desc: "Find verified distributors and suppliers for your products in one click. Reduce sourcing friction." },
     { icon: "📈", title: "Product Trends Discovery", desc: "Identify products customers are talking about and those about to trend. Spot revenue opportunities before competitors." },
     { icon: "🚀", title: "Launch Your Product to Retail Buyers", desc: "Buyers and customers can explore and upvote products to signal real demand." },
