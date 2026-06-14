@@ -46,9 +46,11 @@ Deno.serve(async (req) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey, {
       global: { headers: { Authorization: authHeader } },
     });
+    const adminClient = createClient(supabaseUrl, serviceRoleKey);
 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
@@ -71,7 +73,10 @@ Deno.serve(async (req) => {
       ? country.trim().slice(0, 100)
       : "United States";
 
-    const { data: hasPaid } = await supabase.rpc("has_paid", { p_user_id: user.id });
+    const { data: hasPaid, error: paidErr } = await adminClient.rpc("has_paid", { p_user_id: user.id });
+    if (paidErr) {
+      console.error("Failed to check paid status:", paidErr);
+    }
     const resultCount = 10;
 
     const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
@@ -192,9 +197,6 @@ STRICT:
     const persistedResults = allResults.slice(0, displayLimit);
 
     // Save list + items server-side
-    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const adminClient = createClient(supabaseUrl, serviceRoleKey);
-
     const defaultTitle = `${sanitizedProduct} — ${selectedCountry}`;
 
     const { data: listRow, error: listErr } = await adminClient
