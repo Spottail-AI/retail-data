@@ -211,7 +211,9 @@ STRICT:
       });
     }
 
+    const allResults: EnrichedResult[] = parsed.results || [];
     // Filter out anything that smells like a supplier/manufacturer/marketplace — user wants BUYERS, not sources.
+
     const BLOCK_PATTERNS = [
       /manufactur/i, /\bfactor(y|ies)\b/i, /\boem\b/i, /\bodm\b/i, /co-?packer/i,
       /private[- ]label/i, /white[- ]label/i, /contract manufactur/i,
