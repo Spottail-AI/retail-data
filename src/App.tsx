@@ -101,8 +101,11 @@ const App = () => (
             <Route path="/signup" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/price-tracking" element={<PriceTracking />} />
-            <Route path="/suppliers" element={<Suppliers />} />
-            <Route path="/suppliers/:listId" element={<SupplierList />} />
+            <Route path="/stockists" element={<Suppliers />} />
+            <Route path="/stockists/:listId" element={<SupplierList />} />
+            {/* Permanent redirects from the old /suppliers route */}
+            <Route path="/suppliers" element={<Navigate to="/stockists" replace />} />
+            <Route path="/suppliers/:listId" element={<SuppliersListRedirect />} />
             <Route path="/competitor-analysis" element={<CompetitorAnalysis />} />
             <Route path="/competitor-analysis/:id" element={<CompetitorDetailPage />} />
             <Route path="/trend-discovery" element={<TrendDiscovery />} />
