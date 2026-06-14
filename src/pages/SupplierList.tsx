@@ -291,7 +291,7 @@ const SupplierListPage = () => {
       {/* Header */}
       <div className="-mt-4">
         <button
-          onClick={() => navigate("/suppliers")}
+          onClick={() => navigate("/stockists")}
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-3"
         >
           <ArrowLeft className="w-4 h-4" /> My lists
@@ -325,7 +325,7 @@ const SupplierListPage = () => {
           )}
           <Button
             size="sm" variant="outline"
-            onClick={() => navigate("/suppliers")}
+            onClick={() => navigate("/stockists")}
             className="ml-auto"
           >
             Refine

@@ -70,7 +70,7 @@ const Suppliers = () => {
       if (error) throw error;
       if (data?.list_id) {
         toast.success("List created");
-        navigate(`/suppliers/${data.list_id}`);
+        navigate(`/stockists/${data.list_id}`);
         return;
       }
       toast.error("No results returned.");
@@ -165,7 +165,7 @@ const Suppliers = () => {
                   className="px-5 py-3 flex items-center justify-between hover:bg-muted/30 transition-colors group"
                 >
                   <button
-                    onClick={() => navigate(`/suppliers/${s.id}`)}
+                    onClick={() => navigate(`/stockists/${s.id}`)}
                     className="flex items-center gap-3 text-left flex-1 min-w-0"
                   >
                     <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -191,7 +191,7 @@ const Suppliers = () => {
                     </Button>
                     <ChevronRight
                       className="w-4 h-4 text-muted-foreground shrink-0 group-hover:text-foreground transition-colors cursor-pointer"
-                      onClick={() => navigate(`/suppliers/${s.id}`)}
+                      onClick={() => navigate(`/stockists/${s.id}`)}
                     />
                   </div>
                 </div>
