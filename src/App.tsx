@@ -42,6 +42,7 @@ const TrendingEcommerceProductsUS = lazy(() => import("./pages/TrendingEcommerce
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const PriceTracking = lazy(() => import("./pages/PriceTracking"));
 const Suppliers = lazy(() => import("./pages/Suppliers"));
+const SupplierList = lazy(() => import("./pages/SupplierList"));
 const CompetitorAnalysis = lazy(() => import("./pages/CompetitorAnalysis"));
 const CompetitorDetailPage = lazy(() => import("./pages/CompetitorDetailPage"));
 const TrendDiscovery = lazy(() => import("./pages/TrendDiscovery"));
