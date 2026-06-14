@@ -101,37 +101,42 @@ const Suppliers = () => {
         <p className="text-xs text-muted-foreground mb-2">
           Paste a link to the exact product for better results
         </p>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Input
-            placeholder="e.g. Organic cold brew coffee, Bamboo toothbrush, LED grow lights..."
-            value={product}
-            onChange={(e) => setProduct(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            className="flex-1"
-          />
-          <Select value={country} onValueChange={setCountry}>
-            <SelectTrigger className="w-full sm:w-64">
-              <SelectValue placeholder="Select Country" />
-            </SelectTrigger>
-            <SelectContent>
-              <div className="px-2 pb-2">
-                <Input
-                  placeholder="Search countries..."
-                  value={countrySearch}
-                  onChange={(e) => setCountrySearch(e.target.value)}
-                  className="h-8 text-sm"
-                  onKeyDown={(e) => e.stopPropagation()}
-                />
-              </div>
-              {filteredCountries.map((c) => (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex flex-col sm:flex-row gap-3 items-end">
+          <div className="flex-1 w-full">
+            <Input
+              placeholder="e.g. Organic cold brew coffee, Bamboo toothbrush, LED grow lights..."
+              value={product}
+              onChange={(e) => setProduct(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="w-full"
+            />
+          </div>
+          <div className="w-full sm:w-64">
+            <label className="text-sm font-semibold text-foreground mb-1 block">Region</label>
+            <Select value={country} onValueChange={setCountry}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Country" />
+              </SelectTrigger>
+              <SelectContent>
+                <div className="px-2 pb-2">
+                  <Input
+                    placeholder="Search countries..."
+                    value={countrySearch}
+                    onChange={(e) => setCountrySearch(e.target.value)}
+                    className="h-8 text-sm"
+                    onKeyDown={(e) => e.stopPropagation()}
+                  />
+                </div>
+                {filteredCountries.map((c) => (
+                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <Button
             onClick={handleSearch}
             disabled={loading || !product.trim()}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 w-full sm:w-auto"
           >
             <Search className="w-4 h-4 mr-2" />
             {loading ? "Building list..." : "Find matches"}
