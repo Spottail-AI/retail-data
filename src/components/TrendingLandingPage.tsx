@@ -266,7 +266,7 @@ const Hero = ({ data }: { data: TrendingLandingPageData }) => {
 // ── Features (mirrors v2 homepage) ─────────────────────────────────────────
 const Features = () => {
   const items = [
-    { icon: "📉", title: "Retail & Competitor Product Price Tracking", desc: "Track prices across online and offline markets so you never miss margin or pricing opportunities. Get real-time price change alerts." },
+    { icon: "🔍", title: "Retail Buyer & Distributor Discovery", desc: "Find verified retail buyers and distributors that can stock your products. Reduce go-to-market friction." },
     { icon: "🔍", title: "Supplier & Distributor Discovery", desc: "Find verified distributors and suppliers for your products in one click. Reduce sourcing friction." },
     { icon: "📈", title: "Product Trends Discovery", desc: "Identify products customers are talking about and those about to trend. Spot revenue opportunities before competitors." },
     { icon: "🚀", title: "Launch Your Product to Retail Buyers", desc: "Buyers and customers can explore and upvote products to signal real demand." },
@@ -517,7 +517,7 @@ const Pricing = () => {
               For teams operating at scale across multiple products, markets, and suppliers.
             </p>
             <ul className="list-none" style={{ marginBottom: 28 }}>
-              {["Unlimited product price tracking", "Unlimited supplier & distributor discovery", "Full competitive analysis suite", "Priority support & onboarding"].map((f, i, arr) => (
+              {["Unlimited retail buyer & distributor discovery", "Unlimited trend discovery", "Full competitive analysis suite", "Priority support & onboarding"].map((f, i, arr) => (
                 <li key={f} className="flex items-center" style={{ fontSize: 13, fontWeight: 300, color: "var(--v2-ink)", padding: "6px 0", gap: 9, borderBottom: i === arr.length - 1 ? "none" : "1px solid var(--v2-border)", letterSpacing: "-0.005em" }}>
                   <CheckIcon />{f}
                 </li>

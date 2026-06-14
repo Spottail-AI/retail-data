@@ -11,7 +11,7 @@ import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { Footer } from "@/components/Footer";
 import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
 import { KpiCards } from "@/components/dashboard/KpiCards";
-import { PriceTrendsSection } from "@/components/dashboard/PriceTrendsSection";
+
 import { SupplierIntelligenceSection } from "@/components/dashboard/SupplierIntelligenceSection";
 import { CompetitorAnalysisSection } from "@/components/dashboard/CompetitorAnalysisSection";
 import { TrendDiscoverySection } from "@/components/dashboard/TrendDiscoverySection";
@@ -112,9 +112,6 @@ const Dashboard = () => {
         <main className="p-4 md:p-8 max-w-[1200px] mx-auto space-y-8">
           {/* KPI Cards */}
           <KpiCards />
-
-          {/* Price Trends - Primary */}
-          <PriceTrendsSection />
 
           {/* Two-column layout for Suppliers + Competitors */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TrendingUp, TrendingDown, Truck, Users, Sparkles, ArrowUp, ArrowDown, AlertCircle, Package, LineChart } from "lucide-react";
+import { TrendingUp, TrendingDown, Truck, Users, Sparkles, ArrowUp, ArrowDown, AlertCircle, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -124,24 +124,6 @@ export const KpiCards = () => {
     enabled: !!user,
   });
 
-  // Card 2: Track product or competitor prices — combined tracked_prices snapshot
-  const { data: trackedData, isLoading: loadingTracked, isError: errorTracked, refetch: refetchTracked } = useQuery({
-    queryKey: ["tracked-prices-kpi", user?.id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("tracked_prices")
-        .select("id, product_label, created_at")
-        .eq("user_id", user!.id)
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return {
-        count: data?.length ?? 0,
-        latest: data?.[0]?.product_label ?? null,
-      };
-    },
-    enabled: !!user,
-  });
-
   // Card 3: Search for distributors — suppliers/distributors saved by the user
   const { data: supplierData, isLoading: loadingSuppliers, isError: errorSuppliers, refetch: refetchSuppliers } = useQuery({
     queryKey: ["suppliers-kpi", user?.id],
@@ -175,7 +157,7 @@ export const KpiCards = () => {
   });
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <KpiCard
         title="Launch a retail product"
         value={listedData?.count ?? null}
@@ -189,20 +171,6 @@ export const KpiCards = () => {
         onRetry={() => refetchListed()}
         onClick={() => navigate("/source/new")}
         onEmptyCta={() => navigate("/source/new")}
-      />
-      <KpiCard
-        title="Track Product or Competitor Prices"
-        value={trackedData?.count ?? null}
-        change={0}
-        subtitle={trackedData?.latest ? `Latest: ${trackedData.latest}` : "Items tracked"}
-        icon={<LineChart className="w-4 h-4" />}
-        accentColor="primary"
-        loading={loadingTracked}
-        error={errorTracked}
-        emptyCta="Track Prices"
-        onRetry={() => refetchTracked()}
-        onClick={() => navigate("/price-tracking")}
-        onEmptyCta={() => navigate("/price-tracking")}
       />
       <KpiCard
         title="Search for Distributors"
