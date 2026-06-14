@@ -90,28 +90,33 @@ Deno.serve(async (req) => {
     const prompt = `You are a B2B RETAIL PLACEMENT intelligence engine GROUNDED IN GOOGLE WEB SEARCH.
 
 WHO THE USER IS (critical context — do not misinterpret):
-- The user is a BRAND, MANUFACTURER, or PRODUCT OWNER who already makes "${sanitizedProduct}".
-- They are looking for BUYERS of their product — i.e. RETAIL STORES that would sell it to end consumers, and DISTRIBUTORS / WHOLESALERS that would buy it to resell to retailers.
-- They are NOT looking for suppliers, manufacturers, factories, OEMs, contract manufacturers, white-label producers, ingredient suppliers, packaging suppliers, raw-material vendors, sourcing agents, dropshippers, B2B marketplaces (Alibaba, Faire, Ankorstore, Tundra, Etsy wholesale), trade shows, agencies, or consultancies. EXCLUDE ALL OF THESE.
+- The user is a BRAND / MANUFACTURER / PRODUCT OWNER who already makes "${sanitizedProduct}".
+- They are looking for THIRD-PARTY MULTI-BRAND BUYERS — RETAIL STORES that stock MANY OUTSIDE BRANDS and would add this brand to their shelves, and DISTRIBUTORS / WHOLESALERS that buy from many brands to resell to retailers.
+- NOT suppliers, manufacturers, factories, OEMs, contract manufacturers, white-label producers, ingredient/packaging/raw-material vendors, sourcing agents, dropshippers, B2B marketplaces (Alibaba, Faire, Ankorstore, Tundra, Etsy wholesale), trade shows, agencies, or consultancies.
+- CRITICAL: ALSO NOT other BRANDS / DTC companies / product owners in the same or adjacent category. Any business whose store only sells THEIR OWN single brand (monobrand DTC site, own-label-only shop) CANNOT stock the user's product and MUST be excluded — even if their website looks like a "shop". Only return businesses whose core model is RESELLING MULTIPLE THIRD-PARTY BRANDS.
 
 YOUR JOB:
-Use live Google web search to find EXACTLY ${resultCount} REAL, currently operating businesses in ${selectedCountry} that could STOCK and SELL "${sanitizedProduct}" — meaning retail stores (physical or online) that sell to consumers, and distributors/wholesalers that supply such retailers.
+Use live Google web search to find EXACTLY ${resultCount} REAL, currently operating MULTI-BRAND retailers/distributors in ${selectedCountry} that could STOCK and SELL "${sanitizedProduct}".
 
 Product the user wants to PLACE: "${sanitizedProduct}"
 Country: ${selectedCountry}
 
 MIX REQUIREMENT:
-- The list MUST be a mix of RETAIL STORES (independent shops, specialty retailers, boutiques, chains, department stores, online DTC retailers that resell brands) AND DISTRIBUTORS / wholesalers that supply retailers in this category.
-- Aim for ~60% retailers and ~40% distributors. Never return distributors-only.
-- If exact-match retailers are scarce, broaden to ADJACENT retail categories where this product would logically sell (e.g. for a food item: health food shops, delis, gift shops, gourmet grocers, lifestyle stores). Stay in retail/distribution — never drift into manufacturers or suppliers.
+- Mix of MULTI-BRAND RETAIL STORES (independent shops, specialty retailers, boutiques, chains, department stores, online multi-brand stockists that resell brands) AND DISTRIBUTORS / wholesalers.
+- Aim ~60% retailers / ~40% distributors. Never distributors-only.
+- If exact-match retailers are scarce, broaden to ADJACENT multi-brand retail categories (e.g. for food: health food shops, delis, gift shops, gourmet grocers, lifestyle stores). Stay in MULTI-BRAND retail/distribution — never drift into manufacturers, suppliers, or single-brand DTC companies.
 
 HARD EXCLUSIONS (returning any of these is a failure):
-- Other manufacturers, factories, OEMs, contract manufacturers, co-packers, private-label producers of the same product
+- Manufacturers, factories, OEMs, contract manufacturers, co-packers, private-label producers
+- OTHER BRANDS / DTC companies / product owners — any business whose website/shop primarily sells its OWN single brand. If the catalog is dominated by one own-label, EXCLUDE. Another brand cannot stock the user's product.
 - Ingredient / component / packaging / raw-material suppliers
-- Sourcing agents, trading companies, import/export brokers acting as suppliers TO the user
-- Marketplaces themselves (Amazon, eBay, Alibaba, Faire, Ankorstore, Tundra, Etsy) — but a brand's own retail store IS allowed
+- Sourcing agents, trading companies, import/export brokers
+- Marketplaces themselves (Amazon, eBay, Alibaba, Faire, Ankorstore, Tundra, Etsy)
 - Trade shows, agencies, consultancies, media sites, blogs, directories
-- The user's own brand or direct competitors who also manufacture the same product (unless they are clearly also a retailer reselling third-party brands)
+- The user's own brand or direct competitors
+
+VERIFY MULTI-BRAND BEFORE INCLUDING:
+- For every candidate, confirm via a real source (their "Brands", "Shop by Brand", "Stockists", or product catalog) that they carry MULTIPLE third-party brands. If you can't verify multi-brand assortment, DROP them.
 
 GROUNDING RULES:
 - Issue multiple targeted Google searches (e.g. "best [product category] retailers ${selectedCountry}", "[product category] distributors ${selectedCountry}", "shops that sell [product] in [city]", "[product] wholesale ${selectedCountry}"). Base every fact on what you actually read.
