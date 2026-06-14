@@ -196,7 +196,7 @@ const Hero = () => {
   return (
     <section
       className="flex items-center"
-      style={{ background: "var(--v2-black)", padding: "80px 48px 55px", minHeight: "92vh" }}
+      style={{ background: "var(--v2-black)", padding: "80px 48px 20px" }}
     >
       <div className="mx-auto w-full text-center" style={{ maxWidth: 900 }}>
         <h1
