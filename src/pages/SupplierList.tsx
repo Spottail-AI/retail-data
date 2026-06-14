@@ -18,6 +18,7 @@ import {
 import {
   ArrowLeft, Download, Plus, Mail, Phone, MessageCircle, Search,
   X, Filter as FilterIcon, ArrowUpDown, ExternalLink, Loader2,
+  Copy, MapPin, Globe, FileText, MessageSquare,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
