@@ -204,6 +204,7 @@ const SupplierListPage = () => {
           whatsapp: r?.whatsapp ?? null,
           contact_form_url: r?.contact_form_url ?? null,
           address: r?.address ?? null,
+          sources: Array.isArray(r?.sources) ? r.sources : [],
           status: "To contact",
           priority: "Medium",
           sort_order: idx,
