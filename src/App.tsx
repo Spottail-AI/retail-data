@@ -75,6 +75,12 @@ const BuyerTrendingNow = lazy(() => import("./pages/BuyerTrendingNow"));
 const BuyerShortlist = lazy(() => import("./pages/BuyerShortlist"));
 const BuyerEnquiries = lazy(() => import("./pages/BuyerEnquiries"));
 
+// Permanent redirect: /suppliers/:listId → /stockists/:listId
+const SuppliersListRedirect = () => {
+  const { listId } = useParams();
+  return <Navigate to={`/stockists/${listId}`} replace />;
+};
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
