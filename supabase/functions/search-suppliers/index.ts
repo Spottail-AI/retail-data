@@ -242,7 +242,91 @@ STRICT:
     };
     const cleanResults = allResults.filter(isBuyer);
     const displayLimit = hasPaid ? 10 : 2;
-    const persistedResults = cleanResults.slice(0, displayLimit);
+    let persistedResults = cleanResults.slice(0, displayLimit);
+
+    // Enrich missing contact details by scraping each website via Firecrawl.
+    const firecrawlKey = Deno.env.get("FIRECRAWL_API_KEY");
+    if (firecrawlKey) {
+      const EMAIL_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+      const PHONE_RE = /(?:\+?\d[\d\s().-]{7,}\d)/g;
+      const BAD_EMAIL = /(example|sentry|wixpress|googleapis|cloudflare|@2x|\.png|\.jpg|\.svg|\.webp)/i;
+      const enrichOne = async (r: EnrichedResult): Promise<EnrichedResult> => {
+        if (!r.website) return r;
+        const hasAny = (r.email && r.email.length > 0) ||
+          (r.phone && r.phone.length > 0) ||
+          (r.whatsapp && r.whatsapp.length > 0) ||
+          (r.contact_form_url && r.contact_form_url.length > 0);
+        if (hasAny) return r;
+        try {
+          let base = r.website.trim();
+          if (!/^https?:\/\//i.test(base)) base = "https://" + base;
+          const origin = new URL(base).origin;
+          const candidates = [
+            `${origin}/contact`, `${origin}/contact-us`, `${origin}/contacts`,
+            `${origin}/pages/contact`, `${origin}/about`, origin,
+          ];
+          for (const url of candidates) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 12000);
+            let resp: Response;
+            try {
+              resp = await fetch("https://api.firecrawl.dev/v2/scrape", {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${firecrawlKey}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  url,
+                  formats: ["markdown", "links"],
+                  onlyMainContent: false,
+                }),
+                signal: controller.signal,
+              });
+            } catch (e) {
+              clearTimeout(timer);
+              continue;
+            }
+            clearTimeout(timer);
+            if (!resp.ok) continue;
+            const data = await resp.json().catch(() => null) as any;
+            const md: string = data?.data?.markdown || data?.markdown || "";
+            const links: string[] = data?.data?.links || data?.links || [];
+            if (!r.email) {
+              const emails = (md.match(EMAIL_RE) || []).filter((e) => !BAD_EMAIL.test(e));
+              const mailtoLink = links.find((l) => typeof l === "string" && l.toLowerCase().startsWith("mailto:"));
+              const fromMailto = mailtoLink ? mailtoLink.replace(/^mailto:/i, "").split("?")[0] : "";
+              const pick = fromMailto || emails[0] || "";
+              if (pick) r.email = pick;
+            }
+            if (!r.phone) {
+              const telLink = links.find((l) => typeof l === "string" && l.toLowerCase().startsWith("tel:"));
+              const fromTel = telLink ? telLink.replace(/^tel:/i, "") : "";
+              const phones = md.match(PHONE_RE) || [];
+              const pick = fromTel || phones[0] || "";
+              if (pick) r.phone = pick.trim();
+            }
+            if (!r.contact_form_url) {
+              const formLink = links.find((l) =>
+                typeof l === "string" && /contact|stockist|wholesale|trade|enquir|inquir/i.test(l)
+              );
+              if (formLink) r.contact_form_url = formLink;
+              else if (/\/contact/i.test(url)) r.contact_form_url = url;
+            }
+            const ok = (r.email && r.email.length > 0) ||
+              (r.phone && r.phone.length > 0) ||
+              (r.contact_form_url && r.contact_form_url.length > 0);
+            if (ok) break;
+          }
+        } catch (e) {
+          console.error("Enrich error for", r.website, e);
+        }
+        return r;
+      };
+      // Parallel with cap
+      persistedResults = await Promise.all(persistedResults.map(enrichOne));
+    }
+
 
 
     // Save list + items server-side
