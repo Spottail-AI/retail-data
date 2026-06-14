@@ -302,7 +302,7 @@ const Hero = () => {
             )}
           </button>
         </div>
-        <div className="hero-bottom-v2 flex items-center justify-center flex-wrap" style={{ gap: 12, marginTop: 44, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div className="hero-bottom-v2 flex items-center justify-center flex-wrap" style={{ gap: 12, marginTop: 44, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.07)" }}>
           <span style={{ fontSize: 12, fontWeight: 400, color: "rgba(255,255,255,0.25)", letterSpacing: "0.01em", marginRight: 8 }}>
             Trusted by teams at
           </span>
@@ -338,7 +338,7 @@ const Features = () => {
     { icon: "🎯", title: "Competitive Analysis", desc: "Understand what competitors are launching, how they position themselves, and where they're vulnerable." },
   ];
   return (
-    <section id="features" style={{ background: "var(--v2-white)", padding: "48px 48px 96px", borderTop: "1px solid var(--v2-border)" }}>
+    <section id="features" style={{ background: "var(--v2-white)", padding: "24px 48px 96px", borderTop: "1px solid var(--v2-border)" }}>
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
         <div className="features-header-v2 flex justify-between items-end" style={{ marginBottom: 52 }}>
           <div>
