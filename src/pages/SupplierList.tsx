@@ -92,6 +92,59 @@ const prioPill = (p: Priority) =>
     ? "bg-amber-50 text-amber-700 border-amber-200"
     : "bg-slate-100 text-slate-600 border-slate-200";
 
+/* ───────────── Contact helpers ───────────── */
+
+// Normalize phone to E.164. Defaults to UK (+44) when input is a local number.
+function normalizePhoneE164(raw?: string | null, defaultCc = "44"): string | null {
+  if (!raw) return null;
+  let s = raw.replace(/[^\d+]/g, "");
+  if (!s) return null;
+  if (s.startsWith("+")) {
+    return /^\+\d{8,15}$/.test(s) ? s : null;
+  }
+  if (s.startsWith("00")) s = s.slice(2);
+  if (s.startsWith("0")) s = defaultCc + s.slice(1);
+  if (/^\d{8,15}$/.test(s)) return "+" + s;
+  return null;
+}
+
+// Best-effort cleaned phone for tel:/sms: when E.164 normalization fails.
+function cleanedPhone(raw?: string | null): string | null {
+  if (!raw) return null;
+  const s = raw.replace(/[^\d+]/g, "");
+  return s.length >= 6 ? s : null;
+}
+
+// Mobile detection — keep WhatsApp limited to numbers we can be confident are mobiles.
+// UK: +447… is mobile. For other country codes we conservatively allow WhatsApp
+// since most international numbers users save here are reachable on WhatsApp.
+function looksLikeMobile(e164: string): boolean {
+  if (e164.startsWith("+44")) return e164.startsWith("+447");
+  return true;
+}
+
+function firstName(full?: string | null): string {
+  if (!full) return "";
+  const t = full.trim().split(/\s+/)[0];
+  return t || "";
+}
+
+function buildMessage(item: ListItem): string {
+  const fn = firstName(item.decision_maker_name);
+  return fn
+    ? `Hi ${fn}, I'm reaching out about stocking my product with ${item.name}.`
+    : `Hi, I'm reaching out about stocking my product with ${item.name}.`;
+}
+
+async function copyToClipboard(text: string, label: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.success(`${label} copied`);
+  } catch {
+    toast.error("Copy failed");
+  }
+}
+
 const SupplierListPage = () => {
   const { listId } = useParams<{ listId: string }>();
   const navigate = useNavigate();
