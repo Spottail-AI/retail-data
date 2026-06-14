@@ -4,64 +4,38 @@ import { supabase } from "@/integrations/supabase/client";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, ExternalLink, Lock, Clock, Trash2, Download, FileSpreadsheet } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Search, Clock, Trash2, ChevronRight, ListChecks } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const ALL_COUNTRIES = [
-  "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
-  "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
-  "Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia",
-  "Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica",
-  "Croatia","Cuba","Cyprus","Czech Republic","Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic","East Timor",
-  "Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland",
-  "France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea",
-  "Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq",
-  "Ireland","Israel","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati",
-  "Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein",
-  "Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania",
-  "Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar",
-  "Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia",
-  "Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines",
-  "Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa",
-  "San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
-  "Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
-  "Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad and Tobago","Tunisia",
-  "Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan",
-  "Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
+  "Australia","Austria","Belgium","Brazil","Canada","China","Denmark","Finland","France","Germany",
+  "Hong Kong","India","Ireland","Italy","Japan","Mexico","Netherlands","New Zealand","Norway","Poland",
+  "Portugal","Singapore","South Africa","South Korea","Spain","Sweden","Switzerland","United Arab Emirates",
+  "United Kingdom","United States",
 ];
 
-type Result = { name: string; website: string; type: "supplier" | "distributor" };
 type SavedSearch = {
   id: string;
   product_name: string;
-  search_selection: string;
-  country?: string;
-  results: Result[];
+  list_title: string | null;
+  country: string | null;
   results_found: number;
   created_at: string;
 };
 
 const Suppliers = () => {
-  const { session, hasPaid } = useAuth();
+  const { session } = useAuth();
   const navigate = useNavigate();
   const [product, setProduct] = useState("");
   const [country, setCountry] = useState("United States");
   const [countrySearch, setCountrySearch] = useState("");
-  const [checkSuppliers, setCheckSuppliers] = useState(true);
-  const [checkDistributors, setCheckDistributors] = useState(false);
-  const [results, setResults] = useState<Result[]>([]);
   const [loading, setLoading] = useState(false);
-  const [searched, setSearched] = useState(false);
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
-  const [serverHasPaid, setServerHasPaid] = useState<boolean | null>(null);
 
   const filteredCountries = useMemo(() => {
     if (!countrySearch) return ALL_COUNTRIES;
@@ -69,191 +43,71 @@ const Suppliers = () => {
     return ALL_COUNTRIES.filter((c) => c.toLowerCase().includes(q));
   }, [countrySearch]);
 
+  const fetchLists = async () => {
+    if (!session?.user?.id) return;
+    const { data } = await supabase
+      .from("saved_searches")
+      .select("id, product_name, list_title, country, results_found, created_at")
+      .order("created_at", { ascending: false })
+      .limit(50);
+    if (data) setSavedSearches(data as SavedSearch[]);
+    setLoadingSaved(false);
+  };
+
   useEffect(() => {
-    const fetchSaved = async () => {
-      if (!session?.user?.id) return;
-      const { data } = await supabase
-        .from("saved_searches")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(10);
-      if (data) setSavedSearches(data as unknown as SavedSearch[]);
-      setLoadingSaved(false);
-    };
-    fetchSaved();
+    fetchLists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.user?.id]);
 
   const handleSearch = async () => {
     if (!product.trim()) return;
-    const types: string[] = [];
-    if (checkSuppliers) types.push("supplier");
-    if (checkDistributors) types.push("distributor");
-    if (types.length === 0) return;
-
     setLoading(true);
-    setSearched(true);
     try {
       const { data, error } = await supabase.functions.invoke("search-suppliers", {
         headers: { Authorization: `Bearer ${session?.access_token}` },
-        body: { product: product.trim(), searchType: types, country },
+        body: { product: product.trim(), country },
       });
       if (error) throw error;
-      const allResults = data?.results || [];
-      setResults(allResults);
-      if (typeof data?.hasPaid === "boolean") setServerHasPaid(data.hasPaid);
-
-      const { data: saved } = await supabase
-        .from("saved_searches")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(10);
-      if (saved) setSavedSearches(saved as unknown as SavedSearch[]);
+      if (data?.list_id) {
+        toast.success("List created");
+        navigate(`/suppliers/${data.list_id}`);
+        return;
+      }
+      toast.error("No results returned.");
     } catch (err) {
       console.error("Search error:", err);
       toast.error("Search failed. Please try again.");
-      setResults([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const loadSavedSearch = (search: SavedSearch) => {
-    setProduct(search.product_name);
-    setResults(search.results);
-    setSearched(true);
-    if (search.country) setCountry(search.country);
-    const sel = search.search_selection;
-    setCheckSuppliers(sel === "supplier" || sel === "both");
-    setCheckDistributors(sel === "distributor" || sel === "both");
-  };
-
-  const deleteSavedSearch = async (id: string) => {
+  const deleteList = async (id: string) => {
     await supabase.from("saved_searches").delete().eq("id", id);
     setSavedSearches((prev) => prev.filter((s) => s.id !== id));
-    toast.success("Search deleted");
+    toast.success("List deleted");
   };
-
-  const effectiveHasPaid = serverHasPaid ?? hasPaid;
-  const displayLimit = effectiveHasPaid ? 10 : 2;
-
-  const downloadCSV = (items: Result[], filenamePrefix: string) => {
-    const headers = ["Company Name", "Website", "Type"];
-    const rows = items.map((r) => [r.name, r.website, r.type]);
-    const csv = [headers, ...rows]
-      .map((row) =>
-        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")
-      )
-      .join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${filenamePrefix}-${country}-${new Date().toISOString().split("T")[0]}.csv`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    toast.success("CSV downloaded");
-  };
-
-  const openInGoogleSheets = async (items: Result[]) => {
-    const headers = ["Company Name", "Website", "Type"];
-    const rows = items.map((r) => [r.name, r.website, r.type]);
-    const tsv = [headers, ...rows].map((row) => row.join("\t")).join("\n");
-    try {
-      await navigator.clipboard.writeText(tsv);
-      window.open("https://sheets.new", "_blank");
-      toast.success("Data copied to clipboard. Paste into cell A1 in the new Google Sheet.");
-    } catch {
-      toast.error("Could not copy to clipboard. Please use the CSV download instead.");
-    }
-  };
-  const displayedResults = results.slice(0, displayLimit);
-  const suppliers = displayedResults.filter((r) => r.type === "supplier");
-  const distributors = displayedResults.filter((r) => r.type === "distributor");
-  const showBoth = checkSuppliers && checkDistributors;
-
-  const ResultTable = ({ items, title }: { items: Result[]; title: string }) => (
-    <Card className="bg-card border-[#E6E8EB] shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-[#E6E8EB]">
-        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-        <p className="text-xs text-muted-foreground mt-0.5">{items.length} result{items.length !== 1 ? "s" : ""} shown · {country}</p>
-      </div>
-      <Table>
-        <TableHeader>
-          <TableRow className="border-[#E6E8EB] bg-muted/50">
-            <TableHead className="text-muted-foreground font-medium pl-6">Company Name</TableHead>
-            <TableHead className="text-muted-foreground font-medium pr-6">Website</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.map((item, i) => (
-            <TableRow key={i} className="border-[#E6E8EB] hover:bg-muted/30 transition-colors h-12">
-              <TableCell className="font-medium text-foreground pl-6">{item.name}</TableCell>
-              <TableCell className="pr-6">
-                <a
-                  href={item.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 hover:underline"
-                >
-                  {item.website.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {!effectiveHasPaid && results.length > 2 && (
-        <div className="px-6 py-4 border-t border-[#E6E8EB] bg-muted/50 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Lock className="w-4 h-4" />
-            <span>Upgrade to view more suppliers & distributors in {country}</span>
-          </div>
-          <Button size="sm" onClick={() => navigate("/pricing")} className="bg-primary hover:bg-primary/90 text-primary-foreground">
-            Upgrade Plan
-          </Button>
-        </div>
-      )}
-    </Card>
-  );
 
   return (
     <DashboardShell
-      title="Suppliers & Distributors"
-      description="Search and discover verified suppliers and distributors for any product worldwide."
+      title="Retail Stores & Distributors"
+      description="Each search generates an auto-saved list of matched stores and distributors you can work as a pipeline."
     >
-      {/* Search Card */}
+      {/* New search */}
       <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
         <label className="text-sm font-semibold text-foreground mb-2 block">
-          Type in your product
+          What product are you placing?
         </label>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <Input
-            placeholder="e.g. Organic Coffee Beans, LED Light Strips, Bamboo Toothbrush..."
+            placeholder="e.g. Organic cold brew coffee, Bamboo toothbrush, LED grow lights..."
             value={product}
             onChange={(e) => setProduct(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             className="flex-1"
           />
-          <Button
-            onClick={handleSearch}
-            disabled={loading || !product.trim() || (!checkSuppliers && !checkDistributors)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6"
-          >
-            <Search className="w-4 h-4 mr-2" />
-            {loading ? "Searching..." : "Search"}
-          </Button>
-        </div>
-
-        {/* Country Dropdown */}
-        <div className="mt-4">
-          <label className="text-sm font-semibold text-foreground mb-2 block">
-            Select Country
-          </label>
           <Select value={country} onValueChange={setCountry}>
-            <SelectTrigger className="w-full sm:w-72">
+            <SelectTrigger className="w-full sm:w-64">
               <SelectValue placeholder="Select Country" />
             </SelectTrigger>
             <SelectContent>
@@ -267,123 +121,85 @@ const Suppliers = () => {
                 />
               </div>
               {filteredCountries.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
-                </SelectItem>
+                <SelectItem key={c} value={c}>{c}</SelectItem>
               ))}
-              {filteredCountries.length === 0 && (
-                <div className="px-2 py-4 text-sm text-muted-foreground text-center">No countries found</div>
-              )}
             </SelectContent>
           </Select>
+          <Button
+            onClick={handleSearch}
+            disabled={loading || !product.trim()}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6"
+          >
+            <Search className="w-4 h-4 mr-2" />
+            {loading ? "Building list..." : "Find matches"}
+          </Button>
         </div>
-
-        <div className="flex items-center gap-6 mt-4">
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="suppliers"
-              checked={checkSuppliers}
-              onCheckedChange={(v) => setCheckSuppliers(!!v)}
-            />
-            <Label htmlFor="suppliers" className="text-sm text-foreground cursor-pointer">Suppliers</Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="distributors"
-              checked={checkDistributors}
-              onCheckedChange={(v) => setCheckDistributors(!!v)}
-            />
-            <Label htmlFor="distributors" className="text-sm text-foreground cursor-pointer">Distributors</Label>
-          </div>
-        </div>
+        <p className="text-xs text-muted-foreground mt-3">
+          Each search is auto-saved as its own list. No manual save needed.
+        </p>
       </Card>
 
-      {/* Loading skeleton */}
-      {loading && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
-          {[1, 2].map((i) => (
-            <Card key={i} className="bg-card border-[#E6E8EB] p-6 shadow-sm space-y-3">
-              <Skeleton className="h-5 w-32" />
-              {[1, 2, 3].map((j) => <Skeleton key={j} className="h-10 w-full" />)}
-            </Card>
-          ))}
+      {/* My Lists */}
+      <div className="mt-8">
+        <div className="flex items-center gap-2 mb-3">
+          <ListChecks className="w-4 h-4 text-muted-foreground" />
+          <h2 className="text-sm font-semibold text-foreground">My lists</h2>
         </div>
-      )}
 
-      {/* Results */}
-      {!loading && searched && displayedResults.length > 0 && (
-        <>
-          <div className="flex flex-wrap items-center gap-3 mt-6">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => downloadCSV(displayedResults, `${product.trim().replace(/\s+/g, "-")}-results`)}
-            >
-              <Download className="w-4 h-4 mr-1.5" />
-              Download CSV
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => openInGoogleSheets(displayedResults)}
-            >
-              <FileSpreadsheet className="w-4 h-4 mr-1.5" />
-              Open in Google Sheets
-            </Button>
+        {loadingSaved ? (
+          <div className="space-y-2">
+            {[1, 2, 3].map((i) => <Skeleton key={i} className="h-14 w-full" />)}
           </div>
-          <div className={`mt-4 ${showBoth ? "grid grid-cols-1 lg:grid-cols-2 gap-4" : ""}`}>
-            {suppliers.length > 0 && <ResultTable items={suppliers} title="Suppliers" />}
-            {distributors.length > 0 && <ResultTable items={distributors} title="Distributors" />}
-          </div>
-        </>
-      )}
-
-      {/* No results */}
-      {!loading && searched && results.length === 0 && (
-        <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm mt-6">
-          <p className="text-muted-foreground text-sm">No verified suppliers or distributors found in {country}. Try another country.</p>
-        </Card>
-      )}
-
-      {/* Saved Searches */}
-      {savedSearches.length > 0 && (
-        <Card className="bg-card border-[#E6E8EB] shadow-sm mt-6 overflow-hidden">
-          <div className="px-6 py-4 border-b border-[#E6E8EB]">
-            <h3 className="text-sm font-semibold text-foreground">Recent Searches</h3>
-          </div>
-          <div className="divide-y divide-[#E6E8EB]">
-            {savedSearches.map((search) => (
-              <div
-                key={search.id}
-                className="px-6 py-3 flex items-center justify-between hover:bg-muted/30 transition-colors"
-              >
-                <button
-                  onClick={() => loadSavedSearch(search)}
-                  className="flex items-center gap-3 text-left flex-1 min-w-0"
+        ) : savedSearches.length === 0 ? (
+          <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm">
+            <p className="text-sm text-muted-foreground">
+              You haven't run a search yet. Try one above — it'll appear here as a list you can come back to.
+            </p>
+          </Card>
+        ) : (
+          <Card className="bg-card border-[#E6E8EB] shadow-sm overflow-hidden">
+            <div className="divide-y divide-[#E6E8EB]">
+              {savedSearches.map((s) => (
+                <div
+                  key={s.id}
+                  className="px-5 py-3 flex items-center justify-between hover:bg-muted/30 transition-colors group"
                 >
-                  <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">{search.product_name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {search.search_selection === "both" ? "Suppliers & Distributors" : search.search_selection === "supplier" ? "Suppliers" : "Distributors"}
-                      {search.country ? ` · ${search.country}` : ""}
-                      {" · "}{search.results_found} results · {new Date(search.created_at).toLocaleDateString()}
-                    </p>
+                  <button
+                    onClick={() => navigate(`/suppliers/${s.id}`)}
+                    className="flex items-center gap-3 text-left flex-1 min-w-0"
+                  >
+                    <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">
+                        {s.list_title || s.product_name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {s.results_found} matches
+                        {s.country ? ` · ${s.country}` : ""}
+                        {" · "}{new Date(s.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="shrink-0 text-muted-foreground hover:text-destructive"
+                      onClick={(e) => { e.stopPropagation(); deleteList(s.id); }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                    <ChevronRight
+                      className="w-4 h-4 text-muted-foreground shrink-0 group-hover:text-foreground transition-colors cursor-pointer"
+                      onClick={() => navigate(`/suppliers/${s.id}`)}
+                    />
                   </div>
-                </button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="shrink-0 text-muted-foreground hover:text-destructive"
-                  onClick={() => deleteSavedSearch(search.id)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )}
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+      </div>
     </DashboardShell>
   );
 };

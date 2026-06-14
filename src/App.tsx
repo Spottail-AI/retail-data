@@ -42,6 +42,7 @@ const TrendingEcommerceProductsUS = lazy(() => import("./pages/TrendingEcommerce
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const PriceTracking = lazy(() => import("./pages/PriceTracking"));
 const Suppliers = lazy(() => import("./pages/Suppliers"));
+const SupplierList = lazy(() => import("./pages/SupplierList"));
 const CompetitorAnalysis = lazy(() => import("./pages/CompetitorAnalysis"));
 const CompetitorDetailPage = lazy(() => import("./pages/CompetitorDetailPage"));
 const TrendDiscovery = lazy(() => import("./pages/TrendDiscovery"));
@@ -101,6 +102,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/price-tracking" element={<PriceTracking />} />
             <Route path="/suppliers" element={<Suppliers />} />
+            <Route path="/suppliers/:listId" element={<SupplierList />} />
             <Route path="/competitor-analysis" element={<CompetitorAnalysis />} />
             <Route path="/competitor-analysis/:id" element={<CompetitorDetailPage />} />
             <Route path="/trend-discovery" element={<TrendDiscovery />} />
