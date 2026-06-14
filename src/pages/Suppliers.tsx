@@ -96,7 +96,7 @@ const Suppliers = () => {
       {/* New search */}
       <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
         <label className="text-sm font-semibold text-foreground mb-1 block">
-          What product are you placing?
+          What product are you trying to stock?
         </label>
         <p className="text-xs text-muted-foreground mb-2">
           Paste a link to the exact product for better results
