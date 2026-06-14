@@ -779,7 +779,39 @@ const DetailPanel = ({
           {editableText("WhatsApp", "whatsapp", "+44 7700 900123")}
           {editableText("Website", "website", "https://store.com")}
           {editableText("Address", "address", "Street, City, Postcode")}
+      </div>
+
+      {/* Sources */}
+      {Array.isArray(item.sources) && item.sources.length > 0 && (
+        <div>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+            Sources
+          </h3>
+          <ul className="border border-[#E6E8EB] rounded-lg p-3 space-y-1.5">
+            {item.sources.map((url, i) => {
+              let host = url;
+              try { host = new URL(url).hostname.replace(/^www\./, ""); } catch { /* noop */ }
+              return (
+                <li key={`${url}-${i}`} className="flex items-start gap-2 text-sm">
+                  <ExternalLink className="w-3.5 h-3.5 mt-0.5 text-muted-foreground shrink-0" />
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline break-all"
+                    title={url}
+                  >
+                    {host}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="text-[11px] text-muted-foreground mt-1.5">
+            Facts above were grounded in these web sources.
+          </p>
         </div>
+      )}
       </div>
 
       {/* Notes */}
