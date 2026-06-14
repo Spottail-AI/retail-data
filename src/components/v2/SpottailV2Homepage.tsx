@@ -38,10 +38,9 @@ const Nav = () => {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-[99] flex items-center justify-between"
+        className="fixed top-0 left-0 right-0 z-[99] flex items-center justify-between px-5 md:px-12"
         style={{
           height: 58,
-          padding: "0 48px",
           background: "var(--v2-white)",
           borderBottom: "1px solid var(--v2-border)",
         }}
