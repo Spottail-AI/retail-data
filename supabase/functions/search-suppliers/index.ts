@@ -26,6 +26,8 @@ type EnrichedResult = {
   phone?: string;
   whatsapp?: string;
   contact_form_url?: string;
+  address?: string;
+  sources?: string[];
 };
 
 Deno.serve(async (req) => {
