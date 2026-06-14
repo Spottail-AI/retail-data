@@ -29,8 +29,7 @@ const plans = [
     features: [
       { text: "Access to product trend detection", included: true },
       { text: "Launch products to retail buyers", included: true },
-      { text: "Track up to 2 product prices", included: true },
-      { text: "Find up to 2 suppliers & distributors", included: true },
+      { text: "Find up to 2 retail stores & distributors", included: true },
       { text: "Competitive analysis tools", included: false },
       { text: "Priority support & onboarding", included: false },
     ],
@@ -45,8 +44,7 @@ const plans = [
     popular: true,
     features: [
       { text: "Everything in Starter", included: true },
-      { text: "Track up to 10 product prices", included: true },
-      { text: "Find up to 10 suppliers & distributors", included: true },
+      { text: "Find up to 10 retail stores & distributors", included: true },
       { text: "Access to competitive analysis tools", included: true },
     ],
   },
@@ -56,10 +54,9 @@ const plans = [
     icon: Rocket,
     price: "Custom",
     billing: "Full visibility. Full control.",
-    description: "For teams operating at scale across multiple products, markets, and suppliers.",
+    description: "For teams operating at scale across multiple products and markets.",
     features: [
-      { text: "Unlimited product price tracking", included: true },
-      { text: "Unlimited supplier & distributor discovery", included: true },
+      { text: "Unlimited retail store & distributor discovery", included: true },
       { text: "Full competitive analysis suite", included: true },
       { text: "Priority support & onboarding", included: true },
     ],
@@ -69,8 +66,7 @@ const plans = [
 const compareRows = [
   { feature: "Product trend detection", free: true, pro: true, enterprise: true },
   { feature: "Launch products to retail buyers", free: true, pro: true, enterprise: true },
-  { feature: "Product price tracking", free: "Up to 2", pro: "Up to 10", enterprise: "Unlimited" },
-  { feature: "Supplier & distributor discovery", free: "Up to 2", pro: "Up to 10", enterprise: "Unlimited" },
+  { feature: "Retail store & distributor discovery", free: "Up to 2", pro: "Up to 10", enterprise: "Unlimited" },
   { feature: "Competitive analysis tools", free: false, pro: true, enterprise: true },
   { feature: "Priority support & onboarding", free: false, pro: false, enterprise: true },
 ];
