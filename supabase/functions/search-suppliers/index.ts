@@ -73,11 +73,32 @@ Deno.serve(async (req) => {
       ? country.trim().slice(0, 100)
       : "United States";
 
+    // If the input looks like a URL, derive a human-readable product hint from the
+    // last path segment + domain. This dramatically improves grounding because Gemini
+    // can otherwise anchor on the URL string itself rather than the product category.
+    let productHint = sanitizedProduct;
+    let urlContext = "";
+    try {
+      const maybeUrl = /^https?:\/\//i.test(sanitizedProduct)
+        ? sanitizedProduct
+        : (/^[\w-]+(\.[\w-]+)+\//.test(sanitizedProduct) ? `https://${sanitizedProduct}` : "");
+      if (maybeUrl) {
+        const u = new URL(maybeUrl);
+        const lastSeg = u.pathname.split("/").filter(Boolean).pop() || "";
+        const cleaned = lastSeg.replace(/[-_]+/g, " ").replace(/\.[a-z0-9]+$/i, "").trim();
+        const brand = u.hostname.replace(/^www\./, "").split(".")[0];
+        if (cleaned) productHint = cleaned;
+        urlContext = `\n\nADDITIONAL CONTEXT: The user pasted a product URL (${u.href}). Brand domain: "${brand}". Likely product name: "${cleaned}". Use Google to identify the product category (e.g. snack/confectionery/beauty) and search for MULTI-BRAND retailers and distributors that stock that CATEGORY — NOT the user's own brand "${brand}".`;
+      }
+    } catch { /* not a URL — use product as-is */ }
+
     const { data: hasPaid, error: paidErr } = await adminClient.rpc("has_paid", { p_user_id: user.id });
     if (paidErr) {
       console.error("Failed to check paid status:", paidErr);
     }
-    const resultCount = 10;
+    // Over-fetch so strict post-filtering still leaves us with the display target.
+    const displayTarget = 10;
+    const resultCount = 20;
 
     const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!lovableApiKey) {
