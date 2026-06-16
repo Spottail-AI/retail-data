@@ -360,8 +360,8 @@ const Features = () => {
   const items = [
     { icon: "🔍", title: "Retail Store & Distributor Discovery", desc: "Find verified retail stores and distributors for your products in one click. Reduce sourcing friction." },
     { icon: "📈", title: "Product Trends Discovery", desc: "Identify products customers are talking about and those about to trend. Spot revenue opportunities before competitors." },
-    { icon: "🚀", title: "Launch Your Product to Retail Buyers", desc: "Buyers and customers can explore and upvote products to signal real demand." },
     { icon: "🎯", title: "Competitive Analysis", desc: "Understand what competitors are launching, how they position themselves, and where they're vulnerable." },
+    { icon: "🚀", title: "Launch Your Product to Retail Buyers", desc: "Buyers and customers can explore and upvote products to signal real demand." },
   ];
   return (
     <section id="features" style={{ background: "var(--v2-white)", padding: "24px 48px 96px", borderTop: "1px solid var(--v2-border)" }}>
