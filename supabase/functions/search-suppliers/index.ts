@@ -73,11 +73,32 @@ Deno.serve(async (req) => {
       ? country.trim().slice(0, 100)
       : "United States";
 
+    // If the input looks like a URL, derive a human-readable product hint from the
+    // last path segment + domain. This dramatically improves grounding because Gemini
+    // can otherwise anchor on the URL string itself rather than the product category.
+    let productHint = sanitizedProduct;
+    let urlContext = "";
+    try {
+      const maybeUrl = /^https?:\/\//i.test(sanitizedProduct)
+        ? sanitizedProduct
+        : (/^[\w-]+(\.[\w-]+)+\//.test(sanitizedProduct) ? `https://${sanitizedProduct}` : "");
+      if (maybeUrl) {
+        const u = new URL(maybeUrl);
+        const lastSeg = u.pathname.split("/").filter(Boolean).pop() || "";
+        const cleaned = lastSeg.replace(/[-_]+/g, " ").replace(/\.[a-z0-9]+$/i, "").trim();
+        const brand = u.hostname.replace(/^www\./, "").split(".")[0];
+        if (cleaned) productHint = cleaned;
+        urlContext = `\n\nADDITIONAL CONTEXT: The user pasted a product URL (${u.href}). Brand domain: "${brand}". Likely product name: "${cleaned}". Use Google to identify the product category (e.g. snack/confectionery/beauty) and search for MULTI-BRAND retailers and distributors that stock that CATEGORY — NOT the user's own brand "${brand}".`;
+      }
+    } catch { /* not a URL — use product as-is */ }
+
     const { data: hasPaid, error: paidErr } = await adminClient.rpc("has_paid", { p_user_id: user.id });
     if (paidErr) {
       console.error("Failed to check paid status:", paidErr);
     }
-    const resultCount = 10;
+    // Over-fetch so strict post-filtering still leaves us with the display target.
+    const displayTarget = 10;
+    const resultCount = 20;
 
     const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!lovableApiKey) {
@@ -90,15 +111,15 @@ Deno.serve(async (req) => {
     const prompt = `You are a B2B RETAIL PLACEMENT intelligence engine GROUNDED IN GOOGLE WEB SEARCH.
 
 WHO THE USER IS (critical context — do not misinterpret):
-- The user is a BRAND / MANUFACTURER / PRODUCT OWNER who already makes "${sanitizedProduct}".
+- The user is a BRAND / MANUFACTURER / PRODUCT OWNER who already makes "${productHint}".
 - They are looking for THIRD-PARTY MULTI-BRAND BUYERS — RETAIL STORES that stock MANY OUTSIDE BRANDS and would add this brand to their shelves, and DISTRIBUTORS / WHOLESALERS that buy from many brands to resell to retailers.
 - NOT suppliers, manufacturers, factories, OEMs, contract manufacturers, white-label producers, ingredient/packaging/raw-material vendors, sourcing agents, dropshippers, B2B marketplaces (Alibaba, Faire, Ankorstore, Tundra, Etsy wholesale), trade shows, agencies, or consultancies.
-- CRITICAL: ALSO NOT other BRANDS / DTC companies / product owners in the same or adjacent category. Any business whose store only sells THEIR OWN single brand (monobrand DTC site, own-label-only shop) CANNOT stock the user's product and MUST be excluded — even if their website looks like a "shop". Only return businesses whose core model is RESELLING MULTIPLE THIRD-PARTY BRANDS.
+- CRITICAL: ALSO NOT other BRANDS / DTC companies / product owners in the same or adjacent category. Any business whose store only sells THEIR OWN single brand (monobrand DTC site, own-label-only shop) CANNOT stock the user's product and MUST be excluded — even if their website looks like a "shop". Only return businesses whose core model is RESELLING MULTIPLE THIRD-PARTY BRANDS.${urlContext}
 
 YOUR JOB:
-Use live Google web search to find EXACTLY ${resultCount} REAL, currently operating MULTI-BRAND retailers/distributors in ${selectedCountry} that could STOCK and SELL "${sanitizedProduct}".
+Use live Google web search to find AT LEAST ${resultCount} REAL, currently operating MULTI-BRAND retailers/distributors in ${selectedCountry} that could STOCK and SELL "${productHint}". Over-fetch — strict downstream filtering removes ~half.
 
-Product the user wants to PLACE: "${sanitizedProduct}"
+Product the user wants to PLACE: "${productHint}"
 Country: ${selectedCountry}
 
 MIX REQUIREMENT:
@@ -241,7 +262,7 @@ STRICT:
       return MULTIBRAND_HINTS.test(blob);
     };
     const cleanResults = allResults.filter(isBuyer);
-    const displayLimit = hasPaid ? 10 : 2;
+    const displayLimit = hasPaid ? displayTarget : 2;
     let persistedResults = cleanResults.slice(0, displayLimit);
 
     // Enrich missing contact details by scraping each website via Firecrawl.
