@@ -360,8 +360,8 @@ const Features = () => {
   const items = [
     { icon: "🔍", title: "Retail Store & Distributor Discovery", desc: "Find verified retail stores and distributors for your products in one click. Reduce sourcing friction." },
     { icon: "📈", title: "Product Trends Discovery", desc: "Identify products customers are talking about and those about to trend. Spot revenue opportunities before competitors." },
-    { icon: "🚀", title: "Launch Your Product to Retail Buyers", desc: "Buyers and customers can explore and upvote products to signal real demand." },
     { icon: "🎯", title: "Competitive Analysis", desc: "Understand what competitors are launching, how they position themselves, and where they're vulnerable." },
+    { icon: "🚀", title: "Launch Your Product to Retail Buyers", desc: "Buyers and customers can explore and upvote products to signal real demand." },
   ];
   return (
     <section id="features" style={{ background: "var(--v2-white)", padding: "24px 48px 96px", borderTop: "1px solid var(--v2-border)" }}>
@@ -379,7 +379,7 @@ const Features = () => {
           </p>
         </div>
         <div className="features-grid-v2 grid" style={{ gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-          {items.map((f, i) => (
+          {items.map((f) => (
             <div
               key={f.title}
               className="feature-card-v2 transition-colors"
@@ -388,10 +388,6 @@ const Features = () => {
                 border: "1px solid var(--v2-border)",
                 borderRadius: 12,
                 padding: "32px 30px",
-                gridColumn: i === items.length - 1 ? "1 / -1" : undefined,
-                maxWidth: i === items.length - 1 ? "50%" : undefined,
-                margin: i === items.length - 1 ? "0 auto" : undefined,
-                width: i === items.length - 1 ? "100%" : undefined,
               }}
             >
               <div style={{ width: 36, height: 36, borderRadius: 9, background: "var(--v2-surface)", border: "1px solid var(--v2-border)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, fontSize: 16 }}>
