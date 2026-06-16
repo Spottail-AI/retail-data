@@ -262,7 +262,7 @@ STRICT:
       return MULTIBRAND_HINTS.test(blob);
     };
     const cleanResults = allResults.filter(isBuyer);
-    const displayLimit = hasPaid ? 10 : 2;
+    const displayLimit = hasPaid ? displayTarget : 2;
     let persistedResults = cleanResults.slice(0, displayLimit);
 
     // Enrich missing contact details by scraping each website via Firecrawl.
