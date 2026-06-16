@@ -111,15 +111,15 @@ Deno.serve(async (req) => {
     const prompt = `You are a B2B RETAIL PLACEMENT intelligence engine GROUNDED IN GOOGLE WEB SEARCH.
 
 WHO THE USER IS (critical context — do not misinterpret):
-- The user is a BRAND / MANUFACTURER / PRODUCT OWNER who already makes "${sanitizedProduct}".
+- The user is a BRAND / MANUFACTURER / PRODUCT OWNER who already makes "${productHint}".
 - They are looking for THIRD-PARTY MULTI-BRAND BUYERS — RETAIL STORES that stock MANY OUTSIDE BRANDS and would add this brand to their shelves, and DISTRIBUTORS / WHOLESALERS that buy from many brands to resell to retailers.
 - NOT suppliers, manufacturers, factories, OEMs, contract manufacturers, white-label producers, ingredient/packaging/raw-material vendors, sourcing agents, dropshippers, B2B marketplaces (Alibaba, Faire, Ankorstore, Tundra, Etsy wholesale), trade shows, agencies, or consultancies.
-- CRITICAL: ALSO NOT other BRANDS / DTC companies / product owners in the same or adjacent category. Any business whose store only sells THEIR OWN single brand (monobrand DTC site, own-label-only shop) CANNOT stock the user's product and MUST be excluded — even if their website looks like a "shop". Only return businesses whose core model is RESELLING MULTIPLE THIRD-PARTY BRANDS.
+- CRITICAL: ALSO NOT other BRANDS / DTC companies / product owners in the same or adjacent category. Any business whose store only sells THEIR OWN single brand (monobrand DTC site, own-label-only shop) CANNOT stock the user's product and MUST be excluded — even if their website looks like a "shop". Only return businesses whose core model is RESELLING MULTIPLE THIRD-PARTY BRANDS.${urlContext}
 
 YOUR JOB:
-Use live Google web search to find EXACTLY ${resultCount} REAL, currently operating MULTI-BRAND retailers/distributors in ${selectedCountry} that could STOCK and SELL "${sanitizedProduct}".
+Use live Google web search to find AT LEAST ${resultCount} REAL, currently operating MULTI-BRAND retailers/distributors in ${selectedCountry} that could STOCK and SELL "${productHint}". Over-fetch — strict downstream filtering removes ~half.
 
-Product the user wants to PLACE: "${sanitizedProduct}"
+Product the user wants to PLACE: "${productHint}"
 Country: ${selectedCountry}
 
 MIX REQUIREMENT:
