@@ -113,6 +113,7 @@ const Pipeline = () => {
   const [diffBanner, setDiffBanner] = useState<{ new: number; existing: number; inMotion: number } | null>(null);
 
   const [searchOpen, setSearchOpen] = useState(false);
+  const [showSourceStrip, setShowSourceStrip] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [pitchRow, setPitchRow] = useState<Row | null>(null);
   const [searching, setSearching] = useState(false);
@@ -155,6 +156,15 @@ const Pipeline = () => {
   }, [session?.user?.id, productId, navigate]);
 
   useEffect(() => { loadAll(); }, [loadAll]);
+
+  // Source cross-sell: user has searched (they're here) but has no Source profile.
+  useEffect(() => {
+    (async () => {
+      if (!session?.user?.id || localStorage.getItem("spottail_source_promo_dismissed")) return;
+      const { data } = await db.from("source_products").select("id").eq("user_id", session.user.id).limit(1);
+      if (!data || data.length === 0) setShowSourceStrip(true);
+    })();
+  }, [session?.user?.id]);
 
   /* ── row updates ── */
   const patchRow = useCallback(async (id: string, patch: Partial<Row>, log?: string) => {
@@ -592,6 +602,26 @@ const Pipeline = () => {
                 Find more — deep search
               </button>
             </div>
+            {showSourceStrip && (
+              <div className="flex items-center gap-3 bg-muted/40 border border-border rounded-lg px-4 py-2.5 mb-6 text-xs">
+                <span className="text-muted-foreground">
+                  <b className="text-foreground">While you pitch buyers, let buyers find you</b> — retail buyers browse Spottail Source for new brands.
+                </span>
+                <button
+                  className="ml-auto font-semibold text-primary hover:underline whitespace-nowrap"
+                  onClick={() => window.open("/source/new", "_blank", "noopener")}
+                >
+                  Create Source profile →
+                </button>
+                <button
+                  className="text-muted-foreground hover:text-foreground"
+                  title="Dismiss permanently"
+                  onClick={() => { localStorage.setItem("spottail_source_promo_dismissed", "1"); setShowSourceStrip(false); }}
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
           </>
         )}
 

@@ -10,11 +10,7 @@ import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { Footer } from "@/components/Footer";
 import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
-import { KpiCards } from "@/components/dashboard/KpiCards";
-
-import { SupplierIntelligenceSection } from "@/components/dashboard/SupplierIntelligenceSection";
-import { CompetitorAnalysisSection } from "@/components/dashboard/CompetitorAnalysisSection";
-import { TrendDiscoverySection } from "@/components/dashboard/TrendDiscoverySection";
+import BrandBriefing from "@/components/dashboard/BrandBriefing";
 import { OnboardingModal } from "@/components/dashboard/OnboardingModal";
 import BuyerDashboard from "@/pages/BuyerDashboard";
 
@@ -109,18 +105,8 @@ const Dashboard = () => {
           onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
         />
 
-        <main className="p-4 md:p-8 max-w-[1200px] mx-auto space-y-8">
-          {/* KPI Cards */}
-          <KpiCards />
-
-          {/* Two-column layout for Suppliers + Competitors */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <SupplierIntelligenceSection />
-            <CompetitorAnalysisSection />
-          </div>
-
-          {/* Trend Discovery */}
-          <TrendDiscoverySection />
+        <main className="p-4 md:p-8 max-w-[1100px] mx-auto">
+          <BrandBriefing />
         </main>
 
         <Footer />

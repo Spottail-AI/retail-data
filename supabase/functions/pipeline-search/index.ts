@@ -185,6 +185,14 @@ Return exactly:
       }
     }
 
+    // Profile-only mode: Stage A just ran (or was cached) — return it for the
+    // search progress UI, which follows up with a full search by product_id.
+    if (body.profile_only) {
+      return new Response(JSON.stringify({ product_id: product.id, profile }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // ── Existing pipeline (for dedupe + deep-mode exclusion) ─
     const { data: existingRows } = await admin
       .from("pipeline_rows")

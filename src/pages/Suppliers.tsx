@@ -1,25 +1,25 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, ChevronRight, Trash2, ListChecks, Loader2 } from "lucide-react";
+import { ChevronRight, Trash2, Pencil } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import SearchLauncher from "@/components/dashboard/SearchLauncher";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const db = supabase as any; // new tables pending type regeneration
 
-const ALL_COUNTRIES = [
-  "Australia","Austria","Belgium","Brazil","Canada","China","Denmark","Finland","France","Germany",
-  "Hong Kong","India","Ireland","Italy","Japan","Mexico","Netherlands","New Zealand","Norway","Poland",
-  "Portugal","Singapore","South Africa","South Korea","Spain","Sweden","Switzerland","United Arab Emirates",
-  "United Kingdom","United States",
-];
+const STAGE_ORDER = ["to_contact", "contacted", "in_conversation", "sampling", "stocked", "passed"] as const;
+const STAGE_COLORS: Record<string, string> = {
+  to_contact: "#94A3B8", contacted: "#3B82F6", in_conversation: "#8B5CF6",
+  sampling: "#F59E0B", stocked: "#10B981", passed: "#FB7185",
+};
 
 type PipelineSummary = {
   id: string;
@@ -27,24 +27,16 @@ type PipelineSummary = {
   created_at: string;
   row_count: number;
   in_motion: number;
+  due_soon: number;
+  new_count: number;
+  counts: Record<string, number>;
 };
 
 const Suppliers = () => {
   const { session } = useAuth();
   const navigate = useNavigate();
-  const [product, setProduct] = useState("");
-  const [country, setCountry] = useState("United States");
-  const [brandStage, setBrandStage] = useState("dtc_only");
-  const [countrySearch, setCountrySearch] = useState("");
-  const [loading, setLoading] = useState(false);
   const [pipelines, setPipelines] = useState<PipelineSummary[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
-
-  const filteredCountries = useMemo(() => {
-    if (!countrySearch) return ALL_COUNTRIES;
-    const q = countrySearch.toLowerCase();
-    return ALL_COUNTRIES.filter((c) => c.toLowerCase().includes(q));
-  }, [countrySearch]);
 
   const fetchPipelines = async () => {
     if (!session?.user?.id) return;
@@ -57,14 +49,21 @@ const Suppliers = () => {
     if (!prods) { setLoadingSaved(false); return; }
     const { data: rows } = await db
       .from("pipeline_rows")
-      .select("product_id, stage")
+      .select("product_id, stage, next_due, is_new")
       .eq("user_id", session.user.id);
+    const weekOut = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+    const today = new Date().toISOString().slice(0, 10);
     const summary: PipelineSummary[] = prods.map((p: any) => {
       const mine = (rows || []).filter((r: any) => r.product_id === p.id);
+      const counts: Record<string, number> = {};
+      STAGE_ORDER.forEach((s) => { counts[s] = mine.filter((r: any) => r.stage === s).length; });
       return {
         id: p.id, name: p.name, created_at: p.created_at,
         row_count: mine.length,
         in_motion: mine.filter((r: any) => !["to_contact", "passed"].includes(r.stage)).length,
+        due_soon: mine.filter((r: any) => r.next_due && r.next_due <= weekOut && r.next_due >= today).length,
+        new_count: mine.filter((r: any) => r.is_new).length,
+        counts,
       };
     });
     setPipelines(summary);
@@ -76,33 +75,21 @@ const Suppliers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.user?.id]);
 
-  const handleSearch = async () => {
-    if (!product.trim()) return;
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("pipeline-search", {
-        headers: { Authorization: `Bearer ${session?.access_token}` },
-        body: { product: product.trim(), country, brand_stage: brandStage },
-      });
-      if (error || data?.error) throw new Error(data?.error || error?.message);
-      if (data?.product_id) {
-        toast.success(`${data.new_count} prospects added to your pipeline`);
-        navigate(`/pipeline/${data.product_id}`);
-        return;
-      }
-      toast.error("No results returned.");
-    } catch (err: any) {
-      console.error("Search error:", err);
-      toast.error(err.message || "Search failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const deletePipeline = async (id: string) => {
     await db.from("products").delete().eq("id", id);
     setPipelines((prev) => prev.filter((p) => p.id !== id));
     toast.success("Pipeline deleted");
+  };
+
+  const [renaming, setRenaming] = useState<PipelineSummary | null>(null);
+  const [renameVal, setRenameVal] = useState("");
+  const renameProduct = async () => {
+    if (!renaming || !renameVal.trim()) return;
+    const { error } = await db.from("products").update({ name: renameVal.trim() }).eq("id", renaming.id);
+    if (error) { toast.error("A product with that name already exists"); return; }
+    setPipelines((prev) => prev.map((p) => (p.id === renaming.id ? { ...p, name: renameVal.trim() } : p)));
+    setRenaming(null);
+    toast.success("Renamed");
   };
 
   return (
@@ -111,80 +98,17 @@ const Suppliers = () => {
       description="Each product gets one pipeline. Every search adds new matched stores and distributors to it — nothing gets lost between searches."
     >
       {/* New search */}
-      <Card className="bg-card border-[#E6E8EB] p-6 shadow-sm">
-        <label className="text-sm font-semibold text-foreground mb-1 block">
-          What product are you trying to stock?
-        </label>
-        <p className="text-xs text-muted-foreground mb-2">
-          Paste a link to the exact product for better results
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 items-end">
-          <div className="flex-1 w-full">
-            <Input
-              placeholder="e.g. Organic cold brew coffee, Bamboo toothbrush, LED grow lights..."
-              value={product}
-              onChange={(e) => setProduct(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              className="w-full"
-            />
-          </div>
-          <div className="w-full sm:w-52">
-            <label className="text-sm font-semibold text-foreground mb-1 block">Region</label>
-            <Select value={country} onValueChange={setCountry}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Country" />
-              </SelectTrigger>
-              <SelectContent>
-                <div className="px-2 pb-2">
-                  <Input
-                    placeholder="Search countries..."
-                    value={countrySearch}
-                    onChange={(e) => setCountrySearch(e.target.value)}
-                    className="h-8 text-sm"
-                    onKeyDown={(e) => e.stopPropagation()}
-                  />
-                </div>
-                {filteredCountries.map((c) => (
-                  <SelectItem key={c} value={c}>{c}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="w-full sm:w-56">
-            <label className="text-sm font-semibold text-foreground mb-1 block">Where is the brand today?</label>
-            <Select value={brandStage} onValueChange={setBrandStage}>
-              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="dtc_only">Online / DTC only</SelectItem>
-                <SelectItem value="some_retail">In some stores</SelectItem>
-                <SelectItem value="established_retail">Established in retail</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Button
-            onClick={handleSearch}
-            disabled={loading || !product.trim()}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 w-full sm:w-auto"
-          >
-            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Search className="w-4 h-4 mr-2" />}
-            {loading ? "Searching..." : "Find matches"}
-          </Button>
-        </div>
-        <p className="text-xs text-muted-foreground mt-3">
-          Matching takes ~30 seconds. Results are verified against live web sources and scored for fit against your product and brand stage.
-        </p>
-      </Card>
+      <SearchLauncher onDone={fetchPipelines} />
 
-      {/* My pipelines */}
-      <div className="mt-8">
-        <div className="flex items-center gap-2 mb-3">
-          <ListChecks className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-sm font-semibold text-foreground">My pipelines</h2>
-        </div>
+      {/* Your products */}
+      <div className="mt-10">
+        <h2 className="text-lg font-medium text-foreground mb-4" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
+          Your products
+        </h2>
 
         {loadingSaved ? (
-          <div className="space-y-2">
-            {[1, 2, 3].map((i) => <Skeleton key={i} className="h-14 w-full" />)}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[1, 2, 3].map((i) => <Skeleton key={i} className="h-36 w-full rounded-xl" />)}
           </div>
         ) : pipelines.length === 0 ? (
           <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm">
@@ -193,45 +117,92 @@ const Suppliers = () => {
             </p>
           </Card>
         ) : (
-          <Card className="bg-card border-[#E6E8EB] shadow-sm overflow-hidden">
-            <div className="divide-y divide-[#E6E8EB]">
-              {pipelines.map((p) => (
-                <div
-                  key={p.id}
-                  className="px-5 py-3 flex items-center justify-between hover:bg-muted/30 transition-colors group"
-                >
-                  <button
-                    onClick={() => navigate(`/pipeline/${p.id}`)}
-                    className="flex items-center gap-3 text-left flex-1 min-w-0"
-                  >
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">{p.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {p.row_count} prospects · {p.in_motion} in motion
-                        {" · "}{new Date(p.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </button>
-                  <div className="flex items-center gap-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {pipelines.map((p) => (
+              <Card
+                key={p.id}
+                onClick={() => navigate(`/pipeline/${p.id}`)}
+                className="bg-card border-[#E6E8EB] p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer group relative"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-base shrink-0"
+                    style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
+                    {p.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-foreground truncate capitalize">{p.name}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {p.row_count === 0
+                        ? "No prospects yet"
+                        : <>{p.row_count} prospects · {p.in_motion} in motion</>}
+                    </p>
+                  </div>
+                  <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <Button
-                      variant="ghost"
-                      size="icon"
-                      className="shrink-0 text-muted-foreground hover:text-destructive"
+                      variant="ghost" size="icon"
+                      className="h-7 w-7 text-muted-foreground"
+                      title="Rename"
+                      onClick={(e) => { e.stopPropagation(); setRenaming(p); setRenameVal(p.name); }}
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </Button>
+                    <Button
+                      variant="ghost" size="icon"
+                      className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                      title="Delete"
                       onClick={(e) => { e.stopPropagation(); deletePipeline(p.id); }}
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </Button>
-                    <ChevronRight
-                      className="w-4 h-4 text-muted-foreground shrink-0 group-hover:text-foreground transition-colors cursor-pointer"
-                      onClick={() => navigate(`/pipeline/${p.id}`)}
-                    />
                   </div>
                 </div>
-              ))}
-            </div>
-          </Card>
+
+                {p.row_count > 0 ? (
+                  <>
+                    {/* funnel bar */}
+                    <div className="flex h-1.5 rounded-full overflow-hidden mt-4 bg-muted">
+                      {STAGE_ORDER.map((s) =>
+                        p.counts[s] > 0 ? (
+                          <div key={s} style={{ width: `${(p.counts[s] / p.row_count) * 100}%`, background: STAGE_COLORS[s] }} />
+                        ) : null
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 mt-3 text-[11px] text-muted-foreground">
+                      {p.new_count > 0 && (
+                        <span className="text-primary font-semibold">✨ {p.new_count} new</span>
+                      )}
+                      {p.due_soon > 0 && (
+                        <span className="text-amber-600 font-semibold">{p.due_soon} due this week</span>
+                      )}
+                      {p.new_count === 0 && p.due_soon === 0 && (
+                        <span>Updated {new Date(p.created_at).toLocaleDateString()}</span>
+                      )}
+                      <ChevronRight className="w-3.5 h-3.5 ml-auto text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-[11px] text-primary font-semibold mt-4">Run your first search →</p>
+                )}
+              </Card>
+            ))}
+          </div>
         )}
       </div>
+
+      {/* Rename dialog */}
+      <Dialog open={!!renaming} onOpenChange={(o) => !o && setRenaming(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle style={{ fontFamily: "'Fraunces', Georgia, serif" }}>Rename product</DialogTitle>
+          </DialogHeader>
+          <Input
+            autoFocus value={renameVal}
+            onChange={(e) => setRenameVal(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && renameProduct()}
+          />
+          <Button className="w-full" disabled={!renameVal.trim()} onClick={renameProduct}>Save</Button>
+        </DialogContent>
+      </Dialog>
     </DashboardShell>
   );
 };
