@@ -85,10 +85,12 @@ For each of THREE platforms, find real, current evidence of consumer interest in
 
 RULES (violating any = failure):
 - Every claim must come from a source you actually read. Include 1-3 REAL urls per platform.
+- RELEVANCE IS ABSOLUTE: a source counts ONLY if it directly discusses this product category or its consumer trend. Celebrity news, entertainment, politics, or generic articles that merely appeared in search results are NOT evidence — never cite them, never stretch a connection ("suggests broader interest" from unrelated content is a failure). If your search results are off-topic, the correct answer is "quiet" with links [].
 - If you find little or nothing for a platform, set strength "quiet", give a neutral one-liner, links [].
 - NEVER invent statistics, view counts, or URLs. Round numbers only as sources state them.
-- strength: "strong" = clear active trend with multiple sources; "moderate" = real but limited evidence; "quiet" = little found.
-- summary: ONE sentence, max 180 chars, concrete and neutral in tone.
+- strength: "strong" = clear active category trend with multiple on-topic sources; "moderate" = real but limited on-topic evidence; "quiet" = little or nothing on-topic found.
+- summary: ONE sentence, max 180 chars, concrete and neutral, about the CATEGORY.
+- links: each needs a "title" copied from the actual page/thread — titles must visibly relate to the category.
 
 Return ONLY: {"signals":[{"platform":"tiktok|reddit|search","strength":"strong|moderate|quiet","summary":"...","links":[{"title":"short label","url":"https://..."}]}]}`;
 
@@ -116,11 +118,26 @@ Return ONLY: {"signals":[{"platform":"tiktok|reddit|search","strength":"strong|m
       console.error("source-signals AI failure:", e);
     }
 
+    // Relevance keywords from the product itself: a link title or summary must
+    // touch at least one, or the evidence is treated as off-topic noise.
+    const STOPWORDS = new Set(["the", "and", "with", "for", "from", "this", "that", "your", "our", "their", "food", "beverage", "product", "brand"]);
+    const keywords = [
+      ...(product.product_name || "").toLowerCase().split(/[^a-z0-9]+/),
+      ...(product.tagline || "").toLowerCase().split(/[^a-z0-9]+/),
+      ...(product.category || "").toLowerCase().split(/[^a-z0-9]+/),
+    ].filter((w) => w.length > 3 && !STOPWORDS.has(w));
+    // Include simple plural/singular variants.
+    const kwSet = new Set(keywords.flatMap((w) => [w, w.endsWith("s") ? w.slice(0, -1) : `${w}s`]));
+    const isRelevant = (text: string) => {
+      const t = (text || "").toLowerCase();
+      return [...kwSet].some((w) => new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, "")}\\b`).test(t));
+    };
+
     // Validate + enforce honesty rules.
     const platforms: Signal["platform"][] = ["tiktok", "reddit", "search"];
     const result: Signal[] = [];
     for (const platform of platforms) {
-      let s = (signals || []).find((x) => x?.platform === platform);
+      const s = (signals || []).find((x) => x?.platform === platform);
       if (!s || !["strong", "moderate", "quiet"].includes(s.strength) || typeof s.summary !== "string") {
         result.push(QUIET[platform]);
         continue;
@@ -128,16 +145,19 @@ Return ONLY: {"signals":[{"platform":"tiktok|reddit|search","strength":"strong|m
       s.summary = s.summary.slice(0, 220);
       const rawLinks = (Array.isArray(s.links) ? s.links : [])
         .filter((l) => l && typeof l.url === "string" && /^https?:\/\//.test(l.url))
+        // Off-topic titles are dropped before we even bother checking liveness.
+        .filter((l) => isRelevant(String(l.title || "")) || isRelevant(l.url))
         .slice(0, 3);
       const liveFlags = await Promise.all(rawLinks.map((l) => checkLink(l.url)));
       const live = rawLinks.filter((_, i) => liveFlags[i])
         .map((l) => ({ title: String(l.title || "Source").slice(0, 60), url: l.url }));
-      if (live.length === 0 && s.strength !== "quiet") {
-        // Claims without verifiable sources degrade to quiet.
+      // Claims need BOTH an on-topic summary AND at least one live on-topic source.
+      // Sources gate the rating but are not stored or displayed.
+      if (s.strength !== "quiet" && (live.length === 0 || !isRelevant(s.summary))) {
         result.push(QUIET[platform]);
         continue;
       }
-      result.push({ platform, strength: s.strength, summary: s.summary, links: live });
+      result.push({ platform, strength: s.strength, summary: s.summary, links: [] });
     }
 
     // Cache only if we got at least one non-quiet signal OR nothing was cached

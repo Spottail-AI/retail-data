@@ -5,7 +5,7 @@ import { useUserRole } from "@/hooks/use-user-role";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  Heart, ExternalLink, CheckCircle, TrendingUp, Loader2, Globe, Package, Layers,
+  Heart, CheckCircle, TrendingUp, Loader2, Globe, Package, Layers,
   ArrowLeft, Share2, Copy, Lock, Rocket, X, Mail, HelpCircle, ChevronDown, ChevronUp,
   Trophy, BarChart3, Triangle,
 } from "lucide-react";
@@ -634,15 +634,6 @@ const SourceProductDetail = () => {
                         </span>
                       </div>
                       <p className="font-body" style={{ fontSize: 12.5, color: "var(--v2-muted)", marginTop: 3, lineHeight: 1.5 }}>{s.summary}</p>
-                      {s.links.length > 0 && (
-                        <div className="flex gap-3 flex-wrap" style={{ marginTop: 5 }}>
-                          {s.links.map((l, i) => (
-                            <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline font-body" style={{ fontSize: 11.5, color: "var(--v2-teal)", fontWeight: 600 }}>
-                              {l.title} <ExternalLink className="w-3 h-3" />
-                            </a>
-                          ))}
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}
