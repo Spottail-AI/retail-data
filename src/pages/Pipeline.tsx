@@ -50,7 +50,14 @@ type Row = {
   retailers: { name: string; domain: string; website: string | null; segment: string | null; location: string | null };
 };
 
-type ProductMeta = { id: string; name: string; url: string | null };
+type ProductMeta = {
+  id: string; name: string; url: string | null;
+  profile?: {
+    vertical?: string; category?: string; subcategory?: string;
+    price_point?: string; msrp_estimate?: string;
+    attributes?: string[]; comparable_brands?: string[];
+  } | null;
+};
 type Feed = { id: string; params: any; new_count: number; existing_count: number; ran_at: string };
 type EventRow = { label: string; at: string };
 type CrossRef = { productName: string; stage: Stage };
@@ -113,7 +120,7 @@ const Pipeline = () => {
   const loadAll = useCallback(async () => {
     if (!session?.user?.id || !productId) return;
     const [{ data: prod }, { data: prods }, { data: rowData }, { data: feedData }] = await Promise.all([
-      db.from("products").select("id,name,url").eq("id", productId).single(),
+      db.from("products").select("id,name,url,profile").eq("id", productId).single(),
       db.from("products").select("id,name,url").eq("user_id", session.user.id).order("created_at"),
       db.from("pipeline_rows")
         .select("*, retailers(name,domain,website,segment,location)")
@@ -349,7 +356,7 @@ const Pipeline = () => {
           )}
         </td>
         <td className="px-2 py-2 w-40">
-          {row.contact_channel ? (
+          {row.contact_channel && !/unknown|not found|n\/a/i.test(row.contact_channel) ? (
             <span className="text-xs">{row.contact_channel}</span>
           ) : (
             <button
@@ -400,6 +407,32 @@ const Pipeline = () => {
         <h1 className="text-3xl font-medium mb-2" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
           {product?.name} — Retail Pipeline
         </h1>
+
+        {/* Stage A product profile strip */}
+        {product?.profile && (
+          <div className="flex items-center gap-1.5 flex-wrap text-[11px] mb-2">
+            <span className="text-muted-foreground/70 font-semibold uppercase tracking-wide mr-1">We read your product as</span>
+            {product.profile.category && (
+              <span className="bg-muted rounded px-2 py-0.5 text-muted-foreground">
+                <b className="text-foreground font-semibold">{product.profile.category}</b>
+                {product.profile.subcategory ? ` › ${product.profile.subcategory}` : ""}
+              </span>
+            )}
+            {product.profile.price_point && (
+              <span className="bg-muted rounded px-2 py-0.5 text-muted-foreground capitalize">
+                {product.profile.price_point}{product.profile.msrp_estimate ? ` · ${product.profile.msrp_estimate}` : ""}
+              </span>
+            )}
+            {(product.profile.attributes || []).slice(0, 4).map((a) => (
+              <span key={a} className="bg-muted rounded px-2 py-0.5 text-muted-foreground">{a}</span>
+            ))}
+            {(product.profile.comparable_brands || []).length > 0 && (
+              <span className="bg-accent rounded px-2 py-0.5 text-accent-foreground">
+                Comparable: {(product.profile.comparable_brands || []).slice(0, 3).join(", ")}
+              </span>
+            )}
+          </div>
+        )}
 
         {/* meta line: stage counts as filters */}
         <div className="flex items-center gap-3 flex-wrap text-xs text-muted-foreground mb-1">

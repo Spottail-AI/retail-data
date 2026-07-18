@@ -212,14 +212,14 @@ Return exactly:
 - retail_chain: 8-15 (specialty chains, department stores, big-box or online retailers with category fit)
 - independent_marketplace: 4-6 (wholesale marketplaces and boutique/independent channels)`;
 
-    const matcherPrompt = `You are a B2B RETAIL PLACEMENT intelligence engine GROUNDED IN GOOGLE WEB SEARCH.
+    const buildMatcherPrompt = (excludeCsv: string, topUp: boolean) => `You are a B2B RETAIL PLACEMENT intelligence engine GROUNDED IN GOOGLE WEB SEARCH.
 
 THE BRAND: sells "${product.name}".
 PRODUCT PROFILE: ${JSON.stringify(profile)}
 BRAND STAGE: ${brandStage} ${brandStage === "dtc_only" ? "(no retail presence yet — rank marketplaces and independent channels HIGH; large national distributors need retail proof, score their brand-stage fit LOW and note 'revisit once you have retail traction' in why)" : brandStage === "some_retail" ? "(in some stores — regional distributors and chains are prime targets)" : "(established — national distributors and major chains are viable)"}
 TARGET GEOGRAPHY: ${geo}
-${excludeList ? `\nALREADY IN THEIR PIPELINE (NEVER return these domains): ${excludeList}\n` : ""}
-${mode === "deep" ? "DEEP MODE: the obvious candidates are excluded above. Search harder — comparable brands' stockist pages, regional trade coverage, category 'best retailers/distributors' lists. Surface less-obvious but real, verifiable candidates." : ""}
+${excludeCsv ? `\nALREADY IN THEIR PIPELINE (NEVER return these domains): ${excludeCsv}\n` : ""}
+${topUp ? "DEEP MODE: the obvious candidates are excluded above. Search harder — comparable brands' stockist pages, regional trade coverage, category 'best retailers/distributors' lists, trade association directories. Surface less-obvious but real, verifiable candidates." : ""}
 
 FIND ${targetMin}-${targetMax} REAL, currently-operating MULTI-BRAND retailers and distributors in ${geo} that could STOCK "${product.name}". Fill these segment buckets (counts are guidance — never pad with weak or invented entries):
 ${profile.vertical === "food_beverage" ? foodBuckets : generalBuckets}
@@ -227,6 +227,7 @@ ${profile.vertical === "food_beverage" ? foodBuckets : generalBuckets}
 If verified candidates fall below ${targetMin}, return what you verified and set "widen_suggestion" (e.g. "Widen to ${country} for more matches").
 
 HARD EXCLUSIONS: manufacturers, factories, OEMs, co-packers, private-label producers, ingredient/packaging suppliers, sourcing agents, single-brand DTC companies (a business selling only its OWN brand cannot stock this product), trade shows, agencies, media/blogs/directories, the brand itself or direct competitors.
+CRITICAL COMPETITOR CHECK: any company that primarily MAKES or SELLS ITS OWN products in the SAME category as "${profile.category}" is a COMPETITOR, not a buyer — EXCLUDE it even if it also wholesales to stockists (e.g. for a candle brand: other candle/home-fragrance brands are competitors, never matches). Before including any candidate, verify their catalog is dominated by MULTIPLE third-party brands, not their own label.
 Wholesale marketplaces (Faire, Mable, etc.) ARE allowed only inside independent_marketplace, as channels the brand can list on.
 
 VERIFY before including: real source showing they carry MULTIPLE third-party brands (brands page, stockist list, catalog). Drop anything unverifiable.
@@ -251,59 +252,103 @@ Per candidate return:
 NEVER invent a person's name, email address, or phone number. Contact info only if published in a source you actually read.
 Return ONLY: {"results":[...], "widen_suggestion": "string or null"}`;
 
-    const matcherRaw = await aiCall(
-      apiKey,
-      "You are a world-class B2B retail placement engine. Ground everything in live Google web search. Return only valid JSON. Never fabricate contact details or company names.",
-      matcherPrompt,
-      true
-    );
+    // ── Post-process helpers: normalize, dedupe, buyer-filter, liveness ──────
+    const BLOCK_PATTERNS = [
+      /manufactur/i, /\bfactor(y|ies)\b/i, /\boem\b/i, /\bodm\b/i, /co-?packer/i,
+      /private[- ]label/i, /white[- ]label/i, /contract manufactur/i,
+      /raw material/i, /ingredient supplier/i, /packaging supplier/i,
+      /sourcing agent/i, /trading (company|co\b)/i,
+      /\bdtc\b/i, /direct[- ]to[- ]consumer/i, /\bour (own )?brand\b/i, /\bsingle[- ]brand\b/i,
+      /\bmonobrand\b/i, /own[- ]label/i, /house brand/i, /flagship store/i,
+      /\bwe (make|craft|produce|design|pour|blend)\b/i, /\btheir own (products|candles|range|line)\b/i,
+      /hand[- ]?(made|poured|crafted) (by|in[- ]house)/i,
+    ];
+    const MULTIBRAND_HINTS = /multi[- ]brand|stockist|shop by brand|brands (we|they) (carry|stock)|over \d+ brands|hundreds of brands|curated brands|department store|specialty retailer|independent retailer|garden centre|gift shop|boutique|wholesaler|distributor|marketplace|carries.*brands|stocks.*brands/i;
+    const isBuyer = (c: Candidate) => {
+      const blob = `${c.name || ""} ${c.website || ""} ${c.why || ""} ${c.pitch_angle || ""}`;
+      if (BLOCK_PATTERNS.some((re) => re.test(blob))) return false;
+      // Distributor segments get a pass; retail/independent must show buyer evidence:
+      // multi-brand language OR a real submission path (portal/form/marketplace).
+      if (c.segment === "national_distributor" || c.segment === "regional_distributor") return true;
+      if (MULTIBRAND_HINTS.test(blob)) return true;
+      if (c.how_to_get_in?.submission_url) return true;
+      if (c.contact_form_url) return true;
+      return /portal|form|rangeme|wholesale|trade|marketplace/i.test(c.contact_channel || "");
+    };
 
-    let parsed: { results?: Candidate[]; widen_suggestion?: string | null };
-    try {
-      parsed = JSON.parse(matcherRaw);
-    } catch {
-      console.error("Matcher parse failure:", matcherRaw.slice(0, 500));
-      return new Response(JSON.stringify({ error: "Failed to parse results. Please try again." }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    // ── Post-process: normalize, dedupe, liveness-check ──────
-    const seen = new Set<string>();
-    const candidates: Candidate[] = [];
-    for (const c of parsed.results || []) {
-      if (!c?.name || !c?.website) continue;
-      const dom = normalizeDomain(c.website);
-      if (!dom || seen.has(dom)) continue;
-      seen.add(dom);
-      c.domain = dom;
-      c.fit = Math.max(0, Math.min(100, Math.round(Number(c.fit) || 0)));
-      if (!["national_distributor", "regional_distributor", "retail_chain", "independent_marketplace"].includes(c.segment)) {
-        c.segment = "retail_chain";
-      }
-      candidates.push(c);
-    }
-
-    const alive = await Promise.all(candidates.map(async (c) => {
-      try {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 4000);
-        const resp = await fetch(`https://${c.domain}`, { method: "HEAD", redirect: "follow", signal: controller.signal });
-        clearTimeout(timer);
-        return resp.ok || resp.status < 500 ? c : null;
-      } catch {
-        // Some sites reject HEAD; try GET once before dropping.
+    const checkAlive = async (c: Candidate): Promise<Candidate | null> => {
+      for (const method of ["HEAD", "GET"] as const) {
         try {
           const controller = new AbortController();
           const timer = setTimeout(() => controller.abort(), 4000);
-          const resp = await fetch(`https://${c.domain}`, { method: "GET", redirect: "follow", signal: controller.signal });
+          const resp = await fetch(`https://${c.domain}`, { method, redirect: "follow", signal: controller.signal });
           clearTimeout(timer);
           return resp.ok || resp.status < 500 ? c : null;
-        } catch { return null; }
+        } catch { /* HEAD often blocked; fall through to GET */ }
       }
-    }));
-    const verified = alive.filter((c): c is Candidate => c !== null);
+      return null;
+    };
+
+    // ── Matcher passes: first pass, then one top-up pass if below target ──────
+    const seen = new Set<string>();
+    const verified: Candidate[] = [];
+    const debug = { passes: 0, parsed: 0, filtered_out: 0, dead_sites: 0 };
+    let widenSuggestion: string | null = null;
+
+    for (let pass = 0; pass < 2 && verified.length < targetMin; pass++) {
+      debug.passes++;
+      const excludeCsv = [...new Set([...existingByDomain.keys(), ...seen])].slice(0, 200).join(", ");
+      let raw: string;
+      try {
+        raw = await aiCall(
+          apiKey,
+          "You are a world-class B2B retail placement engine. Ground everything in live Google web search. Return only valid JSON. Never fabricate contact details or company names.",
+          buildMatcherPrompt(excludeCsv, mode === "deep" || pass > 0),
+          true
+        );
+      } catch (e) {
+        if (pass === 0) throw e;
+        break;
+      }
+      let parsed: { results?: Candidate[]; widen_suggestion?: string | null };
+      try { parsed = JSON.parse(raw); } catch {
+        console.error(`Matcher parse failure (pass ${pass}):`, raw.slice(0, 400));
+        if (pass === 0) {
+          return new Response(JSON.stringify({ error: "Failed to parse results. Please try again." }), {
+            status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        break;
+      }
+      widenSuggestion = parsed.widen_suggestion || widenSuggestion;
+      debug.parsed += (parsed.results || []).length;
+
+      const candidates: Candidate[] = [];
+      for (const c of parsed.results || []) {
+        if (!c?.name || !c?.website) continue;
+        const dom = normalizeDomain(c.website);
+        if (!dom || seen.has(dom)) continue;
+        seen.add(dom);
+        c.domain = dom;
+        c.fit = Math.max(0, Math.min(100, Math.round(Number(c.fit) || 0)));
+        if (!["national_distributor", "regional_distributor", "retail_chain", "independent_marketplace"].includes(c.segment)) {
+          c.segment = "retail_chain";
+        }
+        // Normalize "unknown" contact channels to null so the UI offers Find contact.
+        if (c.contact_channel && /unknown|not (found|available)|n\/a|none/i.test(c.contact_channel)) {
+          c.contact_channel = undefined;
+        }
+        if (!isBuyer(c)) { debug.filtered_out++; continue; }
+        candidates.push(c);
+      }
+
+      const alive = await Promise.all(candidates.map(checkAlive));
+      for (const c of alive) {
+        if (c) verified.push(c); else debug.dead_sites++;
+      }
+    }
     verified.sort((a, b) => b.fit - a.fit);
+    console.log("pipeline-search debug:", JSON.stringify({ ...debug, verified: verified.length }));
 
     // Free tier: cap at 5 rows total in the pipeline.
     const freeCap = 5;
@@ -390,7 +435,8 @@ Return ONLY: {"results":[...], "widen_suggestion": "string or null"}`;
       existing_count: existingCount,
       in_motion_count: inMotionCount,
       total_verified: verified.length,
-      widen_suggestion: parsed.widen_suggestion || null,
+      widen_suggestion: widenSuggestion,
+      debug,
       hasPaid,
       upgradeRequired: !hasPaid && verified.length > toPersist.length,
     }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
