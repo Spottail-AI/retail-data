@@ -32,3 +32,12 @@ verify_jwt = false
 
 [functions.admin-verify]
 verify_jwt = false
+
+[functions.pipeline-search]
+verify_jwt = false
+
+[functions.draft-pitch]
+verify_jwt = false
+
+[functions.retailer-intel]
+verify_jwt = false

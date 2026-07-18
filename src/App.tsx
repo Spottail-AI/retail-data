@@ -43,6 +43,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 const Suppliers = lazy(() => import("./pages/Suppliers"));
 const SupplierList = lazy(() => import("./pages/SupplierList"));
+const Pipeline = lazy(() => import("./pages/Pipeline"));
 const CompetitorAnalysis = lazy(() => import("./pages/CompetitorAnalysis"));
 const CompetitorDetailPage = lazy(() => import("./pages/CompetitorDetailPage"));
 const TrendDiscovery = lazy(() => import("./pages/TrendDiscovery"));
@@ -79,6 +80,10 @@ const SuppliersListRedirect = () => {
   return <Navigate to={`/stockists/${listId}`} replace />;
 };
 
+// Legacy list URLs → the product pipeline that absorbed them.
+// Falls back to the old list page if the migration mapping isn't found.
+const LegacyListToPipeline = lazy(() => import("./pages/LegacyListRedirect"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -106,7 +111,9 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             
             <Route path="/stockists" element={<Suppliers />} />
-            <Route path="/stockists/:listId" element={<SupplierList />} />
+            <Route path="/stockists/:listId" element={<LegacyListToPipeline />} />
+            <Route path="/stockists/:listId/legacy" element={<SupplierList />} />
+            <Route path="/pipeline/:productId" element={<Pipeline />} />
             {/* Permanent redirects from the old /suppliers route */}
             <Route path="/suppliers" element={<Navigate to="/stockists" replace />} />
             <Route path="/suppliers/:listId" element={<SuppliersListRedirect />} />
