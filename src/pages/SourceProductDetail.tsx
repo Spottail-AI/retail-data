@@ -320,9 +320,22 @@ const SourceProductDetail = () => {
     setVoteStatus("submitting");
     try {
       const { data, error } = await supabase.functions.invoke("verify-vote", {
-        body: { action: "vote", product_id: (product as any).id, email: parsed.data },
+        body: { action: "submit-vote", product_id: (product as any).id, email: parsed.data },
       });
-      if (error) throw error;
+      if (error) {
+        // invoke() throws on non-2xx; the 409 duplicate case lives in the error body.
+        let body: any = null;
+        try {
+          const ctx = (error as any).context;
+          if (ctx && typeof ctx.json === "function") body = await ctx.json();
+        } catch { /* unreadable body */ }
+        if (body?.error === "already_voted") {
+          setVoteStatus("duplicate");
+          setLocalCommunityVoted(true);
+          return;
+        }
+        throw error;
+      }
       if (data?.error === "already_voted") {
         setVoteStatus("duplicate");
         setLocalCommunityVoted(true);
@@ -782,7 +795,8 @@ const SourceProductDetail = () => {
               Every vote moves this launch up the weekly board.
             </p>
             <div className="flex gap-2">
-              <Input readOnly value={shareUrl} onFocus={(e) => e.target.select()} className="text-xs" />
+              <Input readOnly value={shareUrl} onFocus={(e) => e.target.select()}
+                className="text-xs bg-white text-[#1A1A18] border-[#E4E4E0]" />
               <button onClick={() => doCopy("link")} style={outlineBtn({ whiteSpace: "nowrap" })}>
                 <Copy className="w-4 h-4" /> {copied === "link" ? "Copied" : "Copy"}
               </button>
@@ -851,7 +865,7 @@ const SourceProductDetail = () => {
                   placeholder={enquiryOpen === "sample"
                     ? "Where should samples go, and what store are you buying for?"
                     : "What would you like to know — pricing tiers, case packs, lead times?"}
-                  className="text-sm"
+                  className="text-sm bg-white text-[#1A1A18] border-[#E4E4E0] placeholder:text-[#9A9A95]"
                 />
                 {enquiryState === "error" && (
                   <p className="font-body" style={{ fontSize: 12, color: "#dc2626" }}>Couldn't send — try again.</p>
@@ -907,12 +921,14 @@ const SourceProductDetail = () => {
                   Enter your email and solve the challenge to cast your vote.
                 </p>
                 <form onSubmit={handleCommunityVote} className="space-y-3">
-                  <Input type="email" placeholder="you@example.com" value={voteEmail} onChange={(e) => setVoteEmail(e.target.value)} />
+                  <Input type="email" placeholder="you@example.com" value={voteEmail} onChange={(e) => setVoteEmail(e.target.value)}
+                    className="bg-white text-[#1A1A18] border-[#E4E4E0] placeholder:text-[#9A9A95]" />
                   <div className="flex items-center gap-2">
                     <span className="font-body" style={{ fontSize: 13, color: "var(--v2-muted)", whiteSpace: "nowrap" }}>
                       What is {captchaChallenge.a} + {captchaChallenge.b}?
                     </span>
-                    <Input type="number" placeholder="?" value={captchaAnswer} onChange={(e) => setCaptchaAnswer(e.target.value)} className="w-20 text-center" />
+                    <Input type="number" placeholder="?" value={captchaAnswer} onChange={(e) => setCaptchaAnswer(e.target.value)}
+                      className="w-20 text-center bg-white text-[#1A1A18] border-[#E4E4E0] placeholder:text-[#9A9A95]" />
                   </div>
                   <button type="submit" disabled={voteStatus === "submitting"} className="w-full inline-flex items-center justify-center"
                     style={{ padding: "12px 20px", borderRadius: 9, fontSize: 14, fontWeight: 500, background: "var(--v2-ink)", color: "#fff", border: "none", cursor: "pointer", gap: 6 }}>
