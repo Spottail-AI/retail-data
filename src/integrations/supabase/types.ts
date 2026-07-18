@@ -195,6 +195,172 @@ export type Database = {
         }
         Relationships: []
       }
+      pipeline_events: {
+        Row: {
+          at: string
+          id: string
+          label: string
+          row_id: string
+          user_id: string
+        }
+        Insert: {
+          at?: string
+          id?: string
+          label: string
+          row_id: string
+          user_id: string
+        }
+        Update: {
+          at?: string
+          id?: string
+          label?: string
+          row_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pipeline_events_row_id_fkey"
+            columns: ["row_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_rows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pipeline_rows: {
+        Row: {
+          contact_channel: string | null
+          contact_form_url: string | null
+          created_at: string
+          email: string | null
+          fit: number | null
+          how_to_get_in: Json | null
+          id: string
+          is_new: boolean
+          last_touch: string | null
+          location: string | null
+          next_action: string | null
+          next_due: string | null
+          notes: string | null
+          phone: string | null
+          pitch_angle: string | null
+          product_id: string
+          retailer_id: string
+          sort_order: number
+          sources: string[]
+          stage: string
+          user_edited: boolean
+          user_id: string
+          why: string | null
+        }
+        Insert: {
+          contact_channel?: string | null
+          contact_form_url?: string | null
+          created_at?: string
+          email?: string | null
+          fit?: number | null
+          how_to_get_in?: Json | null
+          id?: string
+          is_new?: boolean
+          last_touch?: string | null
+          location?: string | null
+          next_action?: string | null
+          next_due?: string | null
+          notes?: string | null
+          phone?: string | null
+          pitch_angle?: string | null
+          product_id: string
+          retailer_id: string
+          sort_order?: number
+          sources?: string[]
+          stage?: string
+          user_edited?: boolean
+          user_id: string
+          why?: string | null
+        }
+        Update: {
+          contact_channel?: string | null
+          contact_form_url?: string | null
+          created_at?: string
+          email?: string | null
+          fit?: number | null
+          how_to_get_in?: Json | null
+          id?: string
+          is_new?: boolean
+          last_touch?: string | null
+          location?: string | null
+          next_action?: string | null
+          next_due?: string | null
+          notes?: string | null
+          phone?: string | null
+          pitch_angle?: string | null
+          product_id?: string
+          retailer_id?: string
+          sort_order?: number
+          sources?: string[]
+          stage?: string
+          user_edited?: boolean
+          user_id?: string
+          why?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pipeline_rows_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pipeline_rows_retailer_id_fkey"
+            columns: ["retailer_id"]
+            isOneToOne: false
+            referencedRelation: "retailers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pipeline_searches: {
+        Row: {
+          existing_count: number
+          id: string
+          legacy_list_id: string | null
+          new_count: number
+          params: Json
+          product_id: string
+          ran_at: string
+          user_id: string
+        }
+        Insert: {
+          existing_count?: number
+          id?: string
+          legacy_list_id?: string | null
+          new_count?: number
+          params?: Json
+          product_id: string
+          ran_at?: string
+          user_id: string
+        }
+        Update: {
+          existing_count?: number
+          id?: string
+          legacy_list_id?: string | null
+          new_count?: number
+          params?: Json
+          product_id?: string
+          ran_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pipeline_searches_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       price_history: {
         Row: {
           currency: string
@@ -242,6 +408,33 @@ export type Database = {
           },
         ]
       }
+      products: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          profile: Json | null
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          profile?: Json | null
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          profile?: Json | null
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -263,6 +456,48 @@ export type Database = {
           id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      retailers: {
+        Row: {
+          channel: string | null
+          created_at: string
+          domain: string
+          enrichment: Json
+          id: string
+          location: string | null
+          name: string
+          segment: string | null
+          updated_at: string
+          verified: boolean
+          website: string | null
+        }
+        Insert: {
+          channel?: string | null
+          created_at?: string
+          domain: string
+          enrichment?: Json
+          id?: string
+          location?: string | null
+          name: string
+          segment?: string | null
+          updated_at?: string
+          verified?: boolean
+          website?: string | null
+        }
+        Update: {
+          channel?: string | null
+          created_at?: string
+          domain?: string
+          enrichment?: Json
+          id?: string
+          location?: string | null
+          name?: string
+          segment?: string | null
+          updated_at?: string
+          verified?: boolean
+          website?: string | null
         }
         Relationships: []
       }
@@ -844,6 +1079,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _normalize_domain: { Args: { website: string }; Returns: string }
       get_community_vote_count: {
         Args: { p_product_id: string }
         Returns: number
