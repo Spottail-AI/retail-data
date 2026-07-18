@@ -642,6 +642,41 @@ export type Database = {
           },
         ]
       }
+      source_page_events: {
+        Row: {
+          created_at: string
+          event: string
+          id: string
+          product_id: string
+          ref: string | null
+          visitor_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event: string
+          id?: string
+          product_id: string
+          ref?: string | null
+          visitor_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event?: string
+          id?: string
+          product_id?: string
+          ref?: string | null
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_page_events_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "source_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       source_product_views: {
         Row: {
           created_at: string
@@ -776,6 +811,32 @@ export type Database = {
             foreignKeyName: "source_shortlists_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
+            referencedRelation: "source_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      source_trend_signals: {
+        Row: {
+          product_id: string
+          refreshed_at: string
+          signals: Json
+        }
+        Insert: {
+          product_id: string
+          refreshed_at?: string
+          signals?: Json
+        }
+        Update: {
+          product_id?: string
+          refreshed_at?: string
+          signals?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_trend_signals_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "source_products"
             referencedColumns: ["id"]
           },
@@ -1091,9 +1152,20 @@ export type Database = {
           vote_count: number
         }[]
       }
+      get_source_weekly_views: {
+        Args: { p_product_id: string; p_since: string }
+        Returns: number
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
+      }
+      get_weekly_community_vote_counts: {
+        Args: { p_product_ids: string[]; p_since: string }
+        Returns: {
+          product_id: string
+          vote_count: number
+        }[]
       }
       has_paid: { Args: { p_user_id: string }; Returns: boolean }
       has_role: {
