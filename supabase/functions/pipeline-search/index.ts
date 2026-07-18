@@ -203,54 +203,52 @@ Return exactly:
     const targetMax = mode === "deep" ? 20 : (isNarrow ? 20 : 40);
     const geo = region ? `${region}, ${country}` : country;
 
-    const foodBuckets = `- national_distributor: 3-5 (e.g. the major natural/specialty distributors relevant to this category)
-- regional_distributor: 5-8 (regional & specialty distributors serving ${geo})
-- retail_chain: 8-15 (chains & online retailers with strong category fit)
-- independent_marketplace: 4-6 (wholesale marketplaces and independent-retail channels suitable for emerging brands)`;
-    const generalBuckets = `- national_distributor: 2-4 (national distributors or master wholesalers for this vertical)
-- regional_distributor: 4-8 (regional distributors, rep groups, or showroom networks)
-- retail_chain: 8-15 (specialty chains, department stores, big-box or online retailers with category fit)
-- independent_marketplace: 4-6 (wholesale marketplaces and boutique/independent channels)`;
+    // Per-segment scouting definitions — small focused calls beat one giant ask.
+    const SEGDEFS: { id: NonNullable<Candidate["segment"]>; ask: number; desc: string }[] = [
+      { id: "national_distributor", ask: isNarrow ? 3 : 5,
+        desc: `national distributors or master wholesalers that supply ${profile.category} (or close adjacents) to retailers across ${country}` },
+      { id: "regional_distributor", ask: isNarrow ? 6 : 9,
+        desc: `regional or specialty distributors, wholesalers, rep groups or showroom networks serving ${geo}, relevant to ${profile.category}` },
+      { id: "retail_chain", ask: isNarrow ? 8 : 15,
+        desc: `multi-brand retail chains, department stores, specialty/lifestyle/gift retailers, garden centres, or online multi-brand retailers in ${geo} that sell ${profile.category} from outside brands` },
+      { id: "independent_marketplace", ask: isNarrow ? 5 : 7,
+        desc: `wholesale marketplaces (e.g. Faire, Ankorstore) plus notable independent/boutique retail channels in ${geo} well-suited to emerging ${profile.category} brands` },
+    ];
 
-    const buildMatcherPrompt = (excludeCsv: string, topUp: boolean) => `You are a B2B RETAIL PLACEMENT intelligence engine GROUNDED IN GOOGLE WEB SEARCH.
+    const contextHeader = (excludeCsv: string, deep: boolean) => `You are a B2B RETAIL PLACEMENT scout GROUNDED IN GOOGLE WEB SEARCH.
 
-THE BRAND: sells "${product.name}".
+THE BRAND: makes "${product.name}". They need BUYERS who will stock it — never suppliers or lookalikes.
 PRODUCT PROFILE: ${JSON.stringify(profile)}
-BRAND STAGE: ${brandStage} ${brandStage === "dtc_only" ? "(no retail presence yet — rank marketplaces and independent channels HIGH; large national distributors need retail proof, score their brand-stage fit LOW and note 'revisit once you have retail traction' in why)" : brandStage === "some_retail" ? "(in some stores — regional distributors and chains are prime targets)" : "(established — national distributors and major chains are viable)"}
+BRAND STAGE: ${brandStage}${brandStage === "dtc_only" ? " (no retail presence — marketplaces/independents rank HIGH; big distributors need retail proof, score their brand-stage fit LOW)" : brandStage === "some_retail" ? " (in some stores — regional distributors and chains are prime targets)" : " (established — national distributors and major chains are viable)"}
 TARGET GEOGRAPHY: ${geo}
-${excludeCsv ? `\nALREADY IN THEIR PIPELINE (NEVER return these domains): ${excludeCsv}\n` : ""}
-${topUp ? "DEEP MODE: the obvious candidates are excluded above. Search harder — comparable brands' stockist pages, regional trade coverage, category 'best retailers/distributors' lists, trade association directories. Surface less-obvious but real, verifiable candidates." : ""}
+${excludeCsv ? `\nNEVER return these domains (already in their pipeline or already found): ${excludeCsv}\n` : ""}
+${deep ? "DEEP MODE: obvious candidates are excluded above. Search comparable brands' stockist pages, trade association directories, regional trade press, category 'best of' lists." : ""}
 
-FIND ${targetMin}-${targetMax} REAL, currently-operating MULTI-BRAND retailers and distributors in ${geo} that could STOCK "${product.name}". Fill these segment buckets (counts are guidance — never pad with weak or invented entries):
-${profile.vertical === "food_beverage" ? foodBuckets : generalBuckets}
+RULES (violating any = failure):
+- Only REAL, currently-operating businesses. Real homepage URLs you saw in a source. NEVER placeholder domains (example.com, test.com, etc.). If unsure of the exact URL, search for it.
+- They must resell MULTIPLE third-party brands. EXCLUDE: manufacturers, OEMs, co-packers, ingredient/packaging suppliers, sourcing agents, trade shows, agencies, media/blogs/directories.
+- COMPETITOR CHECK: any company primarily making/selling its OWN products in the "${profile.category}" category is a competitor, NOT a buyer — exclude, even if it wholesales.
+- EVIDENCE: prefer candidates whose multi-brand assortment you saw in a source (brands page, stockist list, catalog). If promising but only partially verified, INCLUDE with a reduced fit score and state the uncertainty in "why" — don't silently drop.
+- Contact info: never invent emails, names, or phone numbers.
 
-If verified candidates fall below ${targetMin}, return what you verified and set "widen_suggestion" (e.g. "Widen to ${country} for more matches").
+FIT 0-100 rubric (sum, show total only): category fit /30, brand-stage fit /30 (big distributors LOW for dtc_only), channel & margin fit /25, geography /15. Scores MUST spread — never more than 3 candidates within 2 points.`;
 
-HARD EXCLUSIONS: manufacturers, factories, OEMs, co-packers, private-label producers, ingredient/packaging suppliers, sourcing agents, single-brand DTC companies (a business selling only its OWN brand cannot stock this product), trade shows, agencies, media/blogs/directories, the brand itself or direct competitors.
-CRITICAL COMPETITOR CHECK: any company that primarily MAKES or SELLS ITS OWN products in the SAME category as "${profile.category}" is a COMPETITOR, not a buyer — EXCLUDE it even if it also wholesales to stockists (e.g. for a candle brand: other candle/home-fragrance brands are competitors, never matches). Before including any candidate, verify their catalog is dominated by MULTIPLE third-party brands, not their own label.
-Wholesale marketplaces (Faire, Mable, etc.) ARE allowed only inside independent_marketplace, as channels the brand can list on.
+    const lightSchema = `Per candidate: {"name":"...","website":"real homepage URL","segment":"national_distributor|regional_distributor|retail_chain|independent_marketplace","channel":"Physical|Online|Both","location":"City, Region or Nationwide","fit":0-100,"why":"1-2 sentences grounded in what they sell; cite comparable brands when true","pitch_angle":"1 sentence outreach angle","contact_form_url":"real wholesale/vendor/stockist form URL if seen in a source, else omit","sources":["1-3 real URLs"]}
+Return ONLY: {"results":[...], "widen_suggestion":"string or null"}`;
 
-VERIFY before including: real source showing they carry MULTIPLE third-party brands (brands page, stockist list, catalog). Drop anything unverifiable.
+    const buildSegmentPrompt = (seg: typeof SEGDEFS[number], excludeCsv: string, deep: boolean) =>
+      `${contextHeader(excludeCsv, deep)}
 
-FIT SCORE 0-100 per candidate, computed from this rubric (sum the parts, show only the total):
-- category fit /30 (do they sell this exact category or close adjacents?)
-- brand-stage fit /30 (can THIS brand realistically get in now? big distributors score LOW for dtc_only)
-- channel & margin fit /25 (price tier match, direct-buy friendliness)
-- geography /15
-SCORES MUST SPREAD across the list — never give more than 3 candidates scores within 2 points of each other. Never default everything to 80+.
+TASK: find up to ${seg.ask + 3} candidates in ONE segment: ${seg.desc}. Set "segment":"${seg.id}" on every result. Use several targeted searches. Quality over padding — but partial verification with a penalized score beats returning almost nothing.
 
-Per candidate return:
-{"name": "...", "website": "real homepage URL", "segment": "one of the 4 buckets",
- "channel": "Physical|Online|Both", "location": "City, Region or Nationwide",
- "fit": 0-100, "why": "1-2 sentences grounded in what they currently sell; cite comparable brands from the profile when true",
- "pitch_angle": "1 sentence tailored outreach angle",
- "how_to_get_in": {"steps": ["2-4 concrete steps; for major retailers/distributors name the REAL submission path (e.g. supplier portal, RangeMe, marketplace signup, vendor form)"], "requirements": ["MOQ/margin/certs if known, else fewer items"], "submission_url": "real URL or null"},
- "contact_channel": "e.g. 'via RangeMe' | 'Supplier portal' | 'Marketplace' | 'Vendor form' | 'Email unknown'",
- "contact_form_url": "wholesale/stockist/vendor form URL if found in a source, else \\"\\"",
- "sources": ["1-4 real URLs used to verify THIS entry"]}
+${lightSchema}`;
 
-NEVER invent a person's name, email address, or phone number. Contact info only if published in a source you actually read.
-Return ONLY: {"results":[...], "widen_suggestion": "string or null"}`;
+    const buildTopUpPrompt = (excludeCsv: string) =>
+      `${contextHeader(excludeCsv, true)}
+
+TASK: find ${targetMin}-${targetMax} MORE candidates across ALL four segments (tag each with its segment). Everything obvious is excluded above — go deeper.
+
+${lightSchema}`;
 
     // ── Post-process helpers: normalize, dedupe, buyer-filter, liveness ──────
     const BLOCK_PATTERNS = [
@@ -289,36 +287,21 @@ Return ONLY: {"results":[...], "widen_suggestion": "string or null"}`;
       return null;
     };
 
-    // ── Matcher passes: first pass, then one top-up pass if below target ──────
+    // ── Matcher: 4 parallel segment calls, then one top-up wave if short ──────
+    const SYSTEM = "You are a world-class B2B retail placement scout. Ground everything in live Google web search. Return only valid JSON. Never fabricate companies, URLs, or contact details.";
+    const PLACEHOLDER_RE = /^(example|test|sample|demo|domain|website|yoursite|yourdomain|placeholder|acme)\.(com|org|net|co|io|co\.uk)$/i;
+    const productDomain = product.url ? normalizeDomain(product.url) : null;
+
     const seen = new Set<string>();
     const verified: Candidate[] = [];
-    const debug = { passes: 0, parsed: 0, filtered_out: 0, dead_sites: 0 };
+    const debug = { calls: 0, parsed: 0, filtered_out: 0, dead_sites: 0, placeholders: 0 };
     let widenSuggestion: string | null = null;
 
-    for (let pass = 0; pass < 2 && verified.length < targetMin; pass++) {
-      debug.passes++;
-      const excludeCsv = [...new Set([...existingByDomain.keys(), ...seen])].slice(0, 200).join(", ");
-      let raw: string;
-      try {
-        raw = await aiCall(
-          apiKey,
-          "You are a world-class B2B retail placement engine. Ground everything in live Google web search. Return only valid JSON. Never fabricate contact details or company names.",
-          buildMatcherPrompt(excludeCsv, mode === "deep" || pass > 0),
-          true
-        );
-      } catch (e) {
-        if (pass === 0) throw e;
-        break;
-      }
+    const ingest = async (raw: string, fallbackSegment: Candidate["segment"] | null) => {
       let parsed: { results?: Candidate[]; widen_suggestion?: string | null };
       try { parsed = JSON.parse(raw); } catch {
-        console.error(`Matcher parse failure (pass ${pass}):`, raw.slice(0, 400));
-        if (pass === 0) {
-          return new Response(JSON.stringify({ error: "Failed to parse results. Please try again." }), {
-            status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
-          });
-        }
-        break;
+        console.error("Matcher parse failure:", raw.slice(0, 300));
+        return;
       }
       widenSuggestion = parsed.widen_suggestion || widenSuggestion;
       debug.parsed += (parsed.results || []).length;
@@ -328,11 +311,12 @@ Return ONLY: {"results":[...], "widen_suggestion": "string or null"}`;
         if (!c?.name || !c?.website) continue;
         const dom = normalizeDomain(c.website);
         if (!dom || seen.has(dom)) continue;
+        if (PLACEHOLDER_RE.test(dom) || dom === productDomain) { debug.placeholders++; continue; }
         seen.add(dom);
         c.domain = dom;
         c.fit = Math.max(0, Math.min(100, Math.round(Number(c.fit) || 0)));
         if (!["national_distributor", "regional_distributor", "retail_chain", "independent_marketplace"].includes(c.segment)) {
-          c.segment = "retail_chain";
+          c.segment = fallbackSegment || "retail_chain";
         }
         // Normalize "unknown" contact channels to null so the UI offers Find contact.
         if (c.contact_channel && /unknown|not (found|available)|n\/a|none/i.test(c.contact_channel)) {
@@ -341,11 +325,37 @@ Return ONLY: {"results":[...], "widen_suggestion": "string or null"}`;
         if (!isBuyer(c)) { debug.filtered_out++; continue; }
         candidates.push(c);
       }
-
       const alive = await Promise.all(candidates.map(checkAlive));
       for (const c of alive) {
         if (c) verified.push(c); else debug.dead_sites++;
       }
+    };
+
+    // Wave 1: one focused call per segment, in parallel.
+    const excludeCsv0 = [...existingByDomain.keys()].slice(0, 150).join(", ");
+    debug.calls += SEGDEFS.length;
+    const wave1 = await Promise.allSettled(
+      SEGDEFS.map((seg) => aiCall(apiKey, SYSTEM, buildSegmentPrompt(seg, excludeCsv0, mode === "deep"), true))
+    );
+    for (let i = 0; i < wave1.length; i++) {
+      const r = wave1[i];
+      if (r.status === "fulfilled") await ingest(r.value, SEGDEFS[i].id);
+      else console.error("Segment call failed:", SEGDEFS[i].id, r.reason);
+    }
+
+    // Wave 2: one combined deep top-up if still under target.
+    if (verified.length < targetMin) {
+      debug.calls++;
+      const excludeCsv1 = [...new Set([...existingByDomain.keys(), ...seen])].slice(0, 250).join(", ");
+      try {
+        await ingest(await aiCall(apiKey, SYSTEM, buildTopUpPrompt(excludeCsv1), true), null);
+      } catch (e) { console.error("Top-up call failed:", e); }
+    }
+
+    if (verified.length === 0) {
+      return new Response(JSON.stringify({ error: "Couldn't verify any matches for that search. Try widening the geography or rephrasing the product." }), {
+        status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     verified.sort((a, b) => b.fit - a.fit);
     console.log("pipeline-search debug:", JSON.stringify({ ...debug, verified: verified.length }));

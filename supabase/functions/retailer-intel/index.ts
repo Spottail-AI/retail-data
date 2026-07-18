@@ -80,19 +80,29 @@ Deno.serve(async (req) => {
       const enrichment = (retailer.enrichment || {}) as Record<string, unknown>;
       let contact = enrichment.contact as Record<string, unknown> | undefined;
 
-      if (!contact) {
-        contact = await aiJson(
+      let howToGetIn = enrichment.how_to_get_in as Record<string, unknown> | undefined;
+      if (!contact || !howToGetIn) {
+        const intel = await aiJson(
           apiKey,
           "You research how brands submit products to retailers/distributors. Ground answers in live web search. Return only valid JSON. NEVER invent a person's email — only published vendor-inquiry addresses or public submission channels.",
           `How does an emerging brand pitch/submit products to ${retailer.name} (${retailer.website || retailer.domain})?
-Search their site (vendor/supplier/wholesale/stockist pages) and the web.
+Search their site (vendor/supplier/wholesale/stockist/trade pages) and the web.
 Return: {"channel": "short label, e.g. 'via RangeMe' | 'Supplier portal' | 'Vendor form' | 'Marketplace signup' | 'Public vendor email'",
  "url": "the real submission/portal/form URL, or null",
  "email": "ONLY a published vendor-inquiry email visible on their site, else null",
- "guidance": "1-2 sentences of practical advice for getting in"}`
+ "guidance": "1-2 sentences of practical advice for getting in",
+ "steps": ["2-4 concrete steps naming the REAL submission path"],
+ "requirements": ["MOQ/margin/certs/insurance if known, else fewer items"]}`
         ) as Record<string, unknown>;
+        contact = contact || {
+          channel: intel.channel, url: intel.url, email: intel.email, guidance: intel.guidance,
+        };
+        howToGetIn = howToGetIn || {
+          steps: intel.steps || [], requirements: intel.requirements || [],
+          submission_url: (intel.url as string) || null,
+        };
         await admin.from("retailers").update({
-          enrichment: { ...enrichment, contact },
+          enrichment: { ...enrichment, contact, how_to_get_in: howToGetIn, contact_channel: contact.channel || null },
         }).eq("id", retailer.id);
       }
 
@@ -101,9 +111,10 @@ Return: {"channel": "short label, e.g. 'via RangeMe' | 'Supplier portal' | 'Vend
           contact_channel: (contact.channel as string) || null,
           contact_form_url: (contact.url as string) || null,
           email: (contact.email as string) || null,
+          how_to_get_in: howToGetIn || null,
         }).eq("id", row_id).eq("user_id", user.id);
       }
-      return new Response(JSON.stringify({ contact }), {
+      return new Response(JSON.stringify({ contact, how_to_get_in: howToGetIn }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }

@@ -107,6 +107,8 @@ const Pipeline = () => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const [panelRow, setPanelRow] = useState<Row | null>(null);
+  const [panelEnriching, setPanelEnriching] = useState(false);
+  const enriching = useRef<Set<string>>(new Set());
   const [events, setEvents] = useState<EventRow[]>([]);
   const [diffBanner, setDiffBanner] = useState<{ new: number; existing: number; inMotion: number } | null>(null);
 
@@ -208,6 +210,28 @@ const Pipeline = () => {
     setPanelRow(row);
     const { data } = await db.from("pipeline_events").select("label,at").eq("row_id", row.id).order("at", { ascending: false }).limit(12);
     setEvents((data || []) as EventRow[]);
+    // Lazy enrichment: search returns light rows; fetch how-to-get-in + contact on first open (cached per retailer).
+    if (!row.how_to_get_in && !enriching.current.has(row.id)) {
+      enriching.current.add(row.id);
+      setPanelEnriching(true);
+      try {
+        const { data: intel } = await supabase.functions.invoke("retailer-intel", {
+          body: { mode: "find_contact", retailer_id: row.retailer_id, row_id: row.id },
+        });
+        if (intel && !intel.error) {
+          const updated: Row = {
+            ...row,
+            how_to_get_in: intel.how_to_get_in || row.how_to_get_in,
+            contact_channel: intel.contact?.channel || row.contact_channel,
+            contact_form_url: intel.contact?.url || row.contact_form_url,
+            email: intel.contact?.email || row.email,
+          };
+          setRows((rs) => rs.map((r) => (r.id === row.id ? updated : r)));
+          setPanelRow((p) => (p?.id === row.id ? updated : p));
+        }
+      } catch { /* row stays light; Find contact button remains */ }
+      setPanelEnriching(false);
+    }
   };
 
   const runSearch = async (params: { country: string; region?: string; brand_stage: string; mode?: "normal" | "deep" }) => {
@@ -685,6 +709,11 @@ const Pipeline = () => {
                   <p className="text-sm text-muted-foreground">{panelRow.why || "—"}</p>
                 </div>
 
+                {panelEnriching && !panelRow.how_to_get_in && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> Researching how to get in…
+                  </div>
+                )}
                 {panelRow.how_to_get_in?.steps?.length ? (
                   <div>
                     <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">How to get in</div>
