@@ -382,6 +382,13 @@ const SourceProductDetail = () => {
     setEnquiryState("sent");
   };
 
+  // Loop CTA: new tab, never disrupts the visitor's current session.
+  // Anonymous visitors land on signup; signed-in users go straight to the form.
+  const openLaunchFlow = (source: string) => {
+    track("cta_launch_click", source);
+    window.open(user ? "/source/new" : "/signup?redirect=/source/new", "_blank", "noopener");
+  };
+
   const shareUrl = useMemo(
     () => (slug ? `${window.location.origin}/source/${slug}?ref=${myRefCode()}` : ""),
     [slug]
@@ -487,7 +494,7 @@ const SourceProductDetail = () => {
             <Rocket style={{ width: 15, height: 15, flexShrink: 0, color: "var(--v2-teal)" }} />
             <span style={{ color: "#085041" }}>This is a Spottail Source launch page — retail brands use it to get discovered by buyers.</span>
             <button
-              onClick={() => { track("cta_launch_click", "banner"); navigate("/source/new"); }}
+              onClick={() => openLaunchFlow("banner")}
               style={{ marginLeft: "auto", fontWeight: 600, whiteSpace: "nowrap", background: "none", border: "none", color: "var(--v2-teal)", cursor: "pointer", fontSize: 12.5 }}>
               Launch your product free →
             </button>
@@ -830,7 +837,7 @@ const SourceProductDetail = () => {
               Got a product of your own? Launch it on Spottail Source free — buyers and the community are watching this week's board.
             </p>
             <button
-              onClick={() => { track("cta_launch_click", "post_vote"); navigate("/source/new"); }}
+              onClick={() => openLaunchFlow("post_vote")}
               className="w-full"
               style={{ padding: "11px 16px", borderRadius: 9, fontSize: 13.5, fontWeight: 600, background: "var(--v2-teal)", color: "#fff", border: "none", cursor: "pointer" }}>
               Launch your product
@@ -902,7 +909,7 @@ const SourceProductDetail = () => {
                   Your vote has been counted. Got a product of your own? Launch it on Spottail Source free.
                 </p>
                 <button
-                  onClick={() => { track("cta_launch_click", "post_vote"); navigate("/source/new"); }}
+                  onClick={() => openLaunchFlow("post_vote")}
                   className="w-full"
                   style={{ padding: "11px 16px", borderRadius: 9, fontSize: 13.5, fontWeight: 600, background: "var(--v2-teal)", color: "#fff", border: "none", cursor: "pointer" }}>
                   Launch your product
