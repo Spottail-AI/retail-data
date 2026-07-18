@@ -15,6 +15,7 @@ const SourceProductAnalytics = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
+  const [badgeCopied, setBadgeCopied] = useState(false);
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["source-product-analytics", slug],
@@ -159,6 +160,40 @@ const SourceProductAnalytics = () => {
             >
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
               {copied ? "Copied" : "Copy"}
+            </Button>
+          </div>
+        </div>
+
+        {/* Embeddable launch badge */}
+        <div id="badge" className="bg-card border border-border rounded-xl p-5 mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <Link2 className="w-4 h-4 text-primary" />
+            <h2 className="text-foreground font-bold text-sm">Embed your launch badge</h2>
+          </div>
+          <p className="text-muted-foreground text-xs mb-3">
+            Add this to your website or email signature. It links back to your launch page — every visitor can vote.
+          </p>
+          <div className="inline-flex items-center gap-2 border border-border rounded-lg px-3.5 py-2 bg-background mb-3">
+            <span className="w-2 h-2 rounded-full bg-primary inline-block" />
+            <span className="text-xs text-muted-foreground">Live on</span>
+            <span className="text-xs font-semibold text-foreground">Spottail Source</span>
+          </div>
+          <div className="flex gap-2">
+            <Input
+              readOnly
+              value={`<a href="${window.location.origin}/source/${slug}?ref=badge" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;border:1px solid #E4E4E0;border-radius:8px;padding:8px 14px;text-decoration:none;font-family:sans-serif;background:#fff"><span style="width:8px;height:8px;border-radius:50%;background:#0D9B8A"></span><span style="font-size:12px;color:#6B6B66">Live on</span><span style="font-size:12px;font-weight:600;color:#1A1A18">Spottail Source</span></a>`}
+              className="font-mono text-xs bg-secondary border-border"
+            />
+            <Button
+              onClick={async () => {
+                const snippet = `<a href="${window.location.origin}/source/${slug}?ref=badge" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;border:1px solid #E4E4E0;border-radius:8px;padding:8px 14px;text-decoration:none;font-family:sans-serif;background:#fff"><span style="width:8px;height:8px;border-radius:50%;background:#0D9B8A"></span><span style="font-size:12px;color:#6B6B66">Live on</span><span style="font-size:12px;font-weight:600;color:#1A1A18">Spottail Source</span></a>`;
+                try { await navigator.clipboard.writeText(snippet); setBadgeCopied(true); setTimeout(() => setBadgeCopied(false), 2000); } catch { /* ignore */ }
+              }}
+              variant="outline"
+              className="shrink-0 gap-1.5"
+            >
+              {badgeCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              {badgeCopied ? "Copied" : "Copy HTML"}
             </Button>
           </div>
         </div>

@@ -41,3 +41,6 @@ verify_jwt = false
 
 [functions.retailer-intel]
 verify_jwt = false
+
+[functions.source-signals]
+verify_jwt = false

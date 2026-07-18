@@ -3,16 +3,35 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronUp, Sparkles, CheckCircle, TrendingUp, Clock } from "lucide-react";
+import { ChevronUp, Sparkles, CheckCircle, TrendingUp, Clock, Trophy } from "lucide-react";
 import { V2Nav, V2Footer, V2Page } from "@/components/v2/V2Shell";
 import { cn } from "@/lib/utils";
 
-type SortTab = "top" | "trending" | "newest" | "verified";
+type SortTab = "week" | "top" | "trending" | "newest" | "verified";
+
+// Monday 00:00 UTC of the current week.
+const weekStartISO = () => {
+  const d = new Date();
+  const day = (d.getUTCDay() + 6) % 7;
+  d.setUTCDate(d.getUTCDate() - day);
+  d.setUTCHours(0, 0, 0, 0);
+  return d.toISOString();
+};
+
+const boardCountdown = () => {
+  const now = new Date();
+  const next = new Date(weekStartISO());
+  next.setUTCDate(next.getUTCDate() + 7);
+  const ms = next.getTime() - now.getTime();
+  const days = Math.floor(ms / 86400000);
+  const hours = Math.floor((ms % 86400000) / 3600000);
+  return `Resets Monday · ${days}d ${hours}h left`;
+};
 
 const SourceMarketplace = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [activeSort, setActiveSort] = useState<SortTab>("top");
+  const [activeSort, setActiveSort] = useState<SortTab>("week");
 
   useEffect(() => {
     document.title = "Spottail Source — Discover Retail-Ready Products";
@@ -25,6 +44,9 @@ const SourceMarketplace = () => {
     queryFn: async () => {
       let query = supabase.from("source_products").select("*");
       switch (activeSort) {
+        case "week":
+          query = query.order("launched_at", { ascending: false });
+          break;
         case "trending":
           query = query.eq("is_trending", true).order("launched_at", { ascending: false });
           break;
@@ -75,6 +97,36 @@ const SourceMarketplace = () => {
     enabled: !!user,
   });
 
+  // Weekly vote totals power the "This week" board.
+  const { data: weeklyTotals = {} } = useQuery({
+    queryKey: ["source-weekly-totals", products.map((p: any) => p.id)],
+    queryFn: async () => {
+      const ids = products.map((p: any) => p.id);
+      const since = weekStartISO();
+      const [buyerRes, commRes] = await Promise.all([
+        supabase.from("source_buyer_votes").select("product_id").in("product_id", ids).gte("created_at", since),
+        (supabase as any).rpc("get_weekly_community_vote_counts", { p_product_ids: ids, p_since: since }),
+      ]);
+      const totals: Record<string, number> = {};
+      ids.forEach((id: string) => { totals[id] = 0; });
+      (buyerRes.data || []).forEach((v: any) => { if (totals[v.product_id] !== undefined) totals[v.product_id]++; });
+      ((commRes.data as any[]) || []).forEach((r: any) => {
+        if (totals[r.product_id] !== undefined) totals[r.product_id] += Number(r.vote_count);
+      });
+      return totals;
+    },
+    enabled: products.length > 0 && activeSort === "week",
+  });
+
+  const displayProducts =
+    activeSort === "week"
+      ? [...products].sort(
+          (a: any, b: any) =>
+            ((weeklyTotals as Record<string, number>)[b.id] || 0) - ((weeklyTotals as Record<string, number>)[a.id] || 0) ||
+            String(b.launched_at || "").localeCompare(String(a.launched_at || ""))
+        )
+      : products;
+
   const handleVote = async (e: React.MouseEvent, productId: string, productSlug: string) => {
     e.stopPropagation();
     if (!user) {
@@ -90,6 +142,7 @@ const SourceMarketplace = () => {
   };
 
   const sortTabs: { key: SortTab; label: string; icon: React.ReactNode }[] = [
+    { key: "week", label: "This week", icon: <Trophy className="w-4 h-4" /> },
     { key: "top", label: "Top Today", icon: <ChevronUp className="w-4 h-4" /> },
     { key: "trending", label: "About to Trend", icon: <TrendingUp className="w-4 h-4" /> },
     { key: "newest", label: "Newest", icon: <Clock className="w-4 h-4" /> },
@@ -118,7 +171,7 @@ const SourceMarketplace = () => {
         </div>
 
         {/* Sort Tabs */}
-        <div className="flex gap-2 overflow-x-auto" style={{ marginBottom: 24, paddingBottom: 4 }}>
+        <div className="flex gap-2 overflow-x-auto items-center" style={{ marginBottom: 24, paddingBottom: 4 }}>
           {sortTabs.map((tab) => (
             <button
               key={tab.key}
@@ -140,6 +193,11 @@ const SourceMarketplace = () => {
               {tab.label}
             </button>
           ))}
+          {activeSort === "week" && (
+            <span className="font-body whitespace-nowrap" style={{ marginLeft: "auto", fontSize: 11.5, color: "var(--v2-muted)" }}>
+              {boardCountdown()}
+            </span>
+          )}
         </div>
 
         {/* Product List */}
@@ -161,7 +219,7 @@ const SourceMarketplace = () => {
           </div>
         ) : (
           <div className="space-y-3">
-            {products.map((product: any) => {
+            {displayProducts.map((product: any, idx: number) => {
               const votes = voteCounts[product.id] || { buyer: 0, community: 0 };
               const hasVoted = userVotes.includes(product.id);
               const productImages = (product.product_images as string[] | null) || [];
@@ -181,6 +239,13 @@ const SourceMarketplace = () => {
                   onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--v2-ink)")}
                   onMouseLeave={(e) => (e.currentTarget.style.borderColor = product.is_featured ? "var(--v2-teal)" : "var(--v2-border)")}
                 >
+                  {/* Weekly rank */}
+                  {activeSort === "week" && (
+                    <span className="font-display shrink-0" style={{ fontSize: 17, color: idx < 3 ? "var(--v2-teal)" : "var(--v2-muted)", width: 34, textAlign: "center" }}>
+                      #{idx + 1}
+                    </span>
+                  )}
+
                   {/* Image */}
                   <div className="flex items-center justify-center shrink-0 overflow-hidden" style={{ width: 48, height: 48, borderRadius: 10, background: "var(--v2-surface)", fontSize: 22 }}>
                     {coverImage ? (
