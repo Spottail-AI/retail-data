@@ -272,7 +272,7 @@ const SourceMarketplace = () => {
                         </span>
                       )}
                     </div>
-                    <p className="font-body truncate" style={{ fontSize: 13, color: "var(--v2-muted)" }}>{product.tagline}</p>
+                    <p className="font-body truncate hidden sm:block" style={{ fontSize: 13, color: "var(--v2-muted)" }}>{product.tagline}</p>
                     <div className="flex gap-2 flex-wrap" style={{ marginTop: 8 }}>
                       {product.category && (
                         <span style={{ fontSize: 10, padding: "2px 8px", borderRadius: 999, background: "var(--v2-surface)", color: "var(--v2-muted)" }}>

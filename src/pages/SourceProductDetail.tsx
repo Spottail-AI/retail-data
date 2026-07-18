@@ -490,18 +490,22 @@ const SourceProductDetail = () => {
       <main style={{ maxWidth: 920, margin: "0 auto", padding: "110px 24px 80px" }}>
         {/* Visitor banner — the loop CTA. Hidden for the owner. */}
         {!isOwner && !bannerHidden && (
-          <div className="flex items-center font-body" style={{ gap: 10, background: "var(--v2-teal-light)", borderRadius: 9, padding: "9px 14px", fontSize: 12.5, marginBottom: 16 }}>
+          <div className="flex items-center flex-wrap font-body" style={{ gap: 8, background: "var(--v2-teal-light)", borderRadius: 9, padding: "9px 14px", fontSize: 12.5, marginBottom: 16 }}>
             <Rocket style={{ width: 15, height: 15, flexShrink: 0, color: "var(--v2-teal)" }} />
-            <span style={{ color: "#085041" }}>This is a Spottail Source launch page — retail brands use it to get discovered by buyers.</span>
-            <button
-              onClick={() => openLaunchFlow("banner")}
-              style={{ marginLeft: "auto", fontWeight: 600, whiteSpace: "nowrap", background: "none", border: "none", color: "var(--v2-teal)", cursor: "pointer", fontSize: 12.5 }}>
-              Launch your product free →
-            </button>
-            <button aria-label="Dismiss" onClick={() => { setBannerHidden(true); try { sessionStorage.setItem("sv_banner_hidden", "1"); } catch { /* ignore */ } }}
-              style={{ background: "none", border: "none", cursor: "pointer", color: "var(--v2-teal)", padding: 0 }}>
-              <X style={{ width: 13, height: 13 }} />
-            </button>
+            <span style={{ color: "#085041", flex: "1 1 200px", minWidth: 0 }}>
+              This is a Spottail Source launch page<span className="hidden sm:inline"> — retail brands use it to get discovered by buyers</span>.
+            </span>
+            <div className="flex items-center" style={{ gap: 10, marginLeft: "auto" }}>
+              <button
+                onClick={() => openLaunchFlow("banner")}
+                style={{ fontWeight: 600, whiteSpace: "nowrap", background: "none", border: "none", color: "var(--v2-teal)", cursor: "pointer", fontSize: 12.5, padding: 0 }}>
+                Launch your product free →
+              </button>
+              <button aria-label="Dismiss" onClick={() => { setBannerHidden(true); try { sessionStorage.setItem("sv_banner_hidden", "1"); } catch { /* ignore */ } }}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--v2-teal)", padding: 0 }}>
+                <X style={{ width: 13, height: 13 }} />
+              </button>
+            </div>
           </div>
         )}
 

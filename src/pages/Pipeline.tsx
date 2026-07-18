@@ -550,9 +550,51 @@ const Pipeline = () => {
           </div>
         )}
 
-        {/* ═════════ SHEET ═════════ */}
+        {/* ═════════ SHEET (mobile cards) ═════════ */}
         {view === "sheet" && (
-          <>
+          <div className="sm:hidden mt-3 space-y-5">
+            {grouped.map((g) => (
+              <div key={g.id}>
+                <div className="text-[12px] font-semibold text-muted-foreground mb-2">
+                  {g.label} <span className="font-normal text-muted-foreground/70">{g.rows.length}</span>
+                </div>
+                <div className="space-y-2">
+                  {g.rows.map((r) => {
+                    const isOver = r.next_due && r.next_due < today() && !["stocked", "passed"].includes(r.stage);
+                    return (
+                      <div key={r.id} onClick={() => openPanel(r)} className="bg-card border border-border rounded-xl p-3 cursor-pointer">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-sm truncate flex-1">
+                            {r.retailers.name}
+                            {r.is_new && <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary ml-1.5 align-middle" />}
+                          </span>
+                          <span className={cn("text-sm font-bold", (r.fit ?? 0) >= 85 ? "text-primary" : "text-foreground")}>{r.fit ?? "—"}</span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-2 flex-wrap">
+                          <StagePill row={r} />
+                          {r.next_action && (
+                            <span className={cn("text-xs truncate", isOver ? "text-rose-600 font-semibold" : "text-muted-foreground")}>
+                              → {r.next_action}{r.next_due ? ` · ${fmtDate(r.next_due)}` : ""}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+            {visible.length === 0 && (
+              <div className="text-center py-14 text-sm text-muted-foreground">
+                {rows.length === 0 ? "Run a search to build this pipeline." : "Nothing matches the current filters."}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ═════════ SHEET (desktop table) ═════════ */}
+        {view === "sheet" && (
+          <div className="hidden sm:block">
             <table className="w-full border-collapse mt-1">
               <thead>
                 <tr className="text-[11px] text-muted-foreground/80 border-b border-border">
@@ -622,7 +664,7 @@ const Pipeline = () => {
                 </button>
               </div>
             )}
-          </>
+          </div>
         )}
 
         {/* ═════════ BOARD ═════════ */}
@@ -729,6 +771,9 @@ const Pipeline = () => {
                     ⧉ Also in {crossRefs.get(panelRow.retailer_id)!.productName} — {stageMeta(crossRefs.get(panelRow.retailer_id)!.stage).label.toLowerCase()}
                   </div>
                 )}
+                <div className="mt-2">
+                  <StagePill row={panelRow} />
+                </div>
               </SheetHeader>
 
               <div className="space-y-5 mt-4">
