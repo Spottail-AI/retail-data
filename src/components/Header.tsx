@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { LayoutDashboard, LogIn, UserPlus, LogOut, Loader2, Menu, X } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 interface HeaderProps {
   inline?: boolean;
@@ -66,12 +67,7 @@ export const Header = ({ inline = false }: HeaderProps) => {
       <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-4 md:px-8 py-4 md:py-5 border-b border-[hsl(var(--card-border))]">
         {/* Logo */}
         <div className="flex items-center flex-shrink-0">
-          <img
-            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.webp"
-            alt="Spottail"
-            className="h-7 md:h-8 object-contain"
-            style={{ background: "transparent" }}
-          />
+          <Logo variant="full" size={30} />
         </div>
 
         {/* Nav links - desktop */}

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { Logo } from "@/components/Logo";
 import { 
   TrendingUp, 
   ArrowUp, 
@@ -220,11 +221,7 @@ const Results = () => {
     <div className="min-h-screen bg-background px-4 py-8">
       <Link to="/" className="absolute top-8 left-8 z-20">
         <div className="flex items-center space-x-2">
-          <img 
-            src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.webp" 
-            alt="Spottail" 
-            className="h-8"
-          />
+          <Logo variant="full" size={30} />
         </div>
       </Link>
 

@@ -8,6 +8,7 @@ import { RoleSelection } from "@/components/auth/RoleSelection";
 import { supabase } from "@/integrations/supabase/client";
 import type { UserRole } from "@/hooks/use-user-role";
 import { trackEvent } from "@/lib/analytics";
+import { Logo } from "@/components/Logo";
 
 const Auth = () => {
   const location = useLocation();
@@ -171,11 +172,7 @@ const Auth = () => {
           textDecoration: "none",
         }}
       >
-        <img
-          src="/lovable-uploads/6da76baf-f15f-427e-aaa0-1bd3c859bf32.webp"
-          alt="Spottail"
-          style={{ height: 28 }}
-        />
+        <Logo variant="full" size={28} />
       </Link>
 
       <button

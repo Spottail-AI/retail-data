@@ -1,21 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { Logo } from "@/components/Logo";
 
 export const V2Logo = ({ light = false }: { light?: boolean }) => (
-  <span
-    className="font-body font-semibold inline-flex items-center no-underline"
-    style={{ fontSize: 15, letterSpacing: "-0.01em", gap: 7, color: light ? "#fff" : "var(--v2-ink)" }}
-  >
-    <span
-      className="inline-flex items-center justify-center"
-      style={{ width: 22, height: 22, background: "var(--v2-teal)", borderRadius: 6 }}
-    >
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path d="M6 2L10 6L6 10L2 6L6 2Z" fill="white" />
-      </svg>
-    </span>
-    Spottail
+  <span className="inline-flex" style={{ color: light ? "#fff" : "var(--v2-ink)" }}>
+    <Logo variant="full" size={24} />
   </span>
 );
 

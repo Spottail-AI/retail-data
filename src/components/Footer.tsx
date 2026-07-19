@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { TrendingUp, Mail, Twitter, Linkedin, Facebook } from "lucide-react";
+import { Mail, Twitter, Linkedin, Facebook } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export const Footer = () => {
   const scrollToPricing = () => {
@@ -17,8 +18,7 @@ export const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center mb-6">
-              <TrendingUp className="w-7 h-7 text-primary mr-3" />
-              <span className="text-lg font-bold text-foreground">Spottail</span>
+              <Logo variant="full" size={28} />
             </div>
             <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
               The most advanced AI platform for predicting retail trends and identifying profitable opportunities before they peak.
