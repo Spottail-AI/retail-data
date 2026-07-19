@@ -7,6 +7,7 @@ import { TrendingUp, ArrowUp, Star, Clock, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { trackEvent } from "@/lib/analytics";
 
 export const DemoSection = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -127,6 +128,12 @@ export const DemoSection = () => {
       });
       return;
     }
+
+    trackEvent("trend_search_started", {
+      country: selectedCountry,
+      niche: selectedNiche,
+      platform: selectedPlatform,
+    });
 
     if (!user || !session) {
       navigate("/signup");
@@ -254,9 +261,8 @@ export const DemoSection = () => {
           </div>
 
           <div className="text-center mb-8">
-            <Button 
-              id="analyze_trends_button_click"
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-cta hover:bg-cta/90 text-cta-foreground px-12 py-4 text-lg font-semibold rounded-lg shadow-lg shadow-cta/20"
               onClick={handleAnalyzeTrends}
               disabled={isAnalyzing}

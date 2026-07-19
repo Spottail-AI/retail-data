@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/accordion";
 import { Loader2, Check, X, Zap, Crown, Rocket } from "lucide-react";
 import type { SubscriptionTier } from "@/lib/stripe-config";
+import { trackEvent } from "@/lib/analytics";
 
 const plans = [
   {
@@ -101,10 +102,27 @@ const Pricing = () => {
 
   useEffect(() => {
     if (searchParams.get("checkout") === "success") {
+      // Fire the acquisition conversion. transaction_id = Stripe Checkout session id
+      // so GA4 dedupes if this page is refreshed. We also strip the query params
+      // afterwards so a manual refresh can't re-fire it.
+      trackEvent("purchase", {
+        transaction_id: searchParams.get("session_id") ?? undefined,
+        value: STRIPE_TIERS.pro.price,
+        currency: STRIPE_TIERS.pro.currency,
+        items: [
+          {
+            item_id: STRIPE_TIERS.pro.price_id,
+            item_name: "Pro Plan",
+            price: STRIPE_TIERS.pro.price,
+            quantity: 1,
+          },
+        ],
+      });
       toast({ title: "Welcome to Pro!", description: "Your subscription is now active." });
       checkSubscriptionStatus();
+      navigate("/pricing", { replace: true });
     }
-  }, [searchParams, checkSubscriptionStatus]);
+  }, [searchParams, checkSubscriptionStatus, navigate]);
 
   const handleUpgrade = async () => {
     if (!session) {

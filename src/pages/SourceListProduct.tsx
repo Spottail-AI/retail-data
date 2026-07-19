@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import { ArrowLeft, Package, Loader2, ImagePlus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 const CATEGORIES = [
   "Beauty & Skincare", "Fashion & Apparel", "Electronics", "Home & Living",
@@ -142,6 +143,7 @@ const SourceListProduct = () => {
 
       if (error) throw error;
 
+      trackEvent("source_page_created", { slug, category: form.category || undefined });
       toast({ title: "Product listed!", description: "Your product is now live on Spottail Source." });
       navigate(`/source/${slug}`);
     } catch (err: any) {

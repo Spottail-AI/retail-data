@@ -7,6 +7,7 @@ import { lovable } from "@/integrations/lovable/index";
 import { RoleSelection } from "@/components/auth/RoleSelection";
 import { supabase } from "@/integrations/supabase/client";
 import type { UserRole } from "@/hooks/use-user-role";
+import { trackEvent } from "@/lib/analytics";
 
 const Auth = () => {
   const location = useLocation();
@@ -74,6 +75,7 @@ const Auth = () => {
         if (error) {
           toast({ title: "Signup failed", description: error.message, variant: "destructive" });
         } else {
+          trackEvent("sign_up", { method: "email", role: selectedRole ?? undefined });
           toast({ title: "Account created!", description: "You have been signed up successfully." });
           setPendingRole(selectedRole);
         }

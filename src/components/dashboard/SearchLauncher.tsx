@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, Loader2, Check, Circle, Store } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const db = supabase as any;
@@ -61,6 +62,7 @@ export const SearchLauncher = ({ onDone, heroTitle }: { onDone?: () => void; her
 
   const run = async () => {
     if (!product.trim() || running) return;
+    trackEvent("retailer_search_started", { country, brand_stage: brandStage });
     setRunning(true); setStepIdx(0); setProfileLine(null);
     try {
       // Stage A: profile only — real progress, shown mid-wait.
