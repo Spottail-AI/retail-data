@@ -591,7 +591,7 @@ const Pricing = () => {
               For growing retail and e-commerce teams ready to scale decisions and execution.
             </p>
             <ul className="list-none" style={{ marginBottom: 28 }}>
-              {["Everything in Free", "Find up to 10 retail stores & distributors", "Access to competitive analysis tools"].map((f, i, arr) => (
+              {["Everything in Free", "Find up to 100 retail stores & distributors", "Access to competitive analysis tools"].map((f, i, arr) => (
                 <li key={f} className="flex items-center" style={{ fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.6)", padding: "6px 0", gap: 9, borderBottom: i === arr.length - 1 ? "none" : "1px solid rgba(255,255,255,0.06)", letterSpacing: "-0.005em" }}>
                   <CheckIcon />{f}
                 </li>

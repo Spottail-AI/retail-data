@@ -45,7 +45,7 @@ const plans = [
     popular: true,
     features: [
       { text: "Everything in Starter", included: true },
-      { text: "Find up to 10 retail stores & distributors", included: true },
+      { text: "Find up to 100 retail stores & distributors", included: true },
       { text: "Access to competitive analysis tools", included: true },
     ],
   },
