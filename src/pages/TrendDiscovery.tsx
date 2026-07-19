@@ -238,8 +238,21 @@ const TrendDiscovery = () => {
     return Array.from(map.values());
   }, [savedSearches]);
 
-  const dismissSearchGroup = (category: string) => {
+  const dismissSearchGroup = async (category: string) => {
+    if (!session?.user?.id) return;
+    const removed = savedSearches.filter((s) => s.category === category);
     setSavedSearches((prev) => prev.filter((s) => s.category !== category));
+    const { error } = await supabase
+      .from("trend_results")
+      .delete()
+      .eq("user_id", session.user.id)
+      .eq("category", category);
+    if (error) {
+      // Roll back the optimistic removal if the delete failed.
+      setSavedSearches((prev) => [...prev, ...removed]);
+      toast.error("Couldn't remove from history");
+      return;
+    }
     toast.success("Removed from history");
   };
 
