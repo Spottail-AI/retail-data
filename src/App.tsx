@@ -128,7 +128,8 @@ const App = () => (
             <Route path="/signup" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
             
-            <Route path="/stockists" element={<Suppliers />} />
+            <Route path="/find-stores" element={<Suppliers />} />
+            <Route path="/stockists" element={<Suppliers pipelineOnly />} />
             <Route path="/stockists/:listId" element={<LegacyListToPipeline />} />
             <Route path="/stockists/:listId/legacy" element={<SupplierList />} />
             <Route path="/pipeline/:productId" element={<Pipeline />} />

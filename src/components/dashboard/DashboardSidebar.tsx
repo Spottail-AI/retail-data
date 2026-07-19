@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   LayoutDashboard,
+  Search,
   Sparkles,
   Users,
   FileText,
@@ -32,7 +33,10 @@ const topItems: NavItem[] = [
 const navGroups: { header: string; items: NavItem[] }[] = [
   {
     header: "Get into stores",
-    items: [{ label: "My pipeline", icon: Store, path: "/stockists" }],
+    items: [
+      { label: "Find stores", icon: Search, path: "/find-stores" },
+      { label: "My pipeline", icon: Store, path: "/stockists" },
+    ],
   },
   {
     header: "Research",

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ChevronRight, Trash2, Pencil } from "lucide-react";
+import { ChevronRight, Trash2, Pencil, Search } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -32,7 +32,7 @@ type PipelineSummary = {
   counts: Record<string, number>;
 };
 
-const Suppliers = () => {
+const Suppliers = ({ pipelineOnly = false }: { pipelineOnly?: boolean }) => {
   const { session } = useAuth();
   const navigate = useNavigate();
   const [pipelines, setPipelines] = useState<PipelineSummary[]>([]);
@@ -94,17 +94,28 @@ const Suppliers = () => {
 
   return (
     <DashboardShell
-      title="Retail Stores & Distributors"
-      description="Each product gets one pipeline. Every search adds new matched stores and distributors to it — nothing gets lost between searches."
+      title={pipelineOnly ? "My pipeline" : "Find stores and distributors"}
+      description={
+        pipelineOnly
+          ? "Every product you're pitching, and where each prospect stands."
+          : "Each product gets one pipeline. Every search adds new matched stores and distributors to it — nothing gets lost between searches."
+      }
     >
       {/* New search */}
-      <SearchLauncher onDone={fetchPipelines} />
+      {!pipelineOnly && <SearchLauncher onDone={fetchPipelines} />}
 
       {/* Your products */}
-      <div className="mt-10">
-        <h2 className="text-lg font-medium text-foreground mb-4" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
-          Your products
-        </h2>
+      <div className={pipelineOnly ? "" : "mt-10"}>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-medium text-foreground" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
+            Your products
+          </h2>
+          {pipelineOnly && (
+            <Button variant="outline" size="sm" className="gap-1.5" onClick={() => navigate("/find-stores")}>
+              <Search className="w-3.5 h-3.5" /> New search
+            </Button>
+          )}
+        </div>
 
         {loadingSaved ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -113,7 +124,9 @@ const Suppliers = () => {
         ) : pipelines.length === 0 ? (
           <Card className="bg-card border-[#E6E8EB] p-8 text-center shadow-sm">
             <p className="text-sm text-muted-foreground">
-              No pipelines yet. Run a search above — your matched stores and distributors will build up here, one pipeline per product.
+              {pipelineOnly
+                ? "No pipelines yet. Start a search to build your first one — one pipeline per product."
+                : "No pipelines yet. Run a search above — your matched stores and distributors will build up here, one pipeline per product."}
             </p>
           </Card>
         ) : (

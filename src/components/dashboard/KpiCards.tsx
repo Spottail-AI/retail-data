@@ -184,7 +184,7 @@ export const KpiCards = () => {
         emptyCta="Find Distributors"
         onRetry={() => refetchSuppliers()}
         onClick={() => navigate("/stockists")}
-        onEmptyCta={() => navigate("/stockists")}
+        onEmptyCta={() => navigate("/find-stores")}
       />
       <KpiCard
         title="Trend Signals"

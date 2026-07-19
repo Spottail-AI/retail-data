@@ -186,7 +186,7 @@ export const BrandBriefing = () => {
             <Search className="w-3.5 h-3.5" /> Find new buyers
           </div>
           <p className="text-xs text-muted-foreground mt-2 flex-1">Search stores and distributors for any product.</p>
-          <Button size="sm" className="w-full mt-3" onClick={() => navigate("/stockists")}>New search</Button>
+          <Button size="sm" className="w-full mt-3" onClick={() => navigate("/find-stores")}>New search</Button>
         </Card>
       </div>
 
