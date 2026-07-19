@@ -753,7 +753,7 @@ const Pipeline = () => {
 
       {/* ═════════ SIDE PANEL ═════════ */}
       <Sheet open={!!panelRow} onOpenChange={(o) => !o && setPanelRow(null)}>
-        <SheetContent className="w-[420px] sm:max-w-[420px] overflow-y-auto">
+        <SheetContent className="dashboard-light w-[420px] sm:max-w-[420px] overflow-y-auto">
           {panelRow && (
             <>
               <SheetHeader className="mb-1">
@@ -868,7 +868,7 @@ const NewSearchDialog = ({ open, onClose, onRun, busy, defaults }: {
   const [brandStage, setBrandStage] = useState(defaults?.brand_stage || "dtc_only");
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="dashboard-light sm:max-w-md">
         <DialogHeader><DialogTitle style={{ fontFamily: "'Fraunces', Georgia, serif" }}>New search</DialogTitle></DialogHeader>
         <div className="space-y-4">
           <div>
@@ -947,7 +947,7 @@ const AddStoreDialog = ({ open, onClose, productId, onDone, rows }: {
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="dashboard-light sm:max-w-md">
         <DialogHeader><DialogTitle style={{ fontFamily: "'Fraunces', Georgia, serif" }}>Add a store or distributor</DialogTitle></DialogHeader>
         <Input
           autoFocus value={input} onChange={(e) => setInput(e.target.value)}
@@ -1011,7 +1011,7 @@ const PitchDialog = ({ row, onClose, onStageChange }: {
 
   return (
     <Dialog open={!!row} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="dashboard-light sm:max-w-lg">
         <DialogHeader>
           <DialogTitle style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
             Pitch — {row?.retailers.name}

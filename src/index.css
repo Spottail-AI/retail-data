@@ -67,8 +67,8 @@
     --popover: 215 30% 14.5%;
     --popover-foreground: 210 29% 92.5%;
 
-    --primary: 217 100% 65.5%;
-    --primary-foreground: 216 54% 8.4%;
+    --primary: 173 84% 33%;            /* #0D9B8A teal */
+    --primary-foreground: 60 33% 99%;
 
     --secondary: 215 30% 18%;
     --secondary-foreground: 210 29% 92.5%;
