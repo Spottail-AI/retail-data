@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 
 // ── Same countries as landing pages (ISO 3166, alphabetical, top-5 prioritized) ──
 const ALL_COUNTRIES = [
@@ -163,6 +164,12 @@ const TrendDiscovery = () => {
       toast.error("Please sign in to discover trends.");
       return;
     }
+
+    trackEvent("trend_search_started", {
+      country,
+      niche,
+      platforms: selectedPlatforms,
+    });
 
     setLoading(true);
     setSearched(true);
