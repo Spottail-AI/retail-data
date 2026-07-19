@@ -21,7 +21,7 @@ export const Footer = () => {
               <Logo variant="full" size={28} />
             </div>
             <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-              The most advanced AI platform for predicting retail trends and identifying profitable opportunities before they peak.
+              Find the retailers and distributors ready to stock your product.
             </p>
             <div className="flex space-x-3">
               <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hover:bg-accent w-9 h-9 p-0">
