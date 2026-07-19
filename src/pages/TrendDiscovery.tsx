@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
-  Sparkles, TrendingUp, ArrowUp, Star, Clock, Lock, Trash2, Loader2, AlertCircle,
+  Sparkles, TrendingUp, ArrowUp, ArrowRight, Star, Clock, Lock, Trash2, Loader2, AlertCircle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -223,14 +223,25 @@ const TrendDiscovery = () => {
     }
   };
 
-  const deleteSavedSearch = async (id: string) => {
-    // trend_results doesn't have DELETE RLS - skip for now, just remove from UI
-    setSavedSearches((prev) => prev.filter((s) => s.id !== id));
-    toast.success("Search removed from history");
-  };
-
   const displayLimit = hasPaid ? 10 : 2;
   const displayed = products.slice(0, displayLimit);
+
+  // Collapse repeat searches of the same niche+country into one row (keeping the
+  // most recent), so the history reads clean instead of showing duplicates.
+  const dedupedSearches = useMemo(() => {
+    const map = new Map<string, { search: SavedTrend; count: number }>();
+    for (const s of savedSearches) {
+      const existing = map.get(s.category);
+      if (existing) existing.count += 1;
+      else map.set(s.category, { search: s, count: 1 });
+    }
+    return Array.from(map.values());
+  }, [savedSearches]);
+
+  const dismissSearchGroup = (category: string) => {
+    setSavedSearches((prev) => prev.filter((s) => s.category !== category));
+    toast.success("Removed from history");
+  };
 
   const getDemandColor = (d: string) => {
     if (d === "Very High") return "text-[hsl(142,71%,45.3%)]";
@@ -252,11 +263,12 @@ const TrendDiscovery = () => {
     >
       {/* ── Filter Controls ── */}
       <Card className="bg-card border-border p-6 shadow-sm space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Country */}
         <div>
           <label className="text-sm font-semibold text-foreground mb-2 block">Select Country / Region</label>
           <Select value={country} onValueChange={setCountry}>
-            <SelectTrigger className="w-full sm:w-80">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Select Country / Region" />
             </SelectTrigger>
             <SelectContent>
@@ -283,7 +295,7 @@ const TrendDiscovery = () => {
         <div>
           <label className="text-sm font-semibold text-foreground mb-2 block">Select Niche</label>
           <Select value={niche} onValueChange={setNiche}>
-            <SelectTrigger className="w-full sm:w-80">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Choose a niche" />
             </SelectTrigger>
             <SelectContent>
@@ -292,6 +304,7 @@ const TrendDiscovery = () => {
               ))}
             </SelectContent>
           </Select>
+        </div>
         </div>
 
         {/* Platforms multi-select */}
@@ -323,7 +336,7 @@ const TrendDiscovery = () => {
           <Button
             onClick={handleDiscover}
             disabled={loading || !niche}
-            className="bg-cta hover:bg-cta/90 text-cta-foreground font-semibold px-8"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8"
           >
             {loading ? (
               <>
@@ -480,10 +493,10 @@ const TrendDiscovery = () => {
             <h3 className="text-sm font-semibold text-foreground">Recent Trend Searches</h3>
           </div>
           <div className="divide-y divide-border">
-            {savedSearches.map((search) => (
+            {dedupedSearches.map(({ search, count }) => (
               <div
                 key={search.id}
-                className="px-6 py-3 flex items-center justify-between hover:bg-muted/30 transition-colors"
+                className="group px-6 py-3 flex items-center justify-between hover:bg-muted/30 transition-colors"
               >
                 <button
                   onClick={() => loadSavedSearch(search)}
@@ -497,14 +510,20 @@ const TrendDiscovery = () => {
                     </p>
                   </div>
                 </button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="shrink-0 text-muted-foreground hover:text-destructive"
-                  onClick={() => deleteSavedSearch(search.id)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                <div className="flex items-center gap-2 shrink-0">
+                  {count > 1 && (
+                    <span className="text-[10px] text-muted-foreground bg-muted rounded-full px-2 py-0.5">×{count}</span>
+                  )}
+                  <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground hover:text-destructive"
+                    onClick={() => dismissSearchGroup(search.category)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
