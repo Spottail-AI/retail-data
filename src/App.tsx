@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Results = lazy(() => import("./pages/Results"));
@@ -84,6 +84,24 @@ const SuppliersListRedirect = () => {
 // Falls back to the old list page if the migration mapping isn't found.
 const LegacyListToPipeline = lazy(() => import("./pages/LegacyListRedirect"));
 
+// Root route: send logged-in users straight to the dashboard instead of the
+// marketing homepage. While auth is resolving we render the same spinner the
+// Suspense fallback uses, so the homepage never flashes before the redirect.
+const RootRoute = () => {
+  const { user, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary/25 border-t-primary" />
+      </div>
+    );
+  }
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <Index />;
+};
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -104,7 +122,7 @@ const App = () => (
         <AuthProvider>
           <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><div className="h-10 w-10 animate-spin rounded-full border-2 border-primary/25 border-t-primary" /></div>}>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<RootRoute />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/signup" element={<Auth />} />
