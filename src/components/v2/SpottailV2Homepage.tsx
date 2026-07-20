@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { lovable } from "@/integrations/lovable/index";
+import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const Logo = ({ light = false }: { light?: boolean }) => (
@@ -207,15 +207,17 @@ const Hero = () => {
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true);
     try {
-      const { error } = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+      // Native Supabase OAuth — works on any host (Netlify), unlike the Lovable proxy.
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.origin },
       });
       if (error) {
         toast({ title: "Google sign-in failed", description: error.message, variant: "destructive" });
+        setGoogleLoading(false);
       }
     } catch (error) {
       toast({ title: "Error", description: "Something went wrong with Google sign-in.", variant: "destructive" });
-    } finally {
       setGoogleLoading(false);
     }
   };
