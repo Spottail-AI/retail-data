@@ -68,6 +68,7 @@ const SourceMarketplace = lazy(() => import("./pages/SourceMarketplace"));
 const SourceProductDetail = lazy(() => import("./pages/SourceProductDetail"));
 const SourceCommunityVote = lazy(() => import("./pages/SourceCommunityVote"));
 const SourceListProduct = lazy(() => import("./pages/SourceListProduct"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
 const SourceProductAnalytics = lazy(() => import("./pages/SourceProductAnalytics"));
 const SourceVerifyBrand = lazy(() => import("./pages/SourceVerifyBrand"));
 const BuyerTrendingNow = lazy(() => import("./pages/BuyerTrendingNow"));
@@ -126,6 +127,7 @@ const App = () => (
             <Route path="/login" element={<Auth />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/signup" element={<Auth />} />
+            <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/dashboard" element={<Dashboard />} />
             
             <Route path="/find-stores" element={<Suppliers />} />
