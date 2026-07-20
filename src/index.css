@@ -89,8 +89,8 @@
     --radius: 0.625rem;
 
     /* CTA accent — lime green #ADFF2F */
-    --cta: 83 100% 59%;
-    --cta-foreground: 0 0% 0%;
+    --cta: 173 84% 33%;                /* teal — unified with primary, lime retired */
+    --cta-foreground: 60 33% 99%;
 
     /* Card border */
     --card-border: 0 0% 100% / 0.1;

@@ -89,7 +89,7 @@ const FindSuppliers = () => {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-8">
             <Button
               size="lg"
-              className="bg-[#AAFF00] hover:bg-[#AAFF00]/90 text-black font-semibold px-8 py-5 text-base rounded-lg shadow-lg shadow-[#AAFF00]/20 w-full sm:w-auto"
+              className="bg-[#0D9B8A] hover:bg-[#0D9B8A]/90 text-white font-semibold px-8 py-5 text-base rounded-lg shadow-lg shadow-[#0D9B8A]/20 w-full sm:w-auto"
               onClick={handleCtaClick}
             >
               Find Suppliers Free
@@ -239,7 +239,7 @@ const FindSuppliers = () => {
             />
             <Button
               type="submit"
-              className="bg-[#AAFF00] hover:bg-[#AAFF00]/90 text-black font-semibold px-6 h-12 rounded-lg whitespace-nowrap"
+              className="bg-[#0D9B8A] hover:bg-[#0D9B8A]/90 text-white font-semibold px-6 h-12 rounded-lg whitespace-nowrap"
             >
               Get Started Free <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
