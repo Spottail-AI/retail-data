@@ -3,7 +3,6 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { lovable } from "@/integrations/lovable/index";
 import { RoleSelection } from "@/components/auth/RoleSelection";
 import { supabase } from "@/integrations/supabase/client";
 import type { UserRole } from "@/hooks/use-user-role";
@@ -91,15 +90,19 @@ const Auth = () => {
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true);
     try {
-      const { error } = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+      // Native Supabase OAuth — runs on the Supabase auth servers, so it works on
+      // any host (Netlify included), unlike the Lovable /~oauth proxy.
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.origin },
       });
       if (error) {
         toast({ title: "Google sign-in failed", description: error.message, variant: "destructive" });
+        setGoogleLoading(false);
       }
+      // On success the browser redirects to Google, so we don't reset loading here.
     } catch (error) {
       toast({ title: "Error", description: "Something went wrong with Google sign-in.", variant: "destructive" });
-    } finally {
       setGoogleLoading(false);
     }
   };
