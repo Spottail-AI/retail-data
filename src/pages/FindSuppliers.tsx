@@ -62,14 +62,14 @@ const FindSuppliers = () => {
       <section className="relative flex items-center justify-center px-4 pt-32 md:pt-40 pb-16 md:pb-24">
         <Header />
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#4A9EFF]/10 rounded-full blur-3xl" />
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#2DD4BF]/10 rounded-full blur-3xl" />
           <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-[#4ADE80]/8 rounded-full blur-3xl" />
         </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
             Find Suppliers for Your Product
             <br />
-            <span className="text-[#4A9EFF]">in One Click</span>
+            <span className="text-[#2DD4BF]">in One Click</span>
           </h1>
           <p className="text-[#9CA3AF] text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
             Already know what you need to source? Skip the directories and the guesswork. Spottail matches your product with verified suppliers — instantly.
@@ -110,9 +110,9 @@ const FindSuppliers = () => {
       {/* ─── PAIN POINTS ─── */}
       <section className="px-4 py-20 md:py-28">
         <div className="max-w-5xl mx-auto">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#4A9EFF] bg-[#4A9EFF]/10 px-3 py-1 rounded-full mb-4">The Problem</span>
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2DD4BF] bg-[#2DD4BF]/10 px-3 py-1 rounded-full mb-4">The Problem</span>
           <h2 className="text-2xl sm:text-4xl font-bold mb-14">
-            Why finding the right supplier <span className="text-[#4A9EFF]">wastes so much time</span>
+            Why finding the right supplier <span className="text-[#2DD4BF]">wastes so much time</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -121,7 +121,7 @@ const FindSuppliers = () => {
               { icon: ShieldAlert, title: "Quality and trust risk", body: "Working with untested suppliers risks stockouts, quality failures, and damaged customer relationships." },
             ].map(({ icon: Icon, title, body }, i) => (
               <div key={i} className="bg-[#111827] border border-[#1F2937] rounded-lg p-6">
-                <Icon className="w-8 h-8 text-[#4A9EFF] mb-4" />
+                <Icon className="w-8 h-8 text-[#2DD4BF] mb-4" />
                 <h3 className="text-lg font-bold mb-2">{title}</h3>
                 <p className="text-[#9CA3AF] text-sm leading-relaxed">{body}</p>
               </div>
@@ -133,9 +133,9 @@ const FindSuppliers = () => {
       {/* ─── HOW IT WORKS ─── */}
       <section className="px-4 py-20 md:py-28 bg-[#0D1117]">
         <div className="max-w-5xl mx-auto">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#4A9EFF] bg-[#4A9EFF]/10 px-3 py-1 rounded-full mb-4">How It Works</span>
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2DD4BF] bg-[#2DD4BF]/10 px-3 py-1 rounded-full mb-4">How It Works</span>
           <h2 className="text-2xl sm:text-4xl font-bold mb-14">
-            Tell us what you need. <span className="text-[#4A9EFF]">We'll find who supplies it.</span>
+            Tell us what you need. <span className="text-[#2DD4BF]">We'll find who supplies it.</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -144,7 +144,7 @@ const FindSuppliers = () => {
               { step: "03", title: "Connect and negotiate", body: "Reach out directly to verified supplier contacts with everything you need to open a commercial conversation." },
             ].map(({ step, title, body }, i) => (
               <div key={i} className="relative">
-                <span className="text-5xl font-extrabold text-[#4A9EFF]/15 absolute -top-2 -left-1">{step}</span>
+                <span className="text-5xl font-extrabold text-[#2DD4BF]/15 absolute -top-2 -left-1">{step}</span>
                 <div className="pt-10">
                   <h3 className="text-lg font-bold mb-2">{title}</h3>
                   <p className="text-[#9CA3AF] text-sm leading-relaxed">{body}</p>
@@ -159,7 +159,7 @@ const FindSuppliers = () => {
       <section className="px-4 py-20 md:py-28">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl sm:text-4xl font-bold mb-14 text-center">
-            Everything you need to <span className="text-[#4A9EFF]">source with confidence</span>
+            Everything you need to <span className="text-[#2DD4BF]">source with confidence</span>
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -171,7 +171,7 @@ const FindSuppliers = () => {
               { icon: Zap, label: "Results in one click — not weeks" },
             ].map(({ icon: Icon, label }, i) => (
               <div key={i} className="bg-[#111827] border border-[#1F2937] rounded-lg p-5 flex items-start gap-4">
-                <Icon className="w-6 h-6 text-[#4A9EFF] flex-shrink-0 mt-0.5" />
+                <Icon className="w-6 h-6 text-[#2DD4BF] flex-shrink-0 mt-0.5" />
                 <span className="text-sm font-medium leading-snug">{label}</span>
               </div>
             ))}
@@ -187,7 +187,7 @@ const FindSuppliers = () => {
             { quote: "We described what we needed and Spottail returned suppliers who actually match our category and MOQ requirements. It's replaced our entire sourcing research process.", name: "Priya R.", role: "Buying Manager, Online Retailer" },
           ].map((t, i) => (
             <div key={i} className="bg-[#111827] border border-[#1F2937] rounded-lg p-6">
-              <Quote className="w-6 h-6 text-[#4A9EFF]/40 mb-4" />
+              <Quote className="w-6 h-6 text-[#2DD4BF]/40 mb-4" />
               <p className="text-[#9CA3AF] text-sm leading-relaxed mb-5 italic">"{t.quote}"</p>
               <p className="text-sm font-semibold">{t.name}</p>
               <p className="text-xs text-[#9CA3AF]">{t.role}</p>
@@ -221,7 +221,7 @@ const FindSuppliers = () => {
       <section className="px-4 py-20 md:py-28 bg-[#0D1117]">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl sm:text-4xl font-bold mb-4">
-            Ready to find the right <span className="text-[#4A9EFF]">supplier for your product?</span>
+            Ready to find the right <span className="text-[#2DD4BF]">supplier for your product?</span>
           </h2>
           <p className="text-[#9CA3AF] text-sm md:text-base mb-8 leading-relaxed">
             Join thousands of retailers and buyers using Spottail to source smarter — without the directories, the guesswork, or the wasted time.

@@ -62,14 +62,14 @@ const FindDistributors = () => {
       <section className="relative flex items-center justify-center px-4 pt-32 md:pt-40 pb-16 md:pb-24">
         <Header />
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#4A9EFF]/10 rounded-full blur-3xl" />
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#2DD4BF]/10 rounded-full blur-3xl" />
           <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-[#4ADE80]/8 rounded-full blur-3xl" />
         </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
             Find Distributors for Your Product
             <br />
-            <span className="text-[#4A9EFF]">in One Click</span>
+            <span className="text-[#2DD4BF]">in One Click</span>
           </h1>
           <p className="text-[#9CA3AF] text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
             Stop cold-emailing and trawling directories. Tell Spottail what your product is — and we'll find the distributors ready to carry it.
@@ -110,9 +110,9 @@ const FindDistributors = () => {
       {/* ─── PAIN POINTS ─── */}
       <section className="px-4 py-20 md:py-28">
         <div className="max-w-5xl mx-auto">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#4A9EFF] bg-[#4A9EFF]/10 px-3 py-1 rounded-full mb-4">The Problem</span>
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2DD4BF] bg-[#2DD4BF]/10 px-3 py-1 rounded-full mb-4">The Problem</span>
           <h2 className="text-2xl sm:text-4xl font-bold mb-14">
-            Why finding the right distributor <span className="text-[#4A9EFF]">takes so long</span>
+            Why finding the right distributor <span className="text-[#2DD4BF]">takes so long</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -121,7 +121,7 @@ const FindDistributors = () => {
               { icon: TrendingDown, title: "Slow route to market", body: "Every month without the right distributor is revenue you're leaving on the table." },
             ].map(({ icon: Icon, title, body }, i) => (
               <div key={i} className="bg-[#111827] border border-[#1F2937] rounded-lg p-6">
-                <Icon className="w-8 h-8 text-[#4A9EFF] mb-4" />
+                <Icon className="w-8 h-8 text-[#2DD4BF] mb-4" />
                 <h3 className="text-lg font-bold mb-2">{title}</h3>
                 <p className="text-[#9CA3AF] text-sm leading-relaxed">{body}</p>
               </div>
@@ -133,9 +133,9 @@ const FindDistributors = () => {
       {/* ─── HOW IT WORKS ─── */}
       <section className="px-4 py-20 md:py-28 bg-[#0D1117]">
         <div className="max-w-5xl mx-auto">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#4A9EFF] bg-[#4A9EFF]/10 px-3 py-1 rounded-full mb-4">How It Works</span>
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2DD4BF] bg-[#2DD4BF]/10 px-3 py-1 rounded-full mb-4">How It Works</span>
           <h2 className="text-2xl sm:text-4xl font-bold mb-14">
-            From product to partnership <span className="text-[#4A9EFF]">in three steps</span>
+            From product to partnership <span className="text-[#2DD4BF]">in three steps</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -144,7 +144,7 @@ const FindDistributors = () => {
               { step: "03", title: "Connect and close", body: "Reach out to verified distributor contacts with the information you need to start the conversation." },
             ].map(({ step, title, body }, i) => (
               <div key={i} className="relative">
-                <span className="text-5xl font-extrabold text-[#4A9EFF]/15 absolute -top-2 -left-1">{step}</span>
+                <span className="text-5xl font-extrabold text-[#2DD4BF]/15 absolute -top-2 -left-1">{step}</span>
                 <div className="pt-10">
                   <h3 className="text-lg font-bold mb-2">{title}</h3>
                   <p className="text-[#9CA3AF] text-sm leading-relaxed">{body}</p>
@@ -159,7 +159,7 @@ const FindDistributors = () => {
       <section className="px-4 py-20 md:py-28">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl sm:text-4xl font-bold mb-14 text-center">
-            Everything you need to <span className="text-[#4A9EFF]">find your distribution partner</span>
+            Everything you need to <span className="text-[#2DD4BF]">find your distribution partner</span>
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -171,7 +171,7 @@ const FindDistributors = () => {
               { icon: Zap, label: "Results in one click — not weeks" },
             ].map(({ icon: Icon, label }, i) => (
               <div key={i} className="bg-[#111827] border border-[#1F2937] rounded-lg p-5 flex items-start gap-4">
-                <Icon className="w-6 h-6 text-[#4A9EFF] flex-shrink-0 mt-0.5" />
+                <Icon className="w-6 h-6 text-[#2DD4BF] flex-shrink-0 mt-0.5" />
                 <span className="text-sm font-medium leading-snug">{label}</span>
               </div>
             ))}
@@ -187,7 +187,7 @@ const FindDistributors = () => {
             { quote: "We described our product and Spottail came back with a shortlist of distributors who were actually a fit. Genuinely couldn't believe how fast it was.", name: "James L.", role: "Head of Sales, Health & Wellness Brand" },
           ].map((t, i) => (
             <div key={i} className="bg-[#111827] border border-[#1F2937] rounded-lg p-6">
-              <Quote className="w-6 h-6 text-[#4A9EFF]/40 mb-4" />
+              <Quote className="w-6 h-6 text-[#2DD4BF]/40 mb-4" />
               <p className="text-[#9CA3AF] text-sm leading-relaxed mb-5 italic">"{t.quote}"</p>
               <p className="text-sm font-semibold">{t.name}</p>
               <p className="text-xs text-[#9CA3AF]">{t.role}</p>
@@ -221,7 +221,7 @@ const FindDistributors = () => {
       <section className="px-4 py-20 md:py-28 bg-[#0D1117]">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl sm:text-4xl font-bold mb-4">
-            Ready to find your <span className="text-[#4A9EFF]">perfect distribution partner?</span>
+            Ready to find your <span className="text-[#2DD4BF]">perfect distribution partner?</span>
           </h2>
           <p className="text-[#9CA3AF] text-sm md:text-base mb-8 leading-relaxed">
             Join thousands of brands and manufacturers using Spottail to get their products to market — faster.
