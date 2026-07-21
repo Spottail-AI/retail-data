@@ -1,7 +1,5 @@
-/resources/*  https://resources.spottail.ai/:splat  200
+/resources      https://resources.spottail.ai/        200
+/resources/*    https://resources.spottail.ai/:splat  200
 
 /sitemap.xml    /sitemap.xml    200
 /*    /index.html   200
-
-
-Add Netlify SPA _redirects file
