@@ -72,6 +72,8 @@ const Onboarding = lazy(() => import("./pages/Onboarding"));
 const SourceProductAnalytics = lazy(() => import("./pages/SourceProductAnalytics"));
 const SourceVerifyBrand = lazy(() => import("./pages/SourceVerifyBrand"));
 const BuyerTrendingNow = lazy(() => import("./pages/BuyerTrendingNow"));
+const SupplierHub = lazy(() => import("./pages/SupplierHub"));
+const SupplierGuide = lazy(() => import("./pages/SupplierGuide"));
 const BuyerShortlist = lazy(() => import("./pages/BuyerShortlist"));
 const BuyerEnquiries = lazy(() => import("./pages/BuyerEnquiries"));
 
@@ -194,6 +196,8 @@ const App = () => (
             <Route path="/source/:slug/vote" element={<SourceCommunityVote />} />
             <Route path="/source/:slug/analytics" element={<SourceProductAnalytics />} />
             <Route path="/source/:slug/verify" element={<SourceVerifyBrand />} />
+            <Route path="/become-a-supplier" element={<SupplierHub />} />
+            <Route path="/become-a-supplier/:slug" element={<SupplierGuide />} />
             <Route path="/trending-now" element={<BuyerTrendingNow />} />
             <Route path="/my-shortlist" element={<BuyerShortlist />} />
             <Route path="/enquiries" element={<BuyerEnquiries />} />
