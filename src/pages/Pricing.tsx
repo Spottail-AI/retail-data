@@ -136,7 +136,23 @@ const Pricing = () => {
         body: { priceId: STRIPE_TIERS.pro.price_id },
       });
       if (error) throw error;
-      if (data?.url) window.open(data.url, "_blank");
+      if (data?.url) {
+        // Checkout landing: counts everyone sent to the Stripe payment page,
+        // pairing with the "purchase" event above for a full funnel in GA4.
+        trackEvent("begin_checkout", {
+          value: STRIPE_TIERS.pro.price,
+          currency: STRIPE_TIERS.pro.currency,
+          items: [
+            {
+              item_id: STRIPE_TIERS.pro.price_id,
+              item_name: "Pro Plan",
+              price: STRIPE_TIERS.pro.price,
+              quantity: 1,
+            },
+          ],
+        });
+        window.open(data.url, "_blank");
+      }
     } catch (err: any) {
       toast({ title: "Error", description: err.message || "Failed to start checkout", variant: "destructive" });
     } finally {
