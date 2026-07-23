@@ -126,7 +126,7 @@ const Pricing = () => {
 
   const handleUpgrade = async () => {
     if (!session) {
-      navigate("/signup&redirect=/pricing");
+      navigate("/signup?redirect=/pricing");
       return;
     }
     setCheckoutLoading(true);
@@ -351,7 +351,7 @@ const Pricing = () => {
                     </button>
                   ) : plan.tier === "pro" ? (
                     <button
-                      onClick={isLoggedIn ? handleUpgrade : () => navigate("/signup&redirect=/pricing")}
+                      onClick={isLoggedIn ? handleUpgrade : () => navigate("/signup?redirect=/pricing")}
                       disabled={checkoutLoading}
                       className="w-full inline-flex items-center justify-center"
                       style={{ padding: "12px 20px", borderRadius: 9, fontSize: 14, fontWeight: 500, background: "var(--v2-teal)", color: "#fff", border: "none", cursor: "pointer", gap: 6 }}
@@ -361,7 +361,7 @@ const Pricing = () => {
                     </button>
                   ) : (
                     <button
-                      onClick={isLoggedIn ? undefined : () => navigate("/signup&redirect=/pricing")}
+                      onClick={isLoggedIn ? undefined : () => navigate("/signup?redirect=/pricing")}
                       disabled={isLoggedIn}
                       className="w-full"
                       style={{ padding: "12px 20px", borderRadius: 9, fontSize: 14, fontWeight: 500, background: "var(--v2-white)", color: "var(--v2-ink)", border: "1px solid var(--v2-border)", cursor: isLoggedIn ? "default" : "pointer" }}
