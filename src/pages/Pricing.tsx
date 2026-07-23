@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -95,7 +95,7 @@ const Cell = ({ value }: { value: string | boolean }) => {
 const Pricing = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { user, session, subscriptionTier, isSubscribed, checkSubscriptionStatus } = useAuth();
+  const { user, session, subscriptionTier, isSubscribed, checkSubscriptionStatus, loading: authLoading } = useAuth();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [contactForm, setContactForm] = useState({ firstName: "", lastName: "", email: "", message: "" });
@@ -151,7 +151,9 @@ const Pricing = () => {
             },
           ],
         });
-        window.open(data.url, "_blank");
+        // Same-tab redirect (not window.open) so it also works when checkout is
+        // auto-started after signup, where a popup would be blocked.
+        window.location.href = data.url;
       }
     } catch (err: any) {
       toast({ title: "Error", description: err.message || "Failed to start checkout", variant: "destructive" });
@@ -159,6 +161,22 @@ const Pricing = () => {
       setCheckoutLoading(false);
     }
   };
+
+  // Auto-start the Pro flow when arriving with ?plan=pro (e.g. from a "Get started"
+  // CTA, or returning here right after signup). Logged-in → straight to checkout;
+  // logged-out → to signup, preserving the intent so it resumes on return.
+  const proHandledRef = useRef(false);
+  useEffect(() => {
+    if (authLoading) return;
+    if (searchParams.get("plan") !== "pro" || proHandledRef.current) return;
+    proHandledRef.current = true;
+    if (session) {
+      handleUpgrade();
+    } else {
+      navigate("/signup?redirect=" + encodeURIComponent("/pricing?plan=pro"), { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authLoading, session, searchParams]);
 
   const handleManageSubscription = async () => {
     if (!session) return;
@@ -351,7 +369,7 @@ const Pricing = () => {
                     </button>
                   ) : plan.tier === "pro" ? (
                     <button
-                      onClick={isLoggedIn ? handleUpgrade : () => navigate("/signup?redirect=/pricing")}
+                      onClick={isLoggedIn ? handleUpgrade : () => navigate("/signup?redirect=" + encodeURIComponent("/pricing?plan=pro"))}
                       disabled={checkoutLoading}
                       className="w-full inline-flex items-center justify-center"
                       style={{ padding: "12px 20px", borderRadius: 9, fontSize: 14, fontWeight: 500, background: "var(--v2-teal)", color: "#fff", border: "none", cursor: "pointer", gap: 6 }}

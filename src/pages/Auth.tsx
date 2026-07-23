@@ -94,7 +94,8 @@ const Auth = () => {
       // any host (Netlify included), unlike the Lovable /~oauth proxy.
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: `${window.location.origin}/onboarding` },
+        // Carry the post-signup destination (e.g. /pricing?plan=pro) through onboarding.
+        options: { redirectTo: `${window.location.origin}/onboarding?next=${encodeURIComponent(redirectTo)}` },
       });
       if (error) {
         toast({ title: "Google sign-in failed", description: error.message, variant: "destructive" });

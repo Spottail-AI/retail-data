@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole, type UserRole } from "@/hooks/use-user-role";
 import { RoleSelection } from "@/components/auth/RoleSelection";
@@ -13,6 +13,10 @@ import { Loader2 } from "lucide-react";
  */
 const Onboarding = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  // Only allow in-app paths as the post-onboarding destination (no external URLs).
+  const rawNext = searchParams.get("next");
+  const next = rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/dashboard";
   const { user, loading: authLoading } = useAuth();
   const { isLoading: roleLoading, hasRole, assignRole } = useUserRole();
 
@@ -26,14 +30,14 @@ const Onboarding = () => {
   // Already onboarded → skip to the app.
   useEffect(() => {
     if (user && !roleLoading && hasRole) {
-      navigate("/dashboard", { replace: true });
+      navigate(next, { replace: true });
     }
-  }, [user, roleLoading, hasRole, navigate]);
+  }, [user, roleLoading, hasRole, navigate, next]);
 
   const handleSelect = async (selected: UserRole) => {
     try {
       await assignRole.mutateAsync(selected);
-      navigate("/dashboard", { replace: true });
+      navigate(next, { replace: true });
     } catch (e) {
       console.error("Failed to assign role:", e);
     }

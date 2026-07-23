@@ -501,7 +501,7 @@ const Pricing = () => {
               ))}
             </ul>
             <button
-              onClick={() => navigate("/signup?redirect=/pricing")}
+              onClick={() => navigate("/pricing?plan=pro")}
               className="w-full font-body cursor-pointer transition-all"
               style={{ fontSize: 13, fontWeight: 500, padding: 12, borderRadius: 8, letterSpacing: "-0.01em", background: "#fff", border: "1px solid transparent", color: "var(--v2-black)" }}
             >
