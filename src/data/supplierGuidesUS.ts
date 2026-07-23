@@ -1283,4 +1283,854 @@ export const supplierGuidesUS: SupplierGuide[] = [
       { label: "CPG Guy — how distributors work", href: "https://www.cpg-guy.com/how-do-distributors-work" },
     ],
   },
+  {
+    slug: "publix",
+    name: "Publix",
+    country: "US",
+    category: "Grocery",
+    cardBlurb: "The Southeast's employee-owned giant — a published forms-and-samples process to corporate buyers.",
+    topGun: false,
+    metaTitle: "How to Become a Publix Supplier: Vendor Forms & Buyer Process | Spottail",
+    metaDescription:
+      "How to get your product into Publix: the retail product supplier process, required forms, sample submission to Lakeland, broker support, timelines and costs.",
+    kicker: "US · Grocery · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Publix",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become a Publix supplier, follow its published **retail product supplier process** (corporate.publix.com): review the Supplier Policies and Guidelines, complete the required forms — **Cost/Promotion Form, Item Data Form, and Vendor New Item Initiative Form** — and submit your product package **addressed to the category buyer at the Lakeland, FL corporate office**. Corporate Purchasing evaluates every item presented. Publix suggests (without requiring) **broker or distributor support** to navigate the process — in the Southeast grocery channel, that advice is worth taking.",
+    facts: [
+      { n: "1,400+", l: "stores across the Southeast" },
+      { n: "#1", l: "employee-owned US company" },
+      { n: "Lakeland", l: "FL — where samples go" },
+      { n: "7", l: "states of operation" },
+    ],
+    intro:
+      "Publix is the dominant grocer of the American Southeast — an employee-owned institution with famously loyal customers and a supplier process that's refreshingly documented: specific forms, a specific address, and a corporate purchasing team that evaluates every submission. The structure rewards preparation, and the regional footprint means you're pitching seven states, not fifty — which makes Publix one of the more approachable majors for brands with Southeast relevance.",
+    routesHeading: { pre: "The three routes", em: "into Publix" },
+    routes: [
+      {
+        title: "The published supplier process",
+        body: "Publix's [retail product supplier route](https://corporate.publix.com/business/publix-business-connection/retail-product-supplier) is explicit: study the Supplier Policies and Guidelines, complete the Cost/Promotion, Item Data and Vendor New Item Initiative forms (plus the Bio-Terrorism Act sample form where applicable), and deliver or mail your labeled package to the category buyer at 3300 Publix Corporate Parkway, Lakeland, FL. The buyer's team responds to every submission.",
+      },
+      {
+        title: "Broker & distributor support",
+        body: "Publix itself notes suppliers may enlist a broker or distributor for insight and navigation — and Southeast grocery runs on those relationships. An experienced Publix broker knows category review timing and buyer preferences; the commission typically pays for itself in avoided missteps.",
+      },
+      {
+        title: "Own-brand manufacturing",
+        body: "Publix runs a substantial [own-brands program](https://corporate.publix.com/business/publix-business-connection/publix-branded-product-supplier) with its own supplier route — a separate, volume-led door for manufacturers who can produce to Publix's specifications.",
+      },
+    ],
+    requirements: [
+      { k: "Required forms", v: "Cost/Promotion Form, Item Data Form, Vendor New Item Initiative Form — completed accurately before the buyer sees your product." },
+      { k: "Sample submission", v: "Physical samples labeled with the buyer's name, delivered or mailed to the Lakeland corporate office (Bio-Terrorism Act form for applicable food samples)." },
+      { k: "Food safety", v: "GFSI-recognized certification appropriate to category and scale for food suppliers." },
+      { k: "Regional capacity", v: "Ability to supply 1,400+ stores across seven states — or a divisional plan to start." },
+      { k: "Insurance & data", v: "Product liability insurance, GS1 UPCs and complete item data per Publix's guidelines." },
+      { k: "EDI", v: "Electronic trading for stocked vendors." },
+    ],
+    note:
+      "**Cultural note:** Publix's employee ownership shapes its supplier relationships — decisions are deliberate, relationships run long, and the company's Southeast identity means regional relevance (Florida especially) genuinely helps a pitch.",
+    steps: [
+      { title: "Study the guidelines", body: "Publix's Supplier Policies and Guidelines — the process rewards those who follow it precisely.", time: "Weeks 0–2" },
+      { title: "Complete the forms", body: "Cost/Promotion, Item Data and New Item Initiative forms, accurate and complete.", time: "Weeks 0–4" },
+      { title: "Submit to the buyer", body: "Labeled sample package to the Lakeland corporate office, addressed to the category buyer.", time: "Week 4" },
+      { title: "Buyer evaluation", body: "Corporate Purchasing evaluates the item; the buyer's team contacts you on the outcome.", time: "1–3 months" },
+      { title: "Terms & onboarding", body: "Commercial terms, compliance verification, EDI and item setup.", time: "1–3 months" },
+      { title: "Launch & perform", body: "Often divisional first — velocity earns chain-wide distribution.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Samples & shipping", range: "$200–$1,000" },
+      { item: "Broker commission (recommended)", range: "3–8% of sales" },
+      { item: "Food safety certification", range: "$2,000–$8,000 / year" },
+      { item: "Product liability insurance", range: "$2,000–$6,000 / year" },
+      { item: "EDI setup", range: "$3,000–$15,000" },
+    ],
+    costNote:
+      "Publix's process itself is low-cost — the real investment is broker support and the production readiness to supply the Southeast's most demanding grocer.",
+    tips: [
+      { title: "Follow the forms exactly.", body: "A documented process means deviations get noticed. Complete paperwork signals a supplier who'll be easy to work with." },
+      { title: "Lead with Southeast relevance.", body: "Florida provenance, regional flavors, or proven Southeast sales speak directly to Publix's identity." },
+      { title: "Get a Publix-experienced broker.", body: "Publix itself suggests it — and brokers know the category review calendar you can't see from outside." },
+      { title: "Respect the deliberate pace.", body: "Employee-owned and famously careful — pushy follow-up hurts more here than at most retailers." },
+    ],
+    faqs: [
+      { q: "How do I submit a product to Publix?", a: "Complete the required forms (Cost/Promotion, Item Data, Vendor New Item Initiative), then deliver or mail your labeled sample package to the category buyer at Publix's Lakeland, FL corporate office. Corporate Purchasing evaluates every item." },
+      { q: "Do I need a broker to sell to Publix?", a: "Not required — but Publix itself notes suppliers may benefit from broker or distributor support, and Southeast grocery largely runs on those relationships." },
+      { q: "Where does Publix operate?", a: "Around 1,400 stores across seven Southeast states — Florida at the core, plus Georgia, Alabama, Tennessee, the Carolinas and Virginia." },
+      { q: "Does Publix have an own-brand supplier route?", a: "Yes — a separate Publix-branded product supplier process for manufacturers producing to Publix's specifications." },
+      { q: "How long does the Publix process take?", a: "Typically 3–8 months from submission through evaluation, terms and onboarding." },
+    ],
+    sources: [
+      { label: "Publix — Retail Product Supplier", href: "https://corporate.publix.com/business/publix-business-connection/retail-product-supplier" },
+      { label: "Publix — Supplier Information", href: "https://corporate.publix.com/business/publix-business-connection" },
+    ],
+  },
+  {
+    slug: "h-e-b",
+    name: "H-E-B",
+    country: "US",
+    category: "Grocery",
+    cardBlurb: "Texas's beloved grocer — the annual Quest for Texas Best open call plus standard sourcing.",
+    topGun: false,
+    metaTitle: "How to Become an H-E-B Supplier: Quest for Texas Best & Vendor Process | Spottail",
+    metaDescription:
+      "How to get your product into H-E-B: the Quest for Texas Best competition (up to $50,000 + shelf placement), eligibility, standard supplier routes, timelines and costs.",
+    kicker: "US · Grocery · Supplier Guide",
+    h1Pre: "How to become an",
+    h1Em: "H-E-B",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become an H-E-B supplier, the signature route is **Quest for Texas Best** — H-E-B's annual open call for **Texas-based** food, beverage and general merchandise makers: submit via the online portal during the application window, with finalists pitching H-E-B sourcing leaders for **up to $50,000 in prizes and placement on H-E-B shelves** (and many non-winners get stocked too). Non-Texas brands use standard supplier routes through H-E-B's sourcing teams. Requirements center on **Texas operations (for Quest), production capacity for statewide supply**, and standard grocery compliance.",
+    facts: [
+      { n: "430+", l: "stores across Texas" },
+      { n: "$50k", l: "Quest grand prize + placement" },
+      { n: "Texas", l: "based makers for Quest eligibility" },
+      { n: "#1", l: "most-loved US regional grocer" },
+    ],
+    intro:
+      "H-E-B is Texas grocery — a private, family-owned chain with cult-level customer loyalty and a genuine institutional commitment to Texas makers. Quest for Texas Best formalizes it: an annual open call where small Texas producers pitch sourcing leaders directly, win real money, and land shelf placement. It's arguably the best-designed supplier competition in US retail. If you're Texas-based, it's your door; if not, H-E-B's standard sourcing still prizes distinctive products, but the bar is higher without the Texas story.",
+    routesHeading: { pre: "The three routes", em: "into H-E-B" },
+    routes: [
+      {
+        title: "Quest for Texas Best — the open call",
+        body: "H-E-B's [annual competition](https://www.heb.com/discover/quest-for-texas-best) for Texas-based makers: apply through the online portal during the spring window, attend info sessions with sourcing leaders, and — if you make the finals — pitch for prizes ($50,000 grand, $25,000/$15,000/$10,000 tiers) and shelf placement. Crucially, H-E-B stocks products from beyond the top finishers — entering well is itself a sourcing conversation.",
+      },
+      {
+        title: "Standard supplier sourcing",
+        body: "Outside Quest, H-E-B's category sourcing teams evaluate suppliers year-round — a conventional grocery pitch (product, differentiation, velocity evidence, compliance) through H-E-B's supplier channels. Texas relevance still helps; so does strength in H-E-B's celebrated fresh and Hispanic-food categories.",
+      },
+      {
+        title: "Start local inside Texas",
+        body: "H-E-B's regional buying gives genuinely local products a route into nearby stores before statewide distribution — the same prove-it-then-scale ladder as other regional giants, with H-E-B's local marketing actively celebrating Texas makers on shelf.",
+      },
+    ],
+    requirements: [
+      { k: "Texas credentials (Quest)", v: "Texas residency or a business validly operating in Texas, with products made by Texas makers — the competition's eligibility core." },
+      { k: "Statewide capacity", v: "Quest entrants must be capable of supplying H-E-B stores throughout Texas — 430+ stores is real volume for a small maker." },
+      { k: "Food safety", v: "GFSI-recognized certification appropriate to category and scale; H-E-B's quality standards are high across fresh and packaged." },
+      { k: "Compliance & data", v: "Standard grocery requirements: insurance, GS1 UPCs, complete item data, EDI for stocked vendors." },
+      { k: "Distinctiveness", v: "H-E-B curates hard — products need a reason to exist beside H-E-B's own strong private brands." },
+      { k: "The story", v: "Texas provenance is merchandised in-store — document and tell yours properly." },
+    ],
+    note:
+      "**Competition insight:** Quest finalists get sourcing-leader attention that cold suppliers never reach — and H-E-B has stocked many entrants who didn't win. Treat the application as a buyer pitch with a prize attached, not a lottery ticket.",
+    steps: [
+      { title: "Watch for the window", body: "Quest applications open annually (spring) — track H-E-B's newsroom and the Quest portal.", time: "Annual cycle" },
+      { title: "Apply properly", body: "Portal submission with product, story and capacity evidence; attend the info sessions with sourcing leaders.", time: "Application window" },
+      { title: "Rounds & finals", body: "Judging rounds narrow the field; finalists pitch H-E-B leadership directly.", time: "2–4 months" },
+      { title: "Placement conversations", body: "Winners and standout entrants move into sourcing discussions and store placement.", time: "1–3 months" },
+      { title: "Onboard & launch", body: "Compliance, item setup and launch — often regional Texas placement first.", time: "1–3 months" },
+      { title: "Scale across Texas", body: "Velocity builds toward statewide distribution and H-E-B's marketing support.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Quest entry", range: "Free" },
+      { item: "Food safety certification", range: "$2,000–$8,000 / year" },
+      { item: "Product liability insurance", range: "$2,000–$6,000 / year" },
+      { item: "Statewide production scale-up", range: "Working capital — 430+ stores" },
+      { item: "EDI & item setup", range: "$3,000–$15,000" },
+    ],
+    costNote:
+      "Quest is free to enter and the prize money is non-trivial — the real cost is being production-ready for statewide supply if you win the shelf. Plan capacity before the finals, not after.",
+    tips: [
+      { title: "Enter Quest even if you're small.", body: "Placement decisions extend beyond winners, and the sourcing-leader exposure alone outvalues most trade shows — for free." },
+      { title: "Make the Texas story tangible.", body: "H-E-B merchandises Texas provenance on shelf — ingredients, hometown, family story. Bring it documented." },
+      { title: "Attend the info sessions.", body: "H-E-B tells you what it's looking for before you apply — listening is a competitive advantage." },
+      { title: "Respect the private-brand bar.", body: "H-E-B's own brands are excellent — pitch what they can't easily make: heritage, craft, cult local followings." },
+    ],
+    faqs: [
+      { q: "What is Quest for Texas Best?", a: "H-E-B's annual open call for Texas-based food, beverage and GM makers — portal applications, sourcing-leader info sessions, and finals with up to $50,000 in prizes plus shelf placement. Many non-winning entrants get stocked too." },
+      { q: "Who's eligible for Quest?", a: "Texas residents or businesses validly operating in Texas, capable of producing enough to supply H-E-B stores statewide." },
+      { q: "Can non-Texas brands supply H-E-B?", a: "Yes — through standard category sourcing routes, though without the Quest fast-lane. Distinctiveness against H-E-B's strong own brands is the bar." },
+      { q: "How many stores does H-E-B have?", a: "Around 430 across Texas (plus its Mexico operations), including the Central Market specialty format." },
+      { q: "How long does it take to get stocked?", a: "Quest runs on its annual cycle (apply → finals → placement in roughly 4–8 months); standard sourcing runs 4–9 months like other regional majors." },
+    ],
+    sources: [
+      { label: "H-E-B — Quest for Texas Best", href: "https://www.heb.com/discover/quest-for-texas-best" },
+      { label: "H-E-B Newsroom — Quest", href: "https://newsroom.heb.com/heb-quest-for-texas-best/" },
+    ],
+  },
+  {
+    slug: "wegmans",
+    name: "Wegmans",
+    country: "US",
+    category: "Grocery",
+    cardBlurb: "The Northeast's premium grocer — vendor application, GFSI certification, genuine local-supplier appetite.",
+    topGun: false,
+    metaTitle: "How to Become a Wegmans Supplier: Vendor Application & Local Routes | Spottail",
+    metaDescription:
+      "How to get your product into Wegmans: the vendor application, GFSI and EDI/GDSN requirements, the local supplier route, buyer outreach, timelines and costs.",
+    kicker: "US · Grocery · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Wegmans",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become a Wegmans supplier, complete the **vendor application** with business documentation (tax ID, insurance certificates), submit products for evaluation, and meet **GFSI certification** requirements — then onboard through **EDI and GDSN-certified data synchronization**, facility audits and supplier agreements. Wegmans actively wants **local suppliers** across its Northeast footprint, and with **83 buyers** the practical move is identifying yours by category (RangeMe and direct outreach both work). Premium quality is the filter everything passes.",
+    facts: [
+      { n: "110+", l: "stores, Northeast & Mid-Atlantic" },
+      { n: "83", l: "category buyers" },
+      { n: "GFSI", l: "certification required" },
+      { n: "#1", l: "perennial best-grocer rankings" },
+    ],
+    intro:
+      "Wegmans is America's premium regional grocer — a family-owned Northeast institution whose stores are destinations and whose customers trust its curation completely. That trust is the supplier bar: GFSI-certified food safety, premium quality, and data discipline (EDI plus GDSN synchronization). The compensation is a retailer that genuinely champions local producers, merchandises quality beautifully, and whose listing signals premium credibility across the industry.",
+    routesHeading: { pre: "The three routes", em: "into Wegmans" },
+    routes: [
+      {
+        title: "The vendor application",
+        body: "Wegmans' [supplier process](https://www.wegmans.com/service/for-our-suppliers) runs through a formal vendor application: business documentation, insurance, product submission and evaluation, GFSI verification, facility audits and supplier agreements — followed by EDI and GDSN data-pool integration for stocked vendors.",
+      },
+      {
+        title: "Find your buyer (of 83)",
+        body: "Wegmans buying is granular — 83 buyers across categories. Identify yours via the corporate line (1-800-WEGMANS), LinkedIn and [RangeMe](https://www.rangeme.com/wegmans), and pitch with premium positioning and velocity evidence. A category-precise approach beats a general one everywhere, but especially here.",
+      },
+      {
+        title: "The local route",
+        body: "Wegmans actively recruits local suppliers across its footprint — regional produce, dairy, baked goods and specialty products are part of its identity. Local brands near its stores can start with regional placement and the in-store 'local' merchandising that Wegmans customers actively seek out.",
+      },
+    ],
+    requirements: [
+      { k: "GFSI certification", v: "GFSI-recognized food safety certification (SQF, BRCGS or equivalent) — a stated requirement for food suppliers." },
+      { k: "Business documentation", v: "Tax identification, insurance certificates and financial standing for the vendor application." },
+      { k: "EDI + GDSN", v: "Electronic trading plus data synchronization through GDSN-certified data pools — Wegmans' data standards are among grocery's most rigorous." },
+      { k: "Facility audits", v: "Site audits as part of onboarding for food suppliers." },
+      { k: "Premium quality", v: "Wegmans curates for quality above price — product excellence is the actual filter." },
+      { k: "Regional capacity", v: "110+ stores of supply, or a local subset to start." },
+    ],
+    note:
+      "**Positioning note:** Wegmans' shelf is a quality signal the whole industry reads — natural and specialty brands routinely cite Wegmans listings in national pitches. Price the effort accordingly: this is a credibility listing with real volume, not just another regional." ,
+    steps: [
+      { title: "Get GFSI-certified", body: "The stated requirement — start certification before the application, not after.", time: "2–4 months if new" },
+      { title: "Apply + find your buyer", body: "Vendor application with full documentation, parallel category-buyer outreach via RangeMe/LinkedIn.", time: "Weeks 0–8" },
+      { title: "Product evaluation", body: "Category buyer assesses quality, differentiation and fit — samples and meetings follow interest.", time: "1–3 months" },
+      { title: "Audits & agreements", body: "Facility audits, supplier agreements, insurance verification.", time: "1–2 months" },
+      { title: "EDI/GDSN onboarding", body: "Systems integration and data-pool synchronization before first orders.", time: "1–2 months" },
+      { title: "Launch & grow", body: "Often regional placement first — velocity and quality consistency drive expansion.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "GFSI certification", range: "$3,000–$10,000 / year" },
+      { item: "EDI + GDSN data pool", range: "$4,000–$15,000" },
+      { item: "Product liability insurance", range: "$2,000–$6,000 / year" },
+      { item: "Facility audit readiness", range: "$1,000–$5,000" },
+      { item: "Premium packaging & content", range: "$5,000–$25,000" },
+    ],
+    costNote:
+      "Wegmans' data and certification requirements front-load the cost — but they're the same infrastructure every national retailer eventually demands. Building it for Wegmans builds it for everyone.",
+    tips: [
+      { title: "Certify before you pitch.", body: "GFSI is stated, not negotiable — 'certification in progress with audit date' is the minimum viable pitch position." },
+      { title: "Pitch quality, not price.", body: "Wegmans wins on curation and experience — your product's excellence story matters more than its cost story." },
+      { title: "Use the local identity.", body: "Northeast provenance is merchandised and celebrated — local suppliers get real in-store support." },
+      { title: "Respect the data bar.", body: "GDSN-synchronized, complete, accurate item data marks you as a professional operation — Wegmans notices." },
+    ],
+    faqs: [
+      { q: "How do I become a Wegmans supplier?", a: "Complete the vendor application with business documentation, submit products for evaluation, meet GFSI certification requirements, then onboard through facility audits, supplier agreements and EDI/GDSN integration." },
+      { q: "Is GFSI certification required?", a: "Yes for food suppliers — GFSI-recognized certification (SQF, BRCGS or equivalent) is part of Wegmans' stated requirements." },
+      { q: "How do I find the right Wegmans buyer?", a: "Wegmans has 83 category buyers — identify yours via 1-800-WEGMANS, LinkedIn and RangeMe, and pitch category-precisely." },
+      { q: "Does Wegmans support local suppliers?", a: "Actively — local sourcing is part of its identity, with regional placement and dedicated in-store local merchandising." },
+      { q: "How long does onboarding take?", a: "Typically 4–9 months including certification verification, audits and EDI/GDSN integration." },
+    ],
+    sources: [
+      { label: "Wegmans — For Our Suppliers", href: "https://www.wegmans.com/service/for-our-suppliers" },
+      { label: "RangeMe × Wegmans", href: "https://www.rangeme.com/wegmans" },
+    ],
+  },
+  {
+    slug: "albertsons",
+    name: "Albertsons",
+    country: "US",
+    category: "Grocery",
+    cardBlurb: "2,200 stores across 20+ banners (Safeway, Vons, Jewel-Osco) — Coupa portal onboarding, divisional buying.",
+    topGun: false,
+    metaTitle: "How to Become an Albertsons/Safeway Supplier: Portal & Process | Spottail",
+    metaDescription:
+      "How to become an Albertsons Companies supplier: the Coupa Supplier Portal, Safeway supplier handbooks, RangeMe discovery, divisional routes, timelines and costs.",
+    kicker: "US · Grocery · Supplier Guide",
+    h1Pre: "How to become an",
+    h1Em: "Albertsons",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become an Albertsons supplier, register through the **Coupa Supplier Portal** — Albertsons Companies' primary vendor onboarding system — completing your supplier profile with business category, NAICS codes and product information, and work the **supplier handbooks and new-item requirements** published on its vendor portals (suppliers.safeway.com for Safeway). Buyers also discover products via **RangeMe**, and an **annual supplier diversity application** creates a structured route for certified diverse-owned businesses. Like Kroger, the structure is divisional: **20+ banners** buying regionally.",
+    facts: [
+      { n: "2,200+", l: "stores across the US" },
+      { n: "20+", l: "banners incl. Safeway, Vons, Jewel-Osco" },
+      { n: "Coupa", l: "primary onboarding portal" },
+      { n: "Annual", l: "diverse-supplier application cycle" },
+    ],
+    intro:
+      "Albertsons Companies is America's second-largest traditional grocer — a federation of regional banners (Safeway, Vons, Jewel-Osco, Shaw's, Acme and more) organized into divisions that buy with local autonomy. For suppliers that's the same opportunity Kroger's structure offers: win your region's division first. The machinery is systematized — Coupa onboarding, published supplier handbooks, documented new-item requirements — and its supplier diversity program runs a genuine annual intake for certified diverse-owned brands.",
+    routesHeading: { pre: "The three routes", em: "into Albertsons" },
+    routes: [
+      {
+        title: "Coupa portal + supplier handbooks",
+        body: "Registration runs through the **Coupa Supplier Portal** (Albertsons' primary onboarding system), with the operational rulebook — [supplier handbooks, new-supplier setup and new-item requirements](https://suppliers.safeway.com/pages/BecomeASupplier.htm?page=RequirementsforNewItemPresentation.htm) — published on the vendor portals. Reading the handbook before pitching is the cheapest advantage available.",
+      },
+      {
+        title: "Divisional buying + RangeMe",
+        body: "Divisions range for their geography, and buyers use [RangeMe](https://www.rangeme.com/albertsons) for discovery. A complete RangeMe profile plus a targeted divisional pitch (with regional velocity evidence) is the emerging-brand play — your home division is your entry point, not the national chain.",
+      },
+      {
+        title: "Supplier diversity — the annual intake",
+        body: "Albertsons runs an **annual application process for certified diverse-owned suppliers** (women, BIPOC, LGBTQ+, veteran and disability-owned businesses at 51%+ ownership) — a structured route with merchant attention attached. If you qualify, certify and apply on the cycle.",
+      },
+    ],
+    requirements: [
+      { k: "Coupa registration", v: "Supplier profile with business category, NAICS codes, diversity certification details and product information." },
+      { k: "Handbook compliance", v: "Requirements for new supplier setup, item approval, product samples and routing per the published handbooks." },
+      { k: "Food safety", v: "GFSI-recognized certification appropriate to category and scale." },
+      { k: "Insurance & documentation", v: "Product liability insurance and standard vendor documentation." },
+      { k: "EDI & item data", v: "Electronic trading, GS1 UPCs and complete item data through Albertsons' systems." },
+      { k: "Divisional capacity", v: "Reliable supply for your division's store count — hundreds, not thousands, to start." },
+    ],
+    note:
+      "**Structural play:** the banner system means a Bay Area brand pitches Safeway Northern California, a Chicago brand pitches Jewel-Osco — regional identity and local velocity data are the levers. National ranging is the reward for divisional performance, same as Kroger.",
+    steps: [
+      { title: "Read the handbooks", body: "New-supplier setup and new-item requirements — know the process before entering it.", time: "Weeks 0–2" },
+      { title: "Register on Coupa + RangeMe", body: "Complete profiles on both — onboarding system and discovery surface respectively.", time: "Weeks 0–4" },
+      { title: "Pitch your division", body: "Divisional category manager approach with regional evidence; diversity program application if eligible.", time: "1–3 months" },
+      { title: "Item approval & setup", body: "New-item presentation per requirements, samples, commercial terms.", time: "1–3 months" },
+      { title: "Onboarding", body: "EDI, item data, routing compliance and logistics setup.", time: "1–3 months" },
+      { title: "Divisional launch → expansion", body: "Regional velocity builds the cross-division and national case.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Food safety certification", range: "$2,000–$8,000 / year" },
+      { item: "Product liability insurance", range: "$2,000–$6,000 / year" },
+      { item: "EDI setup", range: "$3,000–$15,000" },
+      { item: "Diversity certification (if applicable)", range: "$350–$1,500" },
+      { item: "Promotional programs", range: "2–6% of sales" },
+    ],
+    costNote:
+      "Standard national-grocer economics — the divisional structure keeps initial capacity demands manageable, and promotional participation (loyalty pricing, digital offers) is the expected trading rhythm.",
+    tips: [
+      { title: "Pitch the banner, not the parent.", body: "Safeway NorCal and Jewel-Osco Chicago are different businesses with different buyers — regional precision wins." },
+      { title: "Use the published requirements.", body: "Albertsons documents its new-item presentation standards — matching them exactly marks you as low-friction." },
+      { title: "Certify for the diversity intake.", body: "The annual program is a genuine structured door with merchant attention — worth the certification paperwork if eligible." },
+      { title: "Bring regional velocity data.", body: "Divisional buyers respond to evidence from their own geography — local chains, farmers' markets, regional natural retailers." },
+    ],
+    faqs: [
+      { q: "How do I become an Albertsons supplier?", a: "Register through the Coupa Supplier Portal (Albertsons' primary onboarding system), follow the published supplier handbooks and new-item requirements, and pitch your regional division's category manager — with RangeMe as the discovery surface." },
+      { q: "What banners does Albertsons operate?", a: "20+ including Safeway, Vons, Jewel-Osco, Shaw's, Acme, Tom Thumb and Randalls — organized into regional divisions that buy with local autonomy." },
+      { q: "Can I supply just my region?", a: "Yes — divisional listings are the standard entry, with national expansion earned through regional performance." },
+      { q: "Does Albertsons have a diversity program?", a: "Yes — an annual application process for certified diverse-owned suppliers (51%+ owned by women, BIPOC, LGBTQ+, veterans or people with disabilities)." },
+      { q: "How long does onboarding take?", a: "Typically 4–9 months from registration through divisional launch." },
+    ],
+    sources: [
+      { label: "AlbertsonsNet — Become a Supplier", href: "https://suppliers.safeway.com/pages/BecomeASupplier.htm?page=RequirementsforNewItemPresentation.htm" },
+      { label: "RangeMe × Albertsons", href: "https://www.rangeme.com/albertsons" },
+    ],
+  },
+  {
+    slug: "walgreens",
+    name: "Walgreens",
+    country: "US",
+    category: "Drug & Convenience",
+    cardBlurb: "8,000+ drugstores — RangeMe is the official on-ramp, with line-review-cycle buying.",
+    topGun: false,
+    metaTitle: "How to Become a Walgreens Supplier: RangeMe On-Ramp & Requirements | Spottail",
+    metaDescription:
+      "How to get your product into Walgreens: the RangeMe submission route, retail-ready profile standards, category review cycles, diversity programs, timelines and costs.",
+    kicker: "US · Drug & Convenience · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Walgreens",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become a Walgreens supplier, submit through **RangeMe** (rangeme.com/walgreens) — the official on-ramp for new suppliers, with **SupplierNet** serving established vendors. Build a profile that reads **retail-ready**: real UPC and case-pack details, **margin you can defend, and proof you can fulfill at retail volume** — category buyers review submissions on their **line-review cycles**. Diverse-owned businesses have additional structured routes: the **Top Shelf program** (with the WBDC) and Walgreens' annual **Supplier Diversity Summit**.",
+    facts: [
+      { n: "8,000+", l: "US drugstores" },
+      { n: "RangeMe", l: "official new-supplier on-ramp" },
+      { n: "Line", l: "review cycles drive resets" },
+      { n: "Top Shelf", l: "8-week diverse-supplier program" },
+    ],
+    intro:
+      "Walgreens is one of America's two drugstore giants — a health-led chain where beauty, wellness, OTC and consumables compete for compact shelf space that changes hands at line reviews. Its new-supplier process is unusually clear: RangeMe in, category-manager review on the cycle, retail-readiness as the filter. The parallel diversity infrastructure (Top Shelf, the annual Summit) is among retail's most developed — structured doors, not statements.",
+    routesHeading: { pre: "The three routes", em: "into Walgreens" },
+    routes: [
+      {
+        title: "RangeMe — the official on-ramp",
+        body: "Create a supplier profile at [rangeme.com/walgreens](https://www.rangeme.com/walgreens), list products with pricing, packaging, certifications and availability, and submit into categories Walgreens is actively sourcing. Category buyers review on their own schedule — usually tied to line-review cycles — and profiles that read retail-ready (UPCs, case packs, defensible margin, fulfillment proof) survive the cut.",
+      },
+      {
+        title: "Line-review timing",
+        body: "As at [CVS](/become-a-supplier/cvs), assortments reset during category line reviews — the windows when shelf space actually moves. Learn your category's cycle (brokers know) and time submissions to land ahead of it; the same product submitted mid-cycle waits months.",
+      },
+      {
+        title: "Diversity programs — Top Shelf & the Summit",
+        body: "Certified diverse-owned businesses have real structured routes: **Top Shelf**, an eight-week program with the Women's Business Development Center teaching retail partnership and supply capacity, and the annual **Supplier Diversity Summit** where diverse brands pitch offerings directly. If you qualify, these doors come with education and merchant access attached.",
+      },
+    ],
+    requirements: [
+      { k: "Retail-ready profile", v: "Real UPC and case-pack details, imagery, certifications — Walgreens buyers filter hard on completeness and professionalism." },
+      { k: "Defensible margin", v: "Drug-channel margin structures with promotional room — know your economics before the buyer asks." },
+      { k: "Volume capability", v: "Proof you can fulfill at retail volume across thousands of stores — or a phased plan." },
+      { k: "Category compliance", v: "FDA compliance for OTC/cosmetics (MoCRA), proper labeling, and regulated-product documentation." },
+      { k: "EDI & systems", v: "Electronic trading; SupplierNet onboarding once established." },
+      { k: "Insurance", v: "Product liability insurance at chain-drug levels." },
+    ],
+    note:
+      "**Channel note:** Walgreens and CVS together are ~18,000 US doors of health-and-beauty shelf — the same preparation (retail-ready data, line-review timing, broker relationships) serves both pitches. Build the kit once, run it twice.",
+    steps: [
+      { title: "Complete compliance groundwork", body: "FDA/MoCRA compliance, labeling, regulated-product documentation.", time: "1–2 months" },
+      { title: "Build the RangeMe profile", body: "Retail-ready: UPCs, case packs, pricing, certifications, fulfillment evidence.", time: "Weeks 0–4" },
+      { title: "Time the category cycle", body: "Submit ahead of your category's line review — brokers and trade contacts know the calendar.", time: "Cycle-dependent" },
+      { title: "Buyer review & meetings", body: "Category manager assessment, assortment role and commercial discussion.", time: "1–4 months" },
+      { title: "Onboarding", body: "Vendor setup, SupplierNet, EDI and item data.", time: "1–3 months" },
+      { title: "Launch & perform", body: "Velocity against plan decides the next line review's verdict.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Product liability insurance", range: "$2,000–$8,000 / year" },
+      { item: "EDI setup", range: "$3,000–$15,000" },
+      { item: "MoCRA/FDA compliance", range: "$1,000–$5,000" },
+      { item: "Broker commission (if used)", range: "3–10% of sales" },
+      { item: "Promotional programs", range: "3–8% of sales" },
+    ],
+    costNote:
+      "Drug-channel promotion (circulars, myWalgreens offers) is the trading rhythm — budget participation. The diversity programs, where eligible, are free education plus access most brands pay consultants for.",
+    tips: [
+      { title: "Make the profile flawless.", body: "Walgreens' stated filter is retail-readiness — incomplete UPC or case-pack data is the quiet killer of drug-channel submissions." },
+      { title: "Learn the line-review calendar.", body: "The highest-leverage information in the channel — a well-timed submission compresses the timeline by months." },
+      { title: "Apply to Top Shelf if eligible.", body: "Eight weeks of retail-partnership education with WBDC backing, purpose-built to make brands Walgreens-ready." },
+      { title: "Run CVS in parallel.", body: "Same channel, same preparation, different resets — two pitches from one kit doubles your odds." },
+    ],
+    faqs: [
+      { q: "How do I become a Walgreens supplier?", a: "Submit through RangeMe (rangeme.com/walgreens) — the official on-ramp for new suppliers — with a retail-ready profile: UPCs, case packs, pricing, certifications and fulfillment proof. Category buyers review on line-review cycles." },
+      { q: "What is SupplierNet?", a: "Walgreens' established-vendor portal — RangeMe is the entry route; SupplierNet handles ongoing vendor operations once you're in." },
+      { q: "What makes a submission 'retail-ready'?", a: "Real UPC and case-pack details, defensible margin, professional imagery, certifications, and evidence you can fulfill at retail volume." },
+      { q: "What diversity routes exist?", a: "Top Shelf — an eight-week program with the Women's Business Development Center — and the annual Supplier Diversity Summit where diverse-owned brands pitch directly." },
+      { q: "How long does it take?", a: "Cycle-dependent: 3–12 months depending on where your category's line review falls relative to submission." },
+    ],
+    sources: [
+      { label: "RangeMe × Walgreens", href: "https://www.rangeme.com/walgreens" },
+      { label: "SupplierDiversity — Walgreens on-ramp", href: "https://www.supplierdiversity.com/blog/how-to-become-a-walgreens-supplier/" },
+    ],
+  },
+  {
+    slug: "lowes",
+    name: "Lowe's",
+    country: "US",
+    category: "Home Improvement",
+    cardBlurb: "The #2 home improvement giant — Vendor Gateway application plus RangeMe discovery.",
+    topGun: false,
+    metaTitle: "How to Become a Lowe's Supplier: Vendor Gateway & Requirements | Spottail",
+    metaDescription:
+      "How to become a Lowe's vendor: the supplier application and Vendor Gateway, required documentation, RangeMe discovery, compliance standards, timelines and costs.",
+    kicker: "US · Home Improvement · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Lowe's",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become a Lowe's supplier, apply through **Lowe's supplier program** (lowes.com/l/about/suppliers) via the **prospect vendor application on Vendor Gateway** — submitting tax forms (TIN, W-9), business licenses, financial statements, insurance and banking details. Lowe's also uses **RangeMe** for product discovery. The honest mechanics: **registration doesn't guarantee contact** — merchants reach out when your products align with assortment gaps, so category-precise positioning and demand evidence decide whether the phone rings.",
+    facts: [
+      { n: "1,700+", l: "US stores" },
+      { n: "#2", l: "US home improvement retailer" },
+      { n: "Gateway", l: "vendor application portal" },
+      { n: "Gaps", l: "merchants contact on assortment fit" },
+    ],
+    intro:
+      "Lowe's is the second pillar of US home improvement — 1,700+ big-box stores plus a growing dot-com assortment, buying across tools, hardware, garden, décor and building products. Its intake is systematized (prospect application on Vendor Gateway, documentation up front) but demand-driven: merchants engage when you fill a gap in their line review. That makes positioning — knowing precisely which assortment hole you fill — the real work of a Lowe's pitch, alongside the same operational readiness [Home Depot](/become-a-supplier/home-depot) expects.",
+    routesHeading: { pre: "The three routes", em: "into Lowe's" },
+    routes: [
+      {
+        title: "Vendor Gateway — the prospect application",
+        body: "Lowe's [supplier program](https://www.lowes.com/l/about/suppliers) routes new vendors through the prospect application on **Vendor Gateway**: company details, TIN and W-9, business licenses, financial statements, insurance coverage and banking. Complete registration puts you in the merchant-visible pool — contact comes when your line matches a gap.",
+      },
+      {
+        title: "RangeMe discovery",
+        body: "Lowe's uses [RangeMe](https://www.rangeme.com) for product discovery alongside the formal application — a complete profile with category-precise positioning covers the passive surface while you work merchant outreach directly.",
+      },
+      {
+        title: "Line reviews & online-first",
+        body: "Home improvement assortments reset at category line reviews, and lowes.com carries far more SKUs than stores — the online-first entry (with conversion data building the store case) is the same modern route that works at Home Depot. Time pitches to review cycles; ask merchants when yours runs.",
+      },
+    ],
+    requirements: [
+      { k: "Business documentation", v: "TIN, W-9 (US suppliers), business licenses, financial statements and valid banking details for the application." },
+      { k: "Insurance", v: "Product liability and general coverage at big-box requirements, verified at onboarding." },
+      { k: "Product compliance", v: "Category-specific: UL/ETL for electrical, EPA/CARB where applicable, Prop 65 labeling — certificates ready before merchant contact." },
+      { k: "EDI capability", v: "Full EDI trading with testing before first PO — standard big-box operations." },
+      { k: "Packaging & logistics", v: "Big-box packaging standards and DC-network delivery at appointment reliability." },
+      { k: "Assortment fit", v: "The actual filter: a clear story about which gap you fill in the current line." },
+    ],
+    note:
+      "**Process reality:** Lowe's tells suppliers plainly that registration alone doesn't trigger contact — merchants engage on fit. The application is table stakes; the work is knowing the category's current assortment well enough to name the hole you fill.",
+    steps: [
+      { title: "Prepare documentation", body: "TIN, W-9, licenses, financials, insurance, banking — the application checklist complete.", time: "Weeks 0–4" },
+      { title: "Apply on Vendor Gateway + RangeMe", body: "Prospect application submitted, discovery profile live.", time: "Weeks 0–4" },
+      { title: "Merchant engagement", body: "Contact comes on assortment fit — direct category-merchant outreach with gap analysis accelerates it.", time: "1–6 months" },
+      { title: "Pitch & line review", body: "Product evaluation against the category plan, pricing and channel (store/online) decisions.", time: "1–4 months" },
+      { title: "Onboarding", body: "Vendor Gateway setup, EDI testing, item data, packaging verification.", time: "1–3 months" },
+      { title: "Launch & scorecard", body: "Operational metrics and sell-through drive assortment growth.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Product certifications (UL/ETL etc.)", range: "$2,000–$20,000 per line" },
+      { item: "Product liability insurance", range: "$2,000–$8,000 / year" },
+      { item: "EDI setup & testing", range: "$5,000–$20,000" },
+      { item: "Big-box packaging", range: "$5,000–$30,000" },
+      { item: "GS1 UPCs & content", range: "$250–$2,500 initial" },
+    ],
+    costNote:
+      "Identical cost architecture to Home Depot — and deliberately so: building compliance and EDI for one qualifies you for both. Most home-improvement brands should run the two pitches in parallel.",
+    tips: [
+      { title: "Name the gap.", body: "Lowe's merchants contact suppliers who fill assortment holes — your pitch should open with the gap, not the product." },
+      { title: "Run Home Depot in parallel.", body: "Same documentation, same compliance, same packaging engineering — one preparation, two giants." },
+      { title: "Start online.", body: "Lowes.com's larger assortment is the lower bar — conversion data there builds the store-shelf case." },
+      { title: "Certify before applying.", body: "UL listings take months — starting compliance after merchant interest wastes the interest." },
+    ],
+    faqs: [
+      { q: "How do I become a Lowe's supplier?", a: "Apply through Lowe's supplier program via the prospect vendor application on Vendor Gateway — with tax forms, licenses, financials, insurance and banking details — and maintain a RangeMe profile for discovery. Merchants engage when your products fit assortment gaps." },
+      { q: "Does applying guarantee a response?", a: "No — Lowe's states that representatives contact suppliers whose offerings align with inventory gaps. Category-precise positioning and direct merchant outreach improve your odds materially." },
+      { q: "What compliance do products need?", a: "Category-specific: UL/ETL for electrical, EPA and CARB where applicable, Prop 65 labeling — with documentation ready at pitch." },
+      { q: "Can I sell on lowes.com only?", a: "Yes — the online assortment is far larger than stores and the online-first route builds the conversion data that earns shelf placement." },
+      { q: "How long does it take?", a: "Highly fit-dependent: 3–12 months from application to first PO, with merchant engagement the variable step." },
+    ],
+    sources: [
+      { label: "Lowe's — Supplier Program", href: "https://www.lowes.com/l/about/suppliers" },
+      { label: "Lowe's — Prospect Vendor Application", href: "https://vendorgateway.lowes.com/prospect/" },
+    ],
+  },
+  {
+    slug: "sams-club",
+    name: "Sam's Club",
+    country: "US",
+    category: "Warehouse Club",
+    cardBlurb: "Walmart's club channel — Member's Mark summits, Open Calls and Local Calls via RangeMe.",
+    topGun: false,
+    metaTitle: "How to Become a Sam's Club Supplier: Open Calls & Member's Mark | Spottail",
+    metaDescription:
+      "How to get your product into Sam's Club: Open Call and Local Call events via RangeMe, the Member's Mark private-brand summit, club-pack economics, timelines and costs.",
+    kicker: "US · Warehouse Club · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Sam's Club",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become a Sam's Club supplier, work its event-driven intake: **Open Calls and regional Local Calls** (Texas, California and others) gather pitches through **RangeMe**, while the **Member's Mark Private Brand Supplier Summit** recruits manufacturers for its flagship own brand — also via RangeMe submission. Standard vendor applications run through Walmart-family channels, and all suppliers meet **Sam's Club's Standards for Suppliers**, with sustainability and production ethics explicitly weighted. Club economics apply: **big packs, big volumes, sharp members' pricing**.",
+    facts: [
+      { n: "600", l: "US clubs" },
+      { n: "Member's", l: "Mark — the private-brand door" },
+      { n: "RangeMe", l: "gathers Open Call pitches" },
+      { n: "Club", l: "packs & pallet volumes" },
+    ],
+    intro:
+      "Sam's Club is Walmart's warehouse-club channel — 600 clubs selling curated, high-velocity assortments in club packs to members. Its supplier intake has gone event-driven: Open Calls and state-level Local Calls (pitch events sourced through RangeMe) and a Private Brand Supplier Summit feeding Member's Mark, the own brand Sam's is investing in heavily. The buying math is [Costco's](/become-a-supplier/costco): few SKUs, enormous volumes, members' pricing — with Walmart's supplier infrastructure underneath.",
+    routesHeading: { pre: "The three routes", em: "into Sam's Club" },
+    routes: [
+      {
+        title: "Open Calls & Local Calls",
+        body: "Sam's Club runs **Open Call events** for new suppliers and regional **Local Calls** (Texas, California and more) sourcing local products — with pitches gathered through [RangeMe](https://www.rangeme.com). These events compress months of cold outreach into scheduled buyer meetings; watch RangeMe and Sam's Club channels for windows and apply properly when they open.",
+      },
+      {
+        title: "Member's Mark — the private-brand summit",
+        body: "Sam's Club is investing hard in **Member's Mark** and hosts a Private Brand Supplier Summit to find manufacturers of 'premium, disruptive items across all categories' — submissions via RangeMe. For capable producers, it's the club version of the own-label play: committed volume under their brand, meeting Standards for Suppliers with sustainability explicitly assessed.",
+      },
+      {
+        title: "Standard vendor routes",
+        body: "Conventional applications run through Walmart-family supplier channels (see the [Walmart guide](/become-a-supplier/walmart) — the infrastructure is shared): Supplier Center, D-U-N-S, GS1 UPCs, EDI and the compliance stack, with club-specific packaging and item decisions.",
+      },
+    ],
+    requirements: [
+      { k: "Club economics", v: "Club-pack formats at members' pricing — volumes and price points that make a pallet position pay weekly." },
+      { k: "Standards for Suppliers", v: "Sam's Club's (Walmart-family) supplier standards — with production ethics, workplace safety and sustainability explicitly weighted." },
+      { k: "Volume capacity", v: "600 clubs of committed supply — club POs are transformative and demanding in equal measure." },
+      { k: "Walmart-stack prerequisites", v: "D-U-N-S, GS1 UPCs, product liability insurance, test reports and EDI — the shared family infrastructure." },
+      { k: "Club packaging", v: "Pallet-ready, display-ready club packs engineered for warehouse merchandising." },
+      { k: "Sustainability story", v: "How products are made and their impact — a stated evaluation criterion, not garnish." },
+    ],
+    note:
+      "**Event strategy:** Open Calls and Local Calls are the designed small-brand doors — real buyer meetings, decisions sometimes same-day, and regional Local Calls lower the capacity bar. Treat application windows like product launches: prepared, costed, rehearsed.",
+    steps: [
+      { title: "Fit-check club economics", body: "Club packs, members' pricing, pallet velocity — model it before pitching.", time: "Weeks 0–4" },
+      { title: "Watch for event windows", body: "Open Calls, Local Calls and the Private Brand Summit announce through RangeMe and Sam's channels.", time: "Event cycles" },
+      { title: "Apply via RangeMe", body: "Complete, club-ready submissions into the event pipeline — or standard Walmart-family channels year-round.", time: "Window-dependent" },
+      { title: "Pitch the buyer", body: "Event meetings or category-merchant conversations — capacity plan and club-pack samples ready.", time: "1–3 months" },
+      { title: "Onboarding", body: "Supplier agreements, EDI, item setup and club logistics through the Walmart-family stack.", time: "1–3 months" },
+      { title: "Perform on the pallet", body: "Club velocity is measured relentlessly — rotation decisions come fast.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Club-pack packaging development", range: "$10,000–$50,000" },
+      { item: "GS1, D-U-N-S & prerequisites", range: "$500–$3,000" },
+      { item: "Product liability insurance", range: "$2,000–$8,000 / year" },
+      { item: "EDI setup", range: "$5,000–$20,000" },
+      { item: "Volume production capital", range: "Substantial — club POs" },
+    ],
+    costNote:
+      "Club economics compress margin and multiply volume — the working-capital step-change of a 600-club PO is the risk to plan for, same as Costco. Secure production financing before the yes.",
+    tips: [
+      { title: "Treat Local Calls as the entry ramp.", body: "Regional events lower the capacity bar and put you in front of real buyers — the designed route for emerging brands." },
+      { title: "Consider the Member's Mark play.", body: "Sam's is investing in its own brand aggressively — manufacturers with capacity get committed volume without brand-building cost." },
+      { title: "Lead with sustainability substance.", body: "It's a stated evaluation criterion — certifications, impact data and supply-chain transparency belong in the pitch." },
+      { title: "Reuse your Walmart kit.", body: "Shared infrastructure means one preparation serves both — but pitch club-specific packs and economics, not shelf SKUs." },
+    ],
+    faqs: [
+      { q: "How do I become a Sam's Club supplier?", a: "Through its event-driven intake — Open Calls and regional Local Calls gathering pitches via RangeMe — the Member's Mark Private Brand Supplier Summit for own-brand manufacturers, or standard Walmart-family vendor channels." },
+      { q: "What is Member's Mark?", a: "Sam's Club's flagship private brand, recruiting manufacturers of premium, disruptive items through a dedicated supplier summit — submissions via RangeMe, meeting Standards for Suppliers with sustainability weighted." },
+      { q: "What are Local Calls?", a: "Regional pitch events (Texas, California and others) sourcing local products for area clubs — a lower-capacity-bar entry route run through RangeMe." },
+      { q: "What volumes does Sam's Club expect?", a: "Club-scale: 600 clubs buying few SKUs at high velocity in club packs — comparable working-capital demands to Costco." },
+      { q: "How long does it take?", a: "Event-cycle-dependent: an Open Call can compress the path to weeks; standard routes run 4–9 months." },
+    ],
+    sources: [
+      { label: "Sam's Club — Open Call", href: "https://corporate.walmart.com/about/samsclub/news/2022/01/17/want-to-be-a-sams-club-supplier-now-is-your-chance" },
+      { label: "RangeMe — Sam's Club Local Call FAQ", href: "https://help.rangeme.com/hc/en-us/articles/20833518742423-Sam-s-Club-Texas-Open-Call-FAQ" },
+    ],
+  },
+  {
+    slug: "sephora",
+    name: "Sephora",
+    country: "US",
+    category: "Prestige Beauty",
+    cardBlurb: "Prestige beauty's kingmaker — merchant-curated brands plus the Accelerate incubator.",
+    topGun: false,
+    metaTitle: "How to Get Into Sephora: Accelerate Incubator & Brand Curation | Spottail",
+    metaDescription:
+      "How to get your beauty brand into Sephora: the Accelerate incubator (eligibility, application, video pitch), merchant curation, prestige positioning, timelines and costs.",
+    kicker: "US · Prestige Beauty · Supplier Guide",
+    h1Pre: "How to get into",
+    h1Em: "Sephora",
+    h1Post: "",
+    readTime: "9 min read",
+    quickAnswer:
+      "To get into Sephora, there are two doors: **merchant curation** — Sephora's category merchants scout and select brands that fit its prestige, trend-defining assortment — and **Sephora Accelerate**, the annual brand incubator for **early-stage, North America-incorporated founders**: apply online (accelerate.sephora.com) with brand details and a **short founder video**, and selected cohorts get six months of mentorship, merchandising support, potential funding and the opportunity to **launch at Sephora**. Prestige positioning, proof of consumer demand and founder story are the currencies throughout.",
+    facts: [
+      { n: "500+", l: "US stores + Kohl's shops" },
+      { n: "6mo", l: "Accelerate incubator program" },
+      { n: "Annual", l: "application window (spring)" },
+      { n: "#1", l: "prestige beauty kingmaker" },
+    ],
+    intro:
+      "Sephora is prestige beauty's defining retailer — the shelf that makes brands, with a merchant team whose curation drives the category's trends and an incubator (Accelerate) purpose-built to manufacture its next generation of brands. There's no open vendor application; there's being worth curating. For early-stage founders, Accelerate is the structured door — mentorship, funding connections and a launch path. For established brands, the work is building the prestige positioning, retail-readiness and demand signals merchants can't ignore.",
+    routesHeading: { pre: "The three routes", em: "into Sephora" },
+    routes: [
+      {
+        title: "Sephora Accelerate — the incubator",
+        body: "Sephora's [Accelerate program](https://accelerate.sephora.com) takes annual applications (typically closing late March) from early-stage, North America-incorporated brands: online application, brand details, and a short video introducing you and your product — with proven consumer interest or a tested prototype required. Cohorts get six months of mentorship, merchandising support, potential funding, investor connections and retail-readiness building, with the opportunity to launch at Sephora.",
+      },
+      {
+        title: "Merchant curation",
+        body: "Sephora's category merchants scout constantly — trend velocity, social heat, DTC sell-through, press and founder narrative are the signals. As with [Ulta](/become-a-supplier/ulta), your traction *is* the application: build visible, quantified momentum where merchants look, and warm introductions (investors, incubator alumni, brokers) carry real weight in prestige beauty.",
+      },
+      {
+        title: "Adjacent proof channels",
+        body: "Sephora at Kohl's, international Sephora markets, and prestige-adjacent retail (Nordstrom, Bluemercury) all generate the sell-through evidence that de-risks a core Sephora bet — and merchants watch what performs across the prestige ecosystem.",
+      },
+    ],
+    requirements: [
+      { k: "Prestige positioning", v: "Product quality, packaging, pricing and brand world at prestige level — Sephora's shelf is the category's most curated." },
+      { k: "Accelerate eligibility", v: "Early-stage, North America-incorporated, founder-led — with proven consumer interest or a customer-tested prototype." },
+      { k: "MoCRA compliance", v: "US cosmetics regulation: facility registration, product listing, safety substantiation and compliant claims." },
+      { k: "Demand evidence", v: "DTC velocity, social momentum, waitlists, press — quantified proof consumers want you." },
+      { k: "Retail readiness", v: "Capacity, testers/merchandising units, education materials and the operations to serve 500+ doors if scaled." },
+      { k: "Founder story", v: "Prestige beauty is founder-led storytelling — Accelerate literally asks for it on video." },
+    ],
+    note:
+      "**The economics to know:** prestige retail carries heavy go-to-market costs — testers, gratis, education, animations and marketing support on top of retailer margin. Brands that budget only for wholesale margin get hollowed out by the launch year. Model the full prestige stack before chasing the shelf.",
+    steps: [
+      { title: "Get MoCRA-compliant", body: "Registration, listings, claims and safety files — before any retail conversation.", time: "1–2 months" },
+      { title: "Build prestige-grade assets", body: "Brand world, packaging, content and the demand signals merchants scout.", time: "Ongoing" },
+      { title: "Apply to Accelerate (if eligible)", body: "Annual window — application, brand details and founder video, done properly.", time: "Annual cycle" },
+      { title: "Or: earn merchant attention", body: "Quantified traction, warm introductions, prestige-adjacent sell-through.", time: "6–18 months" },
+      { title: "Launch preparation", body: "Assortment, testers, education, marketing plan — the prestige launch stack.", time: "3–6 months" },
+      { title: "Perform per door", body: "Sephora measures productivity per door ruthlessly — velocity decides expansion or exit.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "MoCRA compliance", range: "$1,000–$5,000" },
+      { item: "Prestige packaging & brand", range: "$20,000–$100,000+" },
+      { item: "Testers, gratis & education", range: "3–10% of sales" },
+      { item: "Marketing & animations", range: "Launch-year heavy — budget accordingly" },
+      { item: "Accelerate application", range: "Free" },
+    ],
+    costNote:
+      "Sephora can make a brand — and the launch-year investment to perform there is the highest in this guide series. Underfunded Sephora launches damage brands; well-funded ones define them.",
+    tips: [
+      { title: "Apply to Accelerate seriously.", body: "It's the designed early-stage door — free to enter, transformative if selected. Treat the video like the pitch of your life." },
+      { title: "Build in public.", body: "Merchants scout social velocity and DTC momentum — visible, quantified traction is your application." },
+      { title: "Learn the per-door math.", body: "Sephora thinks in productivity per door — model your velocity assumptions before the merchant asks." },
+      { title: "Fund the launch year.", body: "Testers, education, marketing support — raise or reserve for it. The shelf is the start line, not the finish." },
+    ],
+    faqs: [
+      { q: "How do I get my brand into Sephora?", a: "Two doors: merchant curation — building the prestige positioning and demand signals Sephora's scouts respond to — or Sephora Accelerate, the annual incubator for early-stage North American brands with a path to launching at Sephora." },
+      { q: "What is Sephora Accelerate?", a: "Sephora's brand incubator: annual applications (online form plus founder video), six months of mentorship, merchandising support, potential funding and investor connections, with the opportunity to launch at Sephora." },
+      { q: "Who's eligible for Accelerate?", a: "Founders 18+, North America-incorporated companies in early stages, with proven consumer interest or a customer-tested prototype." },
+      { q: "Does Sephora have an open vendor application?", a: "No — outside Accelerate, brands are curated by category merchants based on prestige fit, traction and trend relevance." },
+      { q: "What does launching at Sephora cost?", a: "The heaviest go-to-market stack in beauty retail: testers, gratis, education and marketing support on top of margin — budget the launch year like a raise." },
+    ],
+    sources: [
+      { label: "Sephora Accelerate", href: "https://newsroom.sephora.com/2026-applications-open-for-sephora-accelerate-the-leading-us-beauty-brand-incubator-program/" },
+      { label: "RETAILBOSS — Accelerate application guide", href: "https://retailboss.co/heres-how-to-apply-for-sephora-accelerate/" },
+    ],
+  },
+  {
+    slug: "rei",
+    name: "REI",
+    country: "US",
+    category: "Outdoor",
+    cardBlurb: "The outdoor co-op — buyer-approved vendors, sustainability standards, and Path Ahead Ventures.",
+    topGun: false,
+    metaTitle: "How to Become an REI Vendor: Approval Process & Path Ahead | Spottail",
+    metaDescription:
+      "How to become an REI supplier: the vendor approval process, REI's product impact and sustainability standards, EDI, and Path Ahead Ventures for founders of color.",
+    kicker: "US · Outdoor · Supplier Guide",
+    h1Pre: "How to become an",
+    h1Em: "REI",
+    h1Post: "vendor",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become an REI vendor, win a **category buyer** — REI's merchandising teams approve vendors whose products fit the co-op's outdoor assortment and meet its **Product Impact Standards** (sustainability and chemical-management expectations that apply to every brand on its shelves) — then onboard through vendor agreements and **EDI** (REI trades via the SPS network). For **founders of color** in the outdoor industry, REI's **Path Ahead Ventures** is a dedicated door: its Navigate program pairs founders with advisors, a cohort community, and a **$25,000 non-dilutive grant**, with potential paths into REI's assortment.",
+    facts: [
+      { n: "180+", l: "US stores" },
+      { n: "24m+", l: "co-op members" },
+      { n: "$25k", l: "Path Ahead Navigate grant" },
+      { n: "Impact", l: "standards apply to all brands" },
+    ],
+    intro:
+      "REI is American outdoor retail's flagship — a member-owned co-op whose curation carries specialty credibility no big box can match, and whose values genuinely gate its shelf: REI's Product Impact Standards set sustainability and chemicals expectations for every vendor. Buying is specialist and relationship-driven; community proof (guides, athletes, trail culture) counts. And Path Ahead Ventures — REI's venture fund and founder program for entrepreneurs of color — is one of specialty retail's most substantive structured doors.",
+    routesHeading: { pre: "The three routes", em: "into REI" },
+    routes: [
+      {
+        title: "Category buyer approval",
+        body: "REI vendors are approved by category merchandising teams — the pitch is specialist: technical credibility, community adoption, differentiation from the current assortment, and compliance with [REI's Product Impact Standards](https://www.rei.com/greenlight). Specialty outdoor sell-through (independent shops, guide services, outdoor marketplaces) is the evidence that moves REI buyers.",
+      },
+      {
+        title: "Path Ahead Ventures — for founders of color",
+        body: "REI's [Path Ahead Ventures](https://www.rei.com/action/path-ahead) accelerates founders of color in the outdoor industry: the **Navigate** program pairs participants with dedicated advisors (operational readiness, assortment, pricing, buyer engagement), a founder cohort, and a **$25,000 non-dilutive grant** — with potential paths into REI's assortment or partnership. Entry is by invitation; interested founders contact pathaheadventures@rei.com.",
+      },
+      {
+        title: "Community-proven credibility",
+        body: "Outdoor specialty buys what the community already trusts — guide and athlete adoption, expedition use, specialty-shop velocity and authentic trail presence. Build the credibility layer first; REI's buyers are members of the community they buy for.",
+      },
+    ],
+    requirements: [
+      { k: "Product Impact Standards", v: "REI's sustainability and chemicals-management expectations apply to all vendors — preferred attributes, restricted substances and impact documentation." },
+      { k: "Technical credibility", v: "Outdoor gear is trust-critical — testing, materials transparency and field-proof appropriate to the category." },
+      { k: "EDI (SPS network)", v: "REI trades via EDI on the SPS Commerce network — onboarding includes systems integration." },
+      { k: "Specialty economics", v: "Wholesale pricing for specialty retail margins, with co-op member pricing dynamics understood." },
+      { k: "Capacity", v: "180+ stores plus rei.com — or a curated-door start with room to scale." },
+      { k: "Insurance & compliance", v: "Product liability insurance and category safety compliance (CPSIA, applicable ASTM standards)." },
+    ],
+    note:
+      "**Values are load-bearing here:** REI's impact standards and co-op identity aren't marketing — they gate the assortment. Brands with substantive sustainability stories (materials, repairability, certifications) hold a real advantage; brands without them face questions before commercials.",
+    steps: [
+      { title: "Build community proof", body: "Specialty sell-through, guide/athlete adoption, authentic outdoor presence — quantified.", time: "Ongoing" },
+      { title: "Document impact credentials", body: "Materials, certifications, chemicals compliance against REI's standards.", time: "1–2 months" },
+      { title: "Pitch the category buyer", body: "Specialist deck: technical story, community evidence, assortment differentiation, impact documentation.", time: "1–4 months" },
+      { title: "Or: pursue Path Ahead", body: "Founders of color contact pathaheadventures@rei.com for Navigate consideration.", time: "Program cycles" },
+      { title: "Vendor onboarding", body: "Agreements, SPS-network EDI, item data and logistics setup.", time: "1–3 months" },
+      { title: "Launch & earn doors", body: "Often curated-door or online-first — specialty velocity drives expansion.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Impact documentation & certifications", range: "$1,000–$10,000" },
+      { item: "Product testing (category-dependent)", range: "$1,000–$10,000 per line" },
+      { item: "EDI via SPS network", range: "$3,000–$15,000" },
+      { item: "Product liability insurance", range: "$2,000–$8,000 / year" },
+      { item: "Community marketing (athletes, events)", range: "Your credibility budget" },
+    ],
+    costNote:
+      "Specialty outdoor economics are kinder than mass retail — better margins, curated assortments — but the credibility investment (community, testing, impact documentation) is the real entry cost, and it compounds across every outdoor retailer.",
+    tips: [
+      { title: "Lead with impact substance.", body: "REI's standards gate the shelf — certifications, preferred materials and transparency belong on page one of the pitch." },
+      { title: "Prove it in specialty first.", body: "Independent outdoor shops and guide adoption are the evidence REI's community-member buyers trust." },
+      { title: "Founders of color: pursue Path Ahead.", body: "A $25k non-dilutive grant, dedicated advisors and REI proximity — among the most substantive founder programs in retail." },
+      { title: "Pitch the co-op member.", body: "REI buys for members, not customers — durable, repairable, genuinely useful gear over trend-chasing." },
+    ],
+    faqs: [
+      { q: "How do I become an REI vendor?", a: "Win approval from the category merchandising team — with technical credibility, community-proven demand and compliance with REI's Product Impact Standards — then onboard through vendor agreements and EDI on the SPS network." },
+      { q: "What is Path Ahead Ventures?", a: "REI's venture fund and founder program accelerating founders of color in the outdoor industry — the Navigate program provides dedicated advisors, a cohort community and a $25,000 non-dilutive grant, with potential paths into REI's assortment. Contact pathaheadventures@rei.com." },
+      { q: "What are REI's Product Impact Standards?", a: "Sustainability and chemicals-management expectations applying to all REI vendors — covering preferred attributes, restricted substances and supply-chain impact." },
+      { q: "What evidence do REI buyers want?", a: "Community proof: specialty-shop sell-through, guide and athlete adoption, and technical credibility appropriate to the category." },
+      { q: "How long does it take?", a: "Typically 4–9 months from buyer engagement through onboarding — with community credibility-building the real (longer) runway." },
+    ],
+    sources: [
+      { label: "REI — Path Ahead Ventures", href: "https://www.rei.com/action/path-ahead" },
+      { label: "TradeBeyond — REI vendor approval", href: "https://www.tradebeyond.com/blog/how-to-become-an-approved-rei-vendor" },
+    ],
+  },
+  {
+    slug: "kehe",
+    name: "KeHE",
+    country: "US",
+    category: "Distribution",
+    cardBlurb: "The natural & specialty distributor behind Sprouts — supplier submissions, EDI, and a new-brand program.",
+    topGun: false,
+    metaTitle: "How to Get Into KeHE: New Supplier Process, Costs & Strategy | Spottail",
+    metaDescription:
+      "How to become a KeHE supplier: the submission routes, product preferences (organic, wellness), EDI requirements, onboarding, the new-supplier flat-rate program and costs.",
+    kicker: "US · Distribution · Supplier Guide",
+    h1Pre: "How to get into",
+    h1Em: "KeHE",
+    h1Post: "",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become a KeHE supplier, submit through **KeHE's supplier channels** (kehe.com/suppliers, the CONNECT Direct inquiry, or **RangeMe**, which KeHE buyers use for discovery) — with your supply chain, certifications and **EDI readiness** in order first, since KeHE processes orders electronically. KeHE favors **organic, non-GMO, ethically sourced products with clear wellness benefits**, runs a rigorous onboarding (product evaluation, financial assessment, compliance), and notably offers **new and small suppliers (under $500k, first year) a 2% flat-rate program**. As [Sprouts'](/become-a-supplier/sprouts) primary distributor, KeHE is the natural channel's second pillar alongside [UNFI](/become-a-supplier/unfi).",
+    facts: [
+      { n: "30k+", l: "retail locations served" },
+      { n: "2%", l: "flat-rate program for new suppliers" },
+      { n: "B Corp", l: "certified, employee-owned" },
+      { n: "Sprouts", l: "primary distribution partner" },
+    ],
+    intro:
+      "KeHE is the second engine of US natural and specialty distribution — a B Corp-certified, employee-owned distributor serving 30,000+ stores, and the primary supply partner of Sprouts. The strategic logic mirrors UNFI: retailers in the natural channel buy through distributors, so KeHE is infrastructure you'll likely need — and its posture toward emerging brands is notably friendly, from RangeMe discovery to a flat-rate program built for first-year suppliers. Same rule as UNFI though: retail demand pulls you in; the inquiry form alone doesn't.",
+    routesHeading: { pre: "The three routes", em: "into KeHE" },
+    routes: [
+      {
+        title: "Supplier submission + RangeMe",
+        body: "KeHE takes new products through [its supplier channels](https://www.kehe.com/suppliers/) and the CONNECT Direct inquiry — and its buyers use [RangeMe](https://www.rangeme.com/kehe) for discovery. Before submitting: supply chain, inventory management, certifications and **EDI readiness** in order, because that's how KeHE processes orders.",
+      },
+      {
+        title: "Retailer pull — the reliable route",
+        body: "As with UNFI, a retailer commitment (Sprouts, a regional natural chain, an independent group) converts you from cold submission to service necessity. Win the shelf first — see the [Sprouts guide](/become-a-supplier/sprouts) — and bring KeHE the demand; the distribution follows the retail, never the reverse.",
+      },
+      {
+        title: "Category management & launch programs",
+        body: "Once in, KeHE's category management team drives new-item launches — expect to co-build a launch plan with promotional support behind it. The **2% flat-rate program** for new suppliers (under $500k, first year at KeHE, subject to supplier-manager approval) meaningfully softens the early economics.",
+      },
+    ],
+    requirements: [
+      { k: "Product profile", v: "KeHE favors organic, non-GMO, ethically sourced products with clear health and wellness benefits — FDA-compliant and meeting KeHE quality standards." },
+      { k: "EDI readiness", v: "Electronic trading in place — KeHE processes supplier orders via EDI, plus item maintenance and pricing submissions through its systems." },
+      { k: "Onboarding rigor", v: "Product evaluations, financial assessments and compliance checks — the standard distributor gauntlet." },
+      { k: "Retail demand", v: "The real prerequisite: retailer interest or commitments that make your setup a service request." },
+      { k: "Launch investment", v: "A co-built launch plan with promotional support — new items don't sell themselves through a catalog." },
+      { k: "Distributor economics", v: "Wholesale pricing that survives distributor margins plus programs — modeled before signing (the 2% flat-rate program helps year one)." },
+    ],
+    note:
+      "**UNFI or KeHE?** Run the decision from your retailers: UNFI is Whole Foods' primary, KeHE is Sprouts' — and many scaled brands eventually carry both. KeHE's new-supplier flat-rate program and B Corp culture make it the gentler first distributor for many emerging natural brands.",
+    steps: [
+      { title: "Win retail demand first", body: "Retailer commitments or strong interest — the unlock for distributor attention.", time: "Months — see retailer guides" },
+      { title: "Get EDI and compliance ready", body: "Systems, certifications and documentation in order before submitting.", time: "1–2 months" },
+      { title: "Submit + RangeMe profile", body: "KeHE supplier channels, CONNECT Direct inquiry, and discovery presence.", time: "Weeks 0–4" },
+      { title: "Onboarding gauntlet", body: "Product evaluation, financial assessment, compliance checks; program decisions (flat-rate if eligible).", time: "1–3 months" },
+      { title: "Co-build the launch", body: "Category management launch plan with promotional support committed.", time: "1–2 months" },
+      { title: "Manage the channel", body: "Deductions, promotions and program ROI — active weekly management, as with any distributor.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Distributor margin / programs", range: "% of wholesale (2% flat-rate program if eligible, year one)" },
+      { item: "EDI setup", range: "$3,000–$10,000" },
+      { item: "Launch & promotional programs", range: "3–8% of sales" },
+      { item: "Free-fill & new-item support", range: "Free goods at launch — budget stock" },
+      { item: "Deductions management", range: "2–8% of sales — manage actively" },
+    ],
+    costNote:
+      "The flat-rate program is a genuine early-stage subsidy — but the full distributor waterfall (margin, programs, deductions, free-fill) still applies at scale. Model shelf-price-backwards before signing anything.",
+    tips: [
+      { title: "Sequence retail-first.", body: "Sprouts interest, regional chains, independents — retail pull is what moves a KeHE submission from queue to setup." },
+      { title: "Claim the flat-rate program.", body: "Under $500k and in your first KeHE year? Ask your supplier manager about the 2% program explicitly — it exists for you." },
+      { title: "Fit the wellness profile.", body: "Organic, non-GMO, functional benefits — KeHE's stated preferences. Make your attributes unmissable in the submission." },
+      { title: "Plan UNFI + KeHE as a system.", body: "Whole Foods pulls UNFI, Sprouts pulls KeHE — your retailer roadmap dictates your distributor roadmap." },
+    ],
+    faqs: [
+      { q: "How do I become a KeHE supplier?", a: "Submit through KeHE's supplier channels (kehe.com, CONNECT Direct) or RangeMe — with EDI, certifications and supply chain ready — and ideally with retailer demand pulling you in. Onboarding includes product evaluation, financial assessment and compliance checks." },
+      { q: "What products does KeHE favor?", a: "Organic, non-GMO, ethically sourced products with clear health and wellness benefits, FDA-compliant and meeting KeHE's quality standards." },
+      { q: "What is the new-supplier flat-rate program?", a: "KeHE offers new and small suppliers (under $500k, within their first KeHE year) a 2% flat-rate program, pending supplier-manager approval — a meaningful early-economics subsidy." },
+      { q: "KeHE or UNFI first?", a: "Follow your retailers: KeHE is Sprouts' primary distributor, UNFI is Whole Foods' — many brands eventually run both." },
+      { q: "How long does KeHE onboarding take?", a: "Typically 2–4 months once engaged — faster with retailer authorization pulling the setup." },
+    ],
+    sources: [
+      { label: "KeHE — Submit Your Products", href: "https://www.kehe.com/suppliers/" },
+      { label: "Foodbevy — KeHE guide", href: "https://guide.foodbevy.com/s7-chapter-04-kehe/" },
+    ],
+  },
 ];

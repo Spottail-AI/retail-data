@@ -1283,4 +1283,847 @@ export const supplierGuidesUK: SupplierGuide[] = [
       { label: "Booker — Premier symbol group", href: "https://www.booker.co.uk/content/pages/retail/premier.html" },
     ],
   },
+  {
+    slug: "morrisons",
+    name: "Morrisons",
+    country: "UK",
+    category: "Grocery",
+    cardBlurb: "Big Four grocer with a genuine local route — the Local Foodmakers programme.",
+    topGun: false,
+    metaTitle: "How to Become a Morrisons Supplier: Local Foodmakers & Vendor Process | Spottail",
+    metaDescription:
+      "How to supply Morrisons: the Local Foodmakers programme (register of interest → sourcing review → buyer meeting), direct-to-store supply, requirements and timelines.",
+    kicker: "UK · Grocery · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Morrisons",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become a Morrisons supplier, complete the **'Supplying Morrisons' register of interest form** — the Sourcing Team reviews every application and invites qualifying products to a buyer meeting. Small producers should target the **Local Foodmakers programme**: local products supplied **direct to nearby stores**, with simplified agreements and **preferential payment terms**. Morrisons also manufactures much of its own fresh food (Myton Food Group), so own-label manufacturing is a genuine second route.",
+    facts: [
+      { n: "~500", l: "supermarkets + convenience" },
+      { n: "200+", l: "local suppliers added via programme" },
+      { n: "Direct", l: "to-store local supply" },
+      { n: "#1", l: "UK fresh-food manufacturer among grocers" },
+    ],
+    intro:
+      "Morrisons is the most vertically integrated of the Big Four — it makes over half of the fresh food it sells through its own Myton Food Group sites. That shapes two distinct supplier doors: the Local Foodmakers programme, which has brought hundreds of small British producers into nearby stores on unusually friendly terms, and conventional or own-label supply at national scale. For a genuinely local product, Morrisons is one of the easiest Big Four listings to actually land.",
+    routesHeading: { pre: "The three routes", em: "into Morrisons" },
+    routes: [
+      {
+        title: "Local Foodmakers — the small-producer door",
+        body: "Morrisons' [Local Foodmakers](https://my.morrisons.com/foodmakers/) programme recruits British foodmakers, growers and producers of locally loved products. The process: online register-of-interest form → Sourcing Team review → buyer meeting if you fit. The terms are built for small businesses: supply **direct to your nearest store or region**, simplified agreements, and preferential payment terms.",
+      },
+      {
+        title: "National supply via the register of interest",
+        body: "Established brands use the same [Supplying Morrisons](https://www.morrisons-corporate.com/suppliers/supplying-morrisons/) route at national scale — full category pitch, certifications and commercials, into the standard buying process with GSCOP protections.",
+      },
+      {
+        title: "Own-label manufacturing",
+        body: "Through Myton Food Group, Morrisons is Britain's biggest food-making grocer — and it buys raw materials and co-manufacturing capacity accordingly. If you're a producer rather than a brand, this vertically integrated model is a substantial door the other Big Four don't have.",
+      },
+    ],
+    requirements: [
+      { k: "Food safety", v: "HACCP foundation with certification proportionate to scale — local direct-to-store supply carries lighter requirements than national depot supply (BRCGS expected at national scale)." },
+      { k: "Local credentials", v: "For Local Foodmakers: genuine British local production with a locally loved product and story." },
+      { k: "Capacity honesty", v: "Local supply means your nearest stores, not 500 — Morrisons scales with you rather than demanding national volume up front." },
+      { k: "GSCOP", v: "Morrisons is a designated retailer — code protections on payment and de-listing apply." },
+      { k: "EDI & data", v: "Electronic trading and product data for depot-supplied lines; simplified arrangements exist for local direct-to-store." },
+      { k: "Insurance", v: "Product liability insurance appropriate to supply scale." },
+    ],
+    note:
+      "**Why this one's friendly:** direct-to-store supply removes the depot logistics that price small producers out of the multiples, and preferential payment terms protect small-business cash flow. If you're already delivering to independents in your area, Local Foodmakers is a natural next step, not a leap.",
+    steps: [
+      { title: "Register interest", body: "Complete the Supplying Morrisons / Local Foodmakers form with product, provenance and supply details.", time: "Weeks 0–2" },
+      { title: "Sourcing Team review", body: "Every application is reviewed with direct feedback — qualifying products progress.", time: "1–2 months" },
+      { title: "Buyer meeting", body: "Category or regional buyer meeting: product, pricing, and which stores you'll supply.", time: "1–2 months" },
+      { title: "Agreement & onboarding", body: "Simplified agreements for local suppliers; standard terms and EDI for national supply.", time: "2–6 weeks" },
+      { title: "Launch locally", body: "Direct-to-store supply into your nearest stores or region.", time: "Launch" },
+      { title: "Grow the footprint", body: "Local velocity builds the case for regional and national ranging.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Food safety certification", range: "£1,000–£6,000 / year" },
+      { item: "Product liability insurance", range: "£1,500–£4,000 / year" },
+      { item: "Local delivery logistics", range: "Your van beats a depot fee" },
+      { item: "EDI setup (national supply)", range: "£3,000–£10,000" },
+      { item: "Promotional participation", range: "2–5% of sales" },
+    ],
+    costNote:
+      "Local Foodmakers is among the cheapest Big Four entries available — direct-to-store logistics and simplified agreements strip out most of the usual onboarding cost.",
+    tips: [
+      { title: "Lead with locally loved.", body: "The programme's own language — bring evidence your area already buys you: farmers' markets, independents, local press." },
+      { title: "Name the stores you'd supply.", body: "Walking in with 'these six stores, this delivery plan' makes the sourcing team's decision easy." },
+      { title: "Use the feedback loop.", body: "Morrisons reviews every application and replies — a decline with feedback is a roadmap for reapplying." },
+      { title: "Producers: pitch Myton too.", body: "If you grow or make at scale, the manufacturing arm is a separate, bigger conversation." },
+    ],
+    faqs: [
+      { q: "What is Morrisons' Local Foodmakers programme?", a: "Morrisons' route for British local foodmakers, growers and producers — register interest online, the Sourcing Team reviews, and qualifying products get a buyer meeting, with direct-to-store supply, simplified agreements and preferential payment terms." },
+      { q: "How do I apply to supply Morrisons?", a: "Complete the 'Supplying Morrisons' register of interest form on the corporate site — used for both local and national supply routes." },
+      { q: "Do I need BRCGS to supply Morrisons?", a: "At national depot scale, yes (or equivalent GFSI certification). Local direct-to-store supply carries proportionately lighter requirements on an HACCP foundation." },
+      { q: "Does Morrisons really stock small producers?", a: "Yes — the programme has added hundreds of local suppliers, with products supplied to their nearest stores rather than nationally." },
+      { q: "How long does it take?", a: "Local listings can move in 2–4 months; national listings run 6–12 months like the rest of the Big Four." },
+    ],
+    sources: [
+      { label: "Morrisons — Local Foodmakers", href: "https://my.morrisons.com/foodmakers/" },
+      { label: "Morrisons — Supplying Morrisons", href: "https://www.morrisons-corporate.com/suppliers/supplying-morrisons/" },
+    ],
+  },
+  {
+    slug: "aldi",
+    name: "Aldi UK",
+    country: "UK",
+    category: "Discount Grocery",
+    cardBlurb: "Discount giant where ~90% of the range is own-label — supply means exclusive-brand manufacturing.",
+    topGun: false,
+    metaTitle: "How to Become an Aldi UK Supplier: Own-Label & Exclusive Brands | Spottail",
+    metaDescription:
+      "How to supply Aldi UK: the becoming-a-supplier route, why most supply is exclusive own-label manufacturing, Specialbuys, requirements, timelines and costs.",
+    kicker: "UK · Discount Grocery · Supplier Guide",
+    h1Pre: "How to become an",
+    h1Em: "Aldi",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become an Aldi UK supplier, apply through **Aldi's Becoming a Supplier process** (aldi.co.uk/corporate/suppliers) — and understand the model first: roughly **90% of Aldi's range is own-label exclusive brands**, so supplying Aldi almost always means **manufacturing to Aldi's specification** at serious volume and sharp cost. New suppliers sign Aldi's Standard Terms incorporating **GSCOP**. The compensation for thin margins: enormous committed volumes, famously long supplier relationships, and strong British-sourcing commitments.",
+    facts: [
+      { n: "1,000+", l: "UK stores" },
+      { n: "~90%", l: "own-label exclusive brands" },
+      { n: "Top 5", l: "UK grocery share" },
+      { n: "Long", l: "term supplier relationships" },
+    ],
+    intro:
+      "Aldi's model is disciplined to the point of elegance: a limited range of exclusive own-label products, bought at volume from committed manufacturing partners, sold cheap. For branded goods there's very little shelf; for capable manufacturers there's some of the biggest, most stable volume in UK grocery — Aldi is known for decade-long supplier relationships and substantial British sourcing. Pitch it as a manufacturer, not a brand.",
+    routesHeading: { pre: "The three routes", em: "into Aldi" },
+    routes: [
+      {
+        title: "Becoming a Supplier — the formal route",
+        body: "Aldi's [supplier process](https://www.aldi.co.uk/corporate/suppliers/becoming-a-supplier) starts with its Standard Terms and Conditions (incorporating GSCOP and associated policies). Approach the relevant buying director's team with a manufacturing-led pitch: category, capacity, accreditations, and the cost structure to hit Aldi's price points profitably at volume.",
+      },
+      {
+        title: "Exclusive-brand manufacturing",
+        body: "Aldi's exclusive brands are made by manufacturers — many of them household-name producers running Aldi lines alongside their own. If you can make excellent product at discount economics, this is the actual business: committed volume, no marketing cost, manufacturer margins.",
+      },
+      {
+        title: "Specialbuys & seasonal",
+        body: "Aldi's famous middle-aisle **Specialbuys** are one-off volume purchases across general merchandise — a genuine door for GM suppliers who can deliver a compelling product at a price for a single large run, without a permanent listing commitment.",
+      },
+    ],
+    requirements: [
+      { k: "Manufacturing accreditation", v: "GFSI-recognised certification (BRCGS or equivalent) for food; category accreditations for GM — audited." },
+      { k: "Discount economics", v: "Cost structures that support Aldi's price leadership at volume — the non-negotiable core of every Aldi conversation." },
+      { k: "Volume capacity", v: "1,000+ stores of committed supply — capacity and working capital at a different scale from specialist retail." },
+      { k: "Standard Terms & GSCOP", v: "Aldi's purchase terms incorporate the Groceries Supply Code of Practice and associated compliance policies." },
+      { k: "Consistency", v: "Aldi's model depends on own-label quality matching brands — quality failures are existential to the relationship." },
+      { k: "EDI & logistics", v: "Electronic trading and reliable regional distribution centre supply." },
+    ],
+    note:
+      "**Relationship note:** Aldi's counterweight to hard pricing is loyalty — it's known for long, stable supplier relationships and has made large public commitments to British sourcing. Suppliers who hit quality and cost reliably tend to keep the volume for years.",
+    steps: [
+      { title: "Fit-check the economics", body: "Model your costs at Aldi price points and 1,000-store volume before pitching — this filters everything.", time: "Weeks 0–4" },
+      { title: "Approach the buying team", body: "Category-targeted, manufacturing-led pitch through Aldi's supplier channels.", time: "1–3 months" },
+      { title: "Product & site evaluation", body: "Benchmarking against the category (Aldi tests relentlessly against brands), plus site audits.", time: "2–4 months" },
+      { title: "Terms & development", body: "Standard Terms, product specification and packaging development under Aldi's exclusive brands.", time: "2–4 months" },
+      { title: "Launch at volume", body: "National supply into regional distribution centres.", time: "Launch" },
+      { title: "Defend quality & cost", body: "Continuous benchmarking — hold both and the relationship compounds.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "BRCGS certification & audits", range: "£3,000–£8,000 / year" },
+      { item: "Volume production capital", range: "Substantial — 1,000-store runs" },
+      { item: "EDI & logistics setup", range: "£5,000–£15,000" },
+      { item: "Product development & benchmarking", range: "£2,000–£10,000 per line" },
+      { item: "Marketing", range: "£0 — own-label model" },
+    ],
+    costNote:
+      "Aldi margins are manufacturer margins at their sharpest — the business case rests on volume, capacity utilisation and relationship longevity, not per-unit profit.",
+    tips: [
+      { title: "Benchmark against the brand leader.", body: "Aldi's own-label products are built to match or beat brands in blind tests. Bring your product's benchmark data to the pitch." },
+      { title: "Pitch capacity, not brand.", body: "Your factory, accreditations, and cost engineering are the story. Aldi supplies the brand." },
+      { title: "Consider Specialbuys for GM.", body: "One-off volume runs are a lower-commitment way to start an Aldi relationship in general merchandise." },
+      { title: "Play the long game.", body: "Aldi rewards reliability with tenure — price the first contract knowing the value is in year five." },
+    ],
+    faqs: [
+      { q: "Can I get my brand stocked in Aldi?", a: "Rarely — around 90% of Aldi's range is own-label exclusive brands. The realistic route is manufacturing Aldi's exclusive-brand products to their specification, or one-off Specialbuys for general merchandise." },
+      { q: "How do I apply to supply Aldi UK?", a: "Through Aldi's Becoming a Supplier process on its corporate site — new suppliers sign Aldi's Standard Terms incorporating GSCOP, then work with the relevant category buying team." },
+      { q: "What certifications does Aldi require?", a: "GFSI-recognised certification (BRCGS or equivalent) for food manufacturing, with site audits and continuous quality benchmarking." },
+      { q: "What are Aldi's Specialbuys?", a: "Aldi's rotating middle-aisle general merchandise offers — bought as one-off volume purchases, and a genuine entry route for GM suppliers without permanent listings." },
+      { q: "Is supplying Aldi worth it?", a: "For capable manufacturers, often very: committed national volume, zero marketing cost, and famously long relationships — at discount-grocery margins that demand efficient production." },
+    ],
+    sources: [
+      { label: "Aldi UK — Becoming a Supplier", href: "https://www.aldi.co.uk/corporate/suppliers/becoming-a-supplier" },
+    ],
+  },
+  {
+    slug: "lidl",
+    name: "Lidl",
+    country: "UK",
+    category: "Discount Grocery",
+    cardBlurb: "Own-label discounter — buying team contact, unannounced audits, EDI before first order.",
+    topGun: false,
+    metaTitle: "How to Become a Lidl GB Supplier: Requirements & Process | Spottail",
+    metaDescription:
+      "How to supply Lidl GB: contacting the buying team, unannounced audits and pre-listing reports, EDI requirements, own-label manufacturing, timelines and costs.",
+    kicker: "UK · Discount Grocery · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Lidl",
+    h1Post: "supplier",
+    readTime: "9 min read",
+    quickAnswer:
+      "To become a Lidl GB supplier, contact the **buying team through Lidl's corporate supplier channels** (corporate.lidl.co.uk) — the formal route outperforms cold buyer approaches. Before listing you'll need to pass an **unannounced Lidl audit**, complete **pre-listing reports**, hold relevant **manufacturing accreditation**, and have **EDI live before your first transaction**. Like Aldi, Lidl is overwhelmingly own-label — supply means manufacturing exclusive brands at discount economics, with **biannual testing and ongoing audits** once listed.",
+    facts: [
+      { n: "960+", l: "GB stores" },
+      { n: "Own-label", l: "dominant range model" },
+      { n: "Unannounced", l: "pre-listing audits" },
+      { n: "2×/year", l: "product testing once listed" },
+    ],
+    intro:
+      "Lidl GB runs the same disciplined discount playbook as Aldi — limited range, own-label exclusive brands, relentless quality benchmarking — with its own distinctly systematic supplier machinery: unannounced audits, pre-listing reports, and continuous testing. It's also made substantial public commitments to British sourcing. The pitch that works is identical in kind to Aldi's: excellent manufacturing at discount cost structures, at nearly a thousand stores of volume.",
+    routesHeading: { pre: "The three routes", em: "into Lidl" },
+    routes: [
+      {
+        title: "The formal supplier route",
+        body: "New suppliers contact the buying team through [Lidl's supplier information](https://corporate.lidl.co.uk/supplier-information) channels — Lidl explicitly steers new suppliers through the formal process rather than direct buyer approaches. Come with category, capacity, accreditations and discount-ready costings.",
+      },
+      {
+        title: "Own-label manufacturing",
+        body: "Lidl's range is dominated by exclusive own brands made by partner manufacturers. The business is manufacturing to Lidl's specification — committed volume, no brand-building cost, tight margins, and quality standards enforced through unannounced audits and biannual testing.",
+      },
+      {
+        title: "British sourcing & seasonal programmes",
+        body: "Lidl has committed billions to British suppliers and runs seasonal and regional sourcing pushes (plus supplier development initiatives). British provenance is a genuine asset in a Lidl pitch — lead with it if you have it.",
+      },
+    ],
+    requirements: [
+      { k: "Manufacturing accreditation", v: "Relevant accreditation (GFSI-recognised for food) held before listing — verified through pre-listing checks." },
+      { k: "Unannounced audit", v: "Suppliers must pass an unannounced Lidl audit before products are listed — your site must be audit-ready always, not on appointment." },
+      { k: "Pre-listing reports", v: "Product and compliance reports completed before first orders." },
+      { k: "EDI before first transaction", v: "EDI capability in place before trading starts — Lidl expects electronic order management from day one." },
+      { k: "Reformulation compliance", v: "Adherence to UK salt, sugar and calorie reduction programmes — public-health reformulation is expected." },
+      { k: "Sustainability engagement", v: "Engagement with Lidl's commitments across human rights, agriculture, plastics/packaging and responsible sourcing." },
+    ],
+    note:
+      "**Audit-readiness is the differentiator:** Lidl's audits are unannounced and its testing continues biannually after listing. Sites that treat compliance as a permanent operating state — not an event to prepare for — are the ones that keep Lidl volume.",
+    steps: [
+      { title: "Prepare the fundamentals", body: "Accreditation current, EDI provider selected, costings modelled at discount price points.", time: "1–2 months" },
+      { title: "Contact the buying team", body: "Formal approach through corporate supplier channels with a manufacturing-led pitch.", time: "1–3 months" },
+      { title: "Evaluation & benchmarking", body: "Product tested against the category; commercial discussions on cost and volume.", time: "1–3 months" },
+      { title: "Pass the unannounced audit", body: "Site audit plus pre-listing reports completed.", time: "1–2 months" },
+      { title: "EDI live, then launch", body: "Electronic trading operational before the first order lands.", time: "2–6 weeks" },
+      { title: "Continuous compliance", body: "Biannual testing and ongoing audits — quality and cost hold the listing.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "GFSI certification & audit readiness", range: "£3,000–£8,000 / year" },
+      { item: "EDI setup (pre-trading)", range: "£3,000–£10,000" },
+      { item: "Pre-listing reports & testing", range: "£1,000–£4,000" },
+      { item: "Volume production capital", range: "Substantial — 900+ store runs" },
+      { item: "Marketing", range: "£0 — own-label model" },
+    ],
+    costNote:
+      "Lidl's economics mirror Aldi's: thin manufacturer margins carried by big committed volumes and low commercial overhead. The hidden cost is permanent audit-readiness — build it into operations, not a pre-audit scramble.",
+    tips: [
+      { title: "Use the formal route.", body: "Lidl says it plainly: the application process beats approaching buyers directly. Respect the system and it moves." },
+      { title: "Be always-audit-ready.", body: "Unannounced means unannounced. Run your site as if the auditor arrives tomorrow, because they might." },
+      { title: "Lead with British sourcing.", body: "Lidl's British supplier commitments are strategic — domestic provenance strengthens both the pitch and the PR value you offer them." },
+      { title: "Get EDI sorted first.", body: "It's a pre-trading requirement, not an onboarding step. Having it live removes a common launch delay." },
+    ],
+    faqs: [
+      { q: "How do I become a Lidl supplier?", a: "Contact the buying team through Lidl GB's corporate supplier channels — the formal route is more effective than direct buyer approaches. Expect pre-listing reports, an unannounced audit and EDI before first trading." },
+      { q: "What audits does Lidl require?", a: "An unannounced pre-listing site audit, plus ongoing audits and biannual product testing once listed — with relevant manufacturing accreditation held throughout." },
+      { q: "Is Lidl own-label like Aldi?", a: "Yes — Lidl's range is dominated by exclusive own brands made by partner manufacturers. Supplying Lidl generally means manufacturing to their specification." },
+      { q: "Do I need EDI to supply Lidl?", a: "Yes — EDI capability should be in place before your first Lidl transaction." },
+      { q: "How long does Lidl listing take?", a: "Typically 4–9 months through evaluation, audit and onboarding — audit-ready sites move fastest." },
+    ],
+    sources: [
+      { label: "Lidl GB — Supplier Information", href: "https://corporate.lidl.co.uk/supplier-information" },
+      { label: "Lidl GB — Supplier Relationships", href: "https://corporate.lidl.co.uk/sustainability/supplier-relationships" },
+    ],
+  },
+  {
+    slug: "iceland",
+    name: "Iceland",
+    country: "UK",
+    category: "Frozen & Grocery",
+    cardBlurb: "Frozen specialist — pitch new.suppliers@iceland.co.uk or via the RangeMe partnership.",
+    topGun: false,
+    metaTitle: "How to Become an Iceland Supplier: Frozen & Grocery Vendor Process | Spottail",
+    metaDescription:
+      "How to supply Iceland Foods: the new suppliers email route, the RangeMe sourcing partnership, why every line must earn its place, requirements and timelines.",
+    kicker: "UK · Frozen & Grocery · Supplier Guide",
+    h1Pre: "How to become an",
+    h1Em: "Iceland",
+    h1Post: "supplier",
+    readTime: "8 min read",
+    quickAnswer:
+      "To become an Iceland supplier, pitch **new.suppliers@iceland.co.uk** with your product and the gap it fills — or submit through **RangeMe**, Iceland's product-discovery partner for Iceland and The Food Warehouse. The filter to understand: Iceland's core stores are **small, with deliberately limited range** — every line must earn meaningful sales, and listing you usually means delisting something. Frozen innovation, exclusive brand partnerships and value price points are what buyers hunt. **EDI** is expected for stocked suppliers.",
+    facts: [
+      { n: "~1,000", l: "stores incl. Food Warehouse" },
+      { n: "#1", l: "UK frozen specialist" },
+      { n: "Small", l: "stores — every line earns its place" },
+      { n: "2", l: "routes: email & RangeMe" },
+    ],
+    intro:
+      "Iceland is the UK's frozen-food specialist — a value retailer whose compact stores and famously exclusive brand partnerships (it built its name on branded collaborations others couldn't get) make its buying unusually decisive. Breadth-over-depth ranging means the bar is 'meaningful sales per line', and the pitch that lands is a product that fills a visible gap — especially in frozen, where Iceland leads the market and innovation gets noticed fastest.",
+    routesHeading: { pre: "The three routes", em: "into Iceland" },
+    routes: [
+      {
+        title: "The new-suppliers inbox",
+        body: "Iceland's stated route: email **new.suppliers@iceland.co.uk** with your idea or the range gap you fill — they respond directly. Keep it sharp: product, price point, the gap, and evidence it sells. [Supplier information](https://about.iceland.co.uk/doing-it-right/supplier-information/) sits on Iceland's corporate site.",
+      },
+      {
+        title: "RangeMe — the discovery partnership",
+        body: "Iceland and The Food Warehouse partnered with [RangeMe](https://www.rangeme.com) to transform sourcing — a complete profile there puts you in the flow buyers actually review, covering both fascias in one submission.",
+      },
+      {
+        title: "Exclusive & licensed partnerships",
+        body: "Iceland's history is built on exclusive brand partnerships — licensed products and collaborations no other grocer stocks. If your brand can offer Iceland something exclusive (a format, a licence, a first), you're speaking their native commercial language.",
+      },
+    ],
+    requirements: [
+      { k: "Earn-your-place economics", v: "Small stores and tight ranges mean every line must generate meaningful sales — velocity evidence is the core of the pitch." },
+      { k: "Frozen capability (where relevant)", v: "Frozen supply chain competence — cold-chain logistics and appropriate certification for frozen manufacture." },
+      { k: "Food safety", v: "GFSI-recognised certification expected at chain scale, HACCP foundation throughout." },
+      { k: "Value pricing", v: "Iceland's customer is value-led — price points and promotional mechanics must fit." },
+      { k: "EDI", v: "Electronic trading expected for stocked suppliers, with a supplier portal for invoices and payments." },
+      { k: "Insurance", v: "Product liability insurance at grocery-retail levels." },
+    ],
+    note:
+      "**Category insight:** frozen is both Iceland's identity and its openness — it leads the UK frozen market and actively hunts frozen innovation. A chilled or ambient product faces the squeeze of tiny ranges; a genuinely novel frozen product walks through a wider door.",
+    steps: [
+      { title: "Sharpen the gap story", body: "Which line do you beat or what gap do you fill — with velocity evidence from elsewhere.", time: "Weeks 0–2" },
+      { title: "Pitch both channels", body: "Email new.suppliers@iceland.co.uk and build the RangeMe profile — covering Iceland and Food Warehouse.", time: "Weeks 0–4" },
+      { title: "Buyer review", body: "Category buyer assesses the line against current range economics.", time: "1–3 months" },
+      { title: "Commercials & compliance", body: "Pricing, promotional plan, certification checks and EDI setup.", time: "1–2 months" },
+      { title: "Launch & prove velocity", body: "Small stores judge fast — early rate of sale decides the listing's future.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Food safety certification", range: "£2,000–£6,000 / year" },
+      { item: "Cold-chain logistics (frozen)", range: "Higher than ambient — provider-dependent" },
+      { item: "EDI setup", range: "£3,000–£10,000" },
+      { item: "Product liability insurance", range: "£1,500–£4,000 / year" },
+      { item: "Promotional participation", range: "2–6% of sales" },
+    ],
+    costNote:
+      "Frozen logistics cost more per case than ambient — but the frozen aisle is also where Iceland's appetite (and your differentiation) is greatest. Price the cold chain in from the start.",
+    tips: [
+      { title: "Pitch frozen-first if you can.", body: "It's Iceland's identity and its most innovation-hungry category — reformatting your product for frozen may be the smartest door." },
+      { title: "Name the line you replace.", body: "In breadth-over-depth ranging, buyers think in swaps. Tell them what comes off shelf and why yours earns more." },
+      { title: "Offer something exclusive.", body: "Iceland built its brand on exclusives — a format or product no other grocer has is your strongest card." },
+      { title: "Cover The Food Warehouse too.", body: "The larger-format fascia takes bigger packs and broader range — one RangeMe submission reaches both." },
+    ],
+    faqs: [
+      { q: "How do I pitch a product to Iceland?", a: "Email new.suppliers@iceland.co.uk with your product and the range gap it fills, or submit via RangeMe — Iceland's product-discovery partner for both Iceland and The Food Warehouse." },
+      { q: "What does Iceland look for?", a: "Lines that earn meaningful sales in small, tightly ranged stores — value price points, velocity evidence, and ideally frozen innovation or exclusivity." },
+      { q: "Is Iceland only frozen food?", a: "No — stores carry chilled and ambient grocery too — but frozen is the identity, the market leadership, and the widest door for new suppliers." },
+      { q: "Do I need EDI to supply Iceland?", a: "Yes — Iceland expects electronic trading from stocked suppliers, with a supplier portal for invoice tracking and payment requests." },
+      { q: "How long does an Iceland listing take?", a: "Typically 3–7 months — Iceland's compact buying structure can move faster than the Big Four when a product clearly fits." },
+    ],
+    sources: [
+      { label: "Iceland — Supplier Information", href: "https://about.iceland.co.uk/doing-it-right/supplier-information/" },
+      { label: "Retail Gazette — Iceland × RangeMe", href: "https://www.retailgazette.co.uk/blog/2022/02/iceland-partners-with-new-supplier-network-to-change-the-way-it-sources-products/" },
+    ],
+  },
+  {
+    slug: "whsmith",
+    name: "WHSmith",
+    country: "UK",
+    category: "Travel Retail",
+    cardBlurb: "Travel retail specialist — airports, stations and hospitals; buying team and wholesale routes.",
+    topGun: false,
+    metaTitle: "How to Become a WHSmith Supplier: Travel Retail Vendor Process | Spottail",
+    metaDescription:
+      "How to supply WHSmith: the travel retail model (airports, rail, hospitals), buying team approach, wholesale partnerships, categories, requirements and timelines.",
+    kicker: "UK · Travel Retail · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "WHSmith",
+    h1Post: "supplier",
+    readTime: "8 min read",
+    quickAnswer:
+      "To become a WHSmith supplier, approach the **category buying teams directly** through WHSmith's corporate channels — there's no open submission portal. Know the business you're pitching: WHSmith is now a **travel retailer** — airports, rail stations and hospitals in the UK and internationally (its high-street stores were sold and rebranded in 2025) — buying across **books, stationery, food & drink to go, health & convenience, tech accessories and gifting**. A **wholesale/international partnership route** also exists via its Business Development team.",
+    facts: [
+      { n: "1,200+", l: "travel stores globally" },
+      { n: "3", l: "captive channels: air, rail, hospitals" },
+      { n: "Travel", l: "retail focus since 2025" },
+      { n: "6+", l: "buying categories" },
+    ],
+    intro:
+      "WHSmith today is a travel retail business — stores in airports, rail stations and hospitals across the UK, North America and beyond, serving captive customers with minutes to spend (the familiar high-street estate was sold and rebranded TGJones in 2025). That model shapes the buying: compact formats, grab-and-go price points, impulse and convenience categories, and strong margins on a customer who can't shop around. For brands in snacking, drinks, travel accessories, stationery and gifting, it's a distinctive, high-footfall channel most suppliers never think to pitch.",
+    routesHeading: { pre: "The three routes", em: "into WHSmith" },
+    routes: [
+      {
+        title: "Category buying teams",
+        body: "WHSmith's UK travel buying is organised by category — books, stationery, food & drink, health & beauty convenience, tech and gifting. With no open portal, the route is a direct, well-prepared pitch through [WHSmith's corporate channels](https://www.whsmithplc.co.uk/): product, travel-format fit, price point and commercials.",
+      },
+      {
+        title: "International & wholesale partnerships",
+        body: "WHSmith runs a wholesale business supplying WHSmith-designed products and category expertise to retail partners worldwide, and its [International Retail team](https://www.whsmithplc.co.uk/what-we-do/international-travel-retail) invites approaches from potential partners — a different door for brands and operators outside the UK.",
+      },
+      {
+        title: "Travel-format proof elsewhere",
+        body: "Travel retail buyers respond to travel evidence: sales in other transit formats (airport convenience, rail kiosks, service stations) or strong grab-and-go velocity in high-footfall city stores. Prove the format, then pitch the estate.",
+      },
+    ],
+    requirements: [
+      { k: "Travel-format fit", v: "Compact pack sizes, grab-and-go formats, and price points suited to impulse purchases by time-poor travellers." },
+      { k: "Category compliance", v: "Food safety certification for F&B lines; product safety and labelling compliance across GM categories." },
+      { k: "Supply reliability", v: "Airport and station replenishment is logistically demanding — security, timing windows and small backrooms punish unreliable suppliers." },
+      { k: "Margin structure", v: "Travel retail carries premium margins — your wholesale price must support them while surviving concession economics." },
+      { k: "EDI & data", v: "Electronic trading and complete product data for chain supply." },
+      { k: "Insurance", v: "Product liability insurance at chain-retail levels." },
+    ],
+    note:
+      "**Channel insight:** travel retail customers are captive, hurried and often flush — impulse formats and premium-positioned convenience outperform their high-street equivalents. A product that's mid-pack in a supermarket can be a category leader airside.",
+    steps: [
+      { title: "Adapt for travel", body: "Formats, price points and packaging tuned for transit retail — before the pitch, not after.", time: "Weeks 0–4" },
+      { title: "Approach the category buyer", body: "Direct pitch through corporate channels with travel-format evidence and commercials.", time: "1–3 months" },
+      { title: "Range review", body: "Buyers assess against compact-store economics and the travel customer's mission.", time: "1–3 months" },
+      { title: "Terms & onboarding", body: "Commercial terms, compliance checks, EDI and logistics setup for transit locations.", time: "1–2 months" },
+      { title: "Launch & measure", body: "High footfall means fast data — velocity per store decides expansion across the estate.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Travel-format packaging", range: "£3,000–£15,000" },
+      { item: "Product liability insurance", range: "£1,500–£5,000 / year" },
+      { item: "EDI setup", range: "£3,000–£10,000" },
+      { item: "Food safety certification (F&B)", range: "£2,000–£6,000 / year" },
+      { item: "Transit logistics", range: "Higher per-drop than high street" },
+    ],
+    costNote:
+      "Transit logistics cost more per delivery, but travel retail's premium pricing and captive footfall typically repay it — model store-level economics, not chain averages.",
+    tips: [
+      { title: "Design for the dwell time.", body: "Travellers decide in seconds. Packaging that communicates instantly and formats that fit a cabin bag win this channel." },
+      { title: "Pitch the mission, not the aisle.", body: "WHSmith buyers think in traveller missions — the flight snack, the forgotten charger, the journey read. Position your product inside one." },
+      { title: "Use transit evidence.", body: "Any sales history in stations, airports or service stations is disproportionately persuasive here." },
+      { title: "Consider the international door.", body: "The wholesale/international team is a separate route — relevant if you can serve WHSmith's global travel estate or partner in a local market." },
+    ],
+    faqs: [
+      { q: "How do I become a WHSmith supplier?", a: "Approach the relevant category buying team directly through WHSmith's corporate channels — there's no open submission portal. A travel-format-ready pitch with commercials is the entry ticket." },
+      { q: "Is WHSmith still on the high street?", a: "No — WHSmith sold its high-street estate (rebranded TGJones) in 2025 and is now a travel retailer: airports, rail stations and hospitals in the UK and internationally." },
+      { q: "What categories does WHSmith buy?", a: "Books, stationery, food & drink to go, health & convenience, tech accessories and gifting — all tuned to traveller missions." },
+      { q: "What makes travel retail different for suppliers?", a: "Captive, hurried customers; compact formats; premium margins; and demanding transit logistics — impulse-friendly products outperform their high-street results." },
+      { q: "How long does a WHSmith listing take?", a: "Typically 3–7 months from pitch to launch, depending on category review cycles." },
+    ],
+    sources: [
+      { label: "WH Smith PLC — travel retail", href: "https://www.whsmithplc.co.uk/what-we-do/international-travel-retail" },
+    ],
+  },
+  {
+    slug: "argos",
+    name: "Argos",
+    country: "UK",
+    category: "General Merchandise",
+    cardBlurb: "Sainsbury's-owned GM retailer — vendor route plus a curated, supplier-fulfilled marketplace.",
+    topGun: false,
+    metaTitle: "How to Become an Argos Supplier: Vendor Process & Marketplace | Spottail",
+    metaDescription:
+      "How to sell your product through Argos: the vendor route (samples, safety certificates, supplier agreement), the curated stockless marketplace, requirements and timelines.",
+    kicker: "UK · General Merchandise · Supplier Guide",
+    h1Pre: "How to become an",
+    h1Em: "Argos",
+    h1Post: "supplier",
+    readTime: "8 min read",
+    quickAnswer:
+      "To become an Argos supplier, approach the **buying team for your category** (Argos is part of Sainsbury's Group) — the classic route runs: contact → **samples plus safety certificates** → supplier agreement → purchase order → delivery into the distribution network. A second door is growing fast: Argos's **curated marketplace**, a stockless, **supplier-fulfilled model** that has added thousands of products, where approved sellers list on argos.co.uk and ship orders themselves. Product safety documentation is the gate everything passes through.",
+    facts: [
+      { n: "1,100+", l: "stores & collection points" },
+      { n: "60k+", l: "products incl. marketplace" },
+      { n: "2", l: "routes: wholesale & marketplace" },
+      { n: "Sainsbury's", l: "Group owned" },
+    ],
+    intro:
+      "Argos is one of the UK's biggest general merchandise retailers — toys, home, tech, sporting goods — operating digital-first with collection points inside Sainsbury's stores. Two doors matter for suppliers: traditional wholesale into its distribution network, and the curated marketplace, a stockless supplier-fulfilled model Argos has used to add thousands of products without inventory risk. For GM brands, the marketplace is the modern audition; wholesale is the volume prize.",
+    routesHeading: { pre: "The three routes", em: "into Argos" },
+    routes: [
+      {
+        title: "The wholesale vendor route",
+        body: "The established path: contact the relevant buying team, provide **samples and product info including safety certificates**, sign the supplier agreement, receive purchase orders and deliver into the distribution hub. As part of [Sainsbury's Group](https://corporate.sainsburys.co.uk/), commercial and compliance standards align with group processes.",
+      },
+      {
+        title: "The curated marketplace",
+        body: "Argos's [marketplace](https://corporate.sainsburys.co.uk/news/press-releases/argos-is-building-a-marketplace-to-offer-customers-more-choice-more-often/) is deliberately **not open** — sellers and products are curated — but it's built on a stockless, supplier-fulfilled model that's added thousands of lines. Approved sellers list on argos.co.uk and fulfil orders themselves: lighter entry, no wholesale negotiation, and performance data that earns the wholesale conversation.",
+      },
+      {
+        title: "Prove GM velocity elsewhere",
+        body: "Argos buyers respond to rate-of-sale evidence from marketplaces, [B&M](/become-a-supplier/b-and-m)-style value chains or specialist retail. GM buying is data-led — bring conversion and velocity numbers, not just product." ,
+      },
+    ],
+    requirements: [
+      { k: "Product safety certificates", v: "The gate for GM: UKCA/CE marking, toy safety (EN 71), electrical safety, furniture regulations — certificates required with samples at pitch stage." },
+      { k: "Supplier agreement", v: "Argos's standard supplier terms, aligned with Sainsbury's Group compliance and ethical standards." },
+      { k: "Fulfilment capability (marketplace)", v: "For marketplace sellers: your own fulfilment at Argos service standards, returns handling and complete product data." },
+      { k: "DC logistics (wholesale)", v: "Delivery into the distribution network at appointment reliability for wholesale supply." },
+      { k: "Product data", v: "GTIN/barcodes, rich content and imagery — Argos is digital-first, so your listing is your shelf." },
+      { k: "Insurance", v: "Product liability insurance at GM-retail levels." },
+    ],
+    note:
+      "**Compliance note:** general merchandise safety documentation (UKCA, EN 71, electrical) is checked before anything else moves. Arrive with the certificates in the first email — it's the single biggest accelerator in GM vendor processes.",
+    steps: [
+      { title: "Prepare safety documentation", body: "Certificates current for every line — the prerequisite for both routes.", time: "Weeks 0–4" },
+      { title: "Approach buying or marketplace", body: "Category buyer pitch (wholesale) or curated marketplace application — or both.", time: "Weeks 0–8" },
+      { title: "Samples & review", body: "Product, safety and commercial evaluation against the category plan.", time: "1–3 months" },
+      { title: "Agreement & setup", body: "Supplier agreement, product data, EDI/fulfilment integration.", time: "1–2 months" },
+      { title: "First orders", body: "POs into the DC network, or marketplace listings live.", time: "Launch" },
+      { title: "Convert performance", body: "Marketplace velocity is the internal case for wholesale ranging and store-collection placement.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Product safety certification", range: "£500–£5,000 per product line" },
+      { item: "Product liability insurance", range: "£1,500–£5,000 / year" },
+      { item: "EDI setup (wholesale)", range: "£3,000–£10,000" },
+      { item: "Marketplace commission & fulfilment", range: "% of sales + your logistics" },
+      { item: "Content & imagery", range: "£1,000–£5,000" },
+    ],
+    costNote:
+      "Digital-first retail makes content a real cost line — Argos listings sell through photography, video and specs. Budget it like packaging.",
+    tips: [
+      { title: "Lead with certificates.", body: "GM buyers filter on compliance first — safety documentation in the opening pitch signals a low-risk supplier." },
+      { title: "Audition on the marketplace.", body: "Curated but stockless — if selected, you build Argos-customer sales data at minimal risk to either side." },
+      { title: "Think collection-point retail.", body: "Argos sells online for same-day collection — products that fit the reserve-and-collect mission (gifts, urgency purchases) fly here." },
+      { title: "Use the Sainsbury's connection.", body: "Group ownership means cross-ranging opportunities — GM lines that work at Argos can travel into Sainsbury's stores." },
+    ],
+    faqs: [
+      { q: "How do I become an Argos supplier?", a: "Contact the relevant category buying team, then: samples plus safety certificates → supplier agreement → purchase order → delivery to the distribution hub. The curated marketplace is a parallel supplier-fulfilled route." },
+      { q: "Can anyone sell on the Argos marketplace?", a: "No — it's deliberately curated, not open. Approved sellers list on argos.co.uk under a stockless, supplier-fulfilled model with Argos service standards." },
+      { q: "What safety documentation do I need?", a: "Category-dependent: UKCA/CE marking, EN 71 for toys, electrical safety standards, furniture regulations — certificates are requested with samples at pitch stage." },
+      { q: "Who owns Argos?", a: "Sainsbury's Group — Argos operates digital-first with collection points inside Sainsbury's stores, and supplier standards align with group processes." },
+      { q: "How long does an Argos listing take?", a: "Typically 3–7 months for wholesale; curated marketplace onboarding can be faster once selected." },
+    ],
+    sources: [
+      { label: "Sainsbury's — Argos marketplace announcement", href: "https://corporate.sainsburys.co.uk/news/press-releases/argos-is-building-a-marketplace-to-offer-customers-more-choice-more-often/" },
+    ],
+  },
+  {
+    slug: "pets-at-home",
+    name: "Pets at Home",
+    country: "UK",
+    category: "Pet Specialty",
+    cardBlurb: "The UK's pet care leader — official submissions via RangeMe against its Supplier Code.",
+    topGun: false,
+    metaTitle: "How to Become a Pets at Home Supplier: RangeMe Submissions & Requirements | Spottail",
+    metaDescription:
+      "How to get your pet brand into Pets at Home: the RangeMe submission route, Supplier Code standards (animal welfare, ethics, sustainability), timelines and costs.",
+    kicker: "UK · Pet Specialty · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Pets at Home",
+    h1Post: "supplier",
+    readTime: "8 min read",
+    quickAnswer:
+      "To become a Pets at Home supplier, submit your products through **RangeMe** — the retailer's official product-discovery partner, open to businesses of any size — where submissions are screened against Pets at Home's **Supplier Code of Conduct: animal welfare, ethical and technical practices, and sustainability**. The UK's biggest pet care business combines 450+ stores with vet practices and grooming, and its buyers actively use the platform to find smaller brands.",
+    facts: [
+      { n: "450+", l: "UK stores" },
+      { n: "#1", l: "UK pet care business" },
+      { n: "RangeMe", l: "official submission route" },
+      { n: "3", l: "code pillars: welfare, ethics, sustainability" },
+    ],
+    intro:
+      "Pets at Home dominates UK pet retail — a specialist estate wrapped in a wider pet-care ecosystem of in-store vet practices and grooming salons. Its sourcing is deliberately opened up: the RangeMe partnership exists explicitly to give smaller pet brands faster access to buyers, with the Supplier Code (animal welfare front and centre) as the screen. For pet food, treats, accessories, tech and wellness brands, it's the defining UK listing — and one of the more transparent to pursue.",
+    routesHeading: { pre: "The three routes", em: "into Pets at Home" },
+    routes: [
+      {
+        title: "RangeMe — the official route",
+        body: "Pets at Home partnered with [RangeMe](https://www.rangeme.com/petsathome) to source new brands globally, from businesses of any size. Build a complete profile — products, imagery, pricing, certifications — and RangeMe screens against the Supplier Code (animal welfare, ethical and technical practices, sustainability) before buyers review.",
+      },
+      {
+        title: "Category buyer engagement",
+        body: "Pet buying is category-led (food, treats, accessories, health). A pitch backed by independent-pet-shop velocity, strong DTC subscriptions or vet endorsements gives buyers the evidence pet retail runs on — repeat purchase is everything in this category.",
+      },
+      {
+        title: "The ecosystem angle",
+        body: "Pets at Home's vet and grooming businesses make clinically credible and professional-grade products unusually interesting — a vet-recommended positioning or salon-proven product has routes into the group beyond the shelf.",
+      },
+    ],
+    requirements: [
+      { k: "Supplier Code of Conduct", v: "Screening against animal welfare, ethical & technical practices and sustainability — the explicit criteria of the RangeMe partnership." },
+      { k: "Pet food compliance", v: "For food and treats: UK pet food regulations, compositional labelling, and appropriate manufacturing certification (e.g. FEDIAF-aligned standards)." },
+      { k: "Product safety", v: "Category-appropriate safety standards for accessories, toys and tech." },
+      { k: "Repeat-purchase evidence", v: "Pet retail lives on repeat — subscription rates, reorder data and reviews are the pitch currency." },
+      { k: "Capacity", v: "Ability to supply 450+ stores reliably, or a clear phased plan." },
+      { k: "EDI & insurance", v: "Electronic trading and product liability insurance at chain-retail levels." },
+    ],
+    note:
+      "**Category dynamic:** pet owners are brand-loyal and repeat-driven — a buyer who lists you is betting on your second and tenth sale, not your first. Subscription and reorder data outperform launch-spike numbers in every pet pitch.",
+    steps: [
+      { title: "Verify code alignment", body: "Animal welfare, ethical and sustainability credentials documented — the screen everything passes.", time: "Weeks 0–4" },
+      { title: "Submit on RangeMe", body: "Complete profile with certifications, pricing and repeat-purchase evidence.", time: "Weeks 0–4" },
+      { title: "Buyer review", body: "Category buyer assesses fit, differentiation and commercials.", time: "1–3 months" },
+      { title: "Terms & onboarding", body: "Commercial terms, compliance verification, EDI and product data setup.", time: "1–3 months" },
+      { title: "Launch & prove repeat", body: "Early reorder rates decide expansion — pet retail measures loyalty fast.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Pet food compliance & testing", range: "£1,000–£5,000 per product" },
+      { item: "Product liability insurance", range: "£1,500–£5,000 / year" },
+      { item: "EDI setup", range: "£3,000–£10,000" },
+      { item: "Sustainability documentation", range: "£500–£3,000" },
+      { item: "Promotional participation", range: "2–6% of sales" },
+    ],
+    costNote:
+      "Pet specialty margins are healthier than grocery — but the Supplier Code screening is real, and welfare or sustainability gaps end conversations before commercials start.",
+    tips: [
+      { title: "Lead with welfare credentials.", body: "Animal welfare is the first pillar of their code — certifications and sourcing transparency belong at the top of your profile." },
+      { title: "Bring subscription data.", body: "DTC repeat rates are the strongest possible signal in a repeat-driven category." },
+      { title: "Position for the ecosystem.", body: "Vet-credible or grooming-proven products have group-wide potential beyond retail shelf." },
+      { title: "Watch the own-brand line.", body: "Pets at Home grows own-label actively — differentiation that's hard to replicate protects your listing long-term." },
+    ],
+    faqs: [
+      { q: "How do I submit a product to Pets at Home?", a: "Through RangeMe — Pets at Home's official product-discovery partner, open to businesses of any size, with submissions screened against its Supplier Code of Conduct." },
+      { q: "What is in the Supplier Code?", a: "Three pillars: animal welfare, ethical & technical practices, and sustainability — screened before buyer review." },
+      { q: "What compliance does pet food need?", a: "UK pet food regulations: compositional and labelling compliance, plus appropriate manufacturing standards for food and treats." },
+      { q: "What evidence do pet buyers want?", a: "Repeat purchase above all — subscription rates, reorders and reviews. Pet retail is a loyalty category." },
+      { q: "How long does it take?", a: "Typically 3–8 months from submission to shelf, depending on category cycles." },
+    ],
+    sources: [
+      { label: "RangeMe × Pets at Home", href: "https://www.rangeme.com/petsathome" },
+      { label: "Pet Business World — sourcing platform", href: "https://www.petbusinessworld.co.uk/trade-news/retailers/pets-at-home-adopts-new-global-sourcing-platform.html" },
+    ],
+  },
+  {
+    slug: "dunelm",
+    name: "Dunelm",
+    country: "UK",
+    category: "Homewares",
+    cardBlurb: "The UK's homewares leader — own-brand-led, long-term committed supplier partnerships.",
+    topGun: false,
+    metaTitle: "How to Become a Dunelm Supplier: Homewares Vendor Process | Spottail",
+    metaDescription:
+      "How to supply Dunelm: the new-supplier contact route, its own-brand committed-partner model, supplier manual standards, requirements, timelines and costs.",
+    kicker: "UK · Homewares · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Dunelm",
+    h1Post: "supplier",
+    readTime: "8 min read",
+    quickAnswer:
+      "To become a Dunelm supplier, contact its **new supplier enquiries route** via dunelm.com's contact channels — there's no open portal, and Dunelm's model is **largely own-brand, built on long-standing committed supplier partners** who manufacture to its specification. That makes the pitch manufacturing-led: capability, compliance with the **Dunelm Supplier Manual** (quality, packaging, ethical standards), and cost structures for value-led homewares. Branded lines exist but are selective.",
+    facts: [
+      { n: "180+", l: "UK stores" },
+      { n: "#1", l: "UK homewares specialist" },
+      { n: "Own-brand", l: "led range model" },
+      { n: "Committed", l: "long-term supplier partnerships" },
+    ],
+    intro:
+      "Dunelm is the UK's homewares market leader — bedding, curtains, furniture, kitchen and decor — built on a largely own-brand range sourced through long-standing supplier partnerships. Like the discounters in grocery, that model rewards manufacturers over brands: Dunelm controls specification and design, partners produce to it, and relationships run long. The estate is modest in store count but huge in category share, and a Dunelm partnership is the anchor listing in UK home.",
+    routesHeading: { pre: "The three routes", em: "into Dunelm" },
+    routes: [
+      {
+        title: "New supplier enquiries",
+        body: "Dunelm takes new supplier approaches through its [contact channels](https://www.dunelm.com/contact-us) — a manufacturing-led pitch works best: category, capability, compliance credentials and costings. Existing suppliers operate through the Dunelm supplier portal; your goal is earning the invitation into it.",
+      },
+      {
+        title: "Own-brand manufacturing",
+        body: "Dunelm's [business model](https://corporate.dunelm.com/about-us/business-model/) is explicit: largely own-brand ranges with a high degree of specification control, through committed supplier partners. If you manufacture textiles, furniture or homewares to spec at value price points, this is the actual business on offer.",
+      },
+      {
+        title: "Branded & marketplace lines",
+        body: "Dunelm ranges selective third-party brands, and its expanding online assortment creates room for supplier-fulfilled lines. Distinctive design, licensed properties, or category authority are what earn branded space in an own-brand-led range.",
+      },
+    ],
+    requirements: [
+      { k: "Supplier Manual compliance", v: "Dunelm's supplier manual sets quality, packaging, labelling and operational standards — the operating rulebook for partners." },
+      { k: "Product compliance", v: "Homewares regulation: furniture fire safety, textile labelling, UKCA where applicable — certificates ready at pitch." },
+      { k: "Manufacturing capability", v: "Specification-led production at consistent quality — Dunelm controls the spec; you deliver it repeatedly." },
+      { k: "Value economics", v: "Cost structures for value-led homewares price points at chain volume." },
+      { k: "Ethical & sustainability standards", v: "Supply chain transparency and ethical sourcing compliance — actively managed across Dunelm's supplier base." },
+      { k: "EDI & insurance", v: "Electronic trading via the supplier portal, and product liability insurance." },
+    ],
+    note:
+      "**Relationship model:** Dunelm describes its suppliers as long-standing committed partners — turnover in the supply base is low, which cuts both ways: harder to enter, but durable once in. Pitch accordingly: capability and reliability over novelty.",
+    steps: [
+      { title: "Build the capability case", body: "Category, capacity, compliance certificates and value costings — the manufacturing pitch.", time: "Weeks 0–4" },
+      { title: "Approach new supplier enquiries", body: "Through Dunelm's contact channels, targeted to your category.", time: "1–3 months" },
+      { title: "Evaluation & audit", body: "Product, site and compliance assessment against the Supplier Manual.", time: "1–3 months" },
+      { title: "Development & terms", body: "Specification development for own-brand lines; commercial terms.", time: "1–3 months" },
+      { title: "Portal onboarding & launch", body: "Supplier portal, EDI, product data and first orders.", time: "1–2 months" },
+      { title: "Earn tenure", body: "Consistent quality and service turn a first order into a committed partnership.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Product compliance certification", range: "£500–£5,000 per line" },
+      { item: "Product liability insurance", range: "£1,500–£5,000 / year" },
+      { item: "EDI/portal setup", range: "£3,000–£10,000" },
+      { item: "Specification development & sampling", range: "£2,000–£10,000" },
+      { item: "Marketing", range: "Minimal — own-brand model" },
+    ],
+    costNote:
+      "Own-brand homewares economics reward efficient manufacturers: modest margins, long relationships, and volume concentrated in fewer, deeper lines than fashion retail.",
+    tips: [
+      { title: "Pitch as a partner, not a vendor.", body: "Dunelm's language is committed partnership — show the operational reliability and capacity story that justifies a long-term bet." },
+      { title: "Know the fire regs cold.", body: "UK furniture and furnishings fire safety regulation is the category's defining compliance bar — fluency in it builds instant credibility." },
+      { title: "Bring design capability.", body: "Partners who contribute design and innovation to the spec process are more valuable than pure make-to-print factories." },
+      { title: "Start with a focused range.", body: "Dunelm ranges deep, not wide — win one category properly before proposing five." },
+    ],
+    faqs: [
+      { q: "How do I become a Dunelm supplier?", a: "Contact Dunelm's new supplier enquiries route via its contact channels with a manufacturing-led pitch — there's no open portal, and most supply is own-brand production through committed long-term partners." },
+      { q: "Does Dunelm stock third-party brands?", a: "Selectively — the range is largely own-brand, with branded space earned by distinctive design, licenses or category authority." },
+      { q: "What standards apply?", a: "The Dunelm Supplier Manual (quality, packaging, operations), homewares regulation including furniture fire safety, and ethical sourcing standards." },
+      { q: "What does Dunelm look for in partners?", a: "Specification-led manufacturing capability, consistent quality, value economics and the reliability to sustain a long-term committed relationship." },
+      { q: "How long does it take?", a: "Typically 4–9 months from approach to first orders, with own-brand development at the longer end." },
+    ],
+    sources: [
+      { label: "Dunelm — business model", href: "https://corporate.dunelm.com/about-us/business-model/" },
+      { label: "Dunelm — contact", href: "https://www.dunelm.com/contact-us" },
+    ],
+  },
+  {
+    slug: "harrods",
+    name: "Harrods",
+    country: "UK",
+    category: "Luxury Department",
+    cardBlurb: "The world's most famous department store — buyer-led curation, exclusivity expected, halo unmatched.",
+    topGun: false,
+    metaTitle: "How to Get Stocked in Harrods: Food Halls & Luxury Supplier Guide | Spottail",
+    metaDescription:
+      "How to get your brand into Harrods: buyer-led curation, the Food Halls pitch, exclusivity expectations, gifting positioning, concession models and costs.",
+    kicker: "UK · Luxury Department Store · Supplier Guide",
+    h1Pre: "How to get stocked in",
+    h1Em: "Harrods",
+    h1Post: "",
+    readTime: "8 min read",
+    quickAnswer:
+      "To get stocked in Harrods, win a **buyer** — Harrods runs no open application; its buyers scour the globe for exceptional products, and listings are pure curation. Know the commercial reality going in: Harrods will likely **expect exclusivity** (or exclusive lines), volumes are modest — the value is **positioning and the gifting market**, not scale — and its buyers are known to **nurture small brands** rather than demand big-company readiness. Food Halls, beauty and gifting are the classic emerging-brand entry points, with concession and consignment models common.",
+    facts: [
+      { n: "1", l: "store — and it's enough" },
+      { n: "#1", l: "luxury retail landmark globally" },
+      { n: "Gifting", l: "the dominant customer mission" },
+      { n: "Exclusive", l: "lines typically expected" },
+    ],
+    intro:
+      "Harrods is a single store with the brand power of a national chain — the definitive luxury retail address, whose Food Halls alone can remake a small producer's trajectory. Its buying chief has been explicit that buyers understand new brands need nurturing, not day-one perfection; equally, luxury retail expects exclusivity and the volumes are never supermarket-scale. You list in Harrods for the halo, the gifting market, and the doors it opens everywhere else.",
+    routesHeading: { pre: "The three routes", em: "into Harrods" },
+    routes: [
+      {
+        title: "Buyer-led curation",
+        body: "Harrods buyers hunt globally for exceptional product — the route is getting on their radar: exceptional samples to the right category buyer, presence where luxury buyers scout (Speciality & Fine Food Fair, luxury trade shows), press in the titles they read, and introductions through the fine-food and luxury networks.",
+      },
+      {
+        title: "The Food Halls",
+        body: "The classic emerging-brand door. Harrods' food leadership has said openly that [buyers support and nurture small producers](https://www.foodnavigator.com/Article/2019/10/29/Harrods-food-chief-Chris-dee-on-listing-opportunities-in-luxury-retail/) — with gifting the dominant customer mission and own-label playing a major role. Pitch products that gift beautifully: packaging, provenance, and a story worth telling at the till.",
+      },
+      {
+        title: "Concessions & exclusive lines",
+        body: "Beyond wholesale, Harrods operates concession models, and exclusivity is the standard ask — an exclusive product, format or packaging for Harrods protects their curation and your other stockists simultaneously. Design the exclusive before they ask for it.",
+      },
+    ],
+    requirements: [
+      { k: "Exceptional product & presentation", v: "Luxury-grade quality and packaging — the product must belong on the world's most photographed shelves." },
+      { k: "Exclusivity readiness", v: "Harrods, like its luxury peers, typically expects exclusivity — at minimum an exclusive line or format." },
+      { k: "Provenance & story", v: "Origin, craft and narrative are the currency of luxury food and gifting — documented and beautifully told." },
+      { k: "Compliance", v: "Food safety certification for Food Halls products; CPSR for beauty; standard UK compliance throughout." },
+      { k: "Modest-volume economics", v: "Margins that work at low volumes with premium pricing — this listing is positioning, not throughput." },
+      { k: "Operational polish", v: "Reliable small-batch supply, immaculate presentation standards, and responsiveness worthy of the address." },
+    ],
+    note:
+      "**What you're really buying:** a Harrods listing rarely pays in volume — it pays in halo. Press, export-buyer credibility, and the right to say 'stocked at Harrods' in every other pitch. Founders who treat it as a marketing asset with revenue attached price it correctly.",
+    steps: [
+      { title: "Build the luxury case", body: "Exceptional samples, gift-worthy packaging, provenance story, press assets.", time: "Ongoing" },
+      { title: "Reach the buyer", body: "Targeted samples, fine-food and luxury trade shows, network introductions — persistence with polish.", time: "1–6 months" },
+      { title: "Curation review", body: "Buyer assessment of product, story, exclusivity and fit with the halls' curation.", time: "1–3 months" },
+      { title: "Terms & exclusivity", body: "Commercial model (wholesale, concession or consignment), exclusive lines, pricing.", time: "1–2 months" },
+      { title: "Launch beautifully", body: "Presentation, staff training where relevant, and launch timed to gifting seasons.", time: "1–3 months" },
+      { title: "Leverage the halo", body: "Press it, pitch with it, export on it — the listing's real yield.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Luxury packaging & presentation", range: "£10,000–£50,000" },
+      { item: "Exclusive line development", range: "£3,000–£15,000" },
+      { item: "Product liability insurance", range: "£1,500–£5,000 / year" },
+      { item: "Trade show presence", range: "£3,000–£15,000 per show" },
+      { item: "Working capital (payment terms)", range: "Plan 60–90 days" },
+    ],
+    costNote:
+      "The spend concentrates in packaging and presentation — in luxury retail they're not overheads, they're the product. Budget them as your primary marketing investment.",
+    tips: [
+      { title: "Design for gifting first.", body: "Gifting is the stated dominant mission — packaging that makes the product a present is what Food Halls buyers are hunting." },
+      { title: "Offer the exclusive up front.", body: "Proposing your Harrods-only line in the first meeting shows you understand luxury retail before they explain it." },
+      { title: "Let them nurture you.", body: "Harrods says it supports new brands — be honest about your stage and let the buyer shape the launch; it builds the relationship." },
+      { title: "Convert the halo fast.", body: "Press release, export pitches, other premium buyers — extract the positioning value in the first six months." },
+    ],
+    faqs: [
+      { q: "How do I get my product into Harrods?", a: "Win a buyer — there's no open application. Exceptional samples to the right category buyer, presence at fine-food and luxury trade shows, and network introductions are the real routes." },
+      { q: "Does Harrods demand exclusivity?", a: "Typically yes, like its luxury peers — at minimum an exclusive line, format or packaging for Harrods." },
+      { q: "Is Harrods good for small brands?", a: "Yes — its food leadership has said buyers deliberately nurture small producers rather than expecting day-one perfection. Volumes are modest; the halo is the value." },
+      { q: "What sells in the Food Halls?", a: "Gifting dominates — products with beautiful packaging, provenance and story that work as presents command the space." },
+      { q: "Will a Harrods listing make money?", a: "Directly, modestly — one store, luxury volumes. Its real yield is positioning: press, premium credibility and export-buyer doors." },
+    ],
+    sources: [
+      { label: "FoodNavigator — Harrods food chief on listings", href: "https://www.foodnavigator.com/Article/2019/10/29/Harrods-food-chief-Chris-Dee-on-listing-opportunities-in-luxury-retail/" },
+    ],
+  },
+  {
+    slug: "bestway",
+    name: "Bestway",
+    country: "UK",
+    category: "Wholesale",
+    cardBlurb: "The UK's largest independent wholesaler — 70,000+ retailers via Best-one and Costcutter.",
+    topGun: false,
+    metaTitle: "How to Become a Bestway Supplier: Wholesale, Best-one & Costcutter | Spottail",
+    metaDescription:
+      "How to supply Bestway Wholesale: trading team routes, what one listing reaches (70k retailers, 40k caterers, Best-one and Costcutter symbol groups), requirements and costs.",
+    kicker: "UK · Wholesale · Supplier Guide",
+    h1Pre: "How to become a",
+    h1Em: "Bestway",
+    h1Post: "supplier",
+    readTime: "8 min read",
+    quickAnswer:
+      "To become a Bestway supplier, approach its **trading teams directly** — there's no public submission portal, so supply starts with a category-targeted pitch (Bestway publishes contact routes for specific divisions, like Van.NewSupplierEnquiries@bestway.co.uk for its van-sales operation). The prize: the **UK's largest independent wholesaler** — 56+ depots supplying **70,000+ independent retailers and 40,000+ caterers**, plus the **Best-one and Costcutter** symbol groups. Wholesale economics apply: POR-led pricing, case formats, depot logistics.",
+    facts: [
+      { n: "56+", l: "depots nationwide" },
+      { n: "70k+", l: "independent retailers supplied" },
+      { n: "40k+", l: "catering & foodservice customers" },
+      { n: "2", l: "symbol groups: Best-one, Costcutter" },
+    ],
+    intro:
+      "Bestway is the UK's largest independent wholesaler — the family-owned counterpart to Tesco's Booker, supplying tens of thousands of convenience stores and caterers through depots, delivered wholesale and van sales, and running the Best-one and Costcutter symbol groups. For a brand building convenience-channel distribution, Bestway and [Booker](/become-a-supplier/booker) together cover most of the UK's independent retail supply — and the same one-listing-reaches-thousands leverage applies.",
+    routesHeading: { pre: "The three routes", em: "into Bestway" },
+    routes: [
+      {
+        title: "Direct trading team approach",
+        body: "Bestway's buying runs through category trading teams at its London head office. With no public portal, the route is a targeted pitch: wholesale pricing with **retailer POR maths**, case configurations, and demand evidence. Divisional routes exist too — its van-sales arm publishes a dedicated new-supplier email (Van.NewSupplierEnquiries@bestway.co.uk).",
+      },
+      {
+        title: "Symbol group ranging",
+        body: "**Best-one** (1,400+ members) and **Costcutter** range products their independent members ask for — store-level demand creates trading-team pull, exactly as with Booker's Premier. Building visibility with symbol retailers is a genuine bottom-up route to a depot listing.",
+      },
+      {
+        title: "Foodservice & export",
+        body: "Bestway's 40,000+ catering customers and its export arm are distinct doors — catering pack formats and export-ready lines open conversations the retail range team wouldn't have.",
+      },
+    ],
+    requirements: [
+      { k: "Wholesale economics", v: "Pricing engineered from RRP backwards: your margin, Bestway's margin, and a POR that makes independents stock you." },
+      { k: "Case & depot formats", v: "Cash-and-carry-appropriate outers, case counts and palletisation across a 56-depot network." },
+      { k: "Food safety", v: "GFSI-recognised certification expected for food supply at national wholesale scale." },
+      { k: "Capacity or phasing", v: "National depot coverage, or an agreed regional depot subset to start." },
+      { k: "EDI & data", v: "Electronic trading and complete product data." },
+      { k: "Insurance", v: "Product liability insurance at wholesale scale." },
+    ],
+    note:
+      "**Channel-building note:** Booker and Bestway together are most of UK independent convenience supply. Winning both — with consistent RRP and POR strategy across them — is how challenger brands build national convenience distribution without a single multiple listing.",
+    steps: [
+      { title: "Build the wholesale pack", body: "POR maths, case formats, RRP strategy, demand evidence — the standard wholesale pitch kit.", time: "Weeks 0–4" },
+      { title: "Approach trading teams", body: "Category-targeted head-office pitch; divisional emails where published.", time: "1–3 months" },
+      { title: "Commercial negotiation", body: "Pricing, trade promotions, depot coverage and volumes.", time: "1–2 months" },
+      { title: "Compliance & onboarding", body: "Certification checks, EDI, product data and depot logistics.", time: "1–2 months" },
+      { title: "Land in depots", body: "Launch across agreed depots and symbol-group ranges.", time: "Launch" },
+      { title: "Drive depot velocity", body: "Depot promotions, symbol features and rep engagement convert listing to rate of sale.", time: "Ongoing" },
+    ],
+    costs: [
+      { item: "Food safety certification", range: "£3,000–£8,000 / year" },
+      { item: "EDI setup", range: "£3,000–£10,000" },
+      { item: "Product liability insurance", range: "£2,000–£5,000 / year" },
+      { item: "Wholesale case packaging", range: "£2,000–£10,000" },
+      { item: "Trade promotions", range: "Built into wholesale pricing" },
+    ],
+    costNote:
+      "Same stacked-margin engineering as all wholesale: RRP → retailer POR → Bestway margin → yours. Get the maths right once and it powers both major wholesalers.",
+    tips: [
+      { title: "Run Booker and Bestway as one strategy.", body: "Consistent RRP and POR across both wholesalers builds coherent national convenience distribution — and each listing strengthens the other pitch." },
+      { title: "Pitch in POR.", body: "Independent retailers buy profit-on-return; trading teams buy what their customers will. Lead with the retailer's margin." },
+      { title: "Work the symbol groups.", body: "Best-one and Costcutter member demand pulls products into range — visibility with symbol retailers is upstream lobbying." },
+      { title: "Consider catering formats.", body: "The foodservice side is a second, less crowded door — catering packs open it." },
+    ],
+    faqs: [
+      { q: "How do I become a Bestway supplier?", a: "Approach Bestway's category trading teams directly with a wholesale pitch — POR-led pricing, case formats and demand evidence. Divisional routes like the van-sales new-supplier email exist alongside head-office contact." },
+      { q: "What does a Bestway listing reach?", a: "56+ depots supplying over 70,000 independent retailers and 40,000 catering customers, plus the Best-one and Costcutter symbol groups." },
+      { q: "Bestway or Booker first?", a: "Ideally both, run as one convenience strategy with consistent RRP and POR — together they cover most UK independent retail supply." },
+      { q: "What certifications are expected?", a: "GFSI-recognised food safety certification (BRCGS or equivalent) for food supply at national wholesale scale." },
+      { q: "How fast can it move?", a: "Wholesale moves quicker than multiples when the maths works — 3–6 months from pitch to depot is realistic." },
+    ],
+    sources: [
+      { label: "Bestway Group — Bestway Wholesale", href: "https://www.bestwaygroup.co.uk/our-businesses/bestway-wholesale" },
+      { label: "Bestway Wholesale — about", href: "https://www.bestwaywholesale.co.uk/about" },
+    ],
+  },
 ];
