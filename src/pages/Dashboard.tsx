@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
@@ -66,6 +66,13 @@ const Dashboard = () => {
 
   if (isBuyer) {
     return <BuyerDashboard />;
+  }
+
+  // No role on record (e.g. signup flow interrupted before the role was saved):
+  // send the user to onboarding to pick one instead of silently defaulting to
+  // the supplier dashboard.
+  if (!role) {
+    return <Navigate to="/onboarding?next=/dashboard" replace />;
   }
 
   // Only show the onboarding modal once preferences have actually loaded — don't block the UI.

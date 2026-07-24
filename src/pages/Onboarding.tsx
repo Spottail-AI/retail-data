@@ -34,9 +34,27 @@ const Onboarding = () => {
     }
   }, [user, roleLoading, hasRole, navigate, next]);
 
+  // Recover a role chosen during email signup that never got saved (e.g. the
+  // session was interrupted by email confirmation): auto-assign it silently.
+  useEffect(() => {
+    if (!user || roleLoading || hasRole) return;
+    const stored = localStorage.getItem("spottail_pending_role");
+    if (stored === "buyer" || stored === "supplier") {
+      assignRole
+        .mutateAsync(stored as UserRole)
+        .then(() => {
+          localStorage.removeItem("spottail_pending_role");
+          navigate(next, { replace: true });
+        })
+        .catch((e) => console.error("Failed to auto-assign stored role:", e));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, roleLoading, hasRole]);
+
   const handleSelect = async (selected: UserRole) => {
     try {
       await assignRole.mutateAsync(selected);
+      localStorage.removeItem("spottail_pending_role");
       navigate(next, { replace: true });
     } catch (e) {
       console.error("Failed to assign role:", e);

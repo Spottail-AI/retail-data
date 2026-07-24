@@ -39,10 +39,22 @@ const Auth = () => {
     if (user && pendingRole) {
       const assign = async () => {
         try {
-          await supabase
+          // Insert only if no role row exists yet (the table keys on its own id,
+          // so a blind insert could duplicate and an upsert could fail).
+          const { data: existing } = await supabase
             .from("user_roles")
-            .insert({ user_id: user.id, role: pendingRole });
+            .select("id")
+            .eq("user_id", user.id)
+            .maybeSingle();
+          if (!existing) {
+            const { error } = await supabase
+              .from("user_roles")
+              .insert({ user_id: user.id, role: pendingRole });
+            if (error) throw error;
+          }
+          localStorage.removeItem("spottail_pending_role");
         } catch (e) {
+          // Keep the localStorage fallback so /onboarding can recover the choice.
           console.error("Failed to assign role:", e);
         }
         setPendingRole(null);
@@ -77,6 +89,9 @@ const Auth = () => {
         } else {
           trackEvent("sign_up", { method: "email", role: selectedRole ?? undefined });
           toast({ title: "Account created!", description: "You have been signed up successfully." });
+          // Persist the choice: if email confirmation interrupts this session before
+          // the role is saved, /onboarding recovers it from localStorage.
+          if (selectedRole) localStorage.setItem("spottail_pending_role", selectedRole);
           setPendingRole(selectedRole);
         }
       }
