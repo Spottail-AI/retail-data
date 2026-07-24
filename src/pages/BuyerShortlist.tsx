@@ -59,8 +59,8 @@ const BuyerShortlist = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#0a0f1c] flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-[#4f8ef7]" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
       </div>
     );
   }
@@ -71,24 +71,24 @@ const BuyerShortlist = () => {
       <main className="max-w-[900px] mx-auto p-4 sm:p-6">
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-1">
-            <Heart className="w-5 h-5 text-[#4f8ef7]" />
-            <h1 className="text-xl sm:text-2xl font-extrabold text-white">My Shortlist</h1>
+            <Heart className="w-5 h-5 text-primary" />
+            <h1 className="text-xl sm:text-2xl font-extrabold text-foreground">My Shortlist</h1>
           </div>
-          <p className="text-[#94a3b8] text-sm">Products you've saved from Spottail Source.</p>
+          <p className="text-muted-foreground text-sm">Products you've saved from Spottail Source.</p>
         </div>
 
         {isLoading ? (
           <div className="flex items-center justify-center py-16">
-            <Loader2 className="w-8 h-8 animate-spin text-[#4f8ef7]" />
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         ) : shortlisted.length === 0 ? (
           <div className="text-center py-16">
-            <Heart className="w-10 h-10 text-[#4f8ef7] mx-auto mb-3 opacity-40" />
-            <p className="text-white font-semibold mb-1">No shortlisted products yet</p>
-            <p className="text-[#94a3b8] text-sm mb-4">Browse Spottail Source to discover products.</p>
+            <Heart className="w-10 h-10 text-primary mx-auto mb-3 opacity-40" />
+            <p className="text-foreground font-semibold mb-1">No shortlisted products yet</p>
+            <p className="text-muted-foreground text-sm mb-4">Browse Spottail Source to discover products.</p>
             <button
               onClick={() => navigate("/source")}
-              className="px-5 py-2 rounded-lg bg-[#c5f135] text-[#0a0e1a] font-semibold text-sm hover:bg-[#c5f135]/90 transition-colors"
+              className="px-5 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-colors"
             >
               Browse Source
             </button>
@@ -99,9 +99,9 @@ const BuyerShortlist = () => {
               <div
                 key={product.id}
                 onClick={() => navigate(`/source/${product.slug}`)}
-                className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:border-[#4f8ef7]/30 transition-all"
+                className="bg-card border border-border rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:border-primary/40 transition-all"
               >
-                <div className="w-11 h-11 rounded-lg bg-[#1e2d4a] flex items-center justify-center text-xl shrink-0">
+                <div className="w-11 h-11 rounded-lg bg-muted flex items-center justify-center text-xl shrink-0">
                   {product.product_images?.[0]?.startsWith?.("http") ? (
                     <img src={product.product_images[0]} alt="" className="w-full h-full rounded-lg object-cover" />
                   ) : (
@@ -109,16 +109,16 @@ const BuyerShortlist = () => {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-bold text-sm truncate">{product.product_name}</h3>
-                  <p className="text-[#94a3b8] text-xs truncate">{product.tagline}</p>
+                  <h3 className="text-foreground font-bold text-sm truncate">{product.product_name}</h3>
+                  <p className="text-muted-foreground text-xs truncate">{product.tagline}</p>
                   <div className="flex gap-2 mt-1.5 flex-wrap">
                     {product.category && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#1e2d4a] text-[#94a3b8]">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
                         {product.category}
                       </span>
                     )}
                     {product.moq && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#1e2d4a] text-[#94a3b8]">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
                         MOQ: {product.moq}
                       </span>
                     )}
@@ -129,7 +129,7 @@ const BuyerShortlist = () => {
                     e.stopPropagation();
                     handleRemove(product.id);
                   }}
-                  className="w-9 h-9 rounded-lg border border-[#1e2d4a] flex items-center justify-center text-[#64748b] hover:text-[#ff4f17] hover:border-[#ff4f17]/30 transition-colors shrink-0"
+                  className="w-9 h-9 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-warning hover:border-warning/40 transition-colors shrink-0"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

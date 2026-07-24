@@ -44,20 +44,20 @@ export const BuyerSidebar = ({ collapsed, onToggle }: BuyerSidebarProps) => {
     <aside
       className={cn(
         "fixed left-0 top-0 h-screen flex flex-col z-30 transition-all duration-300",
-        "bg-[#0a0e1a] border-r border-[#1e2d4a]",
+        "bg-card border-r border-border",
         collapsed ? "w-16" : "w-60"
       )}
     >
       {/* Logo */}
-      <div className="h-16 flex items-center px-4 border-b border-[#1e2d4a] shrink-0">
+      <div className="h-16 flex items-center px-4 border-b border-border shrink-0">
         {collapsed ? (
           <Logo variant="icon" size={26} />
         ) : (
-          <Logo variant="full" size={24} className="text-white" />
+          <Logo variant="full" size={24} className="text-foreground" />
         )}
         <button
           onClick={onToggle}
-          className="ml-auto text-[#94a3b8] hover:text-white transition-colors"
+          className="ml-auto text-muted-foreground hover:text-foreground transition-colors"
         >
           {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
         </button>
@@ -74,19 +74,19 @@ export const BuyerSidebar = ({ collapsed, onToggle }: BuyerSidebarProps) => {
               className={cn(
                 "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 relative",
                 isActive
-                  ? "text-[#4f8ef7] bg-[#4f8ef7]/8"
-                  : "text-[#94a3b8] hover:text-white hover:bg-[#1e2d4a]/50"
+                  ? "text-primary bg-accent"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
               {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-[#4f8ef7] rounded-r-full" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
               )}
-              <item.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-[#4f8ef7]" : "")} />
+              <item.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-primary" : "")} />
               {!collapsed && (
                 <span className="flex items-center gap-2">
                   {item.label}
                   {item.badge && (
-                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full bg-[#c5f135]/15 text-[#c5f135] border border-[#c5f135]/20">
+                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full bg-accent text-accent-foreground border border-transparent">
                       {item.badge}
                     </span>
                   )}
@@ -98,10 +98,10 @@ export const BuyerSidebar = ({ collapsed, onToggle }: BuyerSidebarProps) => {
       </nav>
 
       {/* Bottom section */}
-      <div className="p-3 border-t border-[#1e2d4a] space-y-2 shrink-0">
+      <div className="p-3 border-t border-border space-y-2 shrink-0">
         <button
           onClick={() => navigate("/help")}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#94a3b8] hover:text-white hover:bg-[#1e2d4a]/50 transition-colors"
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
         >
           <HelpCircle className="w-5 h-5 shrink-0" />
           {!collapsed && <span>Help & Docs</span>}
@@ -110,7 +110,7 @@ export const BuyerSidebar = ({ collapsed, onToggle }: BuyerSidebarProps) => {
           onClick={handleSignOut}
           variant="ghost"
           className={cn(
-            "w-full justify-start gap-3 text-[#94a3b8] hover:text-white hover:bg-[#1e2d4a]/50",
+            "w-full justify-start gap-3 text-muted-foreground hover:text-foreground hover:bg-muted",
             collapsed && "justify-center px-0"
           )}
         >

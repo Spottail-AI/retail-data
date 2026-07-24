@@ -113,8 +113,8 @@ const BuyerTrendingNow = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#0a0f1c] flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-[#4f8ef7]" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
       </div>
     );
   }
@@ -126,10 +126,10 @@ const BuyerTrendingNow = () => {
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-1">
-            <TrendingUp className="w-5 h-5 text-[#ff4f17]" />
-            <h1 className="text-xl sm:text-2xl font-extrabold text-white">Trending Now</h1>
+            <TrendingUp className="w-5 h-5 text-warning" />
+            <h1 className="text-xl sm:text-2xl font-extrabold text-foreground">Trending Now</h1>
           </div>
-          <p className="text-[#94a3b8] text-sm">
+          <p className="text-muted-foreground text-sm">
             Products gaining momentum across TikTok, Reddit, Pinterest and more.
           </p>
         </div>
@@ -143,8 +143,8 @@ const BuyerTrendingNow = () => {
               className={cn(
                 "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border transition-all",
                 activeFilter === chip
-                  ? "bg-[#4f8ef7]/10 text-[#4f8ef7] border-[#4f8ef7]/30"
-                  : "text-[#94a3b8] border-[#1e2d4a] hover:border-[#4f8ef7]/20"
+                  ? "bg-accent text-accent-foreground border-primary/30"
+                  : "text-muted-foreground border-border hover:border-primary/30"
               )}
             >
               {chip}
@@ -155,29 +155,29 @@ const BuyerTrendingNow = () => {
         {/* Trend Feed */}
         {trendsLoading ? (
           <div className="flex flex-col items-center py-16 gap-3">
-            <Loader2 className="w-8 h-8 animate-spin text-[#4f8ef7]" />
-            <p className="text-[#94a3b8] text-sm">Scanning platforms for emerging trends...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <p className="text-muted-foreground text-sm">Scanning platforms for emerging trends...</p>
           </div>
         ) : filteredTrends.length === 0 ? (
           <div className="text-center py-16">
-            <Sparkles className="w-10 h-10 text-[#4f8ef7] mx-auto mb-3 opacity-50" />
-            <p className="text-white font-semibold mb-1">No trends found for this filter</p>
-            <p className="text-[#94a3b8] text-sm">Try selecting a different filter.</p>
+            <Sparkles className="w-10 h-10 text-primary mx-auto mb-3 opacity-50" />
+            <p className="text-foreground font-semibold mb-1">No trends found for this filter</p>
+            <p className="text-muted-foreground text-sm">Try selecting a different filter.</p>
           </div>
         ) : (
           <div className="space-y-3">
             {filteredTrends.map((trend: any, idx: number) => {
               const platform = trend.platform_source || "Unknown";
-              const platformClass = PLATFORM_COLORS[platform] || "bg-[#1e2d4a] text-[#94a3b8] border-[#1e2d4a]";
+              const platformClass = PLATFORM_COLORS[platform] || "bg-muted text-muted-foreground border-border";
               const isShortlisted = localShortlisted.has(trend.product_name);
 
               return (
                 <div
                   key={idx}
-                  className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-4 flex items-center gap-4"
+                  className="bg-card border border-border rounded-xl p-4 flex items-center gap-4"
                 >
                   {/* Image / emoji */}
-                  <div className="w-11 h-11 rounded-lg bg-[#1e2d4a] flex items-center justify-center text-xl shrink-0">
+                  <div className="w-11 h-11 rounded-lg bg-muted flex items-center justify-center text-xl shrink-0">
                     {trend.image_url ? (
                       <img
                         src={trend.image_url}
@@ -193,17 +193,17 @@ const BuyerTrendingNow = () => {
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                      <h3 className="text-white font-bold text-sm truncate">{trend.product_name}</h3>
+                      <h3 className="text-foreground font-bold text-sm truncate">{trend.product_name}</h3>
                       <span className={cn("text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full border", platformClass)}>
                         {platform}
                       </span>
                     </div>
-                    <p className="text-[#94a3b8] text-xs truncate">{trend.description?.slice(0, 100)}</p>
+                    <p className="text-muted-foreground text-xs truncate">{trend.description?.slice(0, 100)}</p>
                     <div className="flex items-center gap-3 mt-1.5">
                       {trend.growth_rate && (
-                        <span className="text-[#c5f135] text-xs font-bold">+{trend.growth_rate}%</span>
+                        <span className="text-primary text-xs font-bold">+{trend.growth_rate}%</span>
                       )}
-                      <span className="text-[#64748b] text-[10px]">7d volume</span>
+                      <span className="text-muted-foreground text-[10px]">7d volume</span>
                     </div>
                   </div>
 
@@ -213,8 +213,8 @@ const BuyerTrendingNow = () => {
                     className={cn(
                       "w-10 h-10 rounded-lg border flex items-center justify-center shrink-0 transition-all",
                       isShortlisted
-                        ? "border-[#c5f135]/40 bg-[#c5f135]/10 text-[#c5f135]"
-                        : "border-[#1e2d4a] text-[#64748b] hover:border-[#c5f135]/30 hover:text-[#c5f135]"
+                        ? "border-primary/30 bg-accent text-accent-foreground"
+                        : "border-border text-muted-foreground hover:border-primary/40 hover:text-primary"
                     )}
                   >
                     <Heart className={cn("w-4 h-4", isShortlisted && "fill-current")} />

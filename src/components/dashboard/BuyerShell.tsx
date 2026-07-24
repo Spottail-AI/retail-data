@@ -13,7 +13,7 @@ export const BuyerShell = ({ children }: BuyerShellProps) => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen bg-[#0a0f1c]">
+    <div className="dashboard-light min-h-screen bg-background">
       {/* Desktop sidebar */}
       {!isMobile && (
         <BuyerSidebar

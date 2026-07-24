@@ -51,8 +51,8 @@ const BuyerEnquiries = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#0a0f1c] flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-[#4f8ef7]" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
       </div>
     );
   }
@@ -63,24 +63,24 @@ const BuyerEnquiries = () => {
       <main className="max-w-[900px] mx-auto p-4 sm:p-6">
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-1">
-            <MessageSquare className="w-5 h-5 text-[#4f8ef7]" />
-            <h1 className="text-xl sm:text-2xl font-extrabold text-white">Enquiries</h1>
+            <MessageSquare className="w-5 h-5 text-primary" />
+            <h1 className="text-xl sm:text-2xl font-extrabold text-foreground">Enquiries</h1>
           </div>
-          <p className="text-[#94a3b8] text-sm">Track your sample requests and supplier conversations.</p>
+          <p className="text-muted-foreground text-sm">Track your sample requests and supplier conversations.</p>
         </div>
 
         {isLoading ? (
           <div className="flex items-center justify-center py-16">
-            <Loader2 className="w-8 h-8 animate-spin text-[#4f8ef7]" />
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         ) : enquiries.length === 0 ? (
           <div className="text-center py-16">
-            <MessageSquare className="w-10 h-10 text-[#4f8ef7] mx-auto mb-3 opacity-40" />
-            <p className="text-white font-semibold mb-1">No enquiries yet</p>
-            <p className="text-[#94a3b8] text-sm mb-4">Send your first sample request from a product page.</p>
+            <MessageSquare className="w-10 h-10 text-primary mx-auto mb-3 opacity-40" />
+            <p className="text-foreground font-semibold mb-1">No enquiries yet</p>
+            <p className="text-muted-foreground text-sm mb-4">Send your first sample request from a product page.</p>
             <button
               onClick={() => navigate("/source")}
-              className="px-5 py-2 rounded-lg bg-[#c5f135] text-[#0a0e1a] font-semibold text-sm hover:bg-[#c5f135]/90 transition-colors"
+              className="px-5 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-colors"
             >
               Browse Source
             </button>
@@ -95,9 +95,9 @@ const BuyerEnquiries = () => {
                 <div
                   key={enq.id}
                   onClick={() => product && navigate(`/source/${product.slug}`)}
-                  className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:border-[#4f8ef7]/30 transition-all"
+                  className="bg-card border border-border rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:border-primary/40 transition-all"
                 >
-                  <div className="w-11 h-11 rounded-lg bg-[#1e2d4a] flex items-center justify-center text-xl shrink-0">
+                  <div className="w-11 h-11 rounded-lg bg-muted flex items-center justify-center text-xl shrink-0">
                     {product?.product_images?.[0]?.startsWith?.("http") ? (
                       <img src={product.product_images[0]} alt="" className="w-full h-full rounded-lg object-cover" />
                     ) : (
@@ -105,11 +105,11 @@ const BuyerEnquiries = () => {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-bold text-sm truncate">
+                    <h3 className="text-foreground font-bold text-sm truncate">
                       {product?.product_name || "Product"}
                     </h3>
-                    <p className="text-[#94a3b8] text-xs truncate mt-0.5">{enq.message || "Sample request sent"}</p>
-                    <p className="text-[#64748b] text-[10px] mt-1">
+                    <p className="text-muted-foreground text-xs truncate mt-0.5">{enq.message || "Sample request sent"}</p>
+                    <p className="text-muted-foreground text-[10px] mt-1">
                       {new Date(enq.created_at).toLocaleDateString()}
                     </p>
                   </div>

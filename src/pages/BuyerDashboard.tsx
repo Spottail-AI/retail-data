@@ -86,8 +86,8 @@ const BuyerDashboard = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#0a0f1c] flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-[#4f8ef7] mx-auto" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto" />
       </div>
     );
   }
@@ -98,10 +98,10 @@ const BuyerDashboard = () => {
   return (
     <BuyerShell>
       {/* Top Bar */}
-      <header className="h-14 border-b border-[#1e2d4a] flex items-center justify-between px-4 sm:px-6">
-        <span className="text-[#475569] text-sm">Buyer Dashboard</span>
-        <p className="text-[#94a3b8] text-sm">
-          Hey, <span className="text-white font-medium">{firstName}</span> 👋
+      <header className="h-14 border-b border-border flex items-center justify-between px-4 sm:px-6">
+        <span className="text-muted-foreground text-sm">Buyer Dashboard</span>
+        <p className="text-muted-foreground text-sm">
+          Hey, <span className="text-foreground font-medium">{firstName}</span> 👋
         </p>
       </header>
 
@@ -109,18 +109,18 @@ const BuyerDashboard = () => {
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <StatCard
-            icon={<Heart className="w-5 h-5 text-[#4f8ef7]" />}
+            icon={<Heart className="w-5 h-5 text-primary" />}
             label="Shortlisted"
             value={shortlistCount}
           />
           <StatCard
-            icon={<Bell className="w-5 h-5 text-[#ff4f17]" />}
+            icon={<Bell className="w-5 h-5 text-warning" />}
             label="Trending Alerts"
             value={trends.length}
             highlight
           />
           <StatCard
-            icon={<MessageSquare className="w-5 h-5 text-[#4f8ef7]" />}
+            icon={<MessageSquare className="w-5 h-5 text-primary" />}
             label="Enquiries Sent"
             value={enquiryStats.total}
             sub={enquiryStats.pending > 0 ? `${enquiryStats.pending} awaiting reply` : undefined}
@@ -128,17 +128,17 @@ const BuyerDashboard = () => {
         </div>
 
         {/* About to Trend section */}
-        <section className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-5">
+        <section className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-lg font-bold text-white mb-0.5">About to Trend</h2>
-              <p className="text-[#94a3b8] text-xs">
+              <h2 className="text-lg font-bold text-foreground mb-0.5">About to Trend</h2>
+              <p className="text-muted-foreground text-xs">
                 Products gaining momentum across TikTok, Reddit, Pinterest and more.
               </p>
             </div>
             <button
               onClick={() => navigate("/trending-now")}
-              className="text-[#4f8ef7] text-xs font-medium hover:underline"
+              className="text-primary text-xs font-medium hover:underline"
             >
               View all →
             </button>
@@ -146,37 +146,37 @@ const BuyerDashboard = () => {
 
           {trendsLoading ? (
             <div className="flex items-center justify-center py-10">
-              <Loader2 className="w-6 h-6 animate-spin text-[#4f8ef7]" />
-              <span className="text-[#94a3b8] text-xs ml-2">Scanning platforms...</span>
+              <Loader2 className="w-6 h-6 animate-spin text-primary" />
+              <span className="text-muted-foreground text-xs ml-2">Scanning platforms...</span>
             </div>
           ) : trends.length === 0 ? (
-            <div className="text-center py-10 text-[#475569] text-sm">
+            <div className="text-center py-10 text-muted-foreground text-sm">
               No trends found — try again shortly.
             </div>
           ) : (
             <div className="space-y-2">
               {trends.map((trend: any, idx: number) => {
                 const platform = trend.platform_source || "";
-                const platformClass = PLATFORM_COLORS[platform] || "bg-[#1e2d4a] text-[#94a3b8] border-[#1e2d4a]";
+                const platformClass = PLATFORM_COLORS[platform] || "bg-muted text-muted-foreground border-border";
                 return (
                   <div
                     key={idx}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#1e2d4a]/30 transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors"
                   >
-                    <div className="w-9 h-9 rounded-lg bg-[#1e2d4a] flex items-center justify-center text-lg shrink-0">
+                    <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center text-lg shrink-0">
                       📦
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-white text-sm font-semibold truncate">{trend.product_name}</span>
+                        <span className="text-foreground text-sm font-semibold truncate">{trend.product_name}</span>
                         <span className={cn("text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full border", platformClass)}>
                           {platform}
                         </span>
                       </div>
-                      <p className="text-[#64748b] text-[10px] truncate">{trend.description?.slice(0, 80)}</p>
+                      <p className="text-muted-foreground text-[10px] truncate">{trend.description?.slice(0, 80)}</p>
                     </div>
                     {trend.growth_rate && (
-                      <span className="text-[#c5f135] text-xs font-bold shrink-0">+{trend.growth_rate}%</span>
+                      <span className="text-primary text-xs font-bold shrink-0">+{trend.growth_rate}%</span>
                     )}
                   </div>
                 );
@@ -203,16 +203,16 @@ function StatCard({
   highlight?: boolean;
 }) {
   return (
-    <div className="bg-[#111827] border border-[#1e2d4a] rounded-xl p-4 flex items-start gap-3">
-      <div className="w-10 h-10 rounded-lg bg-[#1e2d4a] flex items-center justify-center shrink-0">
+    <div className="bg-card border border-border rounded-xl p-4 flex items-start gap-3">
+      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
         {icon}
       </div>
       <div>
-        <p className="text-[#94a3b8] text-xs font-medium uppercase tracking-wide">{label}</p>
-        <p className={`text-2xl font-bold mt-0.5 ${highlight && value > 0 ? "text-[#ff4f17]" : "text-white"}`}>
+        <p className="text-muted-foreground text-xs font-medium uppercase tracking-wide">{label}</p>
+        <p className={`text-2xl font-bold mt-0.5 ${highlight && value > 0 ? "text-warning" : "text-foreground"}`}>
           {value}
         </p>
-        {sub && <p className="text-[#475569] text-xs mt-0.5">{sub}</p>}
+        {sub && <p className="text-muted-foreground text-xs mt-0.5">{sub}</p>}
       </div>
     </div>
   );
