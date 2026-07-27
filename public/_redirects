@@ -3,9 +3,10 @@
 
 /sitemap.xml    /sitemap.xml    200
 
-# Canonicalise the supplier guides to the non-slash URL (matches canonical tags,
-# sitemap and internal links). Without this the slash variant gets indexed too.
-/become-a-supplier/           /become-a-supplier          301!
-/become-a-supplier/:slug/     /become-a-supplier/:slug    301!
+# NOTE: do not add trailing-slash redirect rules for /become-a-supplier/*.
+# Netlify matches /path and /path/ as equivalent, so such a rule matches the
+# non-slash URL too and redirects it to itself (ERR_TOO_MANY_REDIRECTS).
+# The prerenderer writes flat <slug>.html files instead, and Netlify's own
+# Pretty URLs handling serves the non-slash URL and 301s the slash variant.
 
 /*    /index.html   200
