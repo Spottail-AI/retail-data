@@ -16,10 +16,10 @@ const buyerBullets = [
 ];
 
 const supplierBullets = [
-  "Track competitors and retail product prices over time",
-  "List your retail products on Spottail Source — where retail buyers can find them",
-  "Find distributors and suppliers for your products in one click",
-  "Discover trending products on TikTok, Reddit & more before they peak",
+  "Find retailers, distributors, and stores to stock your product",
+  "Track every prospect in one pipeline — from outreach to shelf",
+  "List on Spottail Source so retail buyers discover you",
+  "Spot trending products before they peak",
 ];
 
 // v2 design tokens
@@ -129,7 +129,7 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
               letterSpacing: "-0.01em",
             }}
           >
-            Retail Product Owner
+            I want to get my product into stores
           </h3>
           <p
             style={{
@@ -140,7 +140,7 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
               lineHeight: 1.5,
             }}
           >
-            List your products and get discovered by retail buyers globally
+            Find retailers, distributors, and stores to stock your product, and get discovered by buyers.
           </p>
         </button>
 
@@ -193,7 +193,7 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
               letterSpacing: "-0.01em",
             }}
           >
-            Retail Buyer / Distributor
+            I'm looking for products to stock
           </h3>
           <p
             style={{
@@ -204,7 +204,7 @@ export const RoleSelection = ({ onSelect, loading }: RoleSelectionProps) => {
               lineHeight: 1.5,
             }}
           >
-            Find products about to trend and source from verified suppliers
+            Discover trending, retail-ready products and source them from verified brands.
           </p>
         </button>
       </div>
