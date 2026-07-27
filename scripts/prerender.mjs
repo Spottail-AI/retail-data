@@ -67,10 +67,21 @@ try {
     return out;
   };
 
+  // Write flat `<path>.html` files rather than `<path>/index.html`.
+  //
+  // Why: Netlify serves a directory's index.html at the trailing-slash URL only,
+  // so the non-slash URL fell through to the `/*  /index.html  200` SPA fallback
+  // and returned an empty shell. Google indexed both forms — the real page at
+  // /foo/ and a contentless duplicate at /foo — splitting ranking signals.
+  //
+  // With flat files, Netlify's Pretty URLs serve the prerendered HTML at the
+  // canonical non-slash URL (which is what our canonical tags, sitemap and
+  // internal links all use), and _redirects 301s the slash variant onto it.
   const write = (url, html) => {
-    const dir = path.join(DIST, url.replace(/^\//, ""));
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, "index.html"), html);
+    const rel = url.replace(/^\//, "");
+    const file = path.join(DIST, `${rel}.html`);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, html);
     console.log(`[prerender] ${url}`);
   };
 

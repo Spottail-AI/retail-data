@@ -2,4 +2,10 @@
 /resources/*    https://resources.spottail.ai/:splat  200
 
 /sitemap.xml    /sitemap.xml    200
+
+# Canonicalise the supplier guides to the non-slash URL (matches canonical tags,
+# sitemap and internal links). Without this the slash variant gets indexed too.
+/become-a-supplier/           /become-a-supplier          301!
+/become-a-supplier/:slug/     /become-a-supplier/:slug    301!
+
 /*    /index.html   200
