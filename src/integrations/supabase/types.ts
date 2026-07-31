@@ -233,6 +233,8 @@ export type Database = {
           contact_form_url: string | null
           created_at: string
           email: string | null
+          enriched_at: string | null
+          enrichment_status: string | null
           fit: number | null
           how_to_get_in: Json | null
           id: string
@@ -258,6 +260,8 @@ export type Database = {
           contact_form_url?: string | null
           created_at?: string
           email?: string | null
+          enriched_at?: string | null
+          enrichment_status?: string | null
           fit?: number | null
           how_to_get_in?: Json | null
           id?: string
@@ -283,6 +287,8 @@ export type Database = {
           contact_form_url?: string | null
           created_at?: string
           email?: string | null
+          enriched_at?: string | null
+          enrichment_status?: string | null
           fit?: number | null
           how_to_get_in?: Json | null
           id?: string
