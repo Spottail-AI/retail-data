@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Loader2, Heart, TrendingUp, Sparkles } from "lucide-react";
 import { BuyerShell } from "@/components/dashboard/BuyerShell";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { trackEvent } from "@/lib/analytics";
+import { NICHES } from "@/lib/niches";
 
 const FILTER_CHIPS = ["All", "TikTok", "Reddit", "Beauty", "Health", "Home", "On Spottail"];
 const PLATFORM_COLORS: Record<string, string> = {
@@ -21,16 +24,22 @@ const PLATFORM_COLORS: Record<string, string> = {
 const BuyerTrendingNow = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
   const [activeFilter, setActiveFilter] = useState("All");
+  // Category comes from the dashboard link (?niche=) or the selector below.
+  const [niche, setNiche] = useState(searchParams.get("niche") || "");
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/login?redirect=/trending-now");
   }, [user, authLoading, navigate]);
 
-  // Fetch trends from the generate-trends edge function
-  const { data: trends = [], isLoading: trendsLoading, refetch: refetchTrends } = useQuery({
-    queryKey: ["buyer-trends"],
+  useEffect(() => {
+    if (niche) trackEvent("trend_search_started", { niche, country: "United States" });
+  }, [niche]);
+
+  // Input-driven: only generate when a category is chosen. No generic feed on load.
+  const { data: trends = [], isLoading: trendsLoading } = useQuery({
+    queryKey: ["buyer-trends", niche],
     queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Not authenticated");
@@ -45,7 +54,7 @@ const BuyerTrendingNow = () => {
           },
           body: JSON.stringify({
             country: "United States",
-            niche: "trending consumer products",
+            niche,
             platforms: ["TikTok", "Reddit", "Amazon", "Instagram", "Pinterest"],
             sessionId: `buyer_${Date.now()}`,
           }),
@@ -60,7 +69,7 @@ const BuyerTrendingNow = () => {
       const data = await res.json();
       return data.results || [];
     },
-    enabled: !!user,
+    enabled: !!user && !!niche,
     staleTime: 5 * 60 * 1000, // cache 5 min
     retry: 1,
   });
@@ -134,26 +143,44 @@ const BuyerTrendingNow = () => {
           </p>
         </div>
 
-        {/* Filter Chips */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-1 scrollbar-hide">
-          {FILTER_CHIPS.map((chip) => (
-            <button
-              key={chip}
-              onClick={() => setActiveFilter(chip)}
-              className={cn(
-                "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border transition-all",
-                activeFilter === chip
-                  ? "bg-accent text-accent-foreground border-primary/30"
-                  : "text-muted-foreground border-border hover:border-primary/30"
-              )}
-            >
-              {chip}
-            </button>
-          ))}
+        {/* Category selector — input-first, nothing generates until chosen */}
+        <div className="mb-5 sm:max-w-xs">
+          <Select value={niche} onValueChange={setNiche}>
+            <SelectTrigger className="w-full"><SelectValue placeholder="Choose a category" /></SelectTrigger>
+            <SelectContent>
+              {NICHES.map((n) => <SelectItem key={n} value={n}>{n}</SelectItem>)}
+            </SelectContent>
+          </Select>
         </div>
 
+        {/* Filter Chips */}
+        {niche && (
+          <div className="flex gap-2 mb-6 overflow-x-auto pb-1 scrollbar-hide">
+            {FILTER_CHIPS.map((chip) => (
+              <button
+                key={chip}
+                onClick={() => setActiveFilter(chip)}
+                className={cn(
+                  "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border transition-all",
+                  activeFilter === chip
+                    ? "bg-accent text-accent-foreground border-primary/30"
+                    : "text-muted-foreground border-border hover:border-primary/30"
+                )}
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Trend Feed */}
-        {trendsLoading ? (
+        {!niche ? (
+          <div className="text-center py-16">
+            <Sparkles className="w-10 h-10 text-primary mx-auto mb-3 opacity-50" />
+            <p className="text-foreground font-semibold mb-1">Pick a category to see what's trending</p>
+            <p className="text-muted-foreground text-sm">Choose one above and we'll scan TikTok, Reddit, Amazon and more.</p>
+          </div>
+        ) : trendsLoading ? (
           <div className="flex flex-col items-center py-16 gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
             <p className="text-muted-foreground text-sm">Scanning platforms for emerging trends...</p>

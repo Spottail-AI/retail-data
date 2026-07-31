@@ -7,6 +7,10 @@ import { Loader2, Heart, Bell, MessageSquare, TrendingUp, Sparkles } from "lucid
 import { BuyerShell } from "@/components/dashboard/BuyerShell";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/analytics";
+import { NICHES } from "@/lib/niches";
 
 const PLATFORM_COLORS: Record<string, string> = {
   TikTok: "bg-[#ff0050]/10 text-[#ff0050] border-[#ff0050]/20",
@@ -51,38 +55,49 @@ const BuyerDashboard = () => {
     enabled: !!user,
   });
 
-  // Trend feed — fetch from AI engine
-  const { data: trends = [], isLoading: trendsLoading } = useQuery({
-    queryKey: ["buyer-dashboard-trends"],
-    queryFn: async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return [];
+  // Trends are input-driven: nothing generates until the buyer picks a category and
+  // searches — mirrors the supplier "find stores" flow, and avoids burning AI spend on
+  // a generic feed nobody asked for on every dashboard load.
+  const [niche, setNiche] = useState("");
+  const [trends, setTrends] = useState<any[]>([]);
+  const [trendsLoading, setTrendsLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
 
+  const runTrendSearch = async () => {
+    if (!niche || trendsLoading) return;
+    trackEvent("trend_search_started", { niche, country: "United States" });
+    setTrendsLoading(true);
+    setSearched(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { setTrendsLoading(false); return; }
       const res = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-trends`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session.access_token}`,
-          },
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
           body: JSON.stringify({
             country: "United States",
-            niche: "trending consumer products",
+            niche,
             platforms: ["TikTok", "Reddit", "Amazon", "Instagram"],
             sessionId: `buyer_dash_${Date.now()}`,
           }),
         }
       );
-
-      if (!res.ok) return [];
-      const data = await res.json();
-      return (data.results || []).slice(0, 5);
-    },
-    enabled: !!user,
-    staleTime: 5 * 60 * 1000,
-    retry: 1,
-  });
+      if (!res.ok) {
+        toast.error("Couldn't load trends. Please try again.");
+        setTrends([]);
+      } else {
+        const data = await res.json();
+        setTrends((data.results || []).slice(0, 5));
+      }
+    } catch {
+      toast.error("Couldn't load trends. Please try again.");
+      setTrends([]);
+    } finally {
+      setTrendsLoading(false);
+    }
+  };
 
   if (authLoading) {
     return (
@@ -127,60 +142,89 @@ const BuyerDashboard = () => {
           />
         </div>
 
-        {/* About to Trend section */}
+        {/* Trend search — input-first, mirrors the supplier "find stores" search */}
         <section className="bg-card border border-border rounded-xl p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-lg font-bold text-foreground mb-0.5">About to Trend</h2>
-              <p className="text-muted-foreground text-xs">
-                Products gaining momentum across TikTok, Reddit, Pinterest and more.
-              </p>
-            </div>
-            <button
-              onClick={() => navigate("/trending-now")}
-              className="text-primary text-xs font-medium hover:underline"
-            >
-              View all →
-            </button>
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-foreground mb-0.5">See what's trending</h2>
+            <p className="text-muted-foreground text-xs">
+              Pick a category and we'll surface products gaining momentum across TikTok, Reddit, Amazon and more.
+            </p>
           </div>
 
-          {trendsLoading ? (
+          <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
+            <div className="flex-1">
+              <Select value={niche} onValueChange={setNiche}>
+                <SelectTrigger className="w-full"><SelectValue placeholder="Choose a category" /></SelectTrigger>
+                <SelectContent>
+                  {NICHES.map((n) => <SelectItem key={n} value={n}>{n}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              onClick={runTrendSearch}
+              disabled={!niche || trendsLoading}
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              {trendsLoading ? (
+                <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Scanning…</>
+              ) : (
+                <><Sparkles className="w-4 h-4 mr-2" /> See trends</>
+              )}
+            </Button>
+          </div>
+
+          {!searched ? (
+            <div className="text-center py-10 text-muted-foreground text-sm">
+              Choose a category above to see what's about to trend.
+            </div>
+          ) : trendsLoading ? (
             <div className="flex items-center justify-center py-10">
               <Loader2 className="w-6 h-6 animate-spin text-primary" />
-              <span className="text-muted-foreground text-xs ml-2">Scanning platforms...</span>
+              <span className="text-muted-foreground text-xs ml-2">Scanning platforms…</span>
             </div>
           ) : trends.length === 0 ? (
             <div className="text-center py-10 text-muted-foreground text-sm">
-              No trends found — try again shortly.
+              No trends found for that category — try another.
             </div>
           ) : (
-            <div className="space-y-2">
-              {trends.map((trend: any, idx: number) => {
-                const platform = trend.platform_source || "";
-                const platformClass = PLATFORM_COLORS[platform] || "bg-muted text-muted-foreground border-border";
-                return (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors"
-                  >
-                    <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center text-lg shrink-0">
-                      📦
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-foreground text-sm font-semibold truncate">{trend.product_name}</span>
-                        <span className={cn("text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full border", platformClass)}>
-                          {platform}
-                        </span>
+            <div className="mt-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-muted-foreground">Trending in {niche}</span>
+                <button
+                  onClick={() => navigate(`/trending-now?niche=${encodeURIComponent(niche)}`)}
+                  className="text-primary text-xs font-medium hover:underline"
+                >
+                  View all →
+                </button>
+              </div>
+              <div className="space-y-2">
+                {trends.map((trend: any, idx: number) => {
+                  const platform = trend.platform_source || "";
+                  const platformClass = PLATFORM_COLORS[platform] || "bg-muted text-muted-foreground border-border";
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center text-lg shrink-0">
+                        📦
                       </div>
-                      <p className="text-muted-foreground text-[10px] truncate">{trend.description?.slice(0, 80)}</p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="text-foreground text-sm font-semibold truncate">{trend.product_name}</span>
+                          <span className={cn("text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full border", platformClass)}>
+                            {platform}
+                          </span>
+                        </div>
+                        <p className="text-muted-foreground text-[10px] truncate">{trend.description?.slice(0, 80)}</p>
+                      </div>
+                      {trend.growth_rate && (
+                        <span className="text-primary text-xs font-bold shrink-0">+{trend.growth_rate}%</span>
+                      )}
                     </div>
-                    {trend.growth_rate && (
-                      <span className="text-primary text-xs font-bold shrink-0">+{trend.growth_rate}%</span>
-                    )}
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           )}
         </section>

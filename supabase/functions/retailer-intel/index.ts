@@ -36,6 +36,53 @@ const aiJson = async (apiKey: string, system: string, prompt: string, web = true
   return JSON.parse(raw);
 };
 
+// Re-enrich a retailer whose contact route was resolved more than this long ago —
+// submission portals and vendor emails change over time.
+const TTL_DAYS = 180;
+// Rows left "running" longer than this were almost certainly killed mid-flight
+// (function timeout/restart); a later batch resets them so they can be retried.
+const STUCK_MINUTES = 15;
+
+/**
+ * Resolve a retailer's outreach channel. Cached on retailers.enrichment, which is
+ * shared across all users — so the AI call only fires the first time any user needs
+ * this retailer. Returns the contact + how_to_get_in payloads.
+ */
+// deno-lint-ignore no-explicit-any
+const resolveRetailerContact = async (admin: any, apiKey: string, retailer: any) => {
+  const enrichment = (retailer.enrichment || {}) as Record<string, unknown>;
+  let contact = enrichment.contact as Record<string, unknown> | undefined;
+  let howToGetIn = enrichment.how_to_get_in as Record<string, unknown> | undefined;
+
+  if (!contact || !howToGetIn) {
+    const intel = await aiJson(
+      apiKey,
+      "You research how brands submit products to retailers/distributors. Ground answers in live web search. Return only valid JSON. NEVER invent a person's email — only published vendor-inquiry addresses or public submission channels.",
+      `How does an emerging brand pitch/submit products to ${retailer.name} (${retailer.website || retailer.domain})?
+Search their site (vendor/supplier/wholesale/stockist/trade pages) and the web.
+Return: {"channel": "short label, e.g. 'via RangeMe' | 'Supplier portal' | 'Vendor form' | 'Marketplace signup' | 'Public vendor email'",
+ "url": "the real submission/portal/form URL, or null",
+ "email": "ONLY a published vendor-inquiry email visible on their site, else null",
+ "guidance": "1-2 sentences of practical advice for getting in",
+ "steps": ["2-4 concrete steps naming the REAL submission path"],
+ "requirements": ["MOQ/margin/certs/insurance if known, else fewer items"]}`
+    ) as Record<string, unknown>;
+
+    contact = contact || {
+      channel: intel.channel, url: intel.url, email: intel.email, guidance: intel.guidance,
+    };
+    howToGetIn = howToGetIn || {
+      steps: intel.steps || [], requirements: intel.requirements || [],
+      submission_url: (intel.url as string) || null,
+    };
+    await admin.from("retailers").update({
+      enrichment: { ...enrichment, contact, how_to_get_in: howToGetIn, contact_channel: contact.channel || null },
+    }).eq("id", retailer.id);
+  }
+
+  return { contact, howToGetIn };
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   try {
@@ -77,44 +124,116 @@ Deno.serve(async (req) => {
           status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      const enrichment = (retailer.enrichment || {}) as Record<string, unknown>;
-      let contact = enrichment.contact as Record<string, unknown> | undefined;
-
-      let howToGetIn = enrichment.how_to_get_in as Record<string, unknown> | undefined;
-      if (!contact || !howToGetIn) {
-        const intel = await aiJson(
-          apiKey,
-          "You research how brands submit products to retailers/distributors. Ground answers in live web search. Return only valid JSON. NEVER invent a person's email — only published vendor-inquiry addresses or public submission channels.",
-          `How does an emerging brand pitch/submit products to ${retailer.name} (${retailer.website || retailer.domain})?
-Search their site (vendor/supplier/wholesale/stockist/trade pages) and the web.
-Return: {"channel": "short label, e.g. 'via RangeMe' | 'Supplier portal' | 'Vendor form' | 'Marketplace signup' | 'Public vendor email'",
- "url": "the real submission/portal/form URL, or null",
- "email": "ONLY a published vendor-inquiry email visible on their site, else null",
- "guidance": "1-2 sentences of practical advice for getting in",
- "steps": ["2-4 concrete steps naming the REAL submission path"],
- "requirements": ["MOQ/margin/certs/insurance if known, else fewer items"]}`
-        ) as Record<string, unknown>;
-        contact = contact || {
-          channel: intel.channel, url: intel.url, email: intel.email, guidance: intel.guidance,
-        };
-        howToGetIn = howToGetIn || {
-          steps: intel.steps || [], requirements: intel.requirements || [],
-          submission_url: (intel.url as string) || null,
-        };
-        await admin.from("retailers").update({
-          enrichment: { ...enrichment, contact, how_to_get_in: howToGetIn, contact_channel: contact.channel || null },
-        }).eq("id", retailer.id);
+      if (row_id) {
+        await admin.from("pipeline_rows")
+          .update({ enrichment_status: "running" })
+          .eq("id", row_id).eq("user_id", user.id);
       }
 
+      const { contact, howToGetIn } = await resolveRetailerContact(admin, apiKey, retailer);
+
       if (row_id) {
+        const found = !!(contact.channel || contact.email || contact.url);
         await admin.from("pipeline_rows").update({
           contact_channel: (contact.channel as string) || null,
           contact_form_url: (contact.url as string) || null,
           email: (contact.email as string) || null,
           how_to_get_in: howToGetIn || null,
+          enrichment_status: found ? "done" : "not_found",
+          enriched_at: new Date().toISOString(),
         }).eq("id", row_id).eq("user_id", user.id);
       }
       return new Response(JSON.stringify({ contact, how_to_get_in: howToGetIn }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // ─────────────────────────── ENRICH BATCH ───────────────────────────
+    // Resolve contact channels for the top-fit rows of a pipeline in the background,
+    // so the sheet isn't half-blank when the user first opens it. Marks rows
+    // 'pending' and returns immediately; the work continues via waitUntil and the
+    // UI follows along by watching enrichment_status.
+    if (mode === "enrich_batch") {
+      const { product_id } = body;
+      const limit = Math.min(Number(body.limit) || 12, 25);
+      if (!product_id) {
+        return new Response(JSON.stringify({ error: "product_id required" }), {
+          status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      // Free any rows stranded mid-flight by an earlier timeout.
+      const stuckBefore = new Date(Date.now() - STUCK_MINUTES * 60000).toISOString();
+      await admin.from("pipeline_rows")
+        .update({ enrichment_status: null })
+        .eq("product_id", product_id).eq("user_id", user.id)
+        .eq("enrichment_status", "running").lt("enriched_at", stuckBefore);
+
+      // Rows never looked up, plus rows whose lookup has gone stale.
+      const staleBefore = new Date(Date.now() - TTL_DAYS * 86400000).toISOString();
+      const { data: candidates } = await admin.from("pipeline_rows")
+        .select("id, retailer_id, fit, enrichment_status, enriched_at")
+        .eq("product_id", product_id).eq("user_id", user.id)
+        // Timestamp is quoted: PostgREST treats bare periods in the value as syntax.
+        .or(`enrichment_status.is.null,and(enrichment_status.neq.pending,enrichment_status.neq.running,enriched_at.lt."${staleBefore}")`)
+        .order("fit", { ascending: false, nullsFirst: false })
+        .limit(limit);
+
+      const rows = candidates || [];
+      if (rows.length === 0) {
+        return new Response(JSON.stringify({ queued: 0 }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      // Mark queued up front so the UI can show "Finding…" immediately.
+      await admin.from("pipeline_rows")
+        .update({ enrichment_status: "pending" })
+        .in("id", rows.map((r: { id: string }) => r.id));
+
+      const work = async () => {
+        const CONCURRENCY = 3;
+        for (let i = 0; i < rows.length; i += CONCURRENCY) {
+          const slice = rows.slice(i, i + CONCURRENCY);
+          await Promise.all(slice.map(async (r: { id: string; retailer_id: string }) => {
+            try {
+              await admin.from("pipeline_rows")
+                .update({ enrichment_status: "running", enriched_at: new Date().toISOString() })
+                .eq("id", r.id);
+
+              const { data: retailer } = await admin.from("retailers")
+                .select("id,name,domain,website,segment,enrichment").eq("id", r.retailer_id).single();
+              if (!retailer) throw new Error("retailer missing");
+
+              const { contact, howToGetIn } = await resolveRetailerContact(admin, apiKey, retailer);
+              const found = !!(contact.channel || contact.email || contact.url);
+
+              await admin.from("pipeline_rows").update({
+                contact_channel: (contact.channel as string) || null,
+                contact_form_url: (contact.url as string) || null,
+                email: (contact.email as string) || null,
+                how_to_get_in: howToGetIn || null,
+                enrichment_status: found ? "done" : "not_found",
+                enriched_at: new Date().toISOString(),
+              }).eq("id", r.id);
+            } catch (e) {
+              console.error(`[RETAILER-INTEL] batch row ${r.id} failed: ${String(e)}`);
+              // Leave it retryable rather than claiming we found nothing.
+              await admin.from("pipeline_rows")
+                .update({ enrichment_status: null }).eq("id", r.id);
+            }
+          }));
+        }
+        console.log(`[RETAILER-INTEL] batch done for product ${product_id}: ${rows.length} rows`);
+      };
+
+      // Run past the response so the client isn't blocked on a multi-minute job.
+      // deno-lint-ignore no-explicit-any
+      const runtime = (globalThis as any).EdgeRuntime;
+      if (runtime?.waitUntil) runtime.waitUntil(work());
+      else work();
+
+      return new Response(JSON.stringify({ queued: rows.length }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }

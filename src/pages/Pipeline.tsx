@@ -39,6 +39,8 @@ type Row = {
   email: string | null;
   phone: string | null;
   contact_form_url: string | null;
+  enrichment_status: "pending" | "running" | "done" | "not_found" | null;
+  enriched_at: string | null;
   location: string | null;
   next_action: string | null;
   next_due: string | null;
@@ -157,6 +159,29 @@ const Pipeline = () => {
 
   useEffect(() => { loadAll(); }, [loadAll]);
 
+  // Auto-fill contact channels once per pipeline visit: if rows have never been
+  // looked up, queue them in the background rather than leaving the sheet blank
+  // until the user opens each row individually.
+  const autoEnrichedRef = useRef(false);
+  useEffect(() => {
+    if (loading || autoEnrichedRef.current || !productId) return;
+    const needs = rows.some((r) => !r.enrichment_status && !r.contact_channel && !r.email);
+    if (!needs) return;
+    autoEnrichedRef.current = true;
+    supabase.functions
+      .invoke("retailer-intel", { body: { mode: "enrich_batch", product_id: productId } })
+      .then(({ data }) => { if (data?.queued) loadAll(); })
+      .catch(() => { /* per-row "Find contact" remains available */ });
+  }, [loading, rows, productId, loadAll]);
+
+  // While lookups are in flight, refresh so rows resolve in place.
+  useEffect(() => {
+    const busy = rows.some((r) => r.enrichment_status === "pending" || r.enrichment_status === "running");
+    if (!busy) return;
+    const t = setInterval(() => loadAll(), 6000);
+    return () => clearInterval(t);
+  }, [rows, loadAll]);
+
   // Source cross-sell: user has searched (they're here) but has no Source profile.
   useEffect(() => {
     (async () => {
@@ -194,6 +219,37 @@ const Pipeline = () => {
     [rows]
   );
   const inMotion = useMemo(() => rows.filter((r) => !["to_contact", "passed"].includes(r.stage)).length, [rows]);
+
+  // Rows with no usable outreach channel and no lookup in flight.
+  const missingContacts = useMemo(
+    () => rows.filter((r) =>
+      !r.contact_channel && !r.email &&
+      r.enrichment_status !== "pending" && r.enrichment_status !== "running"
+    ).length,
+    [rows]
+  );
+
+  const [enrichingAll, setEnrichingAll] = useState(false);
+  const findAllContacts = async () => {
+    if (!productId || enrichingAll) return;
+    setEnrichingAll(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("retailer-intel", {
+        body: { mode: "enrich_batch", product_id: productId, limit: 25 },
+      });
+      if (error || data?.error) throw new Error(data?.error || "failed");
+      if (data.queued) {
+        toast.success(`Finding contacts for ${data.queued} ${data.queued === 1 ? "store" : "stores"}…`);
+        await loadAll();
+      } else {
+        toast.info("Nothing left to look up");
+      }
+    } catch {
+      toast.error("Couldn't start the lookup — try again");
+    } finally {
+      setEnrichingAll(false);
+    }
+  };
 
   const visible = useMemo(() => {
     let v = rows;
@@ -257,6 +313,12 @@ const Pipeline = () => {
       if (data.upgradeRequired) toast.info("Upgrade to see all matches — free plan shows 5 prospects per pipeline.");
       setSearchOpen(false);
       await loadAll();
+      // Kick off contact lookups for the top matches in the background so the sheet
+      // isn't half-blank; rows update themselves as each resolves.
+      supabase.functions
+        .invoke("retailer-intel", { body: { mode: "enrich_batch", product_id: productId } })
+        .then(() => loadAll())
+        .catch(() => { /* lazy per-row enrichment still covers it */ });
     } catch (e: any) {
       toast.error(e.message || "Search failed — try again");
     } finally {
@@ -392,6 +454,20 @@ const Pipeline = () => {
         <td className="px-2 py-2 w-40">
           {row.contact_channel && !/unknown|not found|n\/a/i.test(row.contact_channel) ? (
             <span className="text-xs">{row.contact_channel}</span>
+          ) : row.enrichment_status === "pending" || row.enrichment_status === "running" ? (
+            <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Loader2 className="w-3 h-3 animate-spin" /> Finding…
+            </span>
+          ) : row.enrichment_status === "not_found" ? (
+            <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+              No channel found
+              <button
+                onClick={(e) => { e.stopPropagation(); findContact(row); }}
+                className="font-semibold text-primary hover:underline"
+              >
+                Retry
+              </button>
+            </span>
           ) : (
             <button
               onClick={(e) => { e.stopPropagation(); findContact(row); }}
@@ -525,6 +601,18 @@ const Pipeline = () => {
             )}
             <Button variant="ghost" size="sm" className="h-8 px-2" onClick={exportCsv} title="Export CSV"><Download className="w-4 h-4" /></Button>
             <Button variant="ghost" size="sm" className="h-8 px-2" onClick={() => setAddOpen(true)} title="Add store"><Plus className="w-4 h-4" /></Button>
+            {missingContacts > 0 && (
+              <Button
+                variant="outline" size="sm" className="h-8 text-xs"
+                onClick={findAllContacts}
+                disabled={enrichingAll}
+                title="Look up the outreach channel for rows that don't have one yet"
+              >
+                {enrichingAll
+                  ? <><Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> Finding…</>
+                  : <>Find contacts ({missingContacts})</>}
+              </Button>
+            )}
             <Button size="sm" className="h-8 ml-1" onClick={() => setSearchOpen(true)}>New search</Button>
           </div>
         </div>
@@ -821,9 +909,15 @@ const Pipeline = () => {
                     )}
                   </p>
                   {!panelRow.contact_channel && (
-                    <Button variant="outline" size="sm" className="mt-2 text-xs" onClick={() => findContact(panelRow)}>
-                      Find contact
-                    </Button>
+                    panelRow.enrichment_status === "pending" || panelRow.enrichment_status === "running" ? (
+                      <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <Loader2 className="w-3 h-3 animate-spin" /> Finding the way in…
+                      </p>
+                    ) : (
+                      <Button variant="outline" size="sm" className="mt-2 text-xs" onClick={() => findContact(panelRow)}>
+                        {panelRow.enrichment_status === "not_found" ? "Try again" : "Find contact"}
+                      </Button>
+                    )
                   )}
                   <Button className="w-full mt-3" onClick={() => setPitchRow(panelRow)}>
                     <Mail className="w-4 h-4 mr-1.5" /> Draft pitch with AI
