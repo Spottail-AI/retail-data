@@ -25,6 +25,7 @@ export type AnalyticsEvent =
   | "sign_up"
   | "source_page_created"
   | "purchase"
+  | "begin_checkout"
   | "subscription_renewal"
   | "cancellation_requested"
   | "subscription_canceled"
