@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole } from "@/hooks/use-user-role";
 import { supabase } from "@/integrations/supabase/client";
 import { SOURCE_PRODUCT_COLUMNS } from "@/lib/source-product-columns";
+import { useSourceTradeTerms } from "@/hooks/use-source-trade-terms";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Heart, CheckCircle, TrendingUp, Loader2, Globe, Package, Layers,
@@ -139,6 +140,10 @@ const SourceProductDetail = () => {
   });
 
   const isOwner = !!user && !!product && (product as any).user_id === user.id;
+
+  // Only ask for pricing when the viewer could be entitled to it — the RPC
+  // enforces this server-side too, this just avoids a pointless round-trip.
+  const { data: tradeTerms } = useSourceTradeTerms(slug, isBuyer || isOwner);
 
   const track = (event: string, ref?: string | null) => {
     if (!product) return;
@@ -450,7 +455,11 @@ const SourceProductDetail = () => {
     (i) => typeof i === "string" && i.startsWith("http")
   );
   const coverImage = images[0] || null;
-  const hasWholesaleData = p.wholesale_price_min || p.wholesale_price_max || p.moq || p.lead_time || p.available_skus;
+  // Wholesale pricing comes from the RPC (buyers and the owner only) — the columns
+  // are no longer readable client-side. See use-source-trade-terms.
+  const priceMin = tradeTerms?.wholesale_price_min ?? null;
+  const priceMax = tradeTerms?.wholesale_price_max ?? null;
+  const hasWholesaleData = priceMin || priceMax || p.moq || p.lead_time || p.available_skus;
   const shipsTo: string[] = ((p.shipping_countries as string[] | null) || []).filter((c) => typeof c === "string");
 
   const outlineBtn = (extra: React.CSSProperties = {}): React.CSSProperties => ({
@@ -718,11 +727,11 @@ const SourceProductDetail = () => {
                   </div>
                   {hasWholesaleData ? (
                     <div className="font-body" style={{ fontSize: 13 }}>
-                      {(p.wholesale_price_min || p.wholesale_price_max) && (
+                      {(priceMin || priceMax) && (
                         <div className="flex justify-between" style={{ padding: "4px 0" }}>
                           <span style={{ color: "var(--v2-muted)" }}>Wholesale</span>
                           <span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>
-                            {p.currency || "USD"} {p.wholesale_price_min ?? "—"}{p.wholesale_price_max ? `–${p.wholesale_price_max}` : ""} / unit
+                            {p.currency || "USD"} {priceMin ?? "—"}{priceMax ? `–${priceMax}` : ""} / unit
                           </span>
                         </div>
                       )}
@@ -758,7 +767,7 @@ const SourceProductDetail = () => {
                     <span className="font-body" style={{ fontSize: 13, fontWeight: 600, color: "var(--v2-ink)" }}>Wholesale terms</span>
                   </div>
                   <p className="font-body" style={{ fontSize: 12.5, color: "var(--v2-muted)", margin: "8px 0 0", lineHeight: 1.5 }}>
-                    Pricing, MOQ, lead times, and samples are visible to verified retail buyers.
+                    Wholesale pricing and samples are visible to verified retail buyers.
                   </p>
                   <button onClick={() => navigate(user ? "/dashboard" : `/login?redirect=/source/${slug}`)} className="w-full" style={{ ...outlineBtn(), justifyContent: "center", marginTop: 10, fontSize: 12.5 }}>
                     Are you a retail buyer? Sign in

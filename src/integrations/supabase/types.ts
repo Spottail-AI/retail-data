@@ -1158,6 +1158,14 @@ export type Database = {
           vote_count: number
         }[]
       }
+      get_source_trade_terms: {
+        Args: { p_slug: string }
+        Returns: {
+          currency: string | null
+          wholesale_price_max: number | null
+          wholesale_price_min: number | null
+        }[]
+      }
       get_source_weekly_views: {
         Args: { p_product_id: string; p_since: string }
         Returns: number
