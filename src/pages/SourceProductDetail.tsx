@@ -543,7 +543,10 @@ const SourceProductDetail = () => {
         {isOwner && (
           <div className="flex items-center font-body flex-wrap" style={{ gap: 10, background: "var(--v2-surface)", borderRadius: 9, padding: "9px 14px", fontSize: 12.5, color: "var(--v2-muted)", marginBottom: 16 }}>
             <span>Your launch page — this is what visitors see.</span>
-            <button onClick={() => navigate(`/source/${slug}/analytics`)} style={{ marginLeft: "auto", background: "none", border: "none", color: "var(--v2-teal)", fontWeight: 600, cursor: "pointer", fontSize: 12.5, display: "inline-flex", alignItems: "center", gap: 4 }}>
+            <button onClick={() => navigate(`/source/${slug}/edit`)} style={{ marginLeft: "auto", background: "none", border: "none", color: "var(--v2-teal)", fontWeight: 600, cursor: "pointer", fontSize: 12.5 }}>
+              Edit listing
+            </button>
+            <button onClick={() => navigate(`/source/${slug}/analytics`)} style={{ background: "none", border: "none", color: "var(--v2-teal)", fontWeight: 600, cursor: "pointer", fontSize: 12.5, display: "inline-flex", alignItems: "center", gap: 4 }}>
               <BarChart3 style={{ width: 13, height: 13 }} /> Analytics
             </button>
             <button onClick={() => navigate(`/source/${slug}/analytics#badge`)} style={{ background: "none", border: "none", color: "var(--v2-teal)", fontWeight: 600, cursor: "pointer", fontSize: 12.5 }}>
@@ -710,7 +713,15 @@ const SourceProductDetail = () => {
                       >
                         {item.done ? "✓" : "–"}
                       </span>
-                      {item.label}
+                      <span>{item.label}</span>
+                      {isOwner && !item.done && (
+                        <button
+                          onClick={() => navigate(`/source/${slug}/edit`)}
+                          style={{ marginLeft: "auto", background: "none", border: "none", padding: 0, fontSize: 11.5, fontWeight: 600, color: "var(--v2-teal)", cursor: "pointer" }}
+                        >
+                          Add
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>

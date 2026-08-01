@@ -113,6 +113,15 @@ const PACKS: Record<string, { label: string; items: { key: string; label: string
   },
 };
 
+/**
+ * The category-specific declarations a product needs, for rendering the edit form.
+ * Returns an empty list for categories with no pack (they only need the core items).
+ */
+export function getCategoryPack(category?: string | null): { label: string; items: { key: string; label: string }[] } {
+  const pack = (category && PACKS[category]) || null;
+  return pack ?? { label: category || "General", items: [] };
+}
+
 /** Shape this needs from a source_products row. Loose on purpose. */
 export interface ReadinessInput {
   category?: string | null;
