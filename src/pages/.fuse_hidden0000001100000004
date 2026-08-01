@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { SOURCE_PRODUCT_COLUMNS } from "@/lib/source-product-columns";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronUp, Sparkles, CheckCircle, TrendingUp, Clock, Trophy } from "lucide-react";
 import { V2Nav, V2Footer, V2Page } from "@/components/v2/V2Shell";

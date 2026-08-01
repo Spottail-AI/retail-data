@@ -3,7 +3,6 @@ import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole } from "@/hooks/use-user-role";
 import { supabase } from "@/integrations/supabase/client";
-import { SOURCE_PRODUCT_COLUMNS } from "@/lib/source-product-columns";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Heart, CheckCircle, TrendingUp, Loader2, Globe, Package, Layers,
