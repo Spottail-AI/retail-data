@@ -715,12 +715,6 @@ export type Database = {
       source_products: {
         Row: {
           available_skus: number | null
-          brand_name: string | null
-          case_size: number | null
-          gtin: string | null
-          has_liability_insurance: boolean | null
-          readiness_declarations: Json | null
-          rrp: number | null
           category: string | null
           contact_email: string | null
           contact_preference: string | null
@@ -1162,14 +1156,6 @@ export type Database = {
         Returns: {
           product_id: string
           vote_count: number
-        }[]
-      }
-      get_source_trade_terms: {
-        Args: { p_slug: string }
-        Returns: {
-          currency: string | null
-          wholesale_price_max: number | null
-          wholesale_price_min: number | null
         }[]
       }
       get_source_weekly_views: {
