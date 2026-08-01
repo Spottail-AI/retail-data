@@ -19,6 +19,12 @@
 -- Deliberately NOT locked: moq, lead_time, available_skus. Those are already
 -- displayed publicly on the Source marketplace cards, so revoking them would be a
 -- product change rather than a security fix.
+--
+-- WARNING for anyone editing this file: the column lists below are a full reset,
+-- not an addition. Any column added to source_products by a later migration must
+-- also be listed here, or running this will silently strip its grant. That is
+-- exactly what happened to the commercial columns from 20260801140000 — see
+-- 20260801150000_restore_commercial_column_grants.sql.
 
 -- ── anon: public browsing, no contact fields, no wholesale pricing ──
 REVOKE SELECT ON public.source_products FROM anon;
