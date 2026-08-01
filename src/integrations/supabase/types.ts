@@ -715,6 +715,8 @@ export type Database = {
       source_products: {
         Row: {
           available_skus: number | null
+          brand_name: string | null
+          case_size: number | null
           category: string | null
           contact_email: string | null
           contact_preference: string | null
@@ -722,6 +724,8 @@ export type Database = {
           created_at: string
           currency: string | null
           description: string | null
+          gtin: string | null
+          has_liability_insurance: boolean | null
           id: string
           is_featured: boolean | null
           is_trending: boolean | null
@@ -731,6 +735,8 @@ export type Database = {
           moq: number | null
           product_images: Json | null
           product_name: string
+          readiness_declarations: Json
+          rrp: number | null
           shipping_countries: Json | null
           slug: string
           tagline: string | null
@@ -741,6 +747,8 @@ export type Database = {
         }
         Insert: {
           available_skus?: number | null
+          brand_name?: string | null
+          case_size?: number | null
           category?: string | null
           contact_email?: string | null
           contact_preference?: string | null
@@ -748,6 +756,8 @@ export type Database = {
           created_at?: string
           currency?: string | null
           description?: string | null
+          gtin?: string | null
+          has_liability_insurance?: boolean | null
           id?: string
           is_featured?: boolean | null
           is_trending?: boolean | null
@@ -757,6 +767,8 @@ export type Database = {
           moq?: number | null
           product_images?: Json | null
           product_name: string
+          readiness_declarations?: Json
+          rrp?: number | null
           shipping_countries?: Json | null
           slug: string
           tagline?: string | null
@@ -767,6 +779,8 @@ export type Database = {
         }
         Update: {
           available_skus?: number | null
+          brand_name?: string | null
+          case_size?: number | null
           category?: string | null
           contact_email?: string | null
           contact_preference?: string | null
@@ -774,6 +788,8 @@ export type Database = {
           created_at?: string
           currency?: string | null
           description?: string | null
+          gtin?: string | null
+          has_liability_insurance?: boolean | null
           id?: string
           is_featured?: boolean | null
           is_trending?: boolean | null
@@ -783,6 +799,8 @@ export type Database = {
           moq?: number | null
           product_images?: Json | null
           product_name?: string
+          readiness_declarations?: Json
+          rrp?: number | null
           shipping_countries?: Json | null
           slug?: string
           tagline?: string | null
