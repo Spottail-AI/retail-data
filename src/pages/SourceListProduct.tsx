@@ -34,12 +34,16 @@ const SourceListProduct = () => {
 
   const [form, setForm] = useState({
     product_name: "",
+    brand_name: "",
     tagline: "",
     description: "",
     category: "",
     currency: "USD",
+    rrp: "",
     wholesale_price_min: "",
     wholesale_price_max: "",
+    case_size: "",
+    gtin: "",
     moq: "",
     available_skus: "",
     lead_time: "",
@@ -128,6 +132,10 @@ const SourceListProduct = () => {
         description: form.description.trim() || null,
         category: form.category || null,
         currency: form.currency,
+        brand_name: form.brand_name.trim() || null,
+        rrp: form.rrp ? Number(form.rrp) : null,
+        case_size: form.case_size ? Number(form.case_size) : null,
+        gtin: form.gtin.trim() || null,
         wholesale_price_min: form.wholesale_price_min ? Number(form.wholesale_price_min) : null,
         wholesale_price_max: form.wholesale_price_max ? Number(form.wholesale_price_max) : null,
         moq: form.moq ? Number(form.moq) : null,
@@ -236,6 +244,11 @@ const SourceListProduct = () => {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="brand_name">Brand name</Label>
+              <Input id="brand_name" value={form.brand_name} onChange={(e) => update("brand_name", e.target.value)} placeholder="The brand behind this product" maxLength={120} />
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="tagline">Tagline</Label>
               <Input id="tagline" value={form.tagline} onChange={(e) => update("tagline", e.target.value)} placeholder="Short hook — max 140 chars" maxLength={140} />
             </div>
@@ -266,6 +279,21 @@ const SourceListProduct = () => {
               <div className="space-y-2">
                 <Label>Min Wholesale Price</Label>
                 <Input type="number" step="0.01" min="0" value={form.wholesale_price_min} onChange={(e) => update("wholesale_price_min", e.target.value)} placeholder="0.00" />
+              </div>
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="rrp">Recommended retail price (RRP)</Label>
+                <Input id="rrp" type="number" step="0.01" min="0" value={form.rrp} onChange={(e) => update("rrp", e.target.value)} placeholder="0.00" />
+                <p className="text-muted-foreground text-xs">
+                  Buyers see their profit-on-return calculated from this. Listings with an RRP convert better.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="case_size">Units per case</Label>
+                <Input id="case_size" type="number" min="1" value={form.case_size} onChange={(e) => update("case_size", e.target.value)} placeholder="e.g. 12" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="gtin">Barcode / GTIN</Label>
+                <Input id="gtin" value={form.gtin} onChange={(e) => update("gtin", e.target.value)} placeholder="e.g. 5012345678900" maxLength={20} />
               </div>
               <div className="space-y-2">
                 <Label>Max Wholesale Price</Label>

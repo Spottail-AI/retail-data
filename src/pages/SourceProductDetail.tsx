@@ -5,6 +5,7 @@ import { useUserRole } from "@/hooks/use-user-role";
 import { supabase } from "@/integrations/supabase/client";
 import { SOURCE_PRODUCT_COLUMNS } from "@/lib/source-product-columns";
 import { useSourceTradeTerms } from "@/hooks/use-source-trade-terms";
+import { computeReadiness, calcPor } from "@/lib/retail-readiness";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Heart, CheckCircle, TrendingUp, Loader2, Globe, Package, Layers,
@@ -123,6 +124,8 @@ const SourceProductDetail = () => {
     try { return sessionStorage.getItem("sv_banner_hidden") === "1"; } catch { return false; }
   });
   const [faqOpen, setFaqOpen] = useState(false);
+  // Buyer's own retail price for the POR calculation; empty means "use the RRP".
+  const [porPrice, setPorPrice] = useState("");
   const [enquiryOpen, setEnquiryOpen] = useState<null | "contact" | "sample">(null);
   const [enquiryMsg, setEnquiryMsg] = useState("");
   const [enquiryState, setEnquiryState] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -459,7 +462,24 @@ const SourceProductDetail = () => {
   // are no longer readable client-side. See use-source-trade-terms.
   const priceMin = tradeTerms?.wholesale_price_min ?? null;
   const priceMax = tradeTerms?.wholesale_price_max ?? null;
-  const hasWholesaleData = priceMin || priceMax || p.moq || p.lead_time || p.available_skus;
+  const hasWholesaleData = priceMin || priceMax || p.moq || p.lead_time || p.available_skus || p.case_size;
+
+  // Retail readiness — core items plus a pack chosen from the product's category.
+  const readiness = computeReadiness({
+    category: p.category,
+    product_images: p.product_images,
+    moq: p.moq,
+    lead_time: p.lead_time,
+    case_size: p.case_size,
+    gtin: p.gtin,
+    has_liability_insurance: p.has_liability_insurance,
+    readiness_declarations: (p.readiness_declarations as Record<string, unknown> | null) ?? null,
+    // pricing is served by the RPC, so tell the checklist what we know
+    hasPricing: isBuyer || isOwner ? !!(priceMin || priceMax) : undefined,
+  });
+
+  // POR: default to the brand's RRP, but let the buyer substitute their own price.
+  const porResult = calcPor(porPrice ? Number(porPrice) : Number(p.rrp ?? 0), Number(priceMin ?? priceMax ?? 0));
   const shipsTo: string[] = ((p.shipping_countries as string[] | null) || []).filter((c) => typeof c === "string");
 
   const outlineBtn = (extra: React.CSSProperties = {}): React.CSSProperties => ({
@@ -563,7 +583,12 @@ const SourceProductDetail = () => {
                 </span>
               )}
             </div>
-            {p.tagline && <p className="font-body" style={{ fontSize: 14, color: "var(--v2-muted)", marginBottom: 10 }}>{p.tagline}</p>}
+            {p.brand_name && (
+              <p className="font-body" style={{ fontSize: 13, color: "var(--v2-muted)", marginTop: 5 }}>
+                by <span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>{p.brand_name}</span>
+              </p>
+            )}
+            {p.tagline && <p className="font-body" style={{ fontSize: 14, color: "var(--v2-muted)", marginBottom: 10, marginTop: 8 }}>{p.tagline}</p>}
             <div className="flex gap-2 flex-wrap items-center">
               {p.category && <span style={tagStyle}>{p.category}</span>}
               {shipsTo.length > 0 && <span style={tagStyle}><Globe className="w-3 h-3" /> Ships globally</span>}
@@ -632,6 +657,69 @@ const SourceProductDetail = () => {
                 </div>
               </div>
             )}
+
+            {/* Retail readiness — what buyers screen on first.
+                Core items derive from the listing; category items are brand-declared. */}
+            <div>
+              <div className="flex items-baseline gap-2 flex-wrap" style={{ marginBottom: 10 }}>
+                <h2 className="font-display" style={{ fontSize: 20, fontWeight: 400, color: "var(--v2-ink)" }}>Retail readiness</h2>
+                <span className="font-body" style={{ fontSize: 11, color: "var(--v2-muted)" }}>
+                  {isOwner ? "what buyers screen on first" : `requirements for ${readiness.packLabel.toLowerCase()}`}
+                </span>
+              </div>
+              <div style={cardStyle}>
+                <div className="flex items-center" style={{ gap: 12, marginBottom: 14 }}>
+                  <div
+                    className="flex items-center justify-center shrink-0"
+                    style={{
+                      width: 46, height: 46, borderRadius: "50%",
+                      background: `conic-gradient(var(--v2-teal) 0turn ${(readiness.done / readiness.total).toFixed(3)}turn, var(--v2-border) ${(readiness.done / readiness.total).toFixed(3)}turn 1turn)`,
+                    }}
+                  >
+                    <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--v2-white)", fontSize: 11.5, fontWeight: 700, color: "var(--v2-ink)" }}>
+                      {readiness.done}/{readiness.total}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-body" style={{ fontSize: 13.5, fontWeight: 600, color: "var(--v2-ink)" }}>{readiness.headline}</p>
+                    <p className="font-body" style={{ fontSize: 12.5, color: "var(--v2-muted)" }}>
+                      {readiness.total - readiness.done === 0
+                        ? isOwner ? "Nothing outstanding — this is what buyers want to see." : "Everything buyers usually screen on is in place."
+                        : isOwner
+                          ? `${readiness.total - readiness.done} left for a ${readiness.packLabel.toLowerCase()} product.`
+                          : `${readiness.total - readiness.done} outstanding — ask the brand if any are blockers for you.`}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: "0 18px" }}>
+                  {readiness.items.map((item) => (
+                    <div
+                      key={item.key}
+                      className="flex items-center"
+                      style={{ gap: 9, padding: "7px 0", borderTop: "1px solid var(--v2-border)", fontSize: 13, color: item.done ? "var(--v2-ink)" : "var(--v2-muted)" }}
+                    >
+                      <span
+                        className="flex items-center justify-center shrink-0"
+                        style={{
+                          width: 17, height: 17, borderRadius: "50%", fontSize: 10, fontWeight: 700,
+                          background: item.done ? "var(--v2-teal-light)" : "var(--v2-surface)",
+                          color: item.done ? "var(--v2-teal)" : "#C9C9C4",
+                          border: item.done ? "none" : "1px solid var(--v2-border)",
+                        }}
+                      >
+                        {item.done ? "✓" : "–"}
+                      </span>
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+
+                <p className="font-body" style={{ fontSize: 11.5, color: "var(--v2-muted)", fontStyle: "italic", marginTop: 10 }}>
+                  Declared by the brand — Spottail hasn't independently verified these. Ask for certificates before ordering.
+                </p>
+              </div>
+            </div>
 
             {/* Trend signals */}
             <div>
@@ -727,6 +815,14 @@ const SourceProductDetail = () => {
                   </div>
                   {hasWholesaleData ? (
                     <div className="font-body" style={{ fontSize: 13 }}>
+                      {p.rrp && (
+                        <div className="flex justify-between" style={{ padding: "4px 0" }}>
+                          <span style={{ color: "var(--v2-muted)" }}>RRP (recommended)</span>
+                          <span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>
+                            {p.currency || "USD"} {p.rrp}
+                          </span>
+                        </div>
+                      )}
                       {(priceMin || priceMax) && (
                         <div className="flex justify-between" style={{ padding: "4px 0" }}>
                           <span style={{ color: "var(--v2-muted)" }}>Wholesale</span>
@@ -735,6 +831,37 @@ const SourceProductDetail = () => {
                           </span>
                         </div>
                       )}
+
+                      {/* POR — the margin measure independent retailers buy on.
+                          Defaults to the brand's RRP; the buyer can substitute their own price. */}
+                      {(priceMin || priceMax) && (p.rrp || porPrice) && (
+                        <div style={{ background: "var(--v2-surface)", borderRadius: 10, padding: "12px 14px", margin: "10px 0 4px" }}>
+                          <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
+                            <span className="font-body" style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--v2-muted)" }}>
+                              {isOwner ? "Buyer's POR" : "Your POR"}
+                            </span>
+                            <span className="font-display" style={{ fontSize: porResult ? 28 : 15, fontWeight: 300, lineHeight: 1, color: porResult ? "var(--v2-teal)" : "#B7791F" }}>
+                              {porResult ? `${porResult.por.toFixed(1)}%` : "below cost"}
+                            </span>
+                          </div>
+                          <div className="flex items-center flex-wrap" style={{ gap: 7, fontSize: 12, color: "var(--v2-muted)", borderTop: "1px solid var(--v2-border)", paddingTop: 9 }}>
+                            <span>If you retail at</span>
+                            <Input
+                              value={porPrice}
+                              onChange={(e) => setPorPrice(e.target.value.replace(/[^0-9.]/g, ""))}
+                              placeholder={String(p.rrp ?? "")}
+                              inputMode="decimal"
+                              aria-label="Your retail price"
+                              className="bg-white text-[#1A1A18] border-[#E4E4E0]"
+                              style={{ width: 80, height: 30, fontSize: 12.5, fontWeight: 600, padding: "0 8px" }}
+                            />
+                            {porResult && (
+                              <span>you make <b style={{ color: "var(--v2-ink)" }}>{p.currency || "USD"} {porResult.cash.toFixed(2)}</b>/unit</span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      {p.case_size && <div className="flex justify-between" style={{ padding: "4px 0" }}><span style={{ color: "var(--v2-muted)" }}>Case size</span><span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>{p.case_size} units</span></div>}
                       {p.moq && <div className="flex justify-between" style={{ padding: "4px 0" }}><span style={{ color: "var(--v2-muted)" }}>MOQ</span><span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>{p.moq}</span></div>}
                       {p.lead_time && <div className="flex justify-between" style={{ padding: "4px 0" }}><span style={{ color: "var(--v2-muted)" }}>Lead time</span><span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>{p.lead_time}</span></div>}
                       {p.available_skus && <div className="flex justify-between" style={{ padding: "4px 0" }}><span style={{ color: "var(--v2-muted)" }}>SKUs</span><span style={{ fontWeight: 600, color: "var(--v2-ink)" }}>{p.available_skus}</span></div>}

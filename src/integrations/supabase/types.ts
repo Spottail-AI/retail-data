@@ -715,6 +715,12 @@ export type Database = {
       source_products: {
         Row: {
           available_skus: number | null
+          brand_name: string | null
+          case_size: number | null
+          gtin: string | null
+          has_liability_insurance: boolean | null
+          readiness_declarations: Json | null
+          rrp: number | null
           category: string | null
           contact_email: string | null
           contact_preference: string | null
