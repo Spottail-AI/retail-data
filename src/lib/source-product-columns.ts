@@ -6,27 +6,8 @@
  * would fail with a permission error. Brands are reached through the enquiry flow,
  * which runs server-side on the service role.
  */
-export const SOURCE_PRODUCT_COLUMNS = [
-  "id",
-  "user_id",
-  "slug",
-  "product_name",
-  "tagline",
-  "description",
-  "category",
-  "product_images",
-  "wholesale_price_min",
-  "wholesale_price_max",
-  "currency",
-  "moq",
-  "available_skus",
-  "shipping_countries",
-  "lead_time",
-  "contact_preference",
-  "is_verified",
-  "is_featured",
-  "is_trending",
-  "launched_at",
-  "created_at",
-  "updated_at",
-].join(", ");
+// Kept as a single string literal (not an array .join) so supabase-js can infer
+// the row type from it — a runtime-built `string` degrades to GenericStringError.
+export const SOURCE_PRODUCT_COLUMNS =
+  "id, user_id, slug, product_name, tagline, description, category, product_images, wholesale_price_min, wholesale_price_max, currency, moq, available_skus, shipping_countries, lead_time, contact_preference, is_verified, is_featured, is_trending, launched_at, created_at, updated_at" as const;
+
